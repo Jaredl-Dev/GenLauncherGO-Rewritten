@@ -1,0 +1,34 @@
+# .NET and Avalonia build/publish output
+[Bb]in/
+[Oo]bj/
+/artifacts/
+/publish/
+*.binlog
+
+# Test results and coverage output
+/TestResults/
+*.trx
+*.coverage
+*.coveragexml
+
+# Visual Studio
+/.vs/
+*.rsuser
+*.suo
+*.user
+*.userosscache
+*.sln.docstates
+
+# JetBrains Rider/ReSharper
+/.idea/
+_ReSharper.Caches/
+*.sln.iml
+*.DotSettings.user
+
+# Local editor and user files
+*.userprefs
+*~
+~$*
+
+# Local code indexes
+/.codegraph/
