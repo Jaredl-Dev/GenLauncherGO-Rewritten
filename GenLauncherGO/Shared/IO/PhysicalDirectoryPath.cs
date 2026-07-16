@@ -89,15 +89,33 @@ internal static class PhysicalDirectoryPath
         return GetIdentity(handle);
     }
 
+    /// <summary>
+    ///     Returns how many directory entries share an existing file's bytes, so a staged download cannot write through
+    ///     a hard link into another location.
+    /// </summary>
+    public static uint GetFileLinkCount(string path)
+    {
+        ArgumentException.ThrowIfNullOrWhiteSpace(path);
+
+        using SafeFileHandle handle = OpenExistingPathHandle(Path.GetFullPath(path), 0);
+        return GetInformation(handle).NumberOfLinks;
+    }
+
     private static PhysicalFileSystemIdentity GetIdentity(SafeFileHandle handle)
+    {
+        ByHandleFileInformation information = GetInformation(handle);
+        ulong fileIndex = ((ulong)information.FileIndexHigh << 32) | information.FileIndexLow;
+        return new PhysicalFileSystemIdentity(information.VolumeSerialNumber, fileIndex);
+    }
+
+    private static ByHandleFileInformation GetInformation(SafeFileHandle handle)
     {
         if (!GetFileInformationByHandle(handle, out ByHandleFileInformation information))
         {
             throw new Win32Exception(Marshal.GetLastWin32Error());
         }
 
-        ulong fileIndex = ((ulong)information.FileIndexHigh << 32) | information.FileIndexLow;
-        return new PhysicalFileSystemIdentity(information.VolumeSerialNumber, fileIndex);
+        return information;
     }
 
     private static SafeFileHandle OpenDirectory(string path)

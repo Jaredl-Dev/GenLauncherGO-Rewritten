@@ -271,7 +271,7 @@ internal static class OwnedDirectoryTree
     }
 
     /// <summary>
-    ///     Empties an owned directory except for one child directory that must survive.
+    ///     Empties an owned directory except for one child entry that must survive.
     /// </summary>
     /// <remarks>
     ///     Used where a scratch directory also holds state a later session still needs, so the two cannot simply be
