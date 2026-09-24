@@ -10,6 +10,10 @@ installations as clean as possible. This codebase is a complete rewrite of
 [x64-dev/GenLauncher_GO](https://github.com/x64-dev/GenLauncher_GO), which was derived from the original
 [GenLauncher project](https://github.com/p0ls3r/GenLauncher).
 
+This rewrite began in a fork of `x64-dev/GenLauncher_GO` and now lives in a standalone repository. Its Git history was
+reconstructed into reviewable milestones; commit dates across May–September 2026 approximate the development period,
+not the exact completion date of each feature.
+
 ![GenLauncherGO managing Zero Hour mods, patches, and add-ons](docs/images/genlaunchergo-zero-hour.png)
 
 ## Features
