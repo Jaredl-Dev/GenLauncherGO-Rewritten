@@ -61,3 +61,4 @@ Read the nearest nested `AGENTS.md` before editing a project. There is intention
 - In the handoff, list every new production interface/request/result/factory/coordinator/wrapper and the gate that justified it; say explicitly when none were added.
 - Report reused or changed canonical authorities and all verification run.
 - Use Conventional Commits when committing: `type(scope): Short imperative summary`.
+- For pull request descriptions, follow [Pull requests](CONTRIBUTING.md#pull-requests).

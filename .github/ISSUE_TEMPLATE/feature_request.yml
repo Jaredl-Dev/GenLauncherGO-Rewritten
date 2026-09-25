@@ -1,0 +1,26 @@
+name: Feature request
+description: Suggest a change to GenLauncherGO.
+title: "[Feature] "
+body:
+  - type: markdown
+    attributes:
+      value: Search existing issues before proposing the same change.
+  - type: textarea
+    id: use-case
+    attributes:
+      label: Problem or use case
+      description: What are you trying to do, and what is difficult today?
+    validations:
+      required: true
+  - type: textarea
+    id: proposal
+    attributes:
+      label: Proposed change
+      description: Describe the behavior you would like to see.
+    validations:
+      required: true
+  - type: textarea
+    id: context
+    attributes:
+      label: Additional context
+      description: Add examples, screenshots, or alternatives if they help explain the request.

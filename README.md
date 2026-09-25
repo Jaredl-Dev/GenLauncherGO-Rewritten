@@ -75,6 +75,7 @@ The portable package keeps its update machinery beside the root launcher and cre
 | `Update.exe` | Portable update host |
 | `.portable` | Marker that prevents installer registration and shortcuts |
 | `current\GenLauncherGO.exe` | Current application payload |
+| `current\LICENSE` | GPLv3 license text supplied with the application |
 | `current\sq.version` | Installed package identity and version |
 | `packages` | Downloaded update packages managed by Velopack |
 | `GenLauncherGO Data\LauncherPreferences.yaml` | Launcher settings |
@@ -99,12 +100,17 @@ Continue launching the root `GenLauncherGO.exe`.
 Contributions are welcome. See [CONTRIBUTING.md](CONTRIBUTING.md) for development setup, architecture, testing,
 publishing, and pull-request guidance.
 
+## License
+
+Code and documentation authored for this repository are licensed under GNU GPL version 3 only (`GPL-3.0-only`).
+See [LICENSE](LICENSE) for the license text. Bundled image and icon files, including backgrounds, covers, banners,
+emblems, and screenshots, are excluded from this license grant. Their rights remain with their respective owners.
+
 ## Support
 
-- [GeneralsOnline website](https://www.playgenerals.online/)
-- [GeneralsOnline Discord](https://discord.playgenerals.online)
-
-Please use the GeneralsOnline Discord for bug reports, feature requests, support, and community discussion.
+- [GitHub issues](https://github.com/Jaredl-Dev/GenLauncherGO-Rewritten/issues/new/choose): Launcher bug reports and feature requests.
+- [GeneralsOnline Discord](https://discord.playgenerals.online): Setup help, mod questions, and community discussion.
+- [GeneralsOnline website](https://www.playgenerals.online/).
 
 ## Credits
 
@@ -125,6 +131,6 @@ GenLauncherGO is a community-developed tool intended for retail game installatio
 TheSuperHackers and GeneralsOnline. It is not created by, endorsed by, or affiliated with Electronic Arts or any other
 rights holder unless explicitly stated.
 
-This rewrite began as a personal project and is shared as a temporary community solution while
-[GenHub](https://github.com/community-outpost/GenHub) matures toward becoming a stable, community-standard launcher.
-GenLauncherGO is not presented as a perfect, permanent, or definitive solution.
+This rewrite began in a fork of `x64-dev/GenLauncher_GO` and now lives in a standalone repository. Its Git history was
+reconstructed into reviewable milestones; commit dates across May–September 2026 approximate the development period,
+not the exact completion date of each feature.
