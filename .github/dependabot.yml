@@ -31,7 +31,6 @@ updates:
         patterns:
           - "coverlet.*"
           - "FluentAssertions"
-          - "Microsoft.NET.Test.Sdk"
           - "NSubstitute*"
           - "xunit*"
 

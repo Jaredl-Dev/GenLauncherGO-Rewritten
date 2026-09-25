@@ -1,0 +1,15 @@
+{
+  "platformOptions": {
+    "Coverlet": {
+      "format": "cobertura,lcov",
+      "includeTestAssembly": false,
+      "skipAutoProps": true,
+      "singleHit": false,
+      "useSourceLink": false,
+      "include": "[GenLauncherGO]*",
+      "exclude": "[GenLauncherGO.Tests]*",
+      "excludeByAttribute": "Obsolete,GeneratedCodeAttribute,CompilerGeneratedAttribute,ExcludeFromCodeCoverageAttribute",
+      "excludeByFile": "**/bin/**,**/obj/**,**/*.g.cs,**/*.g.i.cs,**/*.Designer.cs,**/Resources/Strings.cs,**/Properties/AssemblyInfo.cs"
+    }
+  }
+}
