@@ -76,8 +76,8 @@ percentage because executing a line does not establish that its behavior is mean
 ## Publishing
 
 `VersionPrefix` in `GenLauncherGO/GenLauncherGO.csproj` is the single source of truth for the release version.
-Update it through a pull request and merge to `master`. After CI passes, run **Actions** > **Publish release** on
-`master`.
+Update it through a pull request and merge to `main`. After CI passes, run **Actions** > **Publish release** on
+`main`.
 
 The workflow builds the Windows x64 portable package and creates a draft GitHub release with the matching
 `v<VersionPrefix>` tag. Review its notes and assets, test the archive when appropriate, then publish the draft. Drafts
@@ -159,8 +159,10 @@ type(scope): Short imperative summary
 
 ### Pull requests
 
-Open pull requests against `master`. In the pull request description:
+Open pull requests against `main` with a [Conventional Commits title](#commit-format). Put related issue or pull
+request links first when applicable. Explain the existing behavior or problem, what changed, and why, with enough
+detail for a reviewer to understand the intent before opening the diff.
 
-- Use a Conventional Commits title matching your changes.
-- **Summary**: Explain what changed and why.
-- **Validation**: Describe the verification performed (automated tests run, build checks, or manual testing).
+Describe relevant verification and its results (or why it was not run), and note compatibility effects or known
+limitations when they matter. Follow the [testing policy](#testing-policy) for test evidence. Use headings, tables, or
+screenshots when they clarify a substantial change; there are no required body sections.

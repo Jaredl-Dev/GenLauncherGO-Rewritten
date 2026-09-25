@@ -28,8 +28,8 @@ jobs:
       - name: Require the default branch
         shell: pwsh
         run: |
-          if ($env:GITHUB_REF -cne "refs/heads/master") {
-              throw "Releases must be created from the master branch, not $env:GITHUB_REF."
+          if ($env:GITHUB_REF -cne "refs/heads/main") {
+              throw "Releases must be created from the main branch, not $env:GITHUB_REF."
           }
 
       - name: Check out repository
