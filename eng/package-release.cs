@@ -129,6 +129,8 @@ internal static class PackageRelease
             throw new FileNotFoundException($"Expected the published launcher executable at {launcherPath}.");
         }
 
+        File.Copy(Path.Combine(repositoryRoot, "LICENSE"), Path.Combine(publishDirectory, "LICENSE"), overwrite: true);
+
         await RunDotNetAsync(repositoryRoot, false,
             "tool", "run", "vpk", "--", "pack",
             "--packId", packageId,
@@ -226,12 +228,15 @@ internal static class PackageRelease
     {
         using ZipArchive archive = ZipFile.OpenRead(Path.Combine(uploadDirectory, $"{packageId}-{Channel}-Portable.zip"));
         string[] entries = archive.Entries.Select(entry => entry.FullName.Replace('\\', '/').TrimStart('/')).ToArray();
-        string[] expectedEntries = [".portable", $"{packageId}.exe", "Update.exe", $"current/{packageId}.exe", "current/sq.version"];
+        string[] expectedEntries =
+        [
+            ".portable", $"{packageId}.exe", "Update.exe", $"current/{packageId}.exe", "current/LICENSE", "current/sq.version"
+        ];
         if (!entries.Order(StringComparer.OrdinalIgnoreCase)
                 .SequenceEqual(expectedEntries.Order(StringComparer.OrdinalIgnoreCase), StringComparer.OrdinalIgnoreCase))
         {
             throw new InvalidDataException(
-                "The portable archive does not have the expected root stub, updater, marker, current app, and version metadata layout.");
+                "The portable archive does not have the expected root stub, updater, marker, current app, license, and version metadata layout.");
         }
 
         if (entries.Any(entry => entry.Split('/').Contains("GenLauncherGO Data", StringComparer.OrdinalIgnoreCase)))

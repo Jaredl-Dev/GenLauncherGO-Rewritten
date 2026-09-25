@@ -1,0 +1,44 @@
+name: Bug report
+description: Report a problem with GenLauncherGO.
+title: "[Bug] "
+body:
+  - type: markdown
+    attributes:
+      value: |
+        Search existing issues before reporting the same problem. For setup help or general questions, use the [GeneralsOnline Discord](https://discord.playgenerals.online).
+  - type: textarea
+    id: observed
+    attributes:
+      label: What happened?
+      description: Describe the launcher behavior and any error shown.
+    validations:
+      required: true
+  - type: textarea
+    id: reproduce
+    attributes:
+      label: Steps to reproduce
+      description: List the steps, or explain when an intermittent problem occurs.
+    validations:
+      required: true
+  - type: textarea
+    id: expected
+    attributes:
+      label: Expected behavior
+    validations:
+      required: true
+  - type: textarea
+    id: environment
+    attributes:
+      label: Environment
+      description: Include the launcher version, Windows version, game and client, and affected mod or add-on when relevant.
+      placeholder: |
+        Launcher version:
+        Windows version:
+        Game and client:
+        Mod or add-on:
+  - type: textarea
+    id: evidence
+    attributes:
+      label: Logs or screenshots
+      description: Logs are in `GenLauncherGO Data\Logs`. Review them for personal information before sharing.
+      placeholder: Drag files here or paste relevant log lines.
