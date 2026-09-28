@@ -82,12 +82,12 @@ internal sealed class LauncherLaunchCoordinator : ObservableObject
 
     public bool IsLaunchInProgress => _isGameRunning || _isWorldBuilderRunning;
 
-    public string? ActiveProcessName => _activeProcessLaunch?.CurrentExecutableName;
+    public string? ActiveProcessName => _activeProcessLaunch?.ExecutableName;
 
     public bool ShouldHideLauncherWindow { get; private set; }
 
     /// <summary>
-    ///     Force closes the currently tracked launched process family.
+    ///     Force closes the launched process and every process it started.
     /// </summary>
     public bool ForceCloseActiveProcess()
     {
@@ -102,7 +102,7 @@ internal sealed class LauncherLaunchCoordinator : ObservableObject
     }
 
     /// <summary>
-    ///     Verifies content, prepares deployment, tracks the launched process family, and cleans up afterward.
+    ///     Verifies content, prepares deployment, tracks the launched processes, and cleans up afterward.
     /// </summary>
     public async Task<bool> LaunchAsync(
         LauncherLaunchRequest request,
@@ -278,8 +278,6 @@ internal sealed class LauncherLaunchCoordinator : ObservableObject
         LauncherPreferences preferences = _launcherPreferencesService.Current;
         bool hideLauncherWhileRunning = preferences.Shared.HideLauncherAfterGameStart;
         IGameProcessLaunchOperation? operation = null;
-        EventHandler? currentExecutableNameChanged = null;
-        SynchronizationContext? launchContext = SynchronizationContext.Current;
 
         if (hideLauncherWhileRunning)
         {
@@ -292,10 +290,6 @@ internal sealed class LauncherLaunchCoordinator : ObservableObject
                 CreateGameLaunchRequest(request, preferences, launchPaths),
                 CancellationToken.None);
             _activeProcessLaunch = operation;
-            currentExecutableNameChanged = (_, _) => NotifyActiveProcessNameChanged(
-                operation,
-                launchContext);
-            operation.CurrentExecutableNameChanged += currentExecutableNameChanged;
             NotifyActiveProcessStateChanged();
 
             return await operation.Completion;
@@ -308,8 +302,6 @@ internal sealed class LauncherLaunchCoordinator : ObservableObject
             }
             finally
             {
-                operation?.CurrentExecutableNameChanged -= currentExecutableNameChanged;
-
                 if (ReferenceEquals(_activeProcessLaunch, operation))
                 {
                     _activeProcessLaunch = null;
@@ -322,30 +314,6 @@ internal sealed class LauncherLaunchCoordinator : ObservableObject
                 }
             }
         }
-    }
-
-    /// <summary>
-    ///     Notifies bindable UI state when the tracked process family changes its current executable.
-    /// </summary>
-    private void NotifyActiveProcessNameChanged(
-        IGameProcessLaunchOperation operation,
-        SynchronizationContext? launchContext)
-    {
-        void Update()
-        {
-            if (ReferenceEquals(_activeProcessLaunch, operation))
-            {
-                OnPropertyChanged(nameof(ActiveProcessName));
-            }
-        }
-
-        if (launchContext == null || ReferenceEquals(SynchronizationContext.Current, launchContext))
-        {
-            Update();
-            return;
-        }
-
-        launchContext.Post(_ => Update(), null);
     }
 
     private static GameLaunchRequest CreateGameLaunchRequest(

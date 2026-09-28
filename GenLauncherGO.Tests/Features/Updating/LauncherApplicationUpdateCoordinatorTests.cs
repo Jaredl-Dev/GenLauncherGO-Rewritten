@@ -1,10 +1,7 @@
 using System;
 using System.Threading;
-using System.Threading.Tasks;
 using Avalonia.Controls;
-using GenLauncherGO.Features.Integrity;
 using GenLauncherGO.Features.Launching;
-using GenLauncherGO.Features.Mods;
 using GenLauncherGO.Features.Startup;
 using GenLauncherGO.Features.Updating;
 using GenLauncherGO.Shared.Dialogs;
@@ -129,17 +126,7 @@ public sealed class LauncherApplicationUpdateCoordinatorTests
     {
         StaTestRunner.Run(async () =>
         {
-            const string ProcessName = "generals.exe";
-            IGameProcessLaunchOperation operation = Substitute.For<IGameProcessLaunchOperation>();
-            var processCompletion = new TaskCompletionSource<bool>(
-                TaskCreationOptions.RunContinuationsAsynchronously);
-            var processExposed = new TaskCompletionSource(
-                TaskCreationOptions.RunContinuationsAsynchronously);
-            operation.CurrentExecutableName.Returns(ProcessName);
-            operation.Completion.Returns(processCompletion.Task);
-            IGameProcessLauncher processLauncher = Substitute.For<IGameProcessLauncher>();
-            processLauncher.StartAsync(Arg.Any<GameLaunchRequest>(), Arg.Any<CancellationToken>())
-                .Returns(Task.FromResult(operation));
+            ControllableGameProcessLaunch game = new();
             LauncherPackageActivityService packageActivityService = new();
             ILauncherDialogService dialogService = Substitute.For<ILauncherDialogService>();
             dialogService.ShowInfoActionAsync(
@@ -149,7 +136,7 @@ public sealed class LauncherApplicationUpdateCoordinatorTests
                 .Returns(false);
             LauncherLaunchCoordinator launchCoordinator = TestLauncherLaunchCoordinator.Create(
                 packageActivityService,
-                processLauncher: processLauncher,
+                processLauncher: game.Launcher,
                 dialogService: dialogService);
             LauncherApplicationUpdateCoordinator coordinator = TestLauncherApplicationUpdateCoordinator.Create(
                 out _,
@@ -157,28 +144,12 @@ public sealed class LauncherApplicationUpdateCoordinatorTests
                 dialogService,
                 launchCoordinator);
             Window owner = new();
-            launchCoordinator.PropertyChanged += (_, args) =>
-            {
-                if (args.PropertyName == nameof(LauncherLaunchCoordinator.HasActiveProcess) &&
-                    launchCoordinator.HasActiveProcess)
-                {
-                    processExposed.TrySetResult();
-                }
-            };
 
-            Task<bool> launchTask = launchCoordinator.LaunchAsync(
-                new LauncherLaunchRequest(
-                    GameLaunchTargetKind.GameClient,
-                    ProcessName,
-                    false,
-                    Array.Empty<LauncherContentVersion>()),
-                Array.Empty<ILaunchContentIntegrityProgressTarget>(),
-                owner,
-                CancellationToken.None);
+            game.Start(launchCoordinator, owner);
             try
             {
                 owner.Show();
-                await processExposed.Task.WaitAsync(TestTimeouts.Wait);
+                await game.WaitUntilRunningAsync();
                 await coordinator.StartAsync(owner, CancellationToken.None);
 
                 await dialogService.DidNotReceiveWithAnyArgs().ShowInfoActionAsync(
@@ -186,8 +157,7 @@ public sealed class LauncherApplicationUpdateCoordinatorTests
                     default!,
                     default);
 
-                processCompletion.TrySetResult(true);
-                await launchTask.WaitAsync(TestTimeouts.Wait);
+                await game.ExitAsync();
 
                 await dialogService.Received(1).ShowInfoActionAsync(
                     Arg.Any<LauncherInfoDialogRequest>(),
@@ -196,8 +166,7 @@ public sealed class LauncherApplicationUpdateCoordinatorTests
             }
             finally
             {
-                processCompletion.TrySetResult(true);
-                await launchTask.WaitAsync(TestTimeouts.Wait);
+                await game.ExitAsync();
                 owner.Close();
             }
         });

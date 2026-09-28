@@ -9,8 +9,12 @@ namespace GenLauncherGO.Features.Launching;
 internal interface IGameProcessLauncher
 {
     /// <summary>
-    ///     Starts the requested game or tool process and returns an operation that tracks its process family.
+    ///     Starts the requested game or tool process and returns an operation that tracks it and the processes it starts.
     /// </summary>
+    /// <remarks>
+    ///     <paramref name="cancellationToken" /> can only stop the start. Once the process is running, tracking continues
+    ///     until every launched process exits, because deployment cleanup waits for it.
+    /// </remarks>
     Task<IGameProcessLaunchOperation> StartAsync(
         GameLaunchRequest request,
         CancellationToken cancellationToken);

@@ -1,5 +1,7 @@
+using System;
 using System.Threading;
 using System.Threading.Tasks;
+using Avalonia.Controls;
 using GenLauncherGO.Features.Integrity;
 using GenLauncherGO.Features.Launching;
 using GenLauncherGO.Features.Mods;
@@ -58,7 +60,23 @@ internal static class TestLauncherLaunchCoordinator
             NullLogger<LauncherLaunchCoordinator>.Instance);
     }
 
-    private static ILaunchPreparationService CreateSuccessfulPreparationService()
+    /// <summary>
+    ///     Starts a game-client launch of the retail executable with no selected content.
+    /// </summary>
+    public static Task<bool> LaunchGameClientAsync(LauncherLaunchCoordinator launchCoordinator, Window owner)
+    {
+        return launchCoordinator.LaunchAsync(
+            new LauncherLaunchRequest(
+                GameLaunchTargetKind.GameClient,
+                LauncherFileSystemLayout.RetailGameExecutableFileName,
+                false,
+                Array.Empty<LauncherContentVersion>()),
+            Array.Empty<ILaunchContentIntegrityProgressTarget>(),
+            owner,
+            CancellationToken.None);
+    }
+
+    public static ILaunchPreparationService CreateSuccessfulPreparationService()
     {
         ILaunchPreparationService preparationService = Substitute.For<ILaunchPreparationService>();
         preparationService.Prepare(
@@ -79,7 +97,9 @@ internal static class TestLauncherLaunchCoordinator
                 Arg.Any<GameLaunchRequest>(),
                 Arg.Any<CancellationToken>())
             .Returns(Task.FromResult<IGameProcessLaunchOperation>(
-                new CompletedGameProcessLaunchOperation(true, "generals.exe")));
+                new CompletedGameProcessLaunchOperation(
+                    true,
+                    LauncherFileSystemLayout.RetailGameExecutableFileName)));
         return processLauncher;
     }
 }

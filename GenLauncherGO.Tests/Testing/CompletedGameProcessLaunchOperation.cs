@@ -1,4 +1,3 @@
-using System;
 using System.Threading.Tasks;
 using GenLauncherGO.Features.Launching;
 
@@ -8,19 +7,13 @@ internal sealed class CompletedGameProcessLaunchOperation : IGameProcessLaunchOp
 {
     public CompletedGameProcessLaunchOperation(bool succeeded, string executableName)
     {
-        CurrentExecutableName = executableName;
+        ExecutableName = executableName;
         Completion = Task.FromResult(succeeded);
     }
 
-    public string CurrentExecutableName { get; }
+    public string ExecutableName { get; }
 
     public Task<bool> Completion { get; }
-
-    public event EventHandler? CurrentExecutableNameChanged
-    {
-        add { }
-        remove { }
-    }
 
     public void ForceClose()
     {
