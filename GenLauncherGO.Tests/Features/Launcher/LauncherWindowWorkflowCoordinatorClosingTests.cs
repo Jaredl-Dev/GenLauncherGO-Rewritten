@@ -1,5 +1,4 @@
 using System;
-using System.Threading;
 using System.Threading.Tasks;
 using Avalonia.Controls;
 using Avalonia.Interactivity;
@@ -257,63 +256,69 @@ public sealed partial class LauncherWindowWorkflowCoordinatorTests
     {
         StaTestRunner.Run(async () =>
         {
-            const string ProcessName = "generalszh.exe";
-            IGameProcessLaunchOperation operation = Substitute.For<IGameProcessLaunchOperation>();
-            var processCompletion = new TaskCompletionSource<bool>(
-                TaskCreationOptions.RunContinuationsAsynchronously);
-            var processExposed = new TaskCompletionSource(
-                TaskCreationOptions.RunContinuationsAsynchronously);
-            operation.CurrentExecutableName.Returns(ProcessName);
-            operation.Completion.Returns(processCompletion.Task);
-            IGameProcessLauncher processLauncher = Substitute.For<IGameProcessLauncher>();
-            processLauncher.StartAsync(Arg.Any<GameLaunchRequest>(), Arg.Any<CancellationToken>())
-                .Returns(Task.FromResult(operation));
+            ControllableGameProcessLaunch game = new();
             ILauncherDialogService dialogService = StubLauncherDialogService.AnsweringWarningConfirmations(confirmed);
             LauncherPackageActivityService packageActivityService = new();
             LauncherLaunchCoordinator launchCoordinator = TestLauncherLaunchCoordinator.Create(
                 packageActivityService,
-                processLauncher: processLauncher,
+                processLauncher: game.Launcher,
                 dialogService: dialogService);
             LauncherWindowWorkflowCoordinator coordinator = CreateCoordinator(
                 packageActivityService,
                 dialogService,
                 launchCoordinator: launchCoordinator);
             var owner = new Window();
-            launchCoordinator.PropertyChanged += (_, args) =>
-            {
-                if (args.PropertyName == nameof(LauncherLaunchCoordinator.HasActiveProcess) &&
-                    launchCoordinator.HasActiveProcess)
-                {
-                    processExposed.TrySetResult();
-                }
-            };
 
-            Task<bool> launchTask = launchCoordinator.LaunchAsync(
-                new LauncherLaunchRequest(
-                    GameLaunchTargetKind.GameClient,
-                    ProcessName,
-                    false,
-                    Array.Empty<LauncherContentVersion>()),
-                Array.Empty<ILaunchContentIntegrityProgressTarget>(),
-                owner,
-                CancellationToken.None);
+            game.Start(launchCoordinator, owner);
             try
             {
-                await processExposed.Task.WaitAsync(TestTimeouts.Wait);
+                await game.WaitUntilRunningAsync();
                 await coordinator.ForceCloseRunningProcessAsync(owner);
             }
             finally
             {
-                processCompletion.TrySetResult(true);
-                await launchTask;
+                await game.ExitAsync();
             }
 
             await dialogService.Received(1).ShowWarningConfirmationAsync(
                 Arg.Any<LauncherInfoDialogRequest>(),
                 Arg.Any<string?>(),
                 owner);
-            operation.Received(confirmed ? 1 : 0).ForceClose();
+            game.Operation.Received(confirmed ? 1 : 0).ForceClose();
         });
     }
 
+    [Fact]
+    public void ConfirmCloseDuringActiveOperations_WhileTheGameRuns_RefusesToClose()
+    {
+        StaTestRunner.Run(async () =>
+        {
+            ControllableGameProcessLaunch game = new();
+            ILauncherDialogService dialogService = Substitute.For<ILauncherDialogService>();
+            LauncherPackageActivityService packageActivityService = new();
+            LauncherLaunchCoordinator launchCoordinator = TestLauncherLaunchCoordinator.Create(
+                packageActivityService,
+                processLauncher: game.Launcher,
+                dialogService: dialogService);
+            LauncherWindowWorkflowCoordinator coordinator = CreateCoordinator(
+                packageActivityService,
+                dialogService,
+                launchCoordinator: launchCoordinator);
+            var owner = new Window();
+            game.Start(launchCoordinator, owner);
+
+            try
+            {
+                await game.WaitUntilRunningAsync();
+
+                bool canClose = await coordinator.ConfirmCloseDuringActiveOperationsAsync(owner);
+
+                canClose.Should().BeFalse();
+            }
+            finally
+            {
+                await game.ExitAsync();
+            }
+        });
+    }
 }
