@@ -148,6 +148,8 @@ internal sealed class WindowsGameProcessLauncher : IGameProcessLauncher
     /// </summary>
     private sealed class WindowsGameProcessLaunchOperation : IGameProcessLaunchOperation
     {
+        private readonly string _executableName;
+
         private readonly SafeJobHandle _job;
 
         private readonly ILogger<WindowsGameProcessLauncher> _logger;
@@ -162,19 +164,17 @@ internal sealed class WindowsGameProcessLauncher : IGameProcessLauncher
             ILogger<WindowsGameProcessLauncher> logger)
         {
             _targetKind = request.TargetKind;
-            ExecutableName = Path.GetFileName(request.ExecutablePath);
+            _executableName = Path.GetFileName(request.ExecutablePath);
             _job = job;
             _logger = logger;
             Completion = CompleteAsync();
         }
 
-        public string ExecutableName { get; }
-
         public Task<bool> Completion { get; }
 
         public void ForceClose()
         {
-            _logger.LogInformation("Force close requested for launched process {ExecutableName}.", ExecutableName);
+            _logger.LogInformation("Force close requested for launched process {ExecutableName}.", _executableName);
             lock (_syncRoot)
             {
                 if (_job.IsClosed)
@@ -187,7 +187,7 @@ internal sealed class WindowsGameProcessLauncher : IGameProcessLauncher
                     _logger.LogWarning(
                         new Win32Exception(),
                         "Failed to force close launched process {ExecutableName}.",
-                        ExecutableName);
+                        _executableName);
                 }
             }
         }
@@ -219,7 +219,7 @@ internal sealed class WindowsGameProcessLauncher : IGameProcessLauncher
             {
                 _logger.LogWarning(
                     "Launch of {ExecutableName} ended after {RunningDurationMs}ms, below the success threshold.",
-                    ExecutableName,
+                    _executableName,
                     runningDuration.TotalMilliseconds);
                 return false;
             }

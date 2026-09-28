@@ -287,9 +287,7 @@
     <data name="AdvertisingDonationAlerts" xml:space="preserve"><value>Donation Alerts</value></data>
     <data name="AdvertisingBoostyLink" xml:space="preserve"><value>Boosty.to</value></data>
     <data name="AdvertisingYouTubeRuLink" xml:space="preserve"><value>My Youtube (Ru)</value></data>
-    <data name="RunningProcessOverlayTitle" xml:space="preserve"><value>Pokrenuti proces</value></data>
-    <data name="RunningProcessStatus" xml:space="preserve"><value>Pokrenuti proces: {0}</value></data>
-    <data name="RunningProcessUnknown" xml:space="preserve"><value>Nepoznati proces</value></data>
+    <data name="RunningProcessOverlayTitle" xml:space="preserve"><value>Pokrenuto: {0}</value></data>
     <data name="ForceQuitRunningProcess" xml:space="preserve"><value>Prisilno zatvori</value></data>
     <data name="ForceQuitRunningProcessConfirmationTitle" xml:space="preserve"><value>Prisilno zatvoriti proces?</value></data>
     <data name="ForceQuitRunningProcessConfirmationDetails" xml:space="preserve"><value>To će odmah zatvoriti {0} i sve praćene podređene procese. Nespremljeni napredak može biti izgubljen.</value></data>

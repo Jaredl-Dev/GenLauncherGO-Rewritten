@@ -5,13 +5,10 @@ namespace GenLauncherGO.Tests.Testing;
 
 internal sealed class CompletedGameProcessLaunchOperation : IGameProcessLaunchOperation
 {
-    public CompletedGameProcessLaunchOperation(bool succeeded, string executableName)
+    public CompletedGameProcessLaunchOperation(bool succeeded)
     {
-        ExecutableName = executableName;
         Completion = Task.FromResult(succeeded);
     }
-
-    public string ExecutableName { get; }
 
     public Task<bool> Completion { get; }
 

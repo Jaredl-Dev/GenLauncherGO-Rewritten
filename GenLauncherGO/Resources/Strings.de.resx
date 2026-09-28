@@ -287,9 +287,7 @@
     <data name="AdvertisingDonationAlerts" xml:space="preserve"><value>Donation Alerts</value></data>
     <data name="AdvertisingBoostyLink" xml:space="preserve"><value>Boosty.to</value></data>
     <data name="AdvertisingYouTubeRuLink" xml:space="preserve"><value>My Youtube (Ru)</value></data>
-    <data name="RunningProcessOverlayTitle" xml:space="preserve"><value>Laufender Prozess</value></data>
-    <data name="RunningProcessStatus" xml:space="preserve"><value>Laufender Prozess: {0}</value></data>
-    <data name="RunningProcessUnknown" xml:space="preserve"><value>Unbekannter Prozess</value></data>
+    <data name="RunningProcessOverlayTitle" xml:space="preserve"><value>{0} läuft</value></data>
     <data name="ForceQuitRunningProcess" xml:space="preserve"><value>Beenden erzwingen</value></data>
     <data name="ForceQuitRunningProcessConfirmationTitle" xml:space="preserve"><value>Prozess zwangsweise beenden?</value></data>
     <data name="ForceQuitRunningProcessConfirmationDetails" xml:space="preserve"><value>Dadurch werden {0} und alle verfolgten untergeordneten Prozesse sofort geschlossen. Nicht gespeicherter Fortschritt kann verloren gehen.</value></data>

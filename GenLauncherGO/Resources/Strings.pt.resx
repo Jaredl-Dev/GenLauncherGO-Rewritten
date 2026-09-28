@@ -287,9 +287,7 @@
     <data name="AdvertisingDonationAlerts" xml:space="preserve"><value>Donation Alerts</value></data>
     <data name="AdvertisingBoostyLink" xml:space="preserve"><value>Boosty.to</value></data>
     <data name="AdvertisingYouTubeRuLink" xml:space="preserve"><value>My Youtube (Ru)</value></data>
-    <data name="RunningProcessOverlayTitle" xml:space="preserve"><value>Processo em execução</value></data>
-    <data name="RunningProcessStatus" xml:space="preserve"><value>Processo em execução: {0}</value></data>
-    <data name="RunningProcessUnknown" xml:space="preserve"><value>Processo desconhecido</value></data>
+    <data name="RunningProcessOverlayTitle" xml:space="preserve"><value>{0} está em execução</value></data>
     <data name="ForceQuitRunningProcess" xml:space="preserve"><value>Forçar encerramento</value></data>
     <data name="ForceQuitRunningProcessConfirmationTitle" xml:space="preserve"><value>Forçar encerramento do processo?</value></data>
     <data name="ForceQuitRunningProcessConfirmationDetails" xml:space="preserve"><value>Isso fechará imediatamente {0} e todos os processos filhos rastreados. O progresso não salvo pode ser perdido.</value></data>
