@@ -287,9 +287,7 @@
     <data name="AdvertisingDonationAlerts" xml:space="preserve"><value>Donation Alerts</value></data>
     <data name="AdvertisingBoostyLink" xml:space="preserve"><value>Boosty.to</value></data>
     <data name="AdvertisingYouTubeRuLink" xml:space="preserve"><value>My Youtube (Ru)</value></data>
-    <data name="RunningProcessOverlayTitle" xml:space="preserve"><value>Process running</value></data>
-    <data name="RunningProcessStatus" xml:space="preserve"><value>Running process: {0}</value></data>
-    <data name="RunningProcessUnknown" xml:space="preserve"><value>Unknown process</value></data>
+    <data name="RunningProcessOverlayTitle" xml:space="preserve"><value>{0} is running</value></data>
     <data name="ForceQuitRunningProcess" xml:space="preserve"><value>Force quit</value></data>
     <data name="ForceQuitRunningProcessConfirmationTitle" xml:space="preserve"><value>Force quit process?</value></data>
     <data name="ForceQuitRunningProcessConfirmationDetails" xml:space="preserve"><value>This will immediately close {0} and any tracked child processes. Unsaved progress may be lost.</value></data>

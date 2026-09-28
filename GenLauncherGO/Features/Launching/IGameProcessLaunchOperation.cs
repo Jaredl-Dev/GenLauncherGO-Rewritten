@@ -8,11 +8,6 @@ namespace GenLauncherGO.Features.Launching;
 internal interface IGameProcessLaunchOperation
 {
     /// <summary>
-    ///     Gets the executable name of the launched process.
-    /// </summary>
-    string ExecutableName { get; }
-
-    /// <summary>
     ///     Gets the task that completes when the launched process and every process it started have exited.
     /// </summary>
     Task<bool> Completion { get; }

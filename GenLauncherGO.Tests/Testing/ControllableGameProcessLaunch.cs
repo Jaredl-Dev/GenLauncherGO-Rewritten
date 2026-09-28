@@ -2,7 +2,6 @@ using System.Threading;
 using System.Threading.Tasks;
 using Avalonia.Controls;
 using GenLauncherGO.Features.Launching;
-using GenLauncherGO.Features.Startup;
 
 namespace GenLauncherGO.Tests.Testing;
 
@@ -20,7 +19,6 @@ internal sealed class ControllableGameProcessLaunch
     public ControllableGameProcessLaunch()
     {
         Operation = Substitute.For<IGameProcessLaunchOperation>();
-        Operation.ExecutableName.Returns(LauncherFileSystemLayout.RetailGameExecutableFileName);
         Operation.Completion.Returns(_exit.Task);
         Launcher = Substitute.For<IGameProcessLauncher>();
         Launcher.StartAsync(Arg.Any<GameLaunchRequest>(), Arg.Any<CancellationToken>())

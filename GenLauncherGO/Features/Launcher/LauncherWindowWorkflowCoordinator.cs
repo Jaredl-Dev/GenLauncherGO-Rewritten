@@ -176,19 +176,23 @@ internal sealed class LauncherWindowWorkflowCoordinator
                 return;
             }
 
-            string? executablePath;
+            ExecutableOption? selectedExecutable;
+            string targetDisplayName;
             bool useGeneralsOnline;
             if (targetKind == GameLaunchTargetKind.GameClient)
             {
-                ExecutableOption? selectedGameClient = context.ViewModel.SelectedGameClientOption;
-                executablePath = selectedGameClient?.ExecutablePath;
-                useGeneralsOnline = selectedGameClient?.IsGeneralsOnline == true;
+                selectedExecutable = context.ViewModel.SelectedGameClientOption;
+                targetDisplayName = context.ViewModel.ManagedGameShortName;
+                useGeneralsOnline = selectedExecutable?.IsGeneralsOnline == true;
             }
             else
             {
-                executablePath = context.ViewModel.SelectedWorldBuilderOption?.ExecutablePath;
+                selectedExecutable = context.ViewModel.SelectedWorldBuilderOption;
+                targetDisplayName = _stringLocalizer["WorldBuilder"];
                 useGeneralsOnline = false;
             }
+
+            string? executablePath = selectedExecutable?.ExecutablePath;
 
             if (targetKind == GameLaunchTargetKind.GameClient &&
                 !await ConfirmLaunchWarningsAsync(
@@ -228,6 +232,8 @@ internal sealed class LauncherWindowWorkflowCoordinator
                 new LauncherLaunchRequest(
                     targetKind,
                     executablePath!,
+                    targetDisplayName,
+                    selectedExecutable!.DisplayName,
                     useGeneralsOnline,
                     context.ViewModel.GetSelectedVersionsOfAllSelectedModifications()),
                 selectedContent.Cast<ILaunchContentIntegrityProgressTarget>().ToList(),
@@ -438,17 +444,17 @@ internal sealed class LauncherWindowWorkflowCoordinator
     {
         ArgumentNullException.ThrowIfNull(owner);
 
-        if (!_launchCoordinator.HasActiveProcess)
+        string? targetName = _launchCoordinator.ActiveTargetDisplayName;
+        if (targetName == null)
         {
             _logger.LogDebug("Force-close request ignored because no launched process is active.");
             return;
         }
 
-        string processName = _launchCoordinator.ActiveProcessName ?? _stringLocalizer["RunningProcessUnknown"];
         bool confirmed = await _dialogService.ShowWarningConfirmationAsync(
             new LauncherInfoDialogRequest(
                 _stringLocalizer["ForceQuitRunningProcessConfirmationTitle"],
-                string.Format(CultureInfo.CurrentCulture, _stringLocalizer["ForceQuitRunningProcessConfirmationDetails"], processName)),
+                string.Format(CultureInfo.CurrentCulture, _stringLocalizer["ForceQuitRunningProcessConfirmationDetails"], targetName)),
             _stringLocalizer["ForceQuitRunningProcess"],
             owner);
         if (confirmed)
@@ -458,8 +464,8 @@ internal sealed class LauncherWindowWorkflowCoordinator
         }
 
         _logger.LogDebug(
-            "Force-close canceled for launched process {ProcessName}.",
-            processName);
+            "Force-close canceled for launched {LaunchTarget}.",
+            targetName);
     }
 
 }

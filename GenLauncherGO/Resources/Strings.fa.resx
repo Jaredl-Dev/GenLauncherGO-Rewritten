@@ -287,9 +287,7 @@
     <data name="AdvertisingDonationAlerts" xml:space="preserve"><value>Donation Alerts</value></data>
     <data name="AdvertisingBoostyLink" xml:space="preserve"><value>Boosty.to</value></data>
     <data name="AdvertisingYouTubeRuLink" xml:space="preserve"><value>یوتیوب من (روسی)</value></data>
-    <data name="RunningProcessOverlayTitle" xml:space="preserve"><value>فرایند در حال اجرا</value></data>
-    <data name="RunningProcessStatus" xml:space="preserve"><value>فرایند در حال اجرا: &#x2068;{0}&#x2069;</value></data>
-    <data name="RunningProcessUnknown" xml:space="preserve"><value>فرایند ناشناخته</value></data>
+    <data name="RunningProcessOverlayTitle" xml:space="preserve"><value>&#x2068;{0}&#x2069; در حال اجراست</value></data>
     <data name="ForceQuitRunningProcess" xml:space="preserve"><value>بستن اجباری</value></data>
     <data name="ForceQuitRunningProcessConfirmationTitle" xml:space="preserve"><value>فرایند به‌اجبار بسته شود؟</value></data>
     <data name="ForceQuitRunningProcessConfirmationDetails" xml:space="preserve"><value>با این کار &#x2068;{0}&#x2069; و همه فرایندهای فرزند ردیابی‌شده فوراً بسته می‌شوند. ممکن است پیشرفت ذخیره‌نشده از بین برود.</value></data>

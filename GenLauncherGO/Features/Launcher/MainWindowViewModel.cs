@@ -168,6 +168,11 @@ internal sealed class MainWindowViewModel : ObservableObject, IDisposable
         private set => SetProperty(ref field, value);
     } = "GenLauncherGO";
 
+    public string ManagedGameShortName => _stringLocalizer[PerGame.Select(
+        _runtimeContext.CurrentlyManagedGame,
+        "GeneralsShortName",
+        "ZeroHourShortName")];
+
     public string CurrentLauncherVersionText
     {
         get;
@@ -295,22 +300,11 @@ internal sealed class MainWindowViewModel : ObservableObject, IDisposable
     public bool IsRunningProcessOverlayVisible =>
         _launchCoordinator.HasActiveProcess && !_launchCoordinator.ShouldHideLauncherWindow;
 
-    public string RunningProcessStatusText
-    {
-        get
-        {
-            if (!IsRunningProcessOverlayVisible)
-            {
-                return string.Empty;
-            }
+    public string RunningProcessTitle => _launchCoordinator.ActiveTargetDisplayName is { } targetName
+        ? string.Format(CultureInfo.CurrentCulture, _stringLocalizer["RunningProcessOverlayTitle"], targetName)
+        : string.Empty;
 
-            string processName = _launchCoordinator.ActiveProcessName ?? string.Empty;
-            string displayName = string.IsNullOrWhiteSpace(processName)
-                ? _stringLocalizer["RunningProcessUnknown"]
-                : processName;
-            return string.Format(CultureInfo.CurrentCulture, _stringLocalizer["RunningProcessStatus"], displayName);
-        }
-    }
+    public string RunningProcessStatusText => _launchCoordinator.ActiveExecutableDisplayName ?? string.Empty;
 
     public bool ShouldHideLauncherWindow => _launchCoordinator.ShouldHideLauncherWindow;
 
@@ -954,10 +948,18 @@ internal sealed class MainWindowViewModel : ObservableObject, IDisposable
         }
 
         if (e.PropertyName is (nameof(LauncherLaunchCoordinator.HasActiveProcess)) or
-            (nameof(LauncherLaunchCoordinator.ActiveProcessName)) or
             (nameof(LauncherLaunchCoordinator.ShouldHideLauncherWindow)))
         {
             OnPropertyChanged(nameof(IsRunningProcessOverlayVisible));
+        }
+
+        if (e.PropertyName == nameof(LauncherLaunchCoordinator.ActiveTargetDisplayName))
+        {
+            OnPropertyChanged(nameof(RunningProcessTitle));
+        }
+
+        if (e.PropertyName == nameof(LauncherLaunchCoordinator.ActiveExecutableDisplayName))
+        {
             OnPropertyChanged(nameof(RunningProcessStatusText));
         }
 
@@ -969,11 +971,7 @@ internal sealed class MainWindowViewModel : ObservableObject, IDisposable
 
     private void UpdateWindowTitle()
     {
-        string gameName = _stringLocalizer[PerGame.Select(
-            _runtimeContext.CurrentlyManagedGame,
-            "GeneralsShortName",
-            "ZeroHourShortName")];
-        WindowTitle = $"GenLauncherGO - {gameName}";
+        WindowTitle = $"GenLauncherGO - {ManagedGameShortName}";
     }
 
     /// <summary>
@@ -993,10 +991,7 @@ internal sealed class MainWindowViewModel : ObservableObject, IDisposable
             return false;
         }
 
-        string targetName = currentModification?.Name ?? _stringLocalizer[PerGame.Select(
-            _runtimeContext.CurrentlyManagedGame,
-            "GeneralsShortName",
-            "ZeroHourShortName")];
+        string targetName = currentModification?.Name ?? ManagedGameShortName;
         int activePatchCount = SelectedPatches.FirstOrDefault()?.SelectedVersion?.Installation.Installed == true
             ? 1
             : 0;

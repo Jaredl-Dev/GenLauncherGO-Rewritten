@@ -287,9 +287,7 @@
     <data name="AdvertisingDonationAlerts" xml:space="preserve"><value>Donation Alerts</value></data>
     <data name="AdvertisingBoostyLink" xml:space="preserve"><value>Boosty.to</value></data>
     <data name="AdvertisingYouTubeRuLink" xml:space="preserve"><value>My Youtube (Ru)</value></data>
-    <data name="RunningProcessOverlayTitle" xml:space="preserve"><value>正在运行的进程</value></data>
-    <data name="RunningProcessStatus" xml:space="preserve"><value>正在运行的进程：{0}</value></data>
-    <data name="RunningProcessUnknown" xml:space="preserve"><value>未知进程</value></data>
+    <data name="RunningProcessOverlayTitle" xml:space="preserve"><value>{0} 正在运行</value></data>
     <data name="ForceQuitRunningProcess" xml:space="preserve"><value>强制退出</value></data>
     <data name="ForceQuitRunningProcessConfirmationTitle" xml:space="preserve"><value>要强制退出进程吗？</value></data>
     <data name="ForceQuitRunningProcessConfirmationDetails" xml:space="preserve"><value>这将立即关闭 {0} 以及所有已跟踪的子进程。未保存的进度可能会丢失。</value></data>

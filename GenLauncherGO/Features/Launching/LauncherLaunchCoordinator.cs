@@ -42,6 +42,8 @@ internal sealed class LauncherLaunchCoordinator : ObservableObject
 
     private IGameProcessLaunchOperation? _activeProcessLaunch;
 
+    private LauncherLaunchRequest? _activeProcessRequest;
+
     private bool _isGameRunning;
 
     private bool _isLaunchVerificationRunning;
@@ -82,7 +84,9 @@ internal sealed class LauncherLaunchCoordinator : ObservableObject
 
     public bool IsLaunchInProgress => _isGameRunning || _isWorldBuilderRunning;
 
-    public string? ActiveProcessName => _activeProcessLaunch?.ExecutableName;
+    public string? ActiveTargetDisplayName => _activeProcessRequest?.TargetDisplayName;
+
+    public string? ActiveExecutableDisplayName => _activeProcessRequest?.ExecutableDisplayName;
 
     public bool ShouldHideLauncherWindow { get; private set; }
 
@@ -290,6 +294,7 @@ internal sealed class LauncherLaunchCoordinator : ObservableObject
                 CreateGameLaunchRequest(request, preferences, launchPaths),
                 CancellationToken.None);
             _activeProcessLaunch = operation;
+            _activeProcessRequest = request;
             NotifyActiveProcessStateChanged();
 
             return await operation.Completion;
@@ -305,6 +310,7 @@ internal sealed class LauncherLaunchCoordinator : ObservableObject
                 if (ReferenceEquals(_activeProcessLaunch, operation))
                 {
                     _activeProcessLaunch = null;
+                    _activeProcessRequest = null;
                     NotifyActiveProcessStateChanged();
                 }
 
@@ -438,6 +444,7 @@ internal sealed class LauncherLaunchCoordinator : ObservableObject
     private void NotifyActiveProcessStateChanged()
     {
         OnPropertyChanged(nameof(HasActiveProcess));
-        OnPropertyChanged(nameof(ActiveProcessName));
+        OnPropertyChanged(nameof(ActiveTargetDisplayName));
+        OnPropertyChanged(nameof(ActiveExecutableDisplayName));
     }
 }

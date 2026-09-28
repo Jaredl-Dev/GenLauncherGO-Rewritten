@@ -69,6 +69,8 @@ internal static class TestLauncherLaunchCoordinator
             new LauncherLaunchRequest(
                 GameLaunchTargetKind.GameClient,
                 LauncherFileSystemLayout.RetailGameExecutableFileName,
+                "Zero Hour",
+                "Retail",
                 false,
                 Array.Empty<LauncherContentVersion>()),
             Array.Empty<ILaunchContentIntegrityProgressTarget>(),
@@ -97,9 +99,7 @@ internal static class TestLauncherLaunchCoordinator
                 Arg.Any<GameLaunchRequest>(),
                 Arg.Any<CancellationToken>())
             .Returns(Task.FromResult<IGameProcessLaunchOperation>(
-                new CompletedGameProcessLaunchOperation(
-                    true,
-                    LauncherFileSystemLayout.RetailGameExecutableFileName)));
+                new CompletedGameProcessLaunchOperation(true)));
         return processLauncher;
     }
 }

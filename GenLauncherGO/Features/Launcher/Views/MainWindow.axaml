@@ -1132,7 +1132,7 @@
                                        FontSize="24"
                                        FontWeight="Bold"
                                        Foreground="{DynamicResource GenLauncherActiveColor}"
-                                       Text="{localization:Loc RunningProcessOverlayTitle}"
+                                       Text="{Binding RunningProcessTitle}"
                                        TextAlignment="Center"
                                        TextWrapping="Wrap" />
                             <TextBlock Grid.Row="1"

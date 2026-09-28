@@ -287,9 +287,7 @@
     <data name="AdvertisingDonationAlerts" xml:space="preserve"><value>Donation Alerts</value></data>
     <data name="AdvertisingBoostyLink" xml:space="preserve"><value>Boosty.to</value></data>
     <data name="AdvertisingYouTubeRuLink" xml:space="preserve"><value>My Youtube (Ru)</value></data>
-    <data name="RunningProcessOverlayTitle" xml:space="preserve"><value>Запущений процес</value></data>
-    <data name="RunningProcessStatus" xml:space="preserve"><value>Запущений процес: {0}</value></data>
-    <data name="RunningProcessUnknown" xml:space="preserve"><value>Невідомий процес</value></data>
+    <data name="RunningProcessOverlayTitle" xml:space="preserve"><value>Запущено: {0}</value></data>
     <data name="ForceQuitRunningProcess" xml:space="preserve"><value>Завершити примусово</value></data>
     <data name="ForceQuitRunningProcessConfirmationTitle" xml:space="preserve"><value>Примусово завершити процес?</value></data>
     <data name="ForceQuitRunningProcessConfirmationDetails" xml:space="preserve"><value>Це негайно закриє {0} і всі відстежувані дочірні процеси. Незбережений прогрес може бути втрачено.</value></data>
