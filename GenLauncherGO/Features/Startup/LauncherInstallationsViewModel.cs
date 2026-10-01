@@ -155,7 +155,7 @@ internal sealed class LauncherInstallationsViewModel : ObservableObject
 
     internal bool IsValid(SupportedGame game)
     {
-        return GetValidation(game).IsValid;
+        return _validation.GetValidation(game).IsValid;
     }
 
     internal bool HasValidationError(SupportedGame game)
@@ -165,17 +165,17 @@ internal sealed class LauncherInstallationsViewModel : ObservableObject
 
     internal string GetStatusText(SupportedGame game)
     {
-        return CreateStatusText(game, GetValidation(game));
+        return _stringLocalizer[_validation.GetStatusMessageKey(game)];
     }
 
     internal bool ShowProgramFilesWarning(SupportedGame game)
     {
-        return IsInProgramFiles(GetValidation(game));
+        return IsInProgramFiles(_validation.GetValidation(game));
     }
 
     internal bool ShowDifferentDriveRecommendation(SupportedGame game)
     {
-        return IsOnDifferentDrive(GetValidation(game));
+        return IsOnDifferentDrive(_validation.GetValidation(game));
     }
 
     /// <summary>
@@ -256,37 +256,10 @@ internal sealed class LauncherInstallationsViewModel : ObservableObject
             _storagePaths.ExecutableDirectory);
     }
 
-    private string CreateStatusText(
-        SupportedGame game,
-        GameInstallationValidationResult validation)
-    {
-        if (HasOverlappingInstallationPaths)
-        {
-            return _stringLocalizer["OverlappingGameFolders"];
-        }
-
-        if (validation.IsValid)
-        {
-            return _stringLocalizer[PerGame.Select(
-                game,
-                "ValidGeneralsInstallation",
-                "ValidZeroHourInstallation")];
-        }
-
-        return _stringLocalizer[validation.Failure == GameInstallationValidationFailure.PathMissing
-            ? "ChooseDeploymentFolder"
-            : "InstallationPathUnavailable"];
-    }
-
     private bool IsInProgramFiles(GameInstallationValidationResult validation)
     {
         return validation is { IsValid: true, CanonicalPath: not null } &&
                _hostEnvironmentService.IsProtectedProgramFilesDirectory(validation.CanonicalPath);
-    }
-
-    private GameInstallationValidationResult GetValidation(SupportedGame game)
-    {
-        return PerGame.Select(game, _validation.GeneralsValidation, _validation.ZeroHourValidation);
     }
 
     private bool IsOnDifferentDrive(GameInstallationValidationResult validation)

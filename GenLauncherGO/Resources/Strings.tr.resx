@@ -306,7 +306,10 @@
     <data name="GameInstallationSetupTitle" xml:space="preserve"><value>Oyun klasörlerini seçin</value></data>
     <data name="ValidGeneralsInstallation" xml:space="preserve"><value>Generals klasörü seçildi</value></data>
     <data name="ValidZeroHourInstallation" xml:space="preserve"><value>Zero Hour klasörü seçildi</value></data>
-    <data name="ChooseDeploymentFolder" xml:space="preserve"><value>Modları yerleştirmek için mevcut bir klasör seçin.</value></data>
+    <data name="MissingGeneralsGameFiles" xml:space="preserve"><value>Bu klasörde Generals oyun dosyaları yok.</value></data>
+    <data name="MissingZeroHourGameFiles" xml:space="preserve"><value>Bu klasörde Zero Hour oyun dosyaları yok.</value></data>
+    <data name="ChooseGeneralsFolder" xml:space="preserve"><value>Generals kurulum klasörünü seçin.</value></data>
+    <data name="ChooseZeroHourFolder" xml:space="preserve"><value>Zero Hour kurulum klasörünü seçin.</value></data>
     <data name="InstallationPathUnavailable" xml:space="preserve"><value>Bu kurulum klasörü kullanılamaz.</value></data>
     <data name="OverlappingGameFolders" xml:space="preserve"><value>Oyun klasörleri aynı olamaz veya birbirini içeremez.</value></data>
     <data name="GeneralsShortName" xml:space="preserve"><value>Generals</value></data>

@@ -306,7 +306,10 @@
     <data name="GameInstallationSetupTitle" xml:space="preserve"><value>Elegir carpetas de juego</value></data>
     <data name="ValidGeneralsInstallation" xml:space="preserve"><value>Carpeta de Generals seleccionada</value></data>
     <data name="ValidZeroHourInstallation" xml:space="preserve"><value>Carpeta de Zero Hour seleccionada</value></data>
-    <data name="ChooseDeploymentFolder" xml:space="preserve"><value>Elige una carpeta existente para desplegar los mods.</value></data>
+    <data name="MissingGeneralsGameFiles" xml:space="preserve"><value>Esta carpeta no contiene archivos del juego Generals.</value></data>
+    <data name="MissingZeroHourGameFiles" xml:space="preserve"><value>Esta carpeta no contiene archivos del juego Zero Hour.</value></data>
+    <data name="ChooseGeneralsFolder" xml:space="preserve"><value>Elige la carpeta de instalación de Generals.</value></data>
+    <data name="ChooseZeroHourFolder" xml:space="preserve"><value>Elige la carpeta de instalación de Zero Hour.</value></data>
     <data name="InstallationPathUnavailable" xml:space="preserve"><value>No se puede usar esta carpeta de instalación.</value></data>
     <data name="OverlappingGameFolders" xml:space="preserve"><value>Las carpetas de los juegos no pueden ser la misma ni contenerse entre sí.</value></data>
     <data name="GeneralsShortName" xml:space="preserve"><value>Generals</value></data>

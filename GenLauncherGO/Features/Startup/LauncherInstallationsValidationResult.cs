@@ -23,13 +23,48 @@ internal sealed record LauncherInstallationsValidationResult
         IsValid = isValid;
     }
 
-    public GameInstallationValidationResult GeneralsValidation { get; }
+    private GameInstallationValidationResult GeneralsValidation { get; }
 
-    public GameInstallationValidationResult ZeroHourValidation { get; }
+    private GameInstallationValidationResult ZeroHourValidation { get; }
 
     public LauncherInstallations CanonicalInstallations { get; }
 
     public bool HasOverlappingPaths { get; }
 
     public bool IsValid { get; }
+
+    public GameInstallationValidationResult GetValidation(SupportedGame game)
+    {
+        return PerGame.Select(game, GeneralsValidation, ZeroHourValidation);
+    }
+
+    /// <summary>
+    ///     Gets the localization key that explains one game's outcome. Overlapping folders take precedence because they
+    ///     make both selections unusable.
+    /// </summary>
+    public string GetStatusMessageKey(SupportedGame game)
+    {
+        if (HasOverlappingPaths)
+        {
+            return "OverlappingGameFolders";
+        }
+
+        GameInstallationValidationResult validation = GetValidation(game);
+        return validation.Failure switch
+        {
+            GameInstallationValidationFailure.None => PerGame.Select(
+                game,
+                "ValidGeneralsInstallation",
+                "ValidZeroHourInstallation"),
+            GameInstallationValidationFailure.PathMissing => PerGame.Select(
+                game,
+                "ChooseGeneralsFolder",
+                "ChooseZeroHourFolder"),
+            GameInstallationValidationFailure.GameArchivesNotFound => PerGame.Select(
+                game,
+                "MissingGeneralsGameFiles",
+                "MissingZeroHourGameFiles"),
+            _ => "InstallationPathUnavailable"
+        };
+    }
 }

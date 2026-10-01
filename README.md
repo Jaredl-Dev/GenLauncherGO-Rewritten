@@ -23,6 +23,8 @@ installations as clean as possible. This codebase is a complete rewrite of
 
 - Windows 10 or 11 and permission to approve the administrator prompt.
 - A clean Generals or Zero Hour installation with no other modifications in its game directory.
+- Each selected game folder must be that game's own installation folder, the one containing its `.big` data archives
+  (for example, `INI.big` for Generals or `INIZH.big` for Zero Hour).
 - A game installation outside Windows' `Program Files` directories when possible, because User Account Control
   (UAC) can interfere with modding tools.
 - For best performance, keep GenLauncherGO and each game installation on the same NTFS volume. Otherwise, deployment

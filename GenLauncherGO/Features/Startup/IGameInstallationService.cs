@@ -10,14 +10,15 @@ namespace GenLauncherGO.Features.Startup;
 internal interface IGameInstallationService
 {
     /// <summary>
-    ///     Finds a supported game root at or above the launcher executable directory, or returns
-    ///     <see langword="null" /> for a standalone launcher.
+    ///     Finds a supported game root, identified by its core data archives, at or above the launcher executable
+    ///     directory, or returns <see langword="null" /> for a standalone launcher.
     /// </summary>
     GameInstallationLocation? FindContainingInstallation(string executableDirectory);
 
     /// <summary>
-    ///     Validates that one selected deployment root is an existing safe directory whose relationship to the launcher
-    ///     is allowed. Executable selection is independent of this directory.
+    ///     Validates that one selected deployment root is an existing safe game directory containing at least one of the
+    ///     game's core data archives, and whose relationship to the launcher is allowed. Executable selection is
+    ///     independent of this directory.
     /// </summary>
     GameInstallationValidationResult Validate(
         SupportedGame game,

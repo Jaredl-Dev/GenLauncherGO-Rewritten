@@ -130,15 +130,16 @@ internal sealed class LauncherGameSessionCoordinator
         LauncherInstallationsValidationResult installationsValidation = _installationService.ValidateInstallations(
             currentPreferences.Installations,
             _runtimeContext.StoragePaths.ExecutableDirectory);
-        GameInstallationValidationResult validation = PerGame.Select(
-            game,
-            installationsValidation.GeneralsValidation,
-            installationsValidation.ZeroHourValidation);
+        GameInstallationValidationResult validation = installationsValidation.GetValidation(game);
         if (!installationsValidation.IsValid || !validation.IsValid || string.IsNullOrWhiteSpace(validation.CanonicalPath))
         {
-            await ShowSwitchFailureAsync(owner, _stringLocalizer[installationsValidation.HasOverlappingPaths
-                ? "OverlappingGameFolders"
-                : "InstallationPathUnavailable"]);
+            // A valid target still fails the set when the other game's configured folder no longer validates.
+            SupportedGame failedGame = validation.IsValid
+                ? PerGame.Select(game, SupportedGame.ZeroHour, SupportedGame.Generals)
+                : game;
+            await ShowSwitchFailureAsync(
+                owner,
+                _stringLocalizer[installationsValidation.GetStatusMessageKey(failedGame)]);
             RollBackPreferences(rollbackInstallations, rollbackSelectedGame);
             return false;
         }
