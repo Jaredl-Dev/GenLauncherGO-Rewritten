@@ -306,11 +306,16 @@
     <data name="GameInstallationSetupTitle" xml:space="preserve"><value>Odaberite mape igara</value></data>
     <data name="ValidGeneralsInstallation" xml:space="preserve"><value>Odabrana je mapa igre Generals</value></data>
     <data name="ValidZeroHourInstallation" xml:space="preserve"><value>Odabrana je mapa igre Zero Hour</value></data>
-    <data name="MissingGeneralsGameFiles" xml:space="preserve"><value>Ova mapa ne sadrži datoteke igre Generals.</value></data>
-    <data name="MissingZeroHourGameFiles" xml:space="preserve"><value>Ova mapa ne sadrži datoteke igre Zero Hour.</value></data>
+    <data name="MissingGeneralsGameFiles" xml:space="preserve"><value>Mapa odabrana za igru Generals ne sadrži datoteke igre Generals.</value></data>
+    <data name="MissingZeroHourGameFiles" xml:space="preserve"><value>Mapa odabrana za igru Zero Hour ne sadrži datoteke igre Zero Hour.</value></data>
     <data name="ChooseGeneralsFolder" xml:space="preserve"><value>Odaberite mapu instalacije igre Generals.</value></data>
     <data name="ChooseZeroHourFolder" xml:space="preserve"><value>Odaberite mapu instalacije igre Zero Hour.</value></data>
-    <data name="InstallationPathUnavailable" xml:space="preserve"><value>Ova se mapa instalacije ne može koristiti.</value></data>
+    <data name="GeneralsFolderNotFound" xml:space="preserve"><value>Mapa odabrana za igru Generals nije pronađena.</value></data>
+    <data name="ZeroHourFolderNotFound" xml:space="preserve"><value>Mapa odabrana za igru Zero Hour nije pronađena.</value></data>
+    <data name="GeneralsFolderContainsLauncher" xml:space="preserve"><value>Mapa odabrana za igru Generals ne smije sadržavati GenLauncherGO.</value></data>
+    <data name="ZeroHourFolderContainsLauncher" xml:space="preserve"><value>Mapa odabrana za igru Zero Hour ne smije sadržavati GenLauncherGO.</value></data>
+    <data name="GeneralsFolderUnavailable" xml:space="preserve"><value>Mapa odabrana za igru Generals ne može se koristiti.</value></data>
+    <data name="ZeroHourFolderUnavailable" xml:space="preserve"><value>Mapa odabrana za igru Zero Hour ne može se koristiti.</value></data>
     <data name="OverlappingGameFolders" xml:space="preserve"><value>Mape igara ne smiju biti iste niti sadržavati jedna drugu.</value></data>
     <data name="GeneralsShortName" xml:space="preserve"><value>Generals</value></data>
     <data name="ZeroHourShortName" xml:space="preserve"><value>Zero Hour</value></data>

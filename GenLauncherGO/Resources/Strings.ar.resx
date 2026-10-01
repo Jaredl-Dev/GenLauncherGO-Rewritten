@@ -306,11 +306,16 @@
     <data name="GameInstallationSetupTitle" xml:space="preserve"><value>اختر مجلدات الألعاب</value></data>
     <data name="ValidGeneralsInstallation" xml:space="preserve"><value>تم تحديد مجلد Generals</value></data>
     <data name="ValidZeroHourInstallation" xml:space="preserve"><value>تم تحديد مجلد Zero Hour</value></data>
-    <data name="MissingGeneralsGameFiles" xml:space="preserve"><value>لا يحتوي هذا المجلد على ملفات لعبة Generals.</value></data>
-    <data name="MissingZeroHourGameFiles" xml:space="preserve"><value>لا يحتوي هذا المجلد على ملفات لعبة Zero Hour.</value></data>
+    <data name="MissingGeneralsGameFiles" xml:space="preserve"><value>لا يحتوي المجلد المحدد للعبة Generals على ملفات لعبة Generals.</value></data>
+    <data name="MissingZeroHourGameFiles" xml:space="preserve"><value>لا يحتوي المجلد المحدد للعبة Zero Hour على ملفات لعبة Zero Hour.</value></data>
     <data name="ChooseGeneralsFolder" xml:space="preserve"><value>اختر مجلد تثبيت Generals.</value></data>
     <data name="ChooseZeroHourFolder" xml:space="preserve"><value>اختر مجلد تثبيت Zero Hour.</value></data>
-    <data name="InstallationPathUnavailable" xml:space="preserve"><value>لا يمكن استخدام مجلد التثبيت هذا.</value></data>
+    <data name="GeneralsFolderNotFound" xml:space="preserve"><value>لم يتم العثور على المجلد المحدد للعبة Generals.</value></data>
+    <data name="ZeroHourFolderNotFound" xml:space="preserve"><value>لم يتم العثور على المجلد المحدد للعبة Zero Hour.</value></data>
+    <data name="GeneralsFolderContainsLauncher" xml:space="preserve"><value>لا يمكن أن يحتوي المجلد المحدد للعبة Generals على GenLauncherGO.</value></data>
+    <data name="ZeroHourFolderContainsLauncher" xml:space="preserve"><value>لا يمكن أن يحتوي المجلد المحدد للعبة Zero Hour على GenLauncherGO.</value></data>
+    <data name="GeneralsFolderUnavailable" xml:space="preserve"><value>لا يمكن استخدام المجلد المحدد للعبة Generals.</value></data>
+    <data name="ZeroHourFolderUnavailable" xml:space="preserve"><value>لا يمكن استخدام المجلد المحدد للعبة Zero Hour.</value></data>
     <data name="OverlappingGameFolders" xml:space="preserve"><value>لا يمكن أن يكون مجلدا اللعبتين متماثلين أو أن يحتوي أحدهما على الآخر.</value></data>
     <data name="GeneralsShortName" xml:space="preserve"><value>Generals</value></data>
     <data name="ZeroHourShortName" xml:space="preserve"><value>Zero Hour</value></data>

@@ -306,11 +306,16 @@
     <data name="GameInstallationSetupTitle" xml:space="preserve"><value>选择游戏文件夹</value></data>
     <data name="ValidGeneralsInstallation" xml:space="preserve"><value>已选择 Generals 文件夹</value></data>
     <data name="ValidZeroHourInstallation" xml:space="preserve"><value>已选择 Zero Hour 文件夹</value></data>
-    <data name="MissingGeneralsGameFiles" xml:space="preserve"><value>此文件夹不包含 Generals 游戏文件。</value></data>
-    <data name="MissingZeroHourGameFiles" xml:space="preserve"><value>此文件夹不包含 Zero Hour 游戏文件。</value></data>
+    <data name="MissingGeneralsGameFiles" xml:space="preserve"><value>为 Generals 选择的文件夹不包含 Generals 游戏文件。</value></data>
+    <data name="MissingZeroHourGameFiles" xml:space="preserve"><value>为 Zero Hour 选择的文件夹不包含 Zero Hour 游戏文件。</value></data>
     <data name="ChooseGeneralsFolder" xml:space="preserve"><value>选择 Generals 安装文件夹。</value></data>
     <data name="ChooseZeroHourFolder" xml:space="preserve"><value>选择 Zero Hour 安装文件夹。</value></data>
-    <data name="InstallationPathUnavailable" xml:space="preserve"><value>无法使用此安装文件夹。</value></data>
+    <data name="GeneralsFolderNotFound" xml:space="preserve"><value>找不到为 Generals 选择的文件夹。</value></data>
+    <data name="ZeroHourFolderNotFound" xml:space="preserve"><value>找不到为 Zero Hour 选择的文件夹。</value></data>
+    <data name="GeneralsFolderContainsLauncher" xml:space="preserve"><value>为 Generals 选择的文件夹不能包含 GenLauncherGO。</value></data>
+    <data name="ZeroHourFolderContainsLauncher" xml:space="preserve"><value>为 Zero Hour 选择的文件夹不能包含 GenLauncherGO。</value></data>
+    <data name="GeneralsFolderUnavailable" xml:space="preserve"><value>无法使用为 Generals 选择的文件夹。</value></data>
+    <data name="ZeroHourFolderUnavailable" xml:space="preserve"><value>无法使用为 Zero Hour 选择的文件夹。</value></data>
     <data name="OverlappingGameFolders" xml:space="preserve"><value>两个游戏文件夹不能相同，也不能互相包含。</value></data>
     <data name="GeneralsShortName" xml:space="preserve"><value>Generals</value></data>
     <data name="ZeroHourShortName" xml:space="preserve"><value>Zero Hour</value></data>
