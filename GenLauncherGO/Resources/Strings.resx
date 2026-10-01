@@ -306,11 +306,16 @@
     <data name="GameInstallationSetupTitle" xml:space="preserve"><value>Choose game folders</value></data>
     <data name="ValidGeneralsInstallation" xml:space="preserve"><value>Generals folder selected</value></data>
     <data name="ValidZeroHourInstallation" xml:space="preserve"><value>Zero Hour folder selected</value></data>
-    <data name="MissingGeneralsGameFiles" xml:space="preserve"><value>This folder does not contain Generals game files.</value></data>
-    <data name="MissingZeroHourGameFiles" xml:space="preserve"><value>This folder does not contain Zero Hour game files.</value></data>
+    <data name="MissingGeneralsGameFiles" xml:space="preserve"><value>The folder selected for Generals does not contain Generals game files.</value></data>
+    <data name="MissingZeroHourGameFiles" xml:space="preserve"><value>The folder selected for Zero Hour does not contain Zero Hour game files.</value></data>
     <data name="ChooseGeneralsFolder" xml:space="preserve"><value>Choose your Generals installation folder.</value></data>
     <data name="ChooseZeroHourFolder" xml:space="preserve"><value>Choose your Zero Hour installation folder.</value></data>
-    <data name="InstallationPathUnavailable" xml:space="preserve"><value>This installation folder cannot be used.</value></data>
+    <data name="GeneralsFolderNotFound" xml:space="preserve"><value>The folder selected for Generals was not found.</value></data>
+    <data name="ZeroHourFolderNotFound" xml:space="preserve"><value>The folder selected for Zero Hour was not found.</value></data>
+    <data name="GeneralsFolderContainsLauncher" xml:space="preserve"><value>The folder selected for Generals cannot contain GenLauncherGO.</value></data>
+    <data name="ZeroHourFolderContainsLauncher" xml:space="preserve"><value>The folder selected for Zero Hour cannot contain GenLauncherGO.</value></data>
+    <data name="GeneralsFolderUnavailable" xml:space="preserve"><value>The folder selected for Generals cannot be used.</value></data>
+    <data name="ZeroHourFolderUnavailable" xml:space="preserve"><value>The folder selected for Zero Hour cannot be used.</value></data>
     <data name="OverlappingGameFolders" xml:space="preserve"><value>Game folders cannot be the same or contain one another.</value></data>
     <data name="GeneralsShortName" xml:space="preserve"><value>Generals</value></data>
     <data name="ZeroHourShortName" xml:space="preserve"><value>Zero Hour</value></data>

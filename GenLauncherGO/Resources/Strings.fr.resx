@@ -306,11 +306,16 @@
     <data name="GameInstallationSetupTitle" xml:space="preserve"><value>Choisir les dossiers de jeu</value></data>
     <data name="ValidGeneralsInstallation" xml:space="preserve"><value>Dossier Generals sélectionné</value></data>
     <data name="ValidZeroHourInstallation" xml:space="preserve"><value>Dossier Zero Hour sélectionné</value></data>
-    <data name="MissingGeneralsGameFiles" xml:space="preserve"><value>Ce dossier ne contient pas les fichiers du jeu Generals.</value></data>
-    <data name="MissingZeroHourGameFiles" xml:space="preserve"><value>Ce dossier ne contient pas les fichiers du jeu Zero Hour.</value></data>
+    <data name="MissingGeneralsGameFiles" xml:space="preserve"><value>Le dossier sélectionné pour Generals ne contient pas les fichiers du jeu Generals.</value></data>
+    <data name="MissingZeroHourGameFiles" xml:space="preserve"><value>Le dossier sélectionné pour Zero Hour ne contient pas les fichiers du jeu Zero Hour.</value></data>
     <data name="ChooseGeneralsFolder" xml:space="preserve"><value>Choisissez le dossier d’installation de Generals.</value></data>
     <data name="ChooseZeroHourFolder" xml:space="preserve"><value>Choisissez le dossier d’installation de Zero Hour.</value></data>
-    <data name="InstallationPathUnavailable" xml:space="preserve"><value>Ce dossier d’installation ne peut pas être utilisé.</value></data>
+    <data name="GeneralsFolderNotFound" xml:space="preserve"><value>Le dossier sélectionné pour Generals est introuvable.</value></data>
+    <data name="ZeroHourFolderNotFound" xml:space="preserve"><value>Le dossier sélectionné pour Zero Hour est introuvable.</value></data>
+    <data name="GeneralsFolderContainsLauncher" xml:space="preserve"><value>Le dossier sélectionné pour Generals ne doit pas contenir GenLauncherGO.</value></data>
+    <data name="ZeroHourFolderContainsLauncher" xml:space="preserve"><value>Le dossier sélectionné pour Zero Hour ne doit pas contenir GenLauncherGO.</value></data>
+    <data name="GeneralsFolderUnavailable" xml:space="preserve"><value>Le dossier sélectionné pour Generals ne peut pas être utilisé.</value></data>
+    <data name="ZeroHourFolderUnavailable" xml:space="preserve"><value>Le dossier sélectionné pour Zero Hour ne peut pas être utilisé.</value></data>
     <data name="OverlappingGameFolders" xml:space="preserve"><value>Les dossiers des jeux doivent être distincts et aucun ne doit contenir l’autre.</value></data>
     <data name="GeneralsShortName" xml:space="preserve"><value>Generals</value></data>
     <data name="ZeroHourShortName" xml:space="preserve"><value>Zero Hour</value></data>

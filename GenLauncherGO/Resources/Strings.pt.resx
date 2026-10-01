@@ -306,11 +306,16 @@
     <data name="GameInstallationSetupTitle" xml:space="preserve"><value>Escolher pastas dos jogos</value></data>
     <data name="ValidGeneralsInstallation" xml:space="preserve"><value>Pasta do Generals selecionada</value></data>
     <data name="ValidZeroHourInstallation" xml:space="preserve"><value>Pasta do Zero Hour selecionada</value></data>
-    <data name="MissingGeneralsGameFiles" xml:space="preserve"><value>Esta pasta não contém arquivos do jogo Generals.</value></data>
-    <data name="MissingZeroHourGameFiles" xml:space="preserve"><value>Esta pasta não contém arquivos do jogo Zero Hour.</value></data>
+    <data name="MissingGeneralsGameFiles" xml:space="preserve"><value>A pasta selecionada para o Generals não contém arquivos do jogo Generals.</value></data>
+    <data name="MissingZeroHourGameFiles" xml:space="preserve"><value>A pasta selecionada para o Zero Hour não contém arquivos do jogo Zero Hour.</value></data>
     <data name="ChooseGeneralsFolder" xml:space="preserve"><value>Escolha a pasta de instalação do Generals.</value></data>
     <data name="ChooseZeroHourFolder" xml:space="preserve"><value>Escolha a pasta de instalação do Zero Hour.</value></data>
-    <data name="InstallationPathUnavailable" xml:space="preserve"><value>Esta pasta de instalação não pode ser usada.</value></data>
+    <data name="GeneralsFolderNotFound" xml:space="preserve"><value>A pasta selecionada para o Generals não foi encontrada.</value></data>
+    <data name="ZeroHourFolderNotFound" xml:space="preserve"><value>A pasta selecionada para o Zero Hour não foi encontrada.</value></data>
+    <data name="GeneralsFolderContainsLauncher" xml:space="preserve"><value>A pasta selecionada para o Generals não pode conter o GenLauncherGO.</value></data>
+    <data name="ZeroHourFolderContainsLauncher" xml:space="preserve"><value>A pasta selecionada para o Zero Hour não pode conter o GenLauncherGO.</value></data>
+    <data name="GeneralsFolderUnavailable" xml:space="preserve"><value>A pasta selecionada para o Generals não pode ser usada.</value></data>
+    <data name="ZeroHourFolderUnavailable" xml:space="preserve"><value>A pasta selecionada para o Zero Hour não pode ser usada.</value></data>
     <data name="OverlappingGameFolders" xml:space="preserve"><value>As pastas dos jogos não podem ser iguais nem conter uma à outra.</value></data>
     <data name="GeneralsShortName" xml:space="preserve"><value>Generals</value></data>
     <data name="ZeroHourShortName" xml:space="preserve"><value>Zero Hour</value></data>

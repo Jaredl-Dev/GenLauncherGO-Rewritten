@@ -42,6 +42,9 @@ internal sealed record LauncherInstallationsValidationResult
     ///     Gets the localization key that explains one game's outcome. Overlapping folders take precedence because they
     ///     make both selections unusable.
     /// </summary>
+    /// <remarks>
+    ///     Failure messages name the game's folder because a failed game switch shows them without that game's setup card.
+    /// </remarks>
     public string GetStatusMessageKey(SupportedGame game)
     {
         if (HasOverlappingPaths)
@@ -60,11 +63,22 @@ internal sealed record LauncherInstallationsValidationResult
                 game,
                 "ChooseGeneralsFolder",
                 "ChooseZeroHourFolder"),
+            GameInstallationValidationFailure.DirectoryNotFound => PerGame.Select(
+                game,
+                "GeneralsFolderNotFound",
+                "ZeroHourFolderNotFound"),
+            GameInstallationValidationFailure.LauncherLocationOverlapsGame => PerGame.Select(
+                game,
+                "GeneralsFolderContainsLauncher",
+                "ZeroHourFolderContainsLauncher"),
             GameInstallationValidationFailure.GameArchivesNotFound => PerGame.Select(
                 game,
                 "MissingGeneralsGameFiles",
                 "MissingZeroHourGameFiles"),
-            _ => "InstallationPathUnavailable"
+            _ => PerGame.Select(
+                game,
+                "GeneralsFolderUnavailable",
+                "ZeroHourFolderUnavailable")
         };
     }
 }

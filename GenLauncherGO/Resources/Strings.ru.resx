@@ -306,11 +306,16 @@
     <data name="GameInstallationSetupTitle" xml:space="preserve"><value>Выберите папки игр</value></data>
     <data name="ValidGeneralsInstallation" xml:space="preserve"><value>Папка Generals выбрана</value></data>
     <data name="ValidZeroHourInstallation" xml:space="preserve"><value>Папка Zero Hour выбрана</value></data>
-    <data name="MissingGeneralsGameFiles" xml:space="preserve"><value>В этой папке нет файлов игры Generals.</value></data>
-    <data name="MissingZeroHourGameFiles" xml:space="preserve"><value>В этой папке нет файлов игры Zero Hour.</value></data>
+    <data name="MissingGeneralsGameFiles" xml:space="preserve"><value>В папке, выбранной для Generals, нет файлов игры Generals.</value></data>
+    <data name="MissingZeroHourGameFiles" xml:space="preserve"><value>В папке, выбранной для Zero Hour, нет файлов игры Zero Hour.</value></data>
     <data name="ChooseGeneralsFolder" xml:space="preserve"><value>Выберите папку установки Generals.</value></data>
     <data name="ChooseZeroHourFolder" xml:space="preserve"><value>Выберите папку установки Zero Hour.</value></data>
-    <data name="InstallationPathUnavailable" xml:space="preserve"><value>Эту папку установки нельзя использовать.</value></data>
+    <data name="GeneralsFolderNotFound" xml:space="preserve"><value>Папка, выбранная для Generals, не найдена.</value></data>
+    <data name="ZeroHourFolderNotFound" xml:space="preserve"><value>Папка, выбранная для Zero Hour, не найдена.</value></data>
+    <data name="GeneralsFolderContainsLauncher" xml:space="preserve"><value>Папка, выбранная для Generals, не должна содержать GenLauncherGO.</value></data>
+    <data name="ZeroHourFolderContainsLauncher" xml:space="preserve"><value>Папка, выбранная для Zero Hour, не должна содержать GenLauncherGO.</value></data>
+    <data name="GeneralsFolderUnavailable" xml:space="preserve"><value>Папку, выбранную для Generals, нельзя использовать.</value></data>
+    <data name="ZeroHourFolderUnavailable" xml:space="preserve"><value>Папку, выбранную для Zero Hour, нельзя использовать.</value></data>
     <data name="OverlappingGameFolders" xml:space="preserve"><value>Папки игр не должны совпадать или находиться одна внутри другой.</value></data>
     <data name="GeneralsShortName" xml:space="preserve"><value>Generals</value></data>
     <data name="ZeroHourShortName" xml:space="preserve"><value>Zero Hour</value></data>

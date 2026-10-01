@@ -306,11 +306,16 @@
     <data name="GameInstallationSetupTitle" xml:space="preserve"><value>پوشه‌های بازی را انتخاب کنید</value></data>
     <data name="ValidGeneralsInstallation" xml:space="preserve"><value>پوشه Generals انتخاب شد</value></data>
     <data name="ValidZeroHourInstallation" xml:space="preserve"><value>پوشه Zero Hour انتخاب شد</value></data>
-    <data name="MissingGeneralsGameFiles" xml:space="preserve"><value>این پوشه فایل‌های بازی Generals را ندارد.</value></data>
-    <data name="MissingZeroHourGameFiles" xml:space="preserve"><value>این پوشه فایل‌های بازی Zero Hour را ندارد.</value></data>
+    <data name="MissingGeneralsGameFiles" xml:space="preserve"><value>پوشه انتخاب‌شده برای Generals فایل‌های بازی Generals را ندارد.</value></data>
+    <data name="MissingZeroHourGameFiles" xml:space="preserve"><value>پوشه انتخاب‌شده برای Zero Hour فایل‌های بازی Zero Hour را ندارد.</value></data>
     <data name="ChooseGeneralsFolder" xml:space="preserve"><value>پوشه نصب Generals را انتخاب کنید.</value></data>
     <data name="ChooseZeroHourFolder" xml:space="preserve"><value>پوشه نصب Zero Hour را انتخاب کنید.</value></data>
-    <data name="InstallationPathUnavailable" xml:space="preserve"><value>این پوشه نصب قابل استفاده نیست.</value></data>
+    <data name="GeneralsFolderNotFound" xml:space="preserve"><value>پوشه انتخاب‌شده برای Generals پیدا نشد.</value></data>
+    <data name="ZeroHourFolderNotFound" xml:space="preserve"><value>پوشه انتخاب‌شده برای Zero Hour پیدا نشد.</value></data>
+    <data name="GeneralsFolderContainsLauncher" xml:space="preserve"><value>پوشه انتخاب‌شده برای Generals نباید GenLauncherGO را در خود داشته باشد.</value></data>
+    <data name="ZeroHourFolderContainsLauncher" xml:space="preserve"><value>پوشه انتخاب‌شده برای Zero Hour نباید GenLauncherGO را در خود داشته باشد.</value></data>
+    <data name="GeneralsFolderUnavailable" xml:space="preserve"><value>پوشه انتخاب‌شده برای Generals قابل استفاده نیست.</value></data>
+    <data name="ZeroHourFolderUnavailable" xml:space="preserve"><value>پوشه انتخاب‌شده برای Zero Hour قابل استفاده نیست.</value></data>
     <data name="OverlappingGameFolders" xml:space="preserve"><value>پوشه‌های بازی‌ها نباید یکسان باشند یا یکی داخل دیگری باشد.</value></data>
     <data name="GeneralsShortName" xml:space="preserve"><value>Generals</value></data>
     <data name="ZeroHourShortName" xml:space="preserve"><value>Zero Hour</value></data>
