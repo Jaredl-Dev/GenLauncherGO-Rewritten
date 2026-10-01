@@ -322,7 +322,6 @@
     <data name="GameFirstRunRegistryNotice" xml:space="preserve"><value>请至少启动每个已安装的游戏一次，以确保其安装路径写入注册表。</value></data>
     <data name="RegistryInstallationNotFound" xml:space="preserve"><value>未能通过注册表找到现有的游戏文件夹。请先运行一次游戏以注册其路径，或手动选择文件夹。</value></data>
     <data name="RegistryDetectionFailedTitle" xml:space="preserve"><value>未检测到安装</value></data>
-    <data name="ProgramFilesModToolsWarning" xml:space="preserve"><value>Program Files 中的 Windows 权限可能会影响模组工具。建议将游戏安装在 Program Files 之外的文件夹中。</value></data>
     <data name="SameDriveRecommendation" xml:space="preserve"><value>建议：将 GenLauncherGO 与游戏放在同一驱动器。</value></data>
     <data name="AtLeastOneInstallationRequired" xml:space="preserve"><value>请选择至少一个游戏文件夹以继续。</value></data>
     <data name="ChooseYourGame" xml:space="preserve"><value>选择要管理的游戏</value></data>

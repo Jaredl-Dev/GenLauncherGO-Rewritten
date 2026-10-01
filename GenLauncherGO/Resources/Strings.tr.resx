@@ -322,7 +322,6 @@
     <data name="GameFirstRunRegistryNotice" xml:space="preserve"><value>Kurulum yolunun kayıt defterine yazılmasını sağlamak için yüklü her oyunu en az bir kez çalıştırın.</value></data>
     <data name="RegistryInstallationNotFound" xml:space="preserve"><value>Kayıt defteri aracılığıyla mevcut bir oyun klasörü bulunamadı. Yolunu kaydetmek için oyunu bir kez çalıştırın veya klasörü elle seçin.</value></data>
     <data name="RegistryDetectionFailedTitle" xml:space="preserve"><value>Kurulum algılanamadı</value></data>
-    <data name="ProgramFilesModToolsWarning" xml:space="preserve"><value>Program Files içindeki Windows izinleri mod araçlarını etkileyebilir. Program Files dışında bir oyun klasörü önerilir.</value></data>
     <data name="SameDriveRecommendation" xml:space="preserve"><value>Önerilen: GenLauncherGO'yu oyunlarınızla aynı sürücüde tutun.</value></data>
     <data name="AtLeastOneInstallationRequired" xml:space="preserve"><value>Devam etmek için en az bir oyun klasörü seçin.</value></data>
     <data name="ChooseYourGame" xml:space="preserve"><value>Yönetilecek oyunu seçin</value></data>

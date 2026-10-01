@@ -24,11 +24,6 @@ internal interface ILauncherHostEnvironmentService
     bool IsCurrentProcessElevated();
 
     /// <summary>
-    ///     Returns whether a directory is under a protected Program Files location.
-    /// </summary>
-    bool IsProtectedProgramFilesDirectory(string directory);
-
-    /// <summary>
     ///     Attempts to start a replacement instance of the current launcher process.
     /// </summary>
     LauncherRestartResult TryRestartCurrentProcess();

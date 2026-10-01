@@ -404,7 +404,6 @@ internal sealed class LauncherApplicationHost : IDisposable
             serviceProvider.GetRequiredService<ILauncherPreferencesService>().Current.Installations,
             serviceProvider.GetRequiredService<LauncherRuntimeContext>().StoragePaths,
             serviceProvider.GetRequiredService<IGameInstallationService>(),
-            serviceProvider.GetRequiredService<ILauncherHostEnvironmentService>(),
             serviceProvider.GetRequiredService<ILauncherFilePicker>(),
             serviceProvider.GetRequiredService<ILauncherStringLocalizer>()));
         services.AddTransient<LauncherSettingsViewModel>();

@@ -322,7 +322,6 @@
     <data name="GameFirstRunRegistryNotice" xml:space="preserve"><value>هر بازی نصب‌شده را دست‌کم یک‌بار اجرا کنید تا مسیر نصب آن در رجیستری ثبت شود.</value></data>
     <data name="RegistryInstallationNotFound" xml:space="preserve"><value>از طریق رجیستری هیچ پوشه بازی موجودی پیدا نشد. بازی را یک‌بار اجرا کنید تا مسیر آن ثبت شود یا پوشه‌ای را دستی انتخاب کنید.</value></data>
     <data name="RegistryDetectionFailedTitle" xml:space="preserve"><value>نصب شناسایی نشد</value></data>
-    <data name="ProgramFilesModToolsWarning" xml:space="preserve"><value>مجوزهای Windows در Program Files ممکن است در کار ابزارهای ماد اختلال ایجاد کنند. توصیه می‌شود پوشه بازی خارج از Program Files باشد.</value></data>
     <data name="SameDriveRecommendation" xml:space="preserve"><value>پیشنهاد: GenLauncherGO را در همان درایوی نگه دارید که بازی‌ها قرار دارند.</value></data>
     <data name="AtLeastOneInstallationRequired" xml:space="preserve"><value>برای ادامه، دست‌کم یک پوشه بازی انتخاب کنید.</value></data>
     <data name="ChooseYourGame" xml:space="preserve"><value>بازی موردنظر برای مدیریت را انتخاب کنید</value></data>

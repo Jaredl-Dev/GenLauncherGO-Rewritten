@@ -17,21 +17,17 @@ namespace GenLauncherGO.Features.Startup;
 internal sealed class AvaloniaStandaloneStartupWorkflow : IStandaloneStartupWorkflow
 {
     private readonly ILauncherFilePicker _filePicker;
-    private readonly ILauncherHostEnvironmentService _hostEnvironmentService;
     private readonly IGameInstallationService _installationService;
     private readonly IStartupDialogService _startupDialogService;
     private readonly ILauncherStringLocalizer _stringLocalizer;
 
     public AvaloniaStandaloneStartupWorkflow(
         IGameInstallationService installationService,
-        ILauncherHostEnvironmentService hostEnvironmentService,
         ILauncherFilePicker filePicker,
         ILauncherStringLocalizer stringLocalizer,
         IStartupDialogService startupDialogService)
     {
         _installationService = installationService ?? throw new ArgumentNullException(nameof(installationService));
-        _hostEnvironmentService = hostEnvironmentService ??
-                                  throw new ArgumentNullException(nameof(hostEnvironmentService));
         _filePicker = filePicker ?? throw new ArgumentNullException(nameof(filePicker));
         _stringLocalizer = stringLocalizer ?? throw new ArgumentNullException(nameof(stringLocalizer));
         _startupDialogService = startupDialogService ?? throw new ArgumentNullException(nameof(startupDialogService));
@@ -137,7 +133,6 @@ internal sealed class AvaloniaStandaloneStartupWorkflow : IStandaloneStartupWork
             preferencesService.Current.Installations,
             storagePaths,
             _installationService,
-            _hostEnvironmentService,
             _filePicker,
             _stringLocalizer);
         LauncherSetupWindow setupWindow = new(

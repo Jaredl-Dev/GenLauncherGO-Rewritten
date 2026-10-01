@@ -51,8 +51,6 @@ internal sealed class LauncherGameInstallationViewModel : ObservableObject
 
     public bool HasValidationError => _installations.HasValidationError(Game);
 
-    public bool ShowProgramFilesWarning => _installations.ShowProgramFilesWarning(Game);
-
     public bool ShowDifferentDriveRecommendation => _installations.ShowDifferentDriveRecommendation(Game);
 
     internal void NotifyStateChanged()
@@ -61,7 +59,6 @@ internal sealed class LauncherGameInstallationViewModel : ObservableObject
         OnPropertyChanged(nameof(StatusText));
         OnPropertyChanged(nameof(IsValid));
         OnPropertyChanged(nameof(HasValidationError));
-        OnPropertyChanged(nameof(ShowProgramFilesWarning));
         OnPropertyChanged(nameof(ShowDifferentDriveRecommendation));
     }
 }

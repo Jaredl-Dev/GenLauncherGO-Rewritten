@@ -237,11 +237,6 @@ public sealed class LauncherApplicationHostTests
             return CurrentProcessElevated;
         }
 
-        public bool IsProtectedProgramFilesDirectory(string directory)
-        {
-            return false;
-        }
-
         public LauncherRestartResult TryRestartCurrentProcess()
         {
             RestartCount++;

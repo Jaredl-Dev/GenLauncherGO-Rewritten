@@ -5,7 +5,6 @@ using System.Linq;
 using System.Runtime.InteropServices;
 using System.Security.Principal;
 using System.Threading;
-using GenLauncherGO.Shared.IO;
 using Microsoft.Extensions.Logging;
 using Microsoft.Extensions.Logging.Abstractions;
 using Velopack.Locators;
@@ -89,17 +88,6 @@ internal sealed class WindowsLauncherHostEnvironmentService : ILauncherHostEnvir
         return principal.IsInRole(WindowsBuiltInRole.Administrator);
     }
 
-    public bool IsProtectedProgramFilesDirectory(string directory)
-    {
-        ArgumentException.ThrowIfNullOrWhiteSpace(directory);
-
-        string programFiles = Environment.GetFolderPath(Environment.SpecialFolder.ProgramFiles);
-        string programFilesX86 = Environment.GetFolderPath(Environment.SpecialFolder.ProgramFilesX86);
-
-        return IsPathInDirectoryWhenKnown(directory, programFiles) ||
-               IsPathInDirectoryWhenKnown(directory, programFilesX86);
-    }
-
     public LauncherRestartResult TryRestartCurrentProcess()
     {
         try
@@ -161,12 +149,6 @@ internal sealed class WindowsLauncherHostEnvironmentService : ILauncherHostEnvir
 
         mutex.Dispose();
         return MutexSingleInstanceGuard.NotAcquired;
-    }
-
-    private static bool IsPathInDirectoryWhenKnown(string path, string directory)
-    {
-        return !string.IsNullOrWhiteSpace(directory) &&
-               LexicalPath.IsPathInDirectory(path, directory);
     }
 
     private static string? ResolveProcessPath()
