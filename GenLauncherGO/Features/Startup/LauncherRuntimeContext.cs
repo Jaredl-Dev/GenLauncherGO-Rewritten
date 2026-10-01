@@ -1,5 +1,4 @@
 using System;
-using Avalonia;
 using GenLauncherGO.Shared.Themes;
 
 namespace GenLauncherGO.Features.Startup;
@@ -35,10 +34,7 @@ internal sealed class LauncherRuntimeContext
         set
         {
             field = value ?? throw new ArgumentNullException(nameof(value));
-            if (Application.Current is { } application)
-            {
-                LauncherThemeResourceApplier.Apply(application.Resources, value);
-            }
+            LauncherThemeResourceApplier.ApplyToApplication(value);
         }
     }
 

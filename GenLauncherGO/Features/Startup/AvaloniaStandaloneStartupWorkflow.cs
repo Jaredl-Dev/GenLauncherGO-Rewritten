@@ -1,6 +1,5 @@
 using System;
 using System.Threading.Tasks;
-using Avalonia;
 using Avalonia.Controls;
 using GenLauncherGO.Features.Launcher;
 using GenLauncherGO.Features.Settings;
@@ -44,13 +43,7 @@ internal sealed class AvaloniaStandaloneStartupWorkflow : IStandaloneStartupWork
         }
 
         // Shown before a game is active, so publish the containing game's palette for the blocking message.
-        if (Application.Current is { } application)
-        {
-            LauncherThemeResourceApplier.Apply(
-                application.Resources,
-                LauncherThemePresets.Create(containingGame),
-                false);
-        }
+        LauncherThemeResourceApplier.ApplyToApplication(LauncherThemePresets.Create(containingGame), false);
 
         await _startupDialogService.ShowMessageAsync(
             _stringLocalizer["StandaloneLocationRequired"],
