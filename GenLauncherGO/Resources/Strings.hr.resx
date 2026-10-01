@@ -328,12 +328,8 @@
     <data name="ChooseYourGame" xml:space="preserve"><value>Odaberite igru za upravljanje</value></data>
     <data name="NotSelected" xml:space="preserve"><value>Nije odabrano</value></data>
     <data name="Selected" xml:space="preserve"><value>Odabrano</value></data>
-    <data name="StandaloneLocationRequired" xml:space="preserve"><value>Premjestite GenLauncherGO</value></data>
-    <data name="StandaloneLocationBlockingDescription" xml:space="preserve"><value>GenLauncherGO se ne može pokretati iz mape instalacije igre.</value></data>
-    <data name="CurrentLauncherLocation" xml:space="preserve"><value>Trenutačna lokacija pokretača</value></data>
-    <data name="ContainingGameInstallation" xml:space="preserve"><value>Instalacija igre koja sadrži pokretač</value></data>
-    <data name="MoveLauncherOutsideGames" xml:space="preserve"><value>Premjestite mapu GenLauncherGO bilo kamo izvan instalacija igara, a zatim ga ponovno pokrenite.</value></data>
-    <data name="StandaloneLocationExample" xml:space="preserve"><value>Primjer: C:\Tools\GenLauncherGO</value></data>
+    <data name="StandaloneLocationRequired" xml:space="preserve"><value>Nije moguće pokrenuti iz mape igre</value></data>
+    <data name="StandaloneLocationBlockingDescription" xml:space="preserve"><value>Premjestite GenLauncherGO iz mape igre u mapu s dopuštenjem za pisanje izvan mape Program Files.</value></data>
     <data name="AdministratorPermissionRequired" xml:space="preserve"><value>GenLauncherGO za rad zahtijeva administratorske ovlasti.</value></data>
     <data name="ActiveGameLabel" xml:space="preserve"><value>Aktivna igra</value></data>
     <data name="GameManagement" xml:space="preserve"><value>Upravljanje igrama</value></data>

@@ -25,7 +25,7 @@ internal sealed class FakeGameInstallationService : IGameInstallationService
     /// </summary>
     public LauncherInstallations? DiscoveredInstallations { get; set; }
 
-    public GameInstallationLocation? ContainingInstallation { get; set; }
+    public SupportedGame? ContainingGame { get; set; }
 
     public List<(SupportedGame Game, string? Directory, string ExecutableDirectory)> ValidateCalls { get; } = [];
 
@@ -34,9 +34,9 @@ internal sealed class FakeGameInstallationService : IGameInstallationService
         get;
     } = [];
 
-    public GameInstallationLocation? FindContainingInstallation(string executableDirectory)
+    public SupportedGame? FindContainingGame(string executableDirectory)
     {
-        return ContainingInstallation;
+        return ContainingGame;
     }
 
     public GameInstallationValidationResult Validate(

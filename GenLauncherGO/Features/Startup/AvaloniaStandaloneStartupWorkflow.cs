@@ -1,11 +1,13 @@
 using System;
 using System.Threading.Tasks;
+using Avalonia;
 using Avalonia.Controls;
 using GenLauncherGO.Features.Launcher;
 using GenLauncherGO.Features.Settings;
 using GenLauncherGO.Features.Startup.Views;
 using GenLauncherGO.Shared.Dialogs;
 using GenLauncherGO.Shared.Localization;
+using GenLauncherGO.Shared.Themes;
 
 namespace GenLauncherGO.Features.Startup;
 
@@ -40,18 +42,23 @@ internal sealed class AvaloniaStandaloneStartupWorkflow : IStandaloneStartupWork
     {
         ArgumentNullException.ThrowIfNull(storagePaths);
 
-        GameInstallationLocation? containingInstallation =
-            _installationService.FindContainingInstallation(storagePaths.ExecutableDirectory);
-        if (containingInstallation is null)
+        if (_installationService.FindContainingGame(storagePaths.ExecutableDirectory) is not { } containingGame)
         {
             return false;
         }
 
-        LauncherLocationWarningWindow warningWindow = new(
-            storagePaths.ExecutableDirectory,
-            containingInstallation.Directory,
-            containingInstallation.Game);
-        await ShowWindowAsync(warningWindow);
+        // Shown before a game is active, so publish the containing game's palette for the blocking message.
+        if (Application.Current is { } application)
+        {
+            LauncherThemeResourceApplier.Apply(
+                application.Resources,
+                LauncherThemePresets.Create(containingGame),
+                false);
+        }
+
+        await _startupDialogService.ShowMessageAsync(
+            _stringLocalizer["StandaloneLocationRequired"],
+            _stringLocalizer["StandaloneLocationBlockingDescription"]);
         return true;
     }
 

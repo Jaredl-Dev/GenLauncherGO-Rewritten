@@ -328,12 +328,8 @@
     <data name="ChooseYourGame" xml:space="preserve"><value>选择要管理的游戏</value></data>
     <data name="NotSelected" xml:space="preserve"><value>未选择</value></data>
     <data name="Selected" xml:space="preserve"><value>已选择</value></data>
-    <data name="StandaloneLocationRequired" xml:space="preserve"><value>移动 GenLauncherGO</value></data>
-    <data name="StandaloneLocationBlockingDescription" xml:space="preserve"><value>GenLauncherGO 不能从游戏安装文件夹内运行。</value></data>
-    <data name="CurrentLauncherLocation" xml:space="preserve"><value>启动器当前位置</value></data>
-    <data name="ContainingGameInstallation" xml:space="preserve"><value>包含启动器的游戏安装</value></data>
-    <data name="MoveLauncherOutsideGames" xml:space="preserve"><value>将 GenLauncherGO 文件夹移到游戏安装文件夹之外的任意位置，然后重新启动。</value></data>
-    <data name="StandaloneLocationExample" xml:space="preserve"><value>示例：C:\Tools\GenLauncherGO</value></data>
+    <data name="StandaloneLocationRequired" xml:space="preserve"><value>无法从游戏文件夹运行</value></data>
+    <data name="StandaloneLocationBlockingDescription" xml:space="preserve"><value>请将 GenLauncherGO 移出游戏文件夹，移动到 Program Files 之外、具有写入权限的文件夹。</value></data>
     <data name="AdministratorPermissionRequired" xml:space="preserve"><value>GenLauncherGO 需要管理员权限才能运行。</value></data>
     <data name="ActiveGameLabel" xml:space="preserve"><value>当前游戏</value></data>
     <data name="GameManagement" xml:space="preserve"><value>游戏管理</value></data>

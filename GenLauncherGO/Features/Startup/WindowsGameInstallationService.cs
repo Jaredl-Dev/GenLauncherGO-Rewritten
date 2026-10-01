@@ -47,7 +47,7 @@ internal sealed class WindowsGameInstallationService : IGameInstallationService
         _logger = logger ?? throw new ArgumentNullException(nameof(logger));
     }
 
-    public GameInstallationLocation? FindContainingInstallation(string executableDirectory)
+    public SupportedGame? FindContainingGame(string executableDirectory)
     {
         ArgumentException.ThrowIfNullOrWhiteSpace(executableDirectory);
 
@@ -60,7 +60,7 @@ internal sealed class WindowsGameInstallationService : IGameInstallationService
             {
                 if (HasGameArchive(game, directory.FullName))
                 {
-                    return new GameInstallationLocation(game, directory.FullName);
+                    return game;
                 }
             }
         }
