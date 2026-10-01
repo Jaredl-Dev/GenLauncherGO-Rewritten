@@ -1,5 +1,4 @@
 using System;
-using Avalonia;
 using Avalonia.Controls;
 using GenLauncherGO.Shared.Controls;
 using GenLauncherGO.Shared.Dialogs;
@@ -57,10 +56,7 @@ internal partial class LauncherGameSelectionWindow : Window
     /// </remarks>
     private static void ApplyTheme(SupportedGame game)
     {
-        if (Application.Current is { } application)
-        {
-            LauncherThemeResourceApplier.Apply(application.Resources, LauncherThemePresets.Create(game));
-        }
+        LauncherThemeResourceApplier.ApplyToApplication(LauncherThemePresets.Create(game));
     }
 
     private void ViewModel_Completed(object? sender, EventArgs e)

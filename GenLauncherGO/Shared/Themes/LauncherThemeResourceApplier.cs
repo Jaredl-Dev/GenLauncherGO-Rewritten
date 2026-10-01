@@ -67,6 +67,20 @@ internal static class LauncherThemeResourceApplier
     }
 
     /// <summary>
+    ///     Publishes launcher theme values to application-scoped resources, so every open window follows them.
+    /// </summary>
+    /// <remarks>
+    ///     Publishing is skipped when no Avalonia application is running, which is the case in plain unit tests.
+    /// </remarks>
+    public static void ApplyToApplication(ColorsInfo colors, bool includeBackgroundImage = true)
+    {
+        if (Application.Current is { } application)
+        {
+            Apply(application.Resources, colors, includeBackgroundImage);
+        }
+    }
+
+    /// <summary>
     ///     Builds a brighter version of the accent for hover states, so a hovered border reads as the same colour
     ///     lit up rather than as a different one.
     /// </summary>
