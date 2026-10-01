@@ -328,12 +328,8 @@
     <data name="ChooseYourGame" xml:space="preserve"><value>Виберіть гру для керування</value></data>
     <data name="NotSelected" xml:space="preserve"><value>Не вибрано</value></data>
     <data name="Selected" xml:space="preserve"><value>Вибрано</value></data>
-    <data name="StandaloneLocationRequired" xml:space="preserve"><value>Перемістіть GenLauncherGO</value></data>
-    <data name="StandaloneLocationBlockingDescription" xml:space="preserve"><value>GenLauncherGO не можна запускати з папки встановлення гри.</value></data>
-    <data name="CurrentLauncherLocation" xml:space="preserve"><value>Поточне розташування лаунчера</value></data>
-    <data name="ContainingGameInstallation" xml:space="preserve"><value>Встановлення гри, що містить лаунчер</value></data>
-    <data name="MoveLauncherOutsideGames" xml:space="preserve"><value>Перемістіть папку GenLauncherGO будь-куди за межі встановлень ігор і запустіть його знову.</value></data>
-    <data name="StandaloneLocationExample" xml:space="preserve"><value>Приклад: C:\Tools\GenLauncherGO</value></data>
+    <data name="StandaloneLocationRequired" xml:space="preserve"><value>Не можна запускати з папки гри</value></data>
+    <data name="StandaloneLocationBlockingDescription" xml:space="preserve"><value>Перемістіть GenLauncherGO з папки гри в папку з правами на запис поза Program Files.</value></data>
     <data name="AdministratorPermissionRequired" xml:space="preserve"><value>Для запуску GenLauncherGO потрібні права адміністратора.</value></data>
     <data name="ActiveGameLabel" xml:space="preserve"><value>Активна гра</value></data>
     <data name="GameManagement" xml:space="preserve"><value>Керування іграми</value></data>

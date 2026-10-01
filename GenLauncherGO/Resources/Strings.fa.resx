@@ -328,12 +328,8 @@
     <data name="ChooseYourGame" xml:space="preserve"><value>بازی موردنظر برای مدیریت را انتخاب کنید</value></data>
     <data name="NotSelected" xml:space="preserve"><value>انتخاب نشده</value></data>
     <data name="Selected" xml:space="preserve"><value>انتخاب شده</value></data>
-    <data name="StandaloneLocationRequired" xml:space="preserve"><value>GenLauncherGO را جابه‌جا کنید</value></data>
-    <data name="StandaloneLocationBlockingDescription" xml:space="preserve"><value>GenLauncherGO نمی‌تواند از داخل پوشه نصب بازی اجرا شود.</value></data>
-    <data name="CurrentLauncherLocation" xml:space="preserve"><value>محل فعلی لانچر</value></data>
-    <data name="ContainingGameInstallation" xml:space="preserve"><value>پوشه نصب بازی دربرگیرنده</value></data>
-    <data name="MoveLauncherOutsideGames" xml:space="preserve"><value>پوشه GenLauncherGO را به هر محلی بیرون از پوشه‌های نصب بازی منتقل و سپس دوباره اجرا کنید.</value></data>
-    <data name="StandaloneLocationExample" xml:space="preserve"><value>مثال: C:\Tools\GenLauncherGO</value></data>
+    <data name="StandaloneLocationRequired" xml:space="preserve"><value>از پوشه بازی قابل اجرا نیست</value></data>
+    <data name="StandaloneLocationBlockingDescription" xml:space="preserve"><value>GenLauncherGO را از پوشه بازی خارج کنید و به پوشه‌ای با مجوز نوشتن، خارج از Program Files، منتقل کنید.</value></data>
     <data name="AdministratorPermissionRequired" xml:space="preserve"><value>GenLauncherGO برای اجرا به دسترسی مدیر سیستم نیاز دارد.</value></data>
     <data name="ActiveGameLabel" xml:space="preserve"><value>بازی فعال</value></data>
     <data name="GameManagement" xml:space="preserve"><value>مدیریت بازی</value></data>

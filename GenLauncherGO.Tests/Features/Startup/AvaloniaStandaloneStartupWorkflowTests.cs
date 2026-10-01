@@ -119,35 +119,23 @@ public sealed class AvaloniaStandaloneStartupWorkflowTests
     }
 
     [Fact]
-    public void ShowBlockingLauncherLocationAsync_LauncherInsideAGame_ShowsTheGameLocationBlocker()
+    public void ShowBlockingLauncherLocationAsync_LauncherInsideAGame_TellsTheUserToMoveIt()
     {
         StaTestRunner.Run(async () =>
         {
             var storagePaths = new LauncherStoragePaths(@"C:\Games\Generals\Launcher");
-            var containingInstallation = new GameInstallationLocation(
-                SupportedGame.Generals,
-                @"C:\Games\Generals");
-            IGameInstallationService installationService = Substitute.For<IGameInstallationService>();
-            installationService.FindContainingInstallation(storagePaths.ExecutableDirectory)
-                .Returns(containingInstallation);
-            AvaloniaStandaloneStartupWorkflow workflow = CreateWorkflow(installationService);
+            var installationService = new FakeGameInstallationService { ContainingGame = SupportedGame.Generals };
+            var startupDialogService = new RecordingStartupDialogService();
+            var stringLocalizer = new FakeStringLocalizer();
+            AvaloniaStandaloneStartupWorkflow workflow = CreateWorkflow(installationService, startupDialogService);
             using ApplicationThemeScope themeScope = new();
-            LauncherLocationWarningWindow? warningWindow = null;
-            using IDisposable blockerSubscription = Window.WindowOpenedEvent
-                .AddClassHandler<LauncherLocationWarningWindow>((window, _) =>
-                {
-                    warningWindow = window;
-                    Dispatcher.UIThread.Post(window.Close);
-                });
 
             bool blocked = await workflow.ShowBlockingLauncherLocationAsync(storagePaths);
 
             blocked.Should().BeTrue();
-            warningWindow.Should().NotBeNull();
-            warningWindow!.FindControl<TextBlock>("LauncherLocationText")!.Text.Should()
-                .Be(storagePaths.ExecutableDirectory);
-            warningWindow.FindControl<TextBlock>("GameLocationText")!.Text.Should()
-                .Be(containingInstallation.Directory);
+            startupDialogService.TitledMessages.Should().Equal((
+                stringLocalizer["StandaloneLocationRequired"],
+                stringLocalizer["StandaloneLocationBlockingDescription"]));
             ((ISolidColorBrush)Application.Current!.Resources["GenLauncherBorderColor"]!).Color.Should()
                 .Be(LauncherThemePresets.Create(SupportedGame.Generals).GenLauncherBorderColor.Color);
         });

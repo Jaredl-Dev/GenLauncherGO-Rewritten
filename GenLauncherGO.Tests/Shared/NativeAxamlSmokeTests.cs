@@ -39,7 +39,6 @@ public sealed class NativeAxamlSmokeTests
                 new LauncherExecutableEditorWindow(),
                 new InitWindow(),
                 new LauncherGameSelectionWindow(),
-                new LauncherLocationWarningWindow(),
                 new LauncherSetupWindow(),
                 new LauncherLoadingIndicator()
             ];

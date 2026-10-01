@@ -328,12 +328,8 @@
     <data name="ChooseYourGame" xml:space="preserve"><value>Escolha um jogo para gerenciar</value></data>
     <data name="NotSelected" xml:space="preserve"><value>Não selecionado</value></data>
     <data name="Selected" xml:space="preserve"><value>Selecionado</value></data>
-    <data name="StandaloneLocationRequired" xml:space="preserve"><value>Mova o GenLauncherGO</value></data>
-    <data name="StandaloneLocationBlockingDescription" xml:space="preserve"><value>O GenLauncherGO não pode ser executado dentro da pasta de instalação de um jogo.</value></data>
-    <data name="CurrentLauncherLocation" xml:space="preserve"><value>Local atual do inicializador</value></data>
-    <data name="ContainingGameInstallation" xml:space="preserve"><value>Instalação do jogo que contém o inicializador</value></data>
-    <data name="MoveLauncherOutsideGames" xml:space="preserve"><value>Mova a pasta do GenLauncherGO para qualquer local fora das instalações dos jogos e inicie-o novamente.</value></data>
-    <data name="StandaloneLocationExample" xml:space="preserve"><value>Exemplo: C:\Tools\GenLauncherGO</value></data>
+    <data name="StandaloneLocationRequired" xml:space="preserve"><value>Não é possível executar a partir da pasta de um jogo</value></data>
+    <data name="StandaloneLocationBlockingDescription" xml:space="preserve"><value>Mova o GenLauncherGO para fora da pasta do jogo, para uma pasta com permissão de gravação fora de Program Files.</value></data>
     <data name="AdministratorPermissionRequired" xml:space="preserve"><value>O GenLauncherGO precisa de permissões de administrador para ser executado.</value></data>
     <data name="ActiveGameLabel" xml:space="preserve"><value>Jogo ativo</value></data>
     <data name="GameManagement" xml:space="preserve"><value>Gerenciamento de jogos</value></data>

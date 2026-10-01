@@ -328,12 +328,8 @@
     <data name="ChooseYourGame" xml:space="preserve"><value>اختر لعبة لإدارتها</value></data>
     <data name="NotSelected" xml:space="preserve"><value>غير محددة</value></data>
     <data name="Selected" xml:space="preserve"><value>محددة</value></data>
-    <data name="StandaloneLocationRequired" xml:space="preserve"><value>انقل GenLauncherGO</value></data>
-    <data name="StandaloneLocationBlockingDescription" xml:space="preserve"><value>لا يمكن تشغيل GenLauncherGO من داخل مجلد تثبيت لعبة.</value></data>
-    <data name="CurrentLauncherLocation" xml:space="preserve"><value>الموقع الحالي للمشغّل</value></data>
-    <data name="ContainingGameInstallation" xml:space="preserve"><value>تثبيت اللعبة الذي يحتوي المشغّل</value></data>
-    <data name="MoveLauncherOutsideGames" xml:space="preserve"><value>انقل مجلد GenLauncherGO إلى أي مكان خارج تثبيتات الألعاب، ثم شغّله مجددًا.</value></data>
-    <data name="StandaloneLocationExample" xml:space="preserve"><value>مثال: C:\Tools\GenLauncherGO</value></data>
+    <data name="StandaloneLocationRequired" xml:space="preserve"><value>لا يمكن التشغيل من مجلد لعبة</value></data>
+    <data name="StandaloneLocationBlockingDescription" xml:space="preserve"><value>انقل GenLauncherGO خارج مجلد اللعبة إلى مجلد لديك إذن الكتابة فيه خارج Program Files.</value></data>
     <data name="AdministratorPermissionRequired" xml:space="preserve"><value>يتطلب تشغيل GenLauncherGO صلاحية المسؤول.</value></data>
     <data name="ActiveGameLabel" xml:space="preserve"><value>اللعبة النشطة</value></data>
     <data name="GameManagement" xml:space="preserve"><value>إدارة الألعاب</value></data>

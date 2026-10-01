@@ -42,19 +42,15 @@ public sealed class WindowsGameInstallationServiceTests
     }
 
     [Fact]
-    public void FindContainingInstallation_InsideRetailZeroHourFolder_ReturnsZeroHour()
+    public void FindContainingGame_InsideRetailZeroHourFolder_ReturnsZeroHour()
     {
         using TestDirectory directory = new();
-        string gameDirectory = CreateGameDirectory(
-            directory,
-            LauncherFileSystemLayout.GetGameArchiveNames(SupportedGame.ZeroHour));
+        CreateGameDirectory(directory, LauncherFileSystemLayout.GetGameArchiveNames(SupportedGame.ZeroHour));
         string launcherDirectory = directory.CreateDirectory(Path.Combine("Game", "GenLauncherGO"));
 
-        GameInstallationLocation? location = CreateService().FindContainingInstallation(launcherDirectory);
+        SupportedGame? containingGame = CreateService().FindContainingGame(launcherDirectory);
 
-        location.Should().Be(new GameInstallationLocation(
-            SupportedGame.ZeroHour,
-            PhysicalDirectoryPath.ResolveExisting(gameDirectory)));
+        containingGame.Should().Be(SupportedGame.ZeroHour);
     }
 
     private static string CreateGameDirectory(TestDirectory directory, IEnumerable<string> archiveNames)
