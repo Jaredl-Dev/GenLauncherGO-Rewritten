@@ -42,9 +42,9 @@ internal static class LauncherFileSystemLayout
 
     public const string PatchesFolderName = "Patches";
 
-    public const string ZeroHourCommunityExecutableFileName = "generalszh.exe";
+    private const string ZeroHourCommunityExecutableFileName = "generalszh.exe";
 
-    public const string GeneralsCommunityExecutableFileName = "generalsv.exe";
+    private const string GeneralsCommunityExecutableFileName = "generalsv.exe";
 
     public const string GeneralsOnlineExecutableFileName = "generalsonlinezh.exe";
 
@@ -81,6 +81,28 @@ internal static class LauncherFileSystemLayout
         ZeroHourCommunityWorldBuilderExecutableFileName
     ]);
 
+    // Core engine archives that every retail, The First Decade, EA App, and Steam edition ships under these names.
+    // Localized archives (English.big, AudioGermanZH.big, W3DEnglishZH.big), audio, speech, and music archives that
+    // sit beside localized variants or depend on the install type, gensec.big copy protection, and patch-level
+    // archives vary between editions and are deliberately excluded.
+    private static readonly IReadOnlyList<string> _generalsArchiveNames = Array.AsReadOnly<string>(
+    [
+        "INI.big",
+        "W3D.big",
+        "Textures.big",
+        "Terrain.big",
+        "Window.big"
+    ]);
+
+    private static readonly IReadOnlyList<string> _zeroHourArchiveNames = Array.AsReadOnly<string>(
+    [
+        "INIZH.big",
+        "W3DZH.big",
+        "TexturesZH.big",
+        "TerrainZH.big",
+        "WindowZH.big"
+    ]);
+
     /// <summary>
     ///     Gets the built-in game executables accepted for a managed game, in launcher display order.
     /// </summary>
@@ -102,6 +124,18 @@ internal static class LauncherFileSystemLayout
             managedGame,
             _generalsWorldBuilderExecutableNames,
             _zeroHourWorldBuilderExecutableNames,
+            nameof(managedGame));
+    }
+
+    /// <summary>
+    ///     Gets the language-neutral core data archives that identify a managed game's installation root.
+    /// </summary>
+    public static IReadOnlyList<string> GetGameArchiveNames(SupportedGame managedGame)
+    {
+        return PerGame.Select(
+            managedGame,
+            _generalsArchiveNames,
+            _zeroHourArchiveNames,
             nameof(managedGame));
     }
 

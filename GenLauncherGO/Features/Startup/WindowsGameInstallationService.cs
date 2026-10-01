@@ -58,7 +58,7 @@ internal sealed class WindowsGameInstallationService : IGameInstallationService
         {
             foreach (SupportedGame game in _gamesInDetectionPriorityOrder)
             {
-                if (HasRecognizedExecutable(game, directory.FullName))
+                if (HasGameArchive(game, directory.FullName))
                 {
                     return new GameInstallationLocation(game, directory.FullName);
                 }
@@ -148,6 +148,11 @@ internal sealed class WindowsGameInstallationService : IGameInstallationService
                 return GameInstallationValidationResult.Invalid(GameInstallationValidationFailure.UnsafeFileSystemPath);
             }
 
+            if (!HasGameArchive(game, canonicalGamePath))
+            {
+                return GameInstallationValidationResult.Invalid(GameInstallationValidationFailure.GameArchivesNotFound);
+            }
+
             return GameInstallationValidationResult.Valid(canonicalGamePath);
         }
         catch (Exception exception) when (
@@ -212,22 +217,11 @@ internal sealed class WindowsGameInstallationService : IGameInstallationService
         return discovered;
     }
 
-    private static bool HasRecognizedExecutable(SupportedGame game, string directory)
+    // Any one core archive identifies the game. Deployment backs up and replaces game-root files one at a time, so an
+    // interrupted launch can leave a single archive missing; recovery restores it only after this folder validates.
+    private static bool HasGameArchive(SupportedGame game, string directory)
     {
-        return game switch
-        {
-            SupportedGame.Generals =>
-                File.Exists(Path.Combine(
-                    directory,
-                    LauncherFileSystemLayout.GeneralsCommunityExecutableFileName)),
-            SupportedGame.ZeroHour =>
-                File.Exists(Path.Combine(
-                    directory,
-                    LauncherFileSystemLayout.ZeroHourCommunityExecutableFileName)) ||
-                File.Exists(Path.Combine(
-                    directory,
-                    LauncherFileSystemLayout.GeneralsOnlineExecutableFileName)),
-            _ => false
-        };
+        return LauncherFileSystemLayout.GetGameArchiveNames(game)
+            .Any(archiveName => File.Exists(Path.Combine(directory, archiveName)));
     }
 }

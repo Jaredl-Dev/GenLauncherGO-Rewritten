@@ -306,7 +306,10 @@
     <data name="GameInstallationSetupTitle" xml:space="preserve"><value>Spielordner auswählen</value></data>
     <data name="ValidGeneralsInstallation" xml:space="preserve"><value>Generals-Ordner ausgewählt</value></data>
     <data name="ValidZeroHourInstallation" xml:space="preserve"><value>Zero-Hour-Ordner ausgewählt</value></data>
-    <data name="ChooseDeploymentFolder" xml:space="preserve"><value>Wähle einen vorhandenen Ordner für die Mod-Dateien.</value></data>
+    <data name="MissingGeneralsGameFiles" xml:space="preserve"><value>Dieser Ordner enthält keine Generals-Spieldateien.</value></data>
+    <data name="MissingZeroHourGameFiles" xml:space="preserve"><value>Dieser Ordner enthält keine Zero-Hour-Spieldateien.</value></data>
+    <data name="ChooseGeneralsFolder" xml:space="preserve"><value>Wähle deinen Generals-Installationsordner.</value></data>
+    <data name="ChooseZeroHourFolder" xml:space="preserve"><value>Wähle deinen Zero-Hour-Installationsordner.</value></data>
     <data name="InstallationPathUnavailable" xml:space="preserve"><value>Dieser Installationsordner kann nicht verwendet werden.</value></data>
     <data name="OverlappingGameFolders" xml:space="preserve"><value>Die Spielordner dürfen weder identisch sein noch ineinander liegen.</value></data>
     <data name="GeneralsShortName" xml:space="preserve"><value>Generals</value></data>

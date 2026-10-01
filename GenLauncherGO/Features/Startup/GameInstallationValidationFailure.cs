@@ -33,5 +33,10 @@ internal enum GameInstallationValidationFailure
     /// <summary>
     ///     Windows could not safely resolve or inspect the directory.
     /// </summary>
-    PathUnavailable = 5
+    PathUnavailable = 5,
+
+    /// <summary>
+    ///     The directory contains none of the selected game's core data archives.
+    /// </summary>
+    GameArchivesNotFound = 6
 }
