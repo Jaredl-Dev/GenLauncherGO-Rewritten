@@ -9,7 +9,6 @@
         Title="{localization:Loc SelectMod}"
         Width="440"
         Height="520"
-        WindowStartupLocation="CenterOwner"
         Topmost="True">
     <Border Classes="dialog-frame">
         <Grid RowDefinitions="56,44,*,64">

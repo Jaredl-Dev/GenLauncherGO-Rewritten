@@ -9,8 +9,7 @@
         Width="820"
         Height="620"
         MinWidth="640"
-        MinHeight="440"
-        WindowStartupLocation="CenterOwner">
+        MinHeight="440">
     <Window.Resources>
         <ControlTheme x:Key="IntegrityReviewListBoxItemTheme"
                       TargetType="ListBoxItem">
