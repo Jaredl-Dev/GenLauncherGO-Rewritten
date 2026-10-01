@@ -137,6 +137,7 @@
     <data name="Canceled" xml:space="preserve"><value>التحميل تم إلغاءه</value></data>
     <data name="CancelDownload" xml:space="preserve"><value>إلغاء التنزيل؟</value></data>
     <data name="CancelDownloadDetails" xml:space="preserve"><value>سيتم إيقاف تنزيل {0} وحذف أي ملفات تم تنزيلها لهذا الإصدار.</value></data>
+    <data name="CannotConnect" xml:space="preserve"><value>لا يمكن الاتصال بـ GitHub. تثبيت التعديلات من الإنترنت غير متاح.</value></data>
     <data name="DeploymentRecoveryFailed" xml:space="preserve"><value>تعذر على GenLauncherGO استعادة النشر السابق. أغلق اللعبة أو أي عميل قيد التشغيل، ثم اختر إعادة المحاولة. اختر إلغاء لإغلاق المشغّل وتجنب ترك مجلد اللعبة في حالة غير آمنة.</value></data>
     <data name="ChangelogOnly" xml:space="preserve"><value>سجل التغييرات</value></data>
     <data name="ChangeToFullScreen" xml:space="preserve"><value>التبديل إلى وضع ملء الشاشة</value></data>
@@ -164,6 +165,7 @@
     <data name="EnterModName" xml:space="preserve"><value>ادخل اسم المود</value></data>
     <data name="EnterModVersion" xml:space="preserve"><value>ادخل إصدار المود</value></data>
     <data name="Error" xml:space="preserve"><value>خطأ: </value></data>
+    <data name="ErrorMsg" xml:space="preserve"><value>إصدار GenLauncherGO: {2} \r\nالدعم الفني لـ GenLauncherGO على Discord: {3} \r\nالخطأ: {0} \r\nتتبع المكدس: {1}</value></data>
     <data name="Exit" xml:space="preserve"><value>الخروج</value></data>
     <data name="FilesCorrupted" xml:space="preserve"><value>بعض ملفات المود مفقودة أو تالفة!</value></data>
     <data name="GameIsStillRunning" xml:space="preserve"><value>اللعبة مازالت قيد التشغيل</value></data>
@@ -255,8 +257,6 @@
     <data name="Info" xml:space="preserve"><value>معلومات</value></data>
     <data name="Retry" xml:space="preserve"><value>إعادة المحاولة</value></data>
     <data name="Downloading" xml:space="preserve"><value>جاري التنزيل</value></data>
-    <data name="CannotConnect" xml:space="preserve"><value>لا يمكن الاتصال بـ GitHub. تثبيت التعديلات من الإنترنت غير متاح.</value></data>
-    <data name="ErrorMsg" xml:space="preserve"><value>إصدار GenLauncherGO: {2} \r\nالدعم الفني لـ GenLauncherGO على Discord: {3} \r\nالخطأ: {0} \r\nتتبع المكدس: {1}</value></data>
     <data name="IntegrityRepeatedFailure" xml:space="preserve"><value>ظل المحتوى غير متناسق بعد عدة محاولات للحل. لم يتم تشغيل اللعبة.</value></data>
     <data name="IntegrityCacheSuffix" xml:space="preserve"><value>ذاكرة التخزين المؤقت</value></data>
     <data name="IntegrityBlockedDescription" xml:space="preserve"><value>يحتوي المحتوى المحدد على مشكلات تحقق لا يمكن حلها تلقائيًا. أزل العناصر المحظورة أو استعد المحتوى، ثم حاول التشغيل مرة أخرى.</value></data>

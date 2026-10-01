@@ -137,6 +137,7 @@
     <data name="Canceled" xml:space="preserve"><value>Preuzimanje otkazano</value></data>
     <data name="CancelDownload" xml:space="preserve"><value>Otkazati preuzimanje?</value></data>
     <data name="CancelDownloadDetails" xml:space="preserve"><value>Preuzimanje za {0} bit će zaustavljeno, a preuzete datoteke za ovu verziju bit će izbrisane.</value></data>
+    <data name="CannotConnect" xml:space="preserve"><value>Nije se moguće povezati s GitHubom. Instalacija modifikacija s interneta nije dostupna.</value></data>
     <data name="DeploymentRecoveryFailed" xml:space="preserve"><value>GenLauncherGO nije uspio vratiti prethodnu implementaciju. Zatvorite igru ili bilo koji pokrenuti klijent, a zatim odaberite Pokušaj ponovno. Odaberite Odustani za zatvaranje pokretača kako mapa igre ne bi ostala u nesigurnom stanju.</value></data>
     <data name="ChangelogOnly" xml:space="preserve"><value>Dnevnik Promjena</value></data>
     <data name="ChangeToFullScreen" xml:space="preserve"><value>Promijeni na puni zaslon</value></data>
@@ -256,7 +257,6 @@
     <data name="Info" xml:space="preserve"><value>Informacije</value></data>
     <data name="Retry" xml:space="preserve"><value>Pokušaj ponovno</value></data>
     <data name="Downloading" xml:space="preserve"><value>Preuzimanje</value></data>
-    <data name="CannotConnect" xml:space="preserve"><value>Nije se moguće povezati s GitHubom. Instalacija modifikacija s interneta nije dostupna.</value></data>
     <data name="IntegrityRepeatedFailure" xml:space="preserve"><value>Sadržaj je ostao nedosljedan nakon više pokušaja rješavanja. Igra nije pokrenuta.</value></data>
     <data name="IntegrityCacheSuffix" xml:space="preserve"><value>predmemorija</value></data>
     <data name="IntegrityBlockedDescription" xml:space="preserve"><value>Odabrani sadržaj ima probleme provjere koji se ne mogu automatski riješiti. Uklonite blokirane stavke ili vratite sadržaj, zatim pokušajte ponovno pokrenuti.</value></data>
