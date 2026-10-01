@@ -9,7 +9,6 @@
         Title="{localization:Loc InputModData}"
         Width="620"
         Height="370"
-        WindowStartupLocation="CenterOwner"
         Topmost="True">
     <Border Classes="dialog-frame">
         <Grid RowDefinitions="56,*,64">

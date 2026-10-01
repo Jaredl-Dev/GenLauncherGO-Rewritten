@@ -10,8 +10,7 @@
         Width="640"
         MinHeight="284"
         MaxHeight="520"
-        SizeToContent="Height"
-        WindowStartupLocation="CenterOwner">
+        SizeToContent="Height">
     <Window.Styles>
         <Style Selector="Border.icon-badge">
             <Setter Property="Width" Value="52" />
