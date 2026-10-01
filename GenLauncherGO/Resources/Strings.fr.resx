@@ -322,7 +322,6 @@
     <data name="GameFirstRunRegistryNotice" xml:space="preserve"><value>Lancez chaque jeu installé au moins une fois afin de garantir que son chemin d’installation soit écrit dans le registre.</value></data>
     <data name="RegistryInstallationNotFound" xml:space="preserve"><value>Aucun dossier de jeu existant n’a été trouvé via le registre. Lancez le jeu une fois pour enregistrer son chemin ou sélectionnez un dossier manuellement.</value></data>
     <data name="RegistryDetectionFailedTitle" xml:space="preserve"><value>Installation non détectée</value></data>
-    <data name="ProgramFilesModToolsWarning" xml:space="preserve"><value>Les autorisations Windows dans Program Files peuvent perturber les outils de mod. Un dossier de jeu situé hors de Program Files est recommandé.</value></data>
     <data name="SameDriveRecommendation" xml:space="preserve"><value>Recommandé : placez GenLauncherGO sur le même lecteur que vos jeux.</value></data>
     <data name="AtLeastOneInstallationRequired" xml:space="preserve"><value>Choisissez au moins un dossier de jeu pour continuer.</value></data>
     <data name="ChooseYourGame" xml:space="preserve"><value>Choisissez un jeu à gérer</value></data>

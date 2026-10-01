@@ -17,7 +17,6 @@ namespace GenLauncherGO.Features.Startup;
 internal sealed class LauncherInstallationsViewModel : ObservableObject
 {
     private readonly ILauncherFilePicker _filePicker;
-    private readonly ILauncherHostEnvironmentService _hostEnvironmentService;
     private readonly IGameInstallationService _installationService;
     private readonly LauncherStoragePaths _storagePaths;
     private readonly ILauncherStringLocalizer _stringLocalizer;
@@ -29,15 +28,12 @@ internal sealed class LauncherInstallationsViewModel : ObservableObject
         LauncherInstallations installations,
         LauncherStoragePaths storagePaths,
         IGameInstallationService installationService,
-        ILauncherHostEnvironmentService hostEnvironmentService,
         ILauncherFilePicker filePicker,
         ILauncherStringLocalizer stringLocalizer)
     {
         ArgumentNullException.ThrowIfNull(installations);
         _storagePaths = storagePaths ?? throw new ArgumentNullException(nameof(storagePaths));
         _installationService = installationService ?? throw new ArgumentNullException(nameof(installationService));
-        _hostEnvironmentService = hostEnvironmentService ??
-                                  throw new ArgumentNullException(nameof(hostEnvironmentService));
         _filePicker = filePicker ?? throw new ArgumentNullException(nameof(filePicker));
         _stringLocalizer = stringLocalizer ?? throw new ArgumentNullException(nameof(stringLocalizer));
 
@@ -168,11 +164,6 @@ internal sealed class LauncherInstallationsViewModel : ObservableObject
         return _stringLocalizer[_validation.GetStatusMessageKey(game)];
     }
 
-    internal bool ShowProgramFilesWarning(SupportedGame game)
-    {
-        return IsInProgramFiles(_validation.GetValidation(game));
-    }
-
     internal bool ShowDifferentDriveRecommendation(SupportedGame game)
     {
         return IsOnDifferentDrive(_validation.GetValidation(game));
@@ -254,12 +245,6 @@ internal sealed class LauncherInstallationsViewModel : ObservableObject
         return _installationService.ValidateInstallations(
             CreateDraftInstallations(),
             _storagePaths.ExecutableDirectory);
-    }
-
-    private bool IsInProgramFiles(GameInstallationValidationResult validation)
-    {
-        return validation is { IsValid: true, CanonicalPath: not null } &&
-               _hostEnvironmentService.IsProtectedProgramFilesDirectory(validation.CanonicalPath);
     }
 
     private bool IsOnDifferentDrive(GameInstallationValidationResult validation)

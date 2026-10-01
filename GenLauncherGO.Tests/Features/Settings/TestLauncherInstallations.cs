@@ -19,7 +19,6 @@ internal static class TestLauncherInstallations
         LauncherInstallations? installations = null,
         IGameInstallationService? installationService = null,
         ILauncherFilePicker? filePicker = null,
-        ILauncherHostEnvironmentService? hostEnvironmentService = null,
         LauncherStoragePaths? storagePaths = null,
         ILauncherStringLocalizer? stringLocalizer = null)
     {
@@ -27,7 +26,6 @@ internal static class TestLauncherInstallations
             installations ?? new LauncherInstallations(),
             storagePaths ?? StoragePaths,
             installationService ?? new FakeGameInstallationService(),
-            hostEnvironmentService ?? Substitute.For<ILauncherHostEnvironmentService>(),
             filePicker ?? new StubLauncherFilePicker(),
             stringLocalizer ?? new FakeStringLocalizer());
     }

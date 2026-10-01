@@ -322,7 +322,6 @@
     <data name="GameFirstRunRegistryNotice" xml:space="preserve"><value>Ejecuta cada juego instalado al menos una vez para garantizar que su ruta de instalación se escriba en el registro.</value></data>
     <data name="RegistryInstallationNotFound" xml:space="preserve"><value>No se encontró ninguna carpeta de juego existente mediante el registro. Inicia el juego una vez para registrar su ruta o selecciona una carpeta manualmente.</value></data>
     <data name="RegistryDetectionFailedTitle" xml:space="preserve"><value>No se detectó la instalación</value></data>
-    <data name="ProgramFilesModToolsWarning" xml:space="preserve"><value>Los permisos de Windows en Archivos de programa pueden interferir con las herramientas de mods. Se recomienda una carpeta del juego fuera de Archivos de programa.</value></data>
     <data name="SameDriveRecommendation" xml:space="preserve"><value>Recomendado: Guarda GenLauncherGO en la misma unidad que tus juegos.</value></data>
     <data name="AtLeastOneInstallationRequired" xml:space="preserve"><value>Elige al menos una carpeta de juego para continuar.</value></data>
     <data name="ChooseYourGame" xml:space="preserve"><value>Elige un juego para administrar</value></data>

@@ -322,7 +322,6 @@
     <data name="GameFirstRunRegistryNotice" xml:space="preserve"><value>شغّل كل لعبة مثبتة مرة واحدة على الأقل لضمان كتابة مسار تثبيتها في سجل النظام.</value></data>
     <data name="RegistryInstallationNotFound" xml:space="preserve"><value>لم يتم العثور على مجلد لعبة موجود عبر السجل. شغّل اللعبة مرة واحدة لتسجيل مسارها، أو حدد مجلدًا يدويًا.</value></data>
     <data name="RegistryDetectionFailedTitle" xml:space="preserve"><value>لم يتم اكتشاف التثبيت</value></data>
-    <data name="ProgramFilesModToolsWarning" xml:space="preserve"><value>قد تتداخل أذونات Windows في Program Files مع أدوات التعديل. يُنصح باستخدام مجلد للعبة خارج Program Files.</value></data>
     <data name="SameDriveRecommendation" xml:space="preserve"><value>موصى به: احتفظ بـ GenLauncherGO على محرك الأقراص نفسه الموجود عليه ألعابك.</value></data>
     <data name="AtLeastOneInstallationRequired" xml:space="preserve"><value>اختر مجلد لعبة واحدًا على الأقل للمتابعة.</value></data>
     <data name="ChooseYourGame" xml:space="preserve"><value>اختر لعبة لإدارتها</value></data>

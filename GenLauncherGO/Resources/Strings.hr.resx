@@ -322,7 +322,6 @@
     <data name="GameFirstRunRegistryNotice" xml:space="preserve"><value>Pokrenite svaku instaliranu igru barem jednom kako biste osigurali da se njezin put instalacije zapiše u registar.</value></data>
     <data name="RegistryInstallationNotFound" xml:space="preserve"><value>U registru nije pronađena postojeća mapa igre. Pokrenite igru jednom kako bi se njezina putanja zapisala u registar ili ručno odaberite mapu.</value></data>
     <data name="RegistryDetectionFailedTitle" xml:space="preserve"><value>Instalacija nije otkrivena</value></data>
-    <data name="ProgramFilesModToolsWarning" xml:space="preserve"><value>Windows dozvole u mapi Program Files mogu ometati alate za modove. Preporučuje se mapa igre izvan mape Program Files.</value></data>
     <data name="SameDriveRecommendation" xml:space="preserve"><value>Preporuka: Držite GenLauncherGO na istom pogonu kao i igre.</value></data>
     <data name="AtLeastOneInstallationRequired" xml:space="preserve"><value>Odaberite barem jednu mapu igre za nastavak.</value></data>
     <data name="ChooseYourGame" xml:space="preserve"><value>Odaberite igru za upravljanje</value></data>

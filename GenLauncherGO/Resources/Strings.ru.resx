@@ -322,7 +322,6 @@
     <data name="GameFirstRunRegistryNotice" xml:space="preserve"><value>Запустите каждую установленную игру хотя бы один раз, чтобы путь её установки гарантированно был записан в реестр.</value></data>
     <data name="RegistryInstallationNotFound" xml:space="preserve"><value>В реестре не найдена существующая папка игры. Запустите игру один раз, чтобы зарегистрировать её путь, или выберите папку вручную.</value></data>
     <data name="RegistryDetectionFailedTitle" xml:space="preserve"><value>Установка не обнаружена</value></data>
-    <data name="ProgramFilesModToolsWarning" xml:space="preserve"><value>Разрешения Windows в Program Files могут мешать работе инструментов для модов. Рекомендуется папка игры вне Program Files.</value></data>
     <data name="SameDriveRecommendation" xml:space="preserve"><value>Рекомендуется: храните GenLauncherGO на одном диске с играми.</value></data>
     <data name="AtLeastOneInstallationRequired" xml:space="preserve"><value>Чтобы продолжить, выберите хотя бы одну папку с игрой.</value></data>
     <data name="ChooseYourGame" xml:space="preserve"><value>Выберите игру для управления</value></data>

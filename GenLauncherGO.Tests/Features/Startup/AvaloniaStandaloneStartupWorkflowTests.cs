@@ -147,7 +147,6 @@ public sealed class AvaloniaStandaloneStartupWorkflowTests
     {
         return new AvaloniaStandaloneStartupWorkflow(
             installationService,
-            Substitute.For<ILauncherHostEnvironmentService>(),
             new StubLauncherFilePicker(),
             new FakeStringLocalizer(),
             startupDialogService ?? new RecordingStartupDialogService());

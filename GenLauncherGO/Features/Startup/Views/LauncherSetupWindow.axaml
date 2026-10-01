@@ -137,15 +137,6 @@
                                         </StackPanel>
                                         <Border Classes="notice"
                                                 Background="{DynamicResource GenLauncherLightBackGround}"
-                                                BorderBrush="{DynamicResource GenLauncherActiveColor}"
-                                                IsVisible="{Binding ShowProgramFilesWarning}">
-                                            <TextBlock Text="{localization:Loc ProgramFilesModToolsWarning}"
-                                                       Foreground="{DynamicResource GenLauncherActiveColor}"
-                                                       FontSize="13"
-                                                       TextWrapping="Wrap" />
-                                        </Border>
-                                        <Border Classes="notice"
-                                                Background="{DynamicResource GenLauncherLightBackGround}"
                                                 BorderBrush="{DynamicResource GenLauncherBorderColor}"
                                                 IsVisible="{Binding ShowDifferentDriveRecommendation}">
                                             <TextBlock Text="{localization:Loc SameDriveRecommendation}"
