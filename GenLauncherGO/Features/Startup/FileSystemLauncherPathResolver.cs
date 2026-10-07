@@ -1,8 +1,6 @@
 using System;
 using System.IO;
 using GenLauncherGO.Shared.IO;
-using Microsoft.Extensions.Logging;
-using Microsoft.Extensions.Logging.Abstractions;
 
 namespace GenLauncherGO.Features.Startup;
 
@@ -20,18 +18,6 @@ internal sealed class FileSystemLauncherPathResolver : ILauncherPathResolver
     ///     fix. Tests cannot create write-protected media, so this case has no automated coverage.
     /// </remarks>
     private const int ErrorWriteProtectHResult = unchecked((int)0x80070013);
-
-    private readonly ILogger<FileSystemLauncherPathResolver> _logger;
-
-    public FileSystemLauncherPathResolver()
-        : this(NullLogger<FileSystemLauncherPathResolver>.Instance)
-    {
-    }
-
-    public FileSystemLauncherPathResolver(ILogger<FileSystemLauncherPathResolver> logger)
-    {
-        _logger = logger ?? throw new ArgumentNullException(nameof(logger));
-    }
 
     public LauncherStoragePaths Resolve(string executableDirectory)
     {
@@ -65,7 +51,6 @@ internal sealed class FileSystemLauncherPathResolver : ILauncherPathResolver
             return false;
         }
 
-        _logger.LogDebug("Prepared shared standalone launcher directories.");
         return true;
     }
 
@@ -95,9 +80,5 @@ internal sealed class FileSystemLauncherPathResolver : ILauncherPathResolver
                 paths.TempDirectory,
                 paths.PackagesDirectory);
         }
-
-        _logger.LogDebug(
-            "Prepared isolated launcher directories for {SupportedGame}.",
-            paths.Game);
     }
 }
