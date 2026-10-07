@@ -11,9 +11,12 @@ internal interface ILauncherPathResolver
     LauncherStoragePaths Resolve(string executableDirectory);
 
     /// <summary>
-    ///     Creates the shared launcher-owned directories.
+    ///     Creates the shared launcher-owned directories and confirms the launcher can create files in its data folder.
     /// </summary>
-    void PrepareLauncherDirectories(LauncherStoragePaths paths);
+    /// <returns>
+    ///     <see langword="false" /> when Windows denies creating the directories or files, so the launcher must move.
+    /// </returns>
+    bool TryPrepareLauncherDirectories(LauncherStoragePaths paths);
 
     /// <summary>
     ///     Creates launcher-owned directories for one supported game and optionally clears its temporary files.

@@ -1,5 +1,6 @@
 using System;
 using System.Collections.Generic;
+using System.Globalization;
 using System.IO;
 using System.Threading.Tasks;
 using Avalonia.Controls.ApplicationLifetimes;
@@ -45,7 +46,7 @@ public sealed class LauncherApplicationHostTests
             .Which.Should()
             .Be(localizer["AdministratorPermissionRequired"]);
         pathResolver.ResolvedExecutableDirectory.Should().BeNull();
-        pathResolver.PrepareLauncherDirectoriesCount.Should().Be(0);
+        pathResolver.TryPrepareLauncherDirectoriesCount.Should().Be(0);
     }
 
     [Fact]
@@ -76,10 +77,42 @@ public sealed class LauncherApplicationHostTests
 
         startupWorkflow.LocationChecks.Should().Be(1);
         startupWorkflow.RunCount.Should().Be(0);
-        pathResolver.PrepareLauncherDirectoriesCount.Should().Be(0);
+        pathResolver.TryPrepareLauncherDirectoriesCount.Should().Be(0);
         Directory.Exists(storagePaths.LogsDirectory).Should().BeFalse();
         File.ReadAllText(storagePaths.PreferencesFilePath).Should().Be(UnversionedPreferences);
         startupDialogService.Messages.Should().BeEmpty();
+    }
+
+    [Fact]
+    public async Task RunWhenLauncherFolder_IsNotWritable_ExplainsAndStopsBeforeSetupAsync()
+    {
+        using var directory = new TestDirectory();
+        AvaloniaLauncherStringLocalizer localizer = new();
+        var storagePaths = new LauncherStoragePaths(directory.Path);
+        WriteUnversionedPreferences(storagePaths);
+        var startupDialogService = new RecordingStartupDialogService();
+        var startupWorkflow = new StubStandaloneStartupWorkflow();
+        using LauncherApplicationHost host = new(
+            new StubLauncherPathResolver
+            {
+                ResolvedPaths = storagePaths,
+                DataFolderWritable = false
+            },
+            new StubLauncherHostEnvironmentService(),
+            localizer,
+            startupDialogService,
+            startupWorkflow);
+
+        await host.RunAsync();
+
+        startupDialogService.TitledMessages.Should().Equal(
+            (localizer["LauncherFolderNotWritable"],
+                string.Format(
+                    CultureInfo.CurrentCulture,
+                    localizer["LauncherFolderNotWritableDescription"],
+                    storagePaths.ExecutableDirectory)));
+        startupWorkflow.RunCount.Should().Be(0);
+        File.ReadAllText(storagePaths.PreferencesFilePath).Should().Be(UnversionedPreferences);
     }
 
     [Fact]
@@ -164,7 +197,7 @@ public sealed class LauncherApplicationHostTests
 
         await host.RunAsync();
 
-        pathResolver.PrepareLauncherDirectoriesCount.Should().Be(1);
+        pathResolver.TryPrepareLauncherDirectoriesCount.Should().Be(1);
         hostEnvironment.ActivationCount.Should().Be(1);
         startupWorkflow.RunCount.Should().Be(0);
         File.ReadAllText(storagePaths.PreferencesFilePath).Should().Be(UnversionedPreferences);
@@ -219,7 +252,9 @@ public sealed class LauncherApplicationHostTests
 
         public string? ResolvedExecutableDirectory { get; private set; }
 
-        public int PrepareLauncherDirectoriesCount { get; private set; }
+        public bool DataFolderWritable { get; init; } = true;
+
+        public int TryPrepareLauncherDirectoriesCount { get; private set; }
 
         public LauncherStoragePaths Resolve(string executableDirectory)
         {
@@ -229,10 +264,11 @@ public sealed class LauncherApplicationHostTests
                    throw new InvalidOperationException("The standalone storage path could not be resolved.");
         }
 
-        public void PrepareLauncherDirectories(LauncherStoragePaths paths)
+        public bool TryPrepareLauncherDirectories(LauncherStoragePaths paths)
         {
             Events?.Add("prepare-storage");
-            PrepareLauncherDirectoriesCount++;
+            TryPrepareLauncherDirectoriesCount++;
+            return DataFolderWritable;
         }
 
         public void PrepareGameDirectories(LauncherPaths paths, bool cleanTemporaryDirectory)

@@ -194,7 +194,16 @@ internal sealed class LauncherApplicationHost : IDisposable
                     return false;
                 }
 
-                _launcherPathResolver.PrepareLauncherDirectories(storagePaths);
+                if (!_launcherPathResolver.TryPrepareLauncherDirectories(storagePaths))
+                {
+                    await _bootstrapStartupDialogService.ShowMessageAsync(
+                        _stringLocalizer["LauncherFolderNotWritable"],
+                        string.Format(
+                            CultureInfo.CurrentCulture,
+                            _stringLocalizer["LauncherFolderNotWritableDescription"],
+                            storagePaths.ExecutableDirectory));
+                    return false;
+                }
 
                 if (!OtherInstanceCanStart())
                 {

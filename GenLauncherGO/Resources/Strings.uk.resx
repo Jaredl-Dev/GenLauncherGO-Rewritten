@@ -334,6 +334,8 @@
     <data name="Selected" xml:space="preserve"><value>Вибрано</value></data>
     <data name="StandaloneLocationRequired" xml:space="preserve"><value>Не можна запускати з папки гри</value></data>
     <data name="StandaloneLocationBlockingDescription" xml:space="preserve"><value>Перемістіть GenLauncherGO з папки гри в папку з правами на запис поза Program Files.</value></data>
+    <data name="LauncherFolderNotWritable" xml:space="preserve"><value>Немає доступу на запис до папки лаунчера</value></data>
+    <data name="LauncherFolderNotWritableDescription" xml:space="preserve"><value>GenLauncherGO не може зберегти свої дані в {0}. Перемістіть GenLauncherGO в папку з правами на запис поза Program Files.</value></data>
     <data name="AdministratorPermissionRequired" xml:space="preserve"><value>Для запуску GenLauncherGO потрібні права адміністратора.</value></data>
     <data name="ActiveGameLabel" xml:space="preserve"><value>Активна гра</value></data>
     <data name="GameManagement" xml:space="preserve"><value>Керування іграми</value></data>

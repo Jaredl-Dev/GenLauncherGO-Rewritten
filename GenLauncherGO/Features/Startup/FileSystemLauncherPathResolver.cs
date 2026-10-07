@@ -11,6 +11,16 @@ namespace GenLauncherGO.Features.Startup;
 /// </summary>
 internal sealed class FileSystemLauncherPathResolver : ILauncherPathResolver
 {
+    /// <summary>
+    ///     The HRESULT of <c>ERROR_WRITE_PROTECT</c>, raised by a locked SD card or USB drive or one made read-only by
+    ///     policy.
+    /// </summary>
+    /// <remarks>
+    ///     Kept deliberately: people run the portable archive from removable drives, and moving the launcher is their
+    ///     fix. Tests cannot create write-protected media, so this case has no automated coverage.
+    /// </remarks>
+    private const int ErrorWriteProtectHResult = unchecked((int)0x80070013);
+
     private readonly ILogger<FileSystemLauncherPathResolver> _logger;
 
     public FileSystemLauncherPathResolver()
@@ -30,14 +40,33 @@ internal sealed class FileSystemLauncherPathResolver : ILauncherPathResolver
         return new LauncherStoragePaths(executableDirectory);
     }
 
-    public void PrepareLauncherDirectories(LauncherStoragePaths paths)
+    public bool TryPrepareLauncherDirectories(LauncherStoragePaths paths)
     {
         ArgumentNullException.ThrowIfNull(paths);
 
-        OwnedDirectoryTree.EnsureExists(paths.ExecutableDirectory, paths.DataDirectory);
-        OwnedDirectoryTree.EnsureExists(paths.DataDirectory, paths.LogsDirectory);
+        try
+        {
+            OwnedDirectoryTree.EnsureExists(paths.ExecutableDirectory, paths.DataDirectory);
+            OwnedDirectoryTree.EnsureExists(paths.DataDirectory, paths.LogsDirectory);
+
+            // Only a real file proves access: permissions alone miss Controlled Folder Access, share rights,
+            // inherited Deny entries, and write-protected media. Windows deletes the file on close.
+            new FileStream(
+                Path.Combine(paths.DataDirectory, $".write-test-{Guid.NewGuid():N}.tmp"),
+                FileMode.CreateNew,
+                FileAccess.Write,
+                FileShare.None,
+                1,
+                FileOptions.DeleteOnClose).Dispose();
+        }
+        catch (Exception exception) when (exception is UnauthorizedAccessException
+                                              or IOException { HResult: ErrorWriteProtectHResult })
+        {
+            return false;
+        }
 
         _logger.LogDebug("Prepared shared standalone launcher directories.");
+        return true;
     }
 
     public void PrepareGameDirectories(LauncherPaths paths, bool cleanTemporaryDirectory)

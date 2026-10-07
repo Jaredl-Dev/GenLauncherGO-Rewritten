@@ -334,6 +334,8 @@
     <data name="Selected" xml:space="preserve"><value>Seleccionado</value></data>
     <data name="StandaloneLocationRequired" xml:space="preserve"><value>No se puede ejecutar desde la carpeta de un juego</value></data>
     <data name="StandaloneLocationBlockingDescription" xml:space="preserve"><value>Mueve GenLauncherGO fuera de la carpeta del juego, a una carpeta con acceso de escritura fuera de Archivos de programa.</value></data>
+    <data name="LauncherFolderNotWritable" xml:space="preserve"><value>No se puede escribir en la carpeta del launcher</value></data>
+    <data name="LauncherFolderNotWritableDescription" xml:space="preserve"><value>GenLauncherGO no puede guardar sus datos en {0}. Mueve GenLauncherGO a una carpeta con acceso de escritura fuera de Archivos de programa.</value></data>
     <data name="AdministratorPermissionRequired" xml:space="preserve"><value>GenLauncherGO necesita permisos de administrador para ejecutarse.</value></data>
     <data name="ActiveGameLabel" xml:space="preserve"><value>Juego activo</value></data>
     <data name="GameManagement" xml:space="preserve"><value>Gestión de juegos</value></data>

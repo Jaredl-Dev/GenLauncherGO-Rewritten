@@ -334,6 +334,8 @@
     <data name="Selected" xml:space="preserve"><value>Selected</value></data>
     <data name="StandaloneLocationRequired" xml:space="preserve"><value>Can't run from a game folder</value></data>
     <data name="StandaloneLocationBlockingDescription" xml:space="preserve"><value>Move GenLauncherGO out of the game folder, to a folder with write access outside Program Files.</value></data>
+    <data name="LauncherFolderNotWritable" xml:space="preserve"><value>Can't write to the launcher folder</value></data>
+    <data name="LauncherFolderNotWritableDescription" xml:space="preserve"><value>GenLauncherGO can't save its data in {0}. Move GenLauncherGO to a folder with write access outside Program Files.</value></data>
     <data name="AdministratorPermissionRequired" xml:space="preserve"><value>GenLauncherGO requires administrator permission to run.</value></data>
     <data name="ActiveGameLabel" xml:space="preserve"><value>Active game</value></data>
     <data name="GameManagement" xml:space="preserve"><value>Game management</value></data>

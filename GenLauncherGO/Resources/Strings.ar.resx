@@ -334,6 +334,8 @@
     <data name="Selected" xml:space="preserve"><value>محددة</value></data>
     <data name="StandaloneLocationRequired" xml:space="preserve"><value>لا يمكن التشغيل من مجلد لعبة</value></data>
     <data name="StandaloneLocationBlockingDescription" xml:space="preserve"><value>انقل GenLauncherGO خارج مجلد اللعبة إلى مجلد لديك إذن الكتابة فيه خارج Program Files.</value></data>
+    <data name="LauncherFolderNotWritable" xml:space="preserve"><value>تعذرت الكتابة في مجلد اللانشر</value></data>
+    <data name="LauncherFolderNotWritableDescription" xml:space="preserve"><value>لا يستطيع GenLauncherGO حفظ بياناته في {0}. انقل GenLauncherGO إلى مجلد لديك إذن الكتابة فيه خارج Program Files.</value></data>
     <data name="AdministratorPermissionRequired" xml:space="preserve"><value>يتطلب تشغيل GenLauncherGO صلاحية المسؤول.</value></data>
     <data name="ActiveGameLabel" xml:space="preserve"><value>اللعبة النشطة</value></data>
     <data name="GameManagement" xml:space="preserve"><value>إدارة الألعاب</value></data>

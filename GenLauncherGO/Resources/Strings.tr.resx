@@ -334,6 +334,8 @@
     <data name="Selected" xml:space="preserve"><value>Seçildi</value></data>
     <data name="StandaloneLocationRequired" xml:space="preserve"><value>Oyun klasöründen çalıştırılamaz</value></data>
     <data name="StandaloneLocationBlockingDescription" xml:space="preserve"><value>GenLauncherGO'yu oyun klasöründen çıkarıp Program Files dışında, yazma izni olan bir klasöre taşıyın.</value></data>
+    <data name="LauncherFolderNotWritable" xml:space="preserve"><value>Launcher klasörüne yazılamıyor</value></data>
+    <data name="LauncherFolderNotWritableDescription" xml:space="preserve"><value>GenLauncherGO verilerini {0} konumuna kaydedemiyor. GenLauncherGO'yu Program Files dışında, yazma izni olan bir klasöre taşıyın.</value></data>
     <data name="AdministratorPermissionRequired" xml:space="preserve"><value>GenLauncherGO'nun çalışması için yönetici izni gerekir.</value></data>
     <data name="ActiveGameLabel" xml:space="preserve"><value>Etkin oyun</value></data>
     <data name="GameManagement" xml:space="preserve"><value>Oyun yönetimi</value></data>
