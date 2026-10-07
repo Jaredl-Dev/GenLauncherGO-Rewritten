@@ -202,6 +202,8 @@ internal sealed class LauncherApplicationHost : IDisposable
                     return false;
                 }
 
+                preferencesService.PersistLoadedPreferences();
+
                 StandaloneStartupResult startup = await startupWorkflow.RunAsync(
                     storagePaths,
                     preferencesService);

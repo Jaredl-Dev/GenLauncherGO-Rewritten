@@ -70,14 +70,15 @@ public sealed class PreferencesServiceTests
     }
 
     [Fact]
-    public void Current_WhenPreferencesFileIsMalformed_ReturnsDefaults()
+    public void PersistLoadedPreferences_WhenPreferencesFileIsMalformed_SavesDefaults()
     {
         using var directory = new TestDirectory();
         string preferencesFilePath = directory.CreateFile(
             "LauncherPreferences.yaml",
             "Installations: [");
-
         PreferencesService service = CreateService(preferencesFilePath);
+
+        service.PersistLoadedPreferences();
 
         service.Current.Should().Be(new LauncherPreferences());
         string resetYaml = File.ReadAllText(preferencesFilePath);
@@ -86,7 +87,7 @@ public sealed class PreferencesServiceTests
     }
 
     [Fact]
-    public void Current_MigratesUnversionedFlatPreferencesToCurrentSchema()
+    public void PersistLoadedPreferences_MigratesUnversionedFlatPreferencesToCurrentSchema()
     {
         using var directory = new TestDirectory();
         string preferencesFilePath = directory.CreateFile(
@@ -96,8 +97,9 @@ public sealed class PreferencesServiceTests
             AutoDeleteOldVersions: true
             SelectedGameClient: generalszh.exe
             """);
-
         PreferencesService service = CreateService(preferencesFilePath);
+
+        service.PersistLoadedPreferences();
 
         service.Current.Shared.AutoDeleteOldVersions.Should().BeTrue();
         service.Current.Games.ZeroHour.LaunchesCount.Should().Be(7);
@@ -112,7 +114,7 @@ public sealed class PreferencesServiceTests
     }
 
     [Fact]
-    public void Current_WhenSchemaIsNewerThanSupported_ResetsToCurrentSchemaDefaults()
+    public void PersistLoadedPreferences_WhenSchemaIsNewerThanSupported_SavesCurrentSchemaDefaults()
     {
         using var directory = new TestDirectory();
         const string FuturePreferences =
@@ -125,8 +127,9 @@ public sealed class PreferencesServiceTests
         string preferencesFilePath = directory.CreateFile(
             "LauncherPreferences.yaml",
             FuturePreferences);
-
         PreferencesService service = CreateService(preferencesFilePath);
+
+        service.PersistLoadedPreferences();
 
         service.Current.Should().Be(new LauncherPreferences());
         string resetYaml = File.ReadAllText(preferencesFilePath);
@@ -173,7 +176,7 @@ public sealed class PreferencesServiceTests
     ///     otherwise persist has to fail instead of writing through the link.
     /// </summary>
     [Fact]
-    public void Current_WhenPreferencesAreReachedThroughAReparsePoint_FailsWithoutRewritingTheFile()
+    public void PersistLoadedPreferences_WhenPreferencesAreReachedThroughAReparsePoint_FailsWithoutRewritingTheFile()
     {
         using var directory = new TestDirectory();
         const string MalformedPreferences = "Installations: [";
@@ -184,8 +187,9 @@ public sealed class PreferencesServiceTests
             "RealSettings");
         string preferencesFilePath = Path.Combine(linkedDirectory, "LauncherPreferences.yaml");
         File.WriteAllText(preferencesFilePath, MalformedPreferences);
+        PreferencesService service = CreateService(preferencesFilePath);
 
-        Action act = () => CreateService(preferencesFilePath);
+        Action act = service.PersistLoadedPreferences;
 
         act.Should().Throw<LauncherPreferencesPersistenceException>();
         File.ReadAllText(preferencesFilePath).Should().Be(MalformedPreferences);

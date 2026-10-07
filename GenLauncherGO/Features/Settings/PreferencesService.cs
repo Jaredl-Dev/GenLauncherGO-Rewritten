@@ -13,6 +13,8 @@ internal sealed class PreferencesService : ILauncherPreferencesService
     private readonly IYamlDocumentStore<LegacyLauncherPreferencesDocument> _legacyDocumentStore;
     private readonly IYamlDocumentStore<LauncherPreferencesSchemaDocument> _schemaDocumentStore;
 
+    private bool _loadedPreferencesNeedSaving;
+
     public PreferencesService(
         IYamlDocumentStore<LauncherPreferencesSchemaDocument> schemaDocumentStore,
         IYamlDocumentStore<LauncherPreferencesDocument> documentStore,
@@ -42,6 +44,14 @@ internal sealed class PreferencesService : ILauncherPreferencesService
 
         Current = normalizedPreferences;
         PreferencesChanged?.Invoke(this, Current);
+    }
+
+    public void PersistLoadedPreferences()
+    {
+        if (_loadedPreferencesNeedSaving)
+        {
+            SavePreferences(Current);
+        }
     }
 
     private LauncherPreferences LoadPreferences()
@@ -78,20 +88,14 @@ internal sealed class PreferencesService : ILauncherPreferencesService
             return ResetPreferences();
         }
 
-        LauncherPreferences migratedPreferences =
-            LauncherPreferencesDocumentMapper.MigrateLegacyPreferences(legacyDocument);
-        return PersistLoadedPreferences(migratedPreferences);
+        _loadedPreferencesNeedSaving = true;
+        return LauncherPreferencesDocumentMapper.MigrateLegacyPreferences(legacyDocument);
     }
 
     private LauncherPreferences ResetPreferences()
     {
-        return PersistLoadedPreferences(new LauncherPreferences());
-    }
-
-    private LauncherPreferences PersistLoadedPreferences(LauncherPreferences preferences)
-    {
-        SavePreferences(preferences);
-        return preferences;
+        _loadedPreferencesNeedSaving = true;
+        return new LauncherPreferences();
     }
 
     private void SavePreferences(LauncherPreferences preferences)
@@ -99,6 +103,7 @@ internal sealed class PreferencesService : ILauncherPreferencesService
         try
         {
             _documentStore.Save(LauncherPreferencesDocumentMapper.ToDocument(preferences));
+            _loadedPreferencesNeedSaving = false;
         }
         catch (Exception exception)
         {

@@ -13,6 +13,15 @@ namespace GenLauncherGO.Tests.Features.Startup;
 [Collection("Avalonia")]
 public sealed class LauncherApplicationHostTests
 {
+    /// <summary>
+    ///     Preferences in the flat format written before the versioned schema, which loading converts.
+    /// </summary>
+    private const string UnversionedPreferences =
+        """
+        LaunchesCount: 7
+        AutoDeleteOldVersions: true
+        """;
+
     [Fact]
     public async Task RunWhenProcess_IsNotElevatedStopsBeforeResolvingStorageAsync()
     {
@@ -40,12 +49,13 @@ public sealed class LauncherApplicationHostTests
     }
 
     [Fact]
-    public async Task RunWhenLauncher_IsInsideGameStopsBeforeCreatingStandaloneStorageAsync()
+    public async Task RunWhenLauncher_IsInsideGameStopsBeforeWritingStandaloneStorageAsync()
     {
         using var directory = new TestDirectory();
         AvaloniaLauncherStringLocalizer localizer = new();
         var hostEnvironment = new StubLauncherHostEnvironmentService();
         var storagePaths = new LauncherStoragePaths(directory.Path);
+        WriteUnversionedPreferences(storagePaths);
         var pathResolver = new StubLauncherPathResolver
         {
             ResolvedPaths = storagePaths
@@ -68,7 +78,27 @@ public sealed class LauncherApplicationHostTests
         startupWorkflow.RunCount.Should().Be(0);
         pathResolver.PrepareLauncherDirectoriesCount.Should().Be(0);
         Directory.Exists(storagePaths.LogsDirectory).Should().BeFalse();
+        File.ReadAllText(storagePaths.PreferencesFilePath).Should().Be(UnversionedPreferences);
         startupDialogService.Messages.Should().BeEmpty();
+    }
+
+    [Fact]
+    public async Task Run_SavesConvertedPreferencesOnceStartupChecksPassAsync()
+    {
+        using var directory = new TestDirectory();
+        var storagePaths = new LauncherStoragePaths(directory.Path);
+        WriteUnversionedPreferences(storagePaths);
+        using LauncherApplicationHost host = new(
+            new StubLauncherPathResolver { ResolvedPaths = storagePaths },
+            new StubLauncherHostEnvironmentService(),
+            new AvaloniaLauncherStringLocalizer(),
+            new RecordingStartupDialogService(),
+            new StubStandaloneStartupWorkflow());
+
+        await host.RunAsync();
+
+        File.ReadAllText(storagePaths.PreferencesFilePath).Should()
+            .Contain($"SchemaVersion: {LauncherPreferencesDocument.CurrentSchemaVersion}");
     }
 
     [Fact]
@@ -114,9 +144,11 @@ public sealed class LauncherApplicationHostTests
     public async Task RunWhenAnotherInstanceOwnsGuard_ActivatesExistingWindowAndSkipsSetupAsync()
     {
         using var directory = new TestDirectory();
+        var storagePaths = new LauncherStoragePaths(directory.Path);
+        WriteUnversionedPreferences(storagePaths);
         var pathResolver = new StubLauncherPathResolver
         {
-            ResolvedPaths = new LauncherStoragePaths(directory.Path)
+            ResolvedPaths = storagePaths
         };
         var hostEnvironment = new StubLauncherHostEnvironmentService
         {
@@ -135,6 +167,7 @@ public sealed class LauncherApplicationHostTests
         pathResolver.PrepareLauncherDirectoriesCount.Should().Be(1);
         hostEnvironment.ActivationCount.Should().Be(1);
         startupWorkflow.RunCount.Should().Be(0);
+        File.ReadAllText(storagePaths.PreferencesFilePath).Should().Be(UnversionedPreferences);
     }
 
     [Fact]
@@ -170,6 +203,12 @@ public sealed class LauncherApplicationHostTests
             startupDialogService.Messages.Should()
                 .ContainSingle(message => message.Contains(expectedException.Message, StringComparison.Ordinal));
         });
+    }
+
+    private static void WriteUnversionedPreferences(LauncherStoragePaths storagePaths)
+    {
+        Directory.CreateDirectory(storagePaths.DataDirectory);
+        File.WriteAllText(storagePaths.PreferencesFilePath, UnversionedPreferences);
     }
 
     private sealed class StubLauncherPathResolver : ILauncherPathResolver

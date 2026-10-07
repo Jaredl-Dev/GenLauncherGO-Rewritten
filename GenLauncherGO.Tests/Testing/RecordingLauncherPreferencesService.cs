@@ -49,4 +49,8 @@ internal sealed class RecordingLauncherPreferencesService : ILauncherPreferences
         Updates.Add(preferences);
         PreferencesChanged?.Invoke(this, preferences);
     }
+
+    public void PersistLoadedPreferences()
+    {
+    }
 }

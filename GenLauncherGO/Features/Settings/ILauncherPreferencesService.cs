@@ -25,4 +25,16 @@ internal interface ILauncherPreferencesService
     ///     <see cref="Current" /> and <see cref="PreferencesChanged" /> remain unchanged.
     /// </exception>
     void Update(LauncherPreferences preferences);
+
+    /// <summary>
+    ///     Saves the preferences that loading converted from an older format or reset, and does nothing otherwise.
+    /// </summary>
+    /// <remarks>
+    ///     Loading never writes, so startup can confirm the launcher's location and folder access before the
+    ///     preferences file is touched.
+    /// </remarks>
+    /// <exception cref="LauncherPreferencesPersistenceException">
+    ///     Thrown when the loaded preferences cannot be persisted.
+    /// </exception>
+    void PersistLoadedPreferences();
 }
