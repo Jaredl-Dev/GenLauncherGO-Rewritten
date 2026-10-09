@@ -9,16 +9,6 @@ namespace GenLauncherGO.Features.Startup;
 /// </summary>
 internal sealed class FileSystemLauncherPathResolver : ILauncherPathResolver
 {
-    /// <summary>
-    ///     The HRESULT of <c>ERROR_WRITE_PROTECT</c>, raised by a locked SD card or USB drive or one made read-only by
-    ///     policy.
-    /// </summary>
-    /// <remarks>
-    ///     Kept deliberately: people run the portable archive from removable drives, and moving the launcher is their
-    ///     fix. Tests cannot create write-protected media, so this case has no automated coverage.
-    /// </remarks>
-    private const int ErrorWriteProtectHResult = unchecked((int)0x80070013);
-
     public LauncherStoragePaths Resolve(string executableDirectory)
     {
         ArgumentException.ThrowIfNullOrWhiteSpace(executableDirectory);
@@ -34,24 +24,13 @@ internal sealed class FileSystemLauncherPathResolver : ILauncherPathResolver
         {
             OwnedDirectoryTree.EnsureExists(paths.ExecutableDirectory, paths.DataDirectory);
             OwnedDirectoryTree.EnsureExists(paths.DataDirectory, paths.LogsDirectory);
-
-            // Only a real file proves access: permissions alone miss Controlled Folder Access, share rights,
-            // inherited Deny entries, and write-protected media. Windows deletes the file on close.
-            new FileStream(
-                Path.Combine(paths.DataDirectory, $".write-test-{Guid.NewGuid():N}.tmp"),
-                FileMode.CreateNew,
-                FileAccess.Write,
-                FileShare.None,
-                1,
-                FileOptions.DeleteOnClose).Dispose();
         }
-        catch (Exception exception) when (exception is UnauthorizedAccessException
-                                              or IOException { HResult: ErrorWriteProtectHResult })
+        catch (Exception exception) when (DirectoryWriteProbe.IsWriteDenied(exception))
         {
             return false;
         }
 
-        return true;
+        return DirectoryWriteProbe.CanCreateFiles(paths.DataDirectory);
     }
 
     public void PrepareGameDirectories(LauncherPaths paths, bool cleanTemporaryDirectory)
