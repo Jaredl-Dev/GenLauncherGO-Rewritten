@@ -24,32 +24,6 @@ public sealed class LauncherApplicationHostTests
         """;
 
     [Fact]
-    public async Task RunWhenProcess_IsNotElevatedStopsBeforeResolvingStorageAsync()
-    {
-        AvaloniaLauncherStringLocalizer localizer = new();
-        var pathResolver = new StubLauncherPathResolver();
-        var hostEnvironment = new StubLauncherHostEnvironmentService
-        {
-            CurrentProcessElevated = false
-        };
-        var startupDialogService = new RecordingStartupDialogService();
-        using LauncherApplicationHost host = new(
-            pathResolver,
-            hostEnvironment,
-            localizer,
-            startupDialogService);
-
-        await host.RunAsync();
-
-        startupDialogService.Messages.Should()
-            .ContainSingle()
-            .Which.Should()
-            .Be(localizer["AdministratorPermissionRequired"]);
-        pathResolver.ResolvedExecutableDirectory.Should().BeNull();
-        pathResolver.TryPrepareLauncherDirectoriesCount.Should().Be(0);
-    }
-
-    [Fact]
     public async Task RunWhenLauncher_IsInsideGameStopsBeforeWritingStandaloneStorageAsync()
     {
         using var directory = new TestDirectory();
@@ -163,7 +137,6 @@ public sealed class LauncherApplicationHostTests
         await host.RunAsync();
 
         events.Should().Equal(
-            "elevation",
             "resolve-storage",
             "location",
             "prepare-storage",
@@ -250,8 +223,6 @@ public sealed class LauncherApplicationHostTests
 
         public LauncherStoragePaths? ResolvedPaths { get; init; }
 
-        public string? ResolvedExecutableDirectory { get; private set; }
-
         public bool DataFolderWritable { get; init; } = true;
 
         public int TryPrepareLauncherDirectoriesCount { get; private set; }
@@ -259,7 +230,6 @@ public sealed class LauncherApplicationHostTests
         public LauncherStoragePaths Resolve(string executableDirectory)
         {
             Events?.Add("resolve-storage");
-            ResolvedExecutableDirectory = executableDirectory;
             return ResolvedPaths ??
                    throw new InvalidOperationException("The standalone storage path could not be resolved.");
         }
@@ -282,8 +252,6 @@ public sealed class LauncherApplicationHostTests
 
         public string ExecutableDirectory { get; } = @"C:\Launcher";
 
-        public bool CurrentProcessElevated { get; init; } = true;
-
         public bool SingleInstanceAcquired { get; init; } = true;
 
         public int ActivationCount { get; private set; }
@@ -304,12 +272,6 @@ public sealed class LauncherApplicationHostTests
         public string GetLauncherRootDirectory()
         {
             return ExecutableDirectory;
-        }
-
-        public bool IsCurrentProcessElevated()
-        {
-            Events?.Add("elevation");
-            return CurrentProcessElevated;
         }
 
         public LauncherRestartResult TryRestartCurrentProcess()

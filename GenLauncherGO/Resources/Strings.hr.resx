@@ -336,7 +336,6 @@
     <data name="StandaloneLocationBlockingDescription" xml:space="preserve"><value>Premjestite GenLauncherGO iz mape igre u mapu s dopuštenjem za pisanje izvan mape Program Files.</value></data>
     <data name="LauncherFolderNotWritable" xml:space="preserve"><value>Nije moguće pisati u mapu launchera</value></data>
     <data name="LauncherFolderNotWritableDescription" xml:space="preserve"><value>GenLauncherGO ne može spremiti svoje podatke u {0}. Premjestite GenLauncherGO u mapu s dopuštenjem za pisanje izvan mape Program Files.</value></data>
-    <data name="AdministratorPermissionRequired" xml:space="preserve"><value>GenLauncherGO za rad zahtijeva administratorske ovlasti.</value></data>
     <data name="ActiveGameLabel" xml:space="preserve"><value>Aktivna igra</value></data>
     <data name="GameManagement" xml:space="preserve"><value>Upravljanje igrama</value></data>
     <data name="InstallationPaths" xml:space="preserve"><value>Putanje instalacija</value></data>

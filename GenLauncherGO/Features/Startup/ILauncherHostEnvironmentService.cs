@@ -19,11 +19,6 @@ internal interface ILauncherHostEnvironmentService
     string GetLauncherRootDirectory();
 
     /// <summary>
-    ///     Returns whether the current process is running with elevated administrator privileges.
-    /// </summary>
-    bool IsCurrentProcessElevated();
-
-    /// <summary>
     ///     Attempts to start a replacement instance of the current launcher process.
     /// </summary>
     LauncherRestartResult TryRestartCurrentProcess();
