@@ -303,6 +303,10 @@
     <data name="RestartLater" xml:space="preserve"><value>Más tarde</value></data>
     <data name="RestartBlockedTitle" xml:space="preserve"><value>Reinicio no disponible</value></data>
     <data name="RestartBlockedActiveOperation" xml:space="preserve"><value>Finaliza o cancela «{0}» antes de reiniciar GenLauncherGO.</value></data>
+    <data name="ElevationRequiredTitle" xml:space="preserve"><value>Se necesitan permisos de administrador</value></data>
+    <data name="ElevationRequiredDetails" xml:space="preserve"><value>{0} está configurado para ejecutarse como administrador.&#xA;&#xA;Para solucionarlo, haz clic derecho en {0} > Propiedades > Compatibilidad y desmarca «Ejecutar este programa como administrador», también en «Cambiar la configuración para todos los usuarios».&#xA;&#xA;O reinicia GenLauncherGO como administrador.</value></data>
+    <data name="RestartAsAdministrator" xml:space="preserve"><value>Reiniciar como administrador</value></data>
+    <data name="AdministratorWindowTitle" xml:space="preserve"><value>Administrador: {0}</value></data>
     <data name="GameInstallationSetupTitle" xml:space="preserve"><value>Elegir carpetas de juego</value></data>
     <data name="ValidGeneralsInstallation" xml:space="preserve"><value>Carpeta de Generals seleccionada</value></data>
     <data name="ValidZeroHourInstallation" xml:space="preserve"><value>Carpeta de Zero Hour seleccionada</value></data>

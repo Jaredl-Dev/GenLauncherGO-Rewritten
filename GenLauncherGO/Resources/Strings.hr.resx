@@ -303,6 +303,10 @@
     <data name="RestartLater" xml:space="preserve"><value>Kasnije</value></data>
     <data name="RestartBlockedTitle" xml:space="preserve"><value>Ponovno pokretanje nije dostupno</value></data>
     <data name="RestartBlockedActiveOperation" xml:space="preserve"><value>Dovršite ili otkažite „{0}” prije ponovnog pokretanja GenLauncherGO-a.</value></data>
+    <data name="ElevationRequiredTitle" xml:space="preserve"><value>Potrebne su administratorske ovlasti</value></data>
+    <data name="ElevationRequiredDetails" xml:space="preserve"><value>{0} je postavljen da se pokreće kao administrator.&#xA;&#xA;Da biste to popravili, desnom tipkom miša kliknite {0} > Svojstva > Kompatibilnost i poništite „Pokreni ovaj program kao administrator”, i pod „Promijeni postavke za sve korisnike”.&#xA;&#xA;Ili ponovno pokrenite GenLauncherGO kao administrator.</value></data>
+    <data name="RestartAsAdministrator" xml:space="preserve"><value>Ponovno pokreni kao administrator</value></data>
+    <data name="AdministratorWindowTitle" xml:space="preserve"><value>Administrator: {0}</value></data>
     <data name="GameInstallationSetupTitle" xml:space="preserve"><value>Odaberite mape igara</value></data>
     <data name="ValidGeneralsInstallation" xml:space="preserve"><value>Odabrana je mapa igre Generals</value></data>
     <data name="ValidZeroHourInstallation" xml:space="preserve"><value>Odabrana je mapa igre Zero Hour</value></data>

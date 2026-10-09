@@ -22,7 +22,10 @@ internal interface ILauncherHostEnvironmentService
     /// <summary>
     ///     Attempts to start a replacement instance of the current launcher process.
     /// </summary>
-    LauncherRestartResult TryRestartCurrentProcess();
+    /// <param name="asAdministrator">
+    ///     <see langword="true" /> to have Windows ask for elevation; declining the prompt is reported as a failure.
+    /// </param>
+    LauncherRestartResult TryRestartCurrentProcess(bool asAdministrator);
 
     /// <summary>
     ///     Attempts to acquire the launcher single-instance guard; the returned guard reports whether startup may continue.

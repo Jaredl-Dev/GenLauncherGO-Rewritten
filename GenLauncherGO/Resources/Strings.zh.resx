@@ -303,6 +303,10 @@
     <data name="RestartLater" xml:space="preserve"><value>稍后</value></data>
     <data name="RestartBlockedTitle" xml:space="preserve"><value>无法重新启动</value></data>
     <data name="RestartBlockedActiveOperation" xml:space="preserve"><value>请先完成或取消“{0}”，再重新启动 GenLauncherGO。</value></data>
+    <data name="ElevationRequiredTitle" xml:space="preserve"><value>需要管理员权限</value></data>
+    <data name="ElevationRequiredDetails" xml:space="preserve"><value>{0} 已设置为以管理员身份运行。&#xA;&#xA;要解决此问题，请右键单击 {0} > 属性 > 兼容性，取消勾选“以管理员身份运行此程序”，并在“更改所有用户的设置”中同样取消勾选。&#xA;&#xA;或者以管理员身份重新启动 GenLauncherGO。</value></data>
+    <data name="RestartAsAdministrator" xml:space="preserve"><value>以管理员身份重新启动</value></data>
+    <data name="AdministratorWindowTitle" xml:space="preserve"><value>管理员: {0}</value></data>
     <data name="GameInstallationSetupTitle" xml:space="preserve"><value>选择游戏文件夹</value></data>
     <data name="ValidGeneralsInstallation" xml:space="preserve"><value>已选择 Generals 文件夹</value></data>
     <data name="ValidZeroHourInstallation" xml:space="preserve"><value>已选择 Zero Hour 文件夹</value></data>

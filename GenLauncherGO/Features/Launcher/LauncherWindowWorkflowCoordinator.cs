@@ -1,5 +1,6 @@
 using System;
 using System.Collections.Generic;
+using System.ComponentModel;
 using System.Globalization;
 using System.Linq;
 using System.Threading;
@@ -25,6 +26,12 @@ namespace GenLauncherGO.Features.Launcher;
 /// </summary>
 internal sealed class LauncherWindowWorkflowCoordinator
 {
+    /// <summary>
+    ///     The Win32 error Windows reports when an executable must run elevated, for example because "Run this program
+    ///     as an administrator" is set on it.
+    /// </summary>
+    private const int ErrorElevationRequired = 740;
+
     private const string GenPatcherDownloadPageUrl = "https://legi.cc/genpatcher/";
 
     private readonly LauncherCloseGuard _closeGuard;
@@ -228,17 +235,32 @@ internal sealed class LauncherWindowWorkflowCoordinator
                 targetName,
                 System.IO.Path.GetFileName(executablePath));
             context.ViewModel.ApplySelectionToPersistenceModel();
-            bool processSucceeded = await _launchCoordinator.LaunchAsync(
-                new LauncherLaunchRequest(
-                    targetKind,
-                    executablePath!,
-                    targetDisplayName,
-                    selectedExecutable!.DisplayName,
-                    useGeneralsOnline,
-                    context.ViewModel.GetSelectedVersionsOfAllSelectedModifications()),
-                selectedContent.Cast<ILaunchContentIntegrityProgressTarget>().ToList(),
-                context.Owner,
-                cancellationToken);
+            bool processSucceeded;
+            try
+            {
+                processSucceeded = await _launchCoordinator.LaunchAsync(
+                    new LauncherLaunchRequest(
+                        targetKind,
+                        executablePath!,
+                        targetDisplayName,
+                        selectedExecutable!.DisplayName,
+                        useGeneralsOnline,
+                        context.ViewModel.GetSelectedVersionsOfAllSelectedModifications()),
+                    selectedContent.Cast<ILaunchContentIntegrityProgressTarget>().ToList(),
+                    context.Owner,
+                    cancellationToken);
+            }
+            catch (Win32Exception exception) when (exception.NativeErrorCode == ErrorElevationRequired)
+            {
+                // The launch has ended and its deployment is cleaned up, so the close guard allows a restart.
+                string executableName = System.IO.Path.GetFileName(executablePath!);
+                _logger.LogInformation(
+                    "Windows requires administrator rights to start {ExecutableName}.",
+                    executableName);
+                await OfferAdministratorRestartAsync(executableName, context.Owner);
+                return;
+            }
+
             _logger.LogInformation(
                 "{LaunchTarget} launch workflow completed. Process succeeded: {ProcessSucceeded}.",
                 targetName,
@@ -254,6 +276,25 @@ internal sealed class LauncherWindowWorkflowCoordinator
         finally
         {
             context.Content.RestoreFocuses();
+        }
+    }
+
+    private async Task OfferAdministratorRestartAsync(string executableName, Window owner)
+    {
+        bool restart = await _dialogService.ShowWarningConfirmationAsync(
+            new LauncherInfoDialogRequest(
+                _stringLocalizer["ElevationRequiredTitle"],
+                string.Format(
+                    CultureInfo.CurrentCulture,
+                    _stringLocalizer["ElevationRequiredDetails"],
+                    executableName)),
+            _stringLocalizer["RestartAsAdministrator"],
+            owner);
+        if (restart &&
+            await _restartCoordinator.TryRequestRestartAsync(owner, LauncherRestartKind.Administrator))
+        {
+            _logger.LogInformation("Closing the main window to restart the launcher as administrator.");
+            owner.Close();
         }
     }
 

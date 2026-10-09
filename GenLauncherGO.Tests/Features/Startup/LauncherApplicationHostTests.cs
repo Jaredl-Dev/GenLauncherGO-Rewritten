@@ -274,7 +274,7 @@ public sealed class LauncherApplicationHostTests
             return ExecutableDirectory;
         }
 
-        public LauncherRestartResult TryRestartCurrentProcess()
+        public LauncherRestartResult TryRestartCurrentProcess(bool asAdministrator)
         {
             RestartCount++;
             return LauncherRestartResult.Success;

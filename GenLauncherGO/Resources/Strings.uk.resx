@@ -303,6 +303,10 @@
     <data name="RestartLater" xml:space="preserve"><value>Пізніше</value></data>
     <data name="RestartBlockedTitle" xml:space="preserve"><value>Перезапуск недоступний</value></data>
     <data name="RestartBlockedActiveOperation" xml:space="preserve"><value>Завершіть або скасуйте «{0}» перед перезапуском GenLauncherGO.</value></data>
+    <data name="ElevationRequiredTitle" xml:space="preserve"><value>Потрібні права адміністратора</value></data>
+    <data name="ElevationRequiredDetails" xml:space="preserve"><value>{0} налаштовано на запуск від імені адміністратора.&#xA;&#xA;Щоб виправити це, клацніть {0} правою кнопкою миші > Властивості > Сумісність і зніміть прапорець «Запускати цю програму від імені адміністратора» — також у вікні «Змінити параметри для всіх користувачів».&#xA;&#xA;Або перезапустіть GenLauncherGO від імені адміністратора.</value></data>
+    <data name="RestartAsAdministrator" xml:space="preserve"><value>Перезапустити від імені адміністратора</value></data>
+    <data name="AdministratorWindowTitle" xml:space="preserve"><value>Адміністратор: {0}</value></data>
     <data name="GameInstallationSetupTitle" xml:space="preserve"><value>Виберіть папки ігор</value></data>
     <data name="ValidGeneralsInstallation" xml:space="preserve"><value>Папку Generals вибрано</value></data>
     <data name="ValidZeroHourInstallation" xml:space="preserve"><value>Папку Zero Hour вибрано</value></data>

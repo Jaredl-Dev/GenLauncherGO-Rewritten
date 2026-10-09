@@ -303,6 +303,10 @@
     <data name="RestartLater" xml:space="preserve"><value>Daha sonra</value></data>
     <data name="RestartBlockedTitle" xml:space="preserve"><value>Yeniden başlatma kullanılamıyor</value></data>
     <data name="RestartBlockedActiveOperation" xml:space="preserve"><value>GenLauncherGO'yu yeniden başlatmadan önce “{0}” işlemini bitirin veya iptal edin.</value></data>
+    <data name="ElevationRequiredTitle" xml:space="preserve"><value>Yönetici izni gerekiyor</value></data>
+    <data name="ElevationRequiredDetails" xml:space="preserve"><value>{0} yönetici olarak çalışacak şekilde ayarlanmış.&#xA;&#xA;Düzeltmek için {0} öğesine sağ tıklayın > Özellikler > Uyumluluk ve “Bu programı yönetici olarak çalıştır” seçeneğini kaldırın; bunu “Tüm kullanıcılar için ayarları değiştir” altında da yapın.&#xA;&#xA;Ya da GenLauncherGO'yu yönetici olarak yeniden başlatın.</value></data>
+    <data name="RestartAsAdministrator" xml:space="preserve"><value>Yönetici olarak yeniden başlat</value></data>
+    <data name="AdministratorWindowTitle" xml:space="preserve"><value>Yönetici: {0}</value></data>
     <data name="GameInstallationSetupTitle" xml:space="preserve"><value>Oyun klasörlerini seçin</value></data>
     <data name="ValidGeneralsInstallation" xml:space="preserve"><value>Generals klasörü seçildi</value></data>
     <data name="ValidZeroHourInstallation" xml:space="preserve"><value>Zero Hour klasörü seçildi</value></data>

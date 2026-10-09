@@ -10,6 +10,10 @@ namespace GenLauncherGO.Features.Startup;
 ///     Completes shutdown cleanup once and starts an accepted replacement process only after releasing the
 ///     single-instance guard.
 /// </summary>
+/// <remarks>
+///     An application update or administrator restart that cannot start falls back to a normal restart, so the user
+///     is not left without a launcher.
+/// </remarks>
 internal sealed class LauncherShutdownCoordinator
 {
     private readonly ILauncherHostEnvironmentService _hostEnvironmentService;
@@ -71,8 +75,21 @@ internal sealed class LauncherShutdownCoordinator
             _logger.LogWarning(
                 "The Velopack application-update handoff failed; falling back to a normal launcher restart.");
         }
+        else if (restartKind == LauncherRestartKind.Administrator)
+        {
+            LauncherRestartResult administratorResult =
+                _hostEnvironmentService.TryRestartCurrentProcess(asAdministrator: true);
+            if (administratorResult.Succeeded)
+            {
+                return;
+            }
 
-        LauncherRestartResult result = _hostEnvironmentService.TryRestartCurrentProcess();
+            _logger.LogWarning(
+                "The launcher could not restart as administrator; falling back to a normal launcher restart. {RestartError}",
+                administratorResult.ErrorMessage);
+        }
+
+        LauncherRestartResult result = _hostEnvironmentService.TryRestartCurrentProcess(asAdministrator: false);
         if (!result.Succeeded)
         {
             _logger.LogError(

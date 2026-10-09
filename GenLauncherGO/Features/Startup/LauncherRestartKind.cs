@@ -7,5 +7,6 @@ internal enum LauncherRestartKind
 {
     None,
     Normal,
-    ApplicationUpdate
+    ApplicationUpdate,
+    Administrator
 }

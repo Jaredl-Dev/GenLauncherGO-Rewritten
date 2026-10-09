@@ -79,6 +79,29 @@ public sealed partial class LauncherWindowWorkflowCoordinatorTests
         LauncherLaunchCoordinator? launchCoordinator = null,
         Func<LauncherSettingsWindow>? launcherSettingsWindowFactory = null)
     {
+        return CreateCoordinator(
+            out _,
+            packageActivityService,
+            dialogService,
+            catalog,
+            executableDiscovery,
+            preferencesService,
+            gameProcessLauncher,
+            launchCoordinator,
+            launcherSettingsWindowFactory);
+    }
+
+    private static LauncherWindowWorkflowCoordinator CreateCoordinator(
+        out LauncherRestartCoordinator restartCoordinator,
+        LauncherPackageActivityService? packageActivityService = null,
+        ILauncherDialogService? dialogService = null,
+        FakeLauncherContentCatalog? catalog = null,
+        IGameExecutableDiscoveryService? executableDiscovery = null,
+        ILauncherPreferencesService? preferencesService = null,
+        IGameProcessLauncher? gameProcessLauncher = null,
+        LauncherLaunchCoordinator? launchCoordinator = null,
+        Func<LauncherSettingsWindow>? launcherSettingsWindowFactory = null)
+    {
         LauncherPackageActivityService resolvedPackageActivityService =
             packageActivityService ?? new LauncherPackageActivityService();
         ILauncherDialogService resolvedDialogService = dialogService ?? Substitute.For<ILauncherDialogService>();
@@ -105,7 +128,7 @@ public sealed partial class LauncherWindowWorkflowCoordinatorTests
             resolvedDialogService,
             stringLocalizer,
             NullLogger<LauncherCloseGuard>.Instance);
-        LauncherRestartCoordinator restartCoordinator = new(
+        restartCoordinator = new LauncherRestartCoordinator(
             closeGuard,
             NullLogger<LauncherRestartCoordinator>.Instance);
         LauncherRuntimeContext runtimeContext = TestLauncherRuntimeContext.Create();

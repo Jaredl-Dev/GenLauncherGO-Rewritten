@@ -303,6 +303,10 @@
     <data name="RestartLater" xml:space="preserve"><value>بعداً</value></data>
     <data name="RestartBlockedTitle" xml:space="preserve"><value>راه‌اندازی مجدد در دسترس نیست</value></data>
     <data name="RestartBlockedActiveOperation" xml:space="preserve"><value>پیش از راه‌اندازی مجدد GenLauncherGO، «&#x2068;{0}&#x2069;» را تمام یا لغو کنید.</value></data>
+    <data name="ElevationRequiredTitle" xml:space="preserve"><value>دسترسی مدیر سیستم لازم است</value></data>
+    <data name="ElevationRequiredDetails" xml:space="preserve"><value>&#x2068;{0}&#x2069; طوری تنظیم شده است که با دسترسی مدیر سیستم اجرا شود.&#xA;&#xA;برای رفع این مشکل، روی &#x2068;{0}&#x2069; راست‌کلیک کنید > ویژگی‌ها > سازگاری و تیک «اجرای این برنامه به‌عنوان سرپرست» را بردارید؛ این کار را در «تغییر تنظیمات برای همه کاربران» هم انجام دهید.&#xA;&#xA;یا GenLauncherGO را با دسترسی مدیر سیستم دوباره راه‌اندازی کنید.</value></data>
+    <data name="RestartAsAdministrator" xml:space="preserve"><value>راه‌اندازی مجدد با دسترسی مدیر سیستم</value></data>
+    <data name="AdministratorWindowTitle" xml:space="preserve"><value>مدیر سیستم: &#x2068;{0}&#x2069;</value></data>
     <data name="GameInstallationSetupTitle" xml:space="preserve"><value>پوشه‌های بازی را انتخاب کنید</value></data>
     <data name="ValidGeneralsInstallation" xml:space="preserve"><value>پوشه Generals انتخاب شد</value></data>
     <data name="ValidZeroHourInstallation" xml:space="preserve"><value>پوشه Zero Hour انتخاب شد</value></data>

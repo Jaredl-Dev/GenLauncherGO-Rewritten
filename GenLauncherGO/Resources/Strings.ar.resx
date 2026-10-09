@@ -303,6 +303,10 @@
     <data name="RestartLater" xml:space="preserve"><value>لاحقًا</value></data>
     <data name="RestartBlockedTitle" xml:space="preserve"><value>إعادة التشغيل غير متاحة</value></data>
     <data name="RestartBlockedActiveOperation" xml:space="preserve"><value>أنه أو ألغِ "{0}" قبل إعادة تشغيل GenLauncherGO.</value></data>
+    <data name="ElevationRequiredTitle" xml:space="preserve"><value>تلزم صلاحية المسؤول</value></data>
+    <data name="ElevationRequiredDetails" xml:space="preserve"><value>تم ضبط {0} ليعمل كمسؤول.&#xA;&#xA;لإصلاح ذلك، انقر بزر الماوس الأيمن على {0} > خصائص > التوافق وألغِ تحديد "تشغيل هذا البرنامج كمسؤول"، وكذلك ضمن "تغيير الإعدادات لكافة المستخدمين".&#xA;&#xA;أو أعد تشغيل GenLauncherGO كمسؤول.</value></data>
+    <data name="RestartAsAdministrator" xml:space="preserve"><value>إعادة التشغيل كمسؤول</value></data>
+    <data name="AdministratorWindowTitle" xml:space="preserve"><value>المسؤول: {0}</value></data>
     <data name="GameInstallationSetupTitle" xml:space="preserve"><value>اختر مجلدات الألعاب</value></data>
     <data name="ValidGeneralsInstallation" xml:space="preserve"><value>تم تحديد مجلد Generals</value></data>
     <data name="ValidZeroHourInstallation" xml:space="preserve"><value>تم تحديد مجلد Zero Hour</value></data>

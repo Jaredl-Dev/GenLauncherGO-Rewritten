@@ -303,6 +303,10 @@
     <data name="RestartLater" xml:space="preserve"><value>Später</value></data>
     <data name="RestartBlockedTitle" xml:space="preserve"><value>Neustart nicht verfügbar</value></data>
     <data name="RestartBlockedActiveOperation" xml:space="preserve"><value>Beende oder brich „{0}“ ab, bevor du GenLauncherGO neu startest.</value></data>
+    <data name="ElevationRequiredTitle" xml:space="preserve"><value>Administratorrechte erforderlich</value></data>
+    <data name="ElevationRequiredDetails" xml:space="preserve"><value>{0} ist so eingestellt, dass es als Administrator ausgeführt wird.&#xA;&#xA;Zum Beheben klicke mit der rechten Maustaste auf {0} > Eigenschaften > Kompatibilität und deaktiviere „Programm als Administrator ausführen“, auch unter „Einstellungen für alle Benutzer ändern“.&#xA;&#xA;Oder starte GenLauncherGO als Administrator neu.</value></data>
+    <data name="RestartAsAdministrator" xml:space="preserve"><value>Als Administrator neu starten</value></data>
+    <data name="AdministratorWindowTitle" xml:space="preserve"><value>Administrator: {0}</value></data>
     <data name="GameInstallationSetupTitle" xml:space="preserve"><value>Spielordner auswählen</value></data>
     <data name="ValidGeneralsInstallation" xml:space="preserve"><value>Generals-Ordner ausgewählt</value></data>
     <data name="ValidZeroHourInstallation" xml:space="preserve"><value>Zero-Hour-Ordner ausgewählt</value></data>
