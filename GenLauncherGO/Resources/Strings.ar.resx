@@ -336,6 +336,8 @@
     <data name="StandaloneLocationBlockingDescription" xml:space="preserve"><value>انقل GenLauncherGO خارج مجلد اللعبة إلى مجلد لديك إذن الكتابة فيه خارج Program Files.</value></data>
     <data name="LauncherFolderNotWritable" xml:space="preserve"><value>تعذرت الكتابة في مجلد اللانشر</value></data>
     <data name="LauncherFolderNotWritableDescription" xml:space="preserve"><value>لا يستطيع GenLauncherGO حفظ بياناته في {0}. انقل GenLauncherGO إلى مجلد لديك إذن الكتابة فيه خارج Program Files.</value></data>
+    <data name="GameFolderAccessDenied" xml:space="preserve"><value>تعذّر تغيير الملفات في مجلد اللعبة</value></data>
+    <data name="GameFolderAccessDeniedDescription" xml:space="preserve"><value>يحتاج GenLauncherGO إلى إذن لتغيير الملفات في {0}، لكن Windows لم يمنحه. ربما أُلغي طلب الإذن، أو أن محرك الأقراص أو برنامج حماية يمنع التغييرات هناك.</value></data>
     <data name="ActiveGameLabel" xml:space="preserve"><value>اللعبة النشطة</value></data>
     <data name="GameManagement" xml:space="preserve"><value>إدارة الألعاب</value></data>
     <data name="InstallationPaths" xml:space="preserve"><value>مسارات التثبيت</value></data>

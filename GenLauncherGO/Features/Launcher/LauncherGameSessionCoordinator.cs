@@ -25,6 +25,7 @@ internal sealed class LauncherGameSessionCoordinator
     private readonly ILauncherContentCatalog _catalog;
     private readonly IRemoteConnectionProbe _connectionProbe;
     private readonly ILauncherDialogService _dialogService;
+    private readonly GameFolderWriteAccess _gameFolderWriteAccess;
     private readonly IGameInstallationService _installationService;
     private readonly LauncherLaunchCoordinator _launchCoordinator;
     private readonly ILaunchPreparationService _launchPreparationService;
@@ -41,6 +42,7 @@ internal sealed class LauncherGameSessionCoordinator
         IGameInstallationService installationService,
         ILauncherPathResolver pathResolver,
         ILaunchPreparationService launchPreparationService,
+        GameFolderWriteAccess gameFolderWriteAccess,
         IRemoteConnectionProbe connectionProbe,
         ILauncherContentCatalog catalog,
         LauncherPackageActivityService packageActivityService,
@@ -55,6 +57,8 @@ internal sealed class LauncherGameSessionCoordinator
         _pathResolver = pathResolver ?? throw new ArgumentNullException(nameof(pathResolver));
         _launchPreparationService = launchPreparationService ??
                                     throw new ArgumentNullException(nameof(launchPreparationService));
+        _gameFolderWriteAccess = gameFolderWriteAccess ??
+                                 throw new ArgumentNullException(nameof(gameFolderWriteAccess));
         _connectionProbe = connectionProbe ?? throw new ArgumentNullException(nameof(connectionProbe));
         _catalog = catalog ?? throw new ArgumentNullException(nameof(catalog));
         _packageActivityService = packageActivityService ??
@@ -154,6 +158,19 @@ internal sealed class LauncherGameSessionCoordinator
             LexicalPath.AreEquivalent(oldPaths.GameDirectory, newPaths.GameDirectory))
         {
             return await TryPersistSelectedGameAsync(game, rollbackInstallations, rollbackSelectedGame, owner);
+        }
+
+        // Checked before anything changes, so a refused folder leaves the current session and its deployment intact.
+        if (!await _gameFolderWriteAccess.EnsureWritableAsync(newPaths, cancellationToken))
+        {
+            await ShowSwitchFailureAsync(
+                owner,
+                string.Format(
+                    CultureInfo.CurrentCulture,
+                    _stringLocalizer["GameFolderAccessDeniedDescription"],
+                    newPaths.GameDirectory));
+            RollBackPreferences(rollbackInstallations, rollbackSelectedGame);
+            return false;
         }
 
         if (!await TryPersistSelectedGameAsync(game, rollbackInstallations, rollbackSelectedGame, owner))

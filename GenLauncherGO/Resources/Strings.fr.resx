@@ -336,6 +336,8 @@
     <data name="StandaloneLocationBlockingDescription" xml:space="preserve"><value>Sortez GenLauncherGO du dossier du jeu et placez-le dans un dossier accessible en écriture, hors de Program Files.</value></data>
     <data name="LauncherFolderNotWritable" xml:space="preserve"><value>Écriture impossible dans le dossier du launcher</value></data>
     <data name="LauncherFolderNotWritableDescription" xml:space="preserve"><value>GenLauncherGO ne peut pas enregistrer ses données dans {0}. Placez GenLauncherGO dans un dossier accessible en écriture, hors de Program Files.</value></data>
+    <data name="GameFolderAccessDenied" xml:space="preserve"><value>Impossible de modifier les fichiers du dossier du jeu</value></data>
+    <data name="GameFolderAccessDeniedDescription" xml:space="preserve"><value>GenLauncherGO a besoin de l’autorisation de modifier les fichiers dans {0}, mais Windows ne l’a pas accordée. La demande d’autorisation a peut-être été annulée, ou le lecteur ou un logiciel de sécurité bloque les modifications à cet endroit.</value></data>
     <data name="ActiveGameLabel" xml:space="preserve"><value>Jeu actif</value></data>
     <data name="GameManagement" xml:space="preserve"><value>Gestion des jeux</value></data>
     <data name="InstallationPaths" xml:space="preserve"><value>Dossiers d’installation</value></data>

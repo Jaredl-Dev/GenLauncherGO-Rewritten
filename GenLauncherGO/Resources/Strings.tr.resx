@@ -336,6 +336,8 @@
     <data name="StandaloneLocationBlockingDescription" xml:space="preserve"><value>GenLauncherGO'yu oyun klasöründen çıkarıp Program Files dışında, yazma izni olan bir klasöre taşıyın.</value></data>
     <data name="LauncherFolderNotWritable" xml:space="preserve"><value>Launcher klasörüne yazılamıyor</value></data>
     <data name="LauncherFolderNotWritableDescription" xml:space="preserve"><value>GenLauncherGO verilerini {0} konumuna kaydedemiyor. GenLauncherGO'yu Program Files dışında, yazma izni olan bir klasöre taşıyın.</value></data>
+    <data name="GameFolderAccessDenied" xml:space="preserve"><value>Oyun klasöründeki dosyalar değiştirilemiyor</value></data>
+    <data name="GameFolderAccessDeniedDescription" xml:space="preserve"><value>GenLauncherGO'nun {0} içindeki dosyaları değiştirmek için izne ihtiyacı var, ancak Windows bu izni vermedi. İzin isteği iptal edilmiş olabilir ya da sürücü veya bir güvenlik yazılımı orada değişiklik yapılmasını engelliyor olabilir.</value></data>
     <data name="ActiveGameLabel" xml:space="preserve"><value>Etkin oyun</value></data>
     <data name="GameManagement" xml:space="preserve"><value>Oyun yönetimi</value></data>
     <data name="InstallationPaths" xml:space="preserve"><value>Kurulum yolları</value></data>

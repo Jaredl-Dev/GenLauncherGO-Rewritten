@@ -124,6 +124,7 @@ public sealed partial class LauncherWindowWorkflowCoordinatorTests
                 new FakeGameInstallationService(),
                 Substitute.For<ILauncherPathResolver>(),
                 launchPreparation,
+                new GameFolderWriteAccess(NullLogger<GameFolderWriteAccess>.Instance),
                 Substitute.For<IRemoteConnectionProbe>(),
                 resolvedCatalog,
                 resolvedPackageActivityService,

@@ -336,6 +336,8 @@
     <data name="StandaloneLocationBlockingDescription" xml:space="preserve"><value>请将 GenLauncherGO 移出游戏文件夹，移动到 Program Files 之外、具有写入权限的文件夹。</value></data>
     <data name="LauncherFolderNotWritable" xml:space="preserve"><value>无法写入启动器文件夹</value></data>
     <data name="LauncherFolderNotWritableDescription" xml:space="preserve"><value>GenLauncherGO 无法将数据保存到 {0}。请将 GenLauncherGO 移动到 Program Files 之外、具有写入权限的文件夹。</value></data>
+    <data name="GameFolderAccessDenied" xml:space="preserve"><value>无法更改游戏文件夹中的文件</value></data>
+    <data name="GameFolderAccessDeniedDescription" xml:space="preserve"><value>GenLauncherGO 需要权限才能更改 {0} 中的文件，但 Windows 未授予该权限。可能是权限提示被取消，或者驱动器或安全软件阻止了对该位置的更改。</value></data>
     <data name="ActiveGameLabel" xml:space="preserve"><value>当前游戏</value></data>
     <data name="GameManagement" xml:space="preserve"><value>游戏管理</value></data>
     <data name="InstallationPaths" xml:space="preserve"><value>安装路径</value></data>

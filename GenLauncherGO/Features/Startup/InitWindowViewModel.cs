@@ -1,4 +1,5 @@
 using System;
+using System.Globalization;
 using System.Threading;
 using System.Threading.Tasks;
 using GenLauncherGO.Features.Launching;
@@ -15,6 +16,7 @@ internal sealed class InitWindowViewModel
 {
     private readonly ILauncherContentCatalog _catalog;
     private readonly IRemoteConnectionProbe _connectionProbe;
+    private readonly GameFolderWriteAccess _gameFolderWriteAccess;
 
     private readonly ILaunchPreparationService _launchPreparationService;
 
@@ -31,6 +33,7 @@ internal sealed class InitWindowViewModel
     public InitWindowViewModel(
         IRemoteConnectionProbe connectionProbe,
         ILaunchPreparationService launchPreparationService,
+        GameFolderWriteAccess gameFolderWriteAccess,
         ILauncherPathResolver launcherPathResolver,
         ILauncherContentCatalog catalog,
         LauncherRuntimeContext runtimeContext,
@@ -40,6 +43,8 @@ internal sealed class InitWindowViewModel
         _connectionProbe = connectionProbe ?? throw new ArgumentNullException(nameof(connectionProbe));
         _launchPreparationService = launchPreparationService ??
                                     throw new ArgumentNullException(nameof(launchPreparationService));
+        _gameFolderWriteAccess = gameFolderWriteAccess ??
+                                 throw new ArgumentNullException(nameof(gameFolderWriteAccess));
         _launcherPathResolver = launcherPathResolver ?? throw new ArgumentNullException(nameof(launcherPathResolver));
         _catalog = catalog ?? throw new ArgumentNullException(nameof(catalog));
         _runtimeContext = runtimeContext ?? throw new ArgumentNullException(nameof(runtimeContext));
@@ -83,7 +88,24 @@ internal sealed class InitWindowViewModel
     /// <returns><see langword="true" /> when remote services are available.</returns>
     public async Task<bool> PrepareLauncherAsync()
     {
-        while (!await RecoverDeploymentAsync())
+        LauncherPaths paths = _runtimeContext.LauncherPaths;
+        // Recovery writes to the game folder, so a folder the launcher cannot change must stop startup before it.
+        while (!await _gameFolderWriteAccess.EnsureWritableAsync(paths, CancellationToken.None))
+        {
+            if (!await _startupDialogService.ShowRetryCancelWarningAsync(
+                    _stringLocalizer["GameFolderAccessDenied"],
+                    string.Format(
+                        CultureInfo.CurrentCulture,
+                        _stringLocalizer["GameFolderAccessDeniedDescription"],
+                        paths.GameDirectory)))
+            {
+                _startupAborted = true;
+                ShutdownRequested?.Invoke(this, EventArgs.Empty);
+                return false;
+            }
+        }
+
+        while (!await RecoverDeploymentAsync(paths))
         {
             if (!await _startupDialogService.ShowRetryCancelWarningAsync(
                     "GenLauncherGO",
@@ -144,12 +166,12 @@ internal sealed class InitWindowViewModel
     ///     Attempts to recover from incomplete launch deployment state.
     /// </summary>
     /// <returns><see langword="true" /> when recovery succeeded.</returns>
-    private Task<bool> RecoverDeploymentAsync()
+    private Task<bool> RecoverDeploymentAsync(LauncherPaths paths)
     {
         return Task.Run(() =>
         {
             return _launchPreparationService.Recover(
-                _runtimeContext.LauncherPaths,
+                paths,
                 CancellationToken.None);
         });
     }

@@ -336,6 +336,8 @@
     <data name="StandaloneLocationBlockingDescription" xml:space="preserve"><value>Переместите GenLauncherGO из папки игры в папку с правами на запись вне Program Files.</value></data>
     <data name="LauncherFolderNotWritable" xml:space="preserve"><value>Нет доступа на запись в папку лаунчера</value></data>
     <data name="LauncherFolderNotWritableDescription" xml:space="preserve"><value>GenLauncherGO не может сохранить свои данные в {0}. Переместите GenLauncherGO в папку с правами на запись вне Program Files.</value></data>
+    <data name="GameFolderAccessDenied" xml:space="preserve"><value>Не удаётся изменить файлы в папке игры</value></data>
+    <data name="GameFolderAccessDeniedDescription" xml:space="preserve"><value>GenLauncherGO нужно разрешение на изменение файлов в {0}, но Windows его не выдала. Возможно, запрос разрешения был отменён или изменения там блокирует диск или защитное ПО.</value></data>
     <data name="ActiveGameLabel" xml:space="preserve"><value>Активная игра</value></data>
     <data name="GameManagement" xml:space="preserve"><value>Управление играми</value></data>
     <data name="InstallationPaths" xml:space="preserve"><value>Пути установки</value></data>

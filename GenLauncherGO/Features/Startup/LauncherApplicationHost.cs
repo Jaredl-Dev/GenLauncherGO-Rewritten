@@ -361,6 +361,7 @@ internal sealed class LauncherApplicationHost : IDisposable
         services.AddSingleton<IHardLinkCreator, WindowsHardLinkCreator>();
         services.AddSingleton<FileSystemDeploymentService>();
         services.AddSingleton<ILaunchPreparationService, DeploymentLaunchPreparationService>();
+        services.AddSingleton<GameFolderWriteAccess>();
         services.AddSingleton<FileSystemLaunchContentIntegrityTargetBuilder>();
         services.AddSingleton<ILaunchContentIntegrityResolutionService,
             FileSystemLaunchContentIntegrityResolutionService>();
