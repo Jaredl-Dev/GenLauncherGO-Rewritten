@@ -16,7 +16,6 @@ public sealed class LauncherShutdownCoordinatorTests
         LauncherShutdownCoordinator coordinator = CreateCoordinator(events, updateHandoffSucceeded: true);
 
         coordinator.Shutdown(
-            TestLauncherPaths.Create(),
             LauncherRestartKind.ApplicationUpdate,
             () => events.Add("release-single-instance"));
 
@@ -30,7 +29,6 @@ public sealed class LauncherShutdownCoordinatorTests
         LauncherShutdownCoordinator coordinator = CreateCoordinator(events, updateHandoffSucceeded: false);
 
         coordinator.Shutdown(
-            TestLauncherPaths.Create(),
             LauncherRestartKind.ApplicationUpdate,
             () => events.Add("release-single-instance"));
 
@@ -64,9 +62,12 @@ public sealed class LauncherShutdownCoordinatorTests
             events.Add("normal-restart");
             return LauncherRestartResult.Success;
         });
+        LauncherRuntimeContext runtimeContext = TestLauncherRuntimeContext.Create();
+        runtimeContext.GameFolderRecovered = true;
 
         return new LauncherShutdownCoordinator(
             launchPreparationService,
+            runtimeContext,
             hostEnvironmentService,
             updateService,
             NullLogger<LauncherShutdownCoordinator>.Instance);

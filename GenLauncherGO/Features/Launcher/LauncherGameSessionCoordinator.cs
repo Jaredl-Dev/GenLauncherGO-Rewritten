@@ -25,6 +25,7 @@ internal sealed class LauncherGameSessionCoordinator
     private readonly ILauncherContentCatalog _catalog;
     private readonly IRemoteConnectionProbe _connectionProbe;
     private readonly ILauncherDialogService _dialogService;
+    private readonly GameFolderWriteAccess _gameFolderWriteAccess;
     private readonly IGameInstallationService _installationService;
     private readonly LauncherLaunchCoordinator _launchCoordinator;
     private readonly ILaunchPreparationService _launchPreparationService;
@@ -41,6 +42,7 @@ internal sealed class LauncherGameSessionCoordinator
         IGameInstallationService installationService,
         ILauncherPathResolver pathResolver,
         ILaunchPreparationService launchPreparationService,
+        GameFolderWriteAccess gameFolderWriteAccess,
         IRemoteConnectionProbe connectionProbe,
         ILauncherContentCatalog catalog,
         LauncherPackageActivityService packageActivityService,
@@ -55,6 +57,8 @@ internal sealed class LauncherGameSessionCoordinator
         _pathResolver = pathResolver ?? throw new ArgumentNullException(nameof(pathResolver));
         _launchPreparationService = launchPreparationService ??
                                     throw new ArgumentNullException(nameof(launchPreparationService));
+        _gameFolderWriteAccess = gameFolderWriteAccess ??
+                                 throw new ArgumentNullException(nameof(gameFolderWriteAccess));
         _connectionProbe = connectionProbe ?? throw new ArgumentNullException(nameof(connectionProbe));
         _catalog = catalog ?? throw new ArgumentNullException(nameof(catalog));
         _packageActivityService = packageActivityService ??
@@ -137,11 +141,11 @@ internal sealed class LauncherGameSessionCoordinator
             SupportedGame failedGame = validation.IsValid
                 ? PerGame.Select(game, SupportedGame.ZeroHour, SupportedGame.Generals)
                 : game;
-            await ShowSwitchFailureAsync(
+            return await RejectSessionChangeAsync(
                 owner,
-                _stringLocalizer[installationsValidation.GetStatusMessageKey(failedGame)]);
-            RollBackPreferences(rollbackInstallations, rollbackSelectedGame);
-            return false;
+                _stringLocalizer[installationsValidation.GetStatusMessageKey(failedGame)],
+                rollbackInstallations,
+                rollbackSelectedGame);
         }
 
         LauncherPaths oldPaths = _runtimeContext.RuntimePaths.ActivePaths;
@@ -156,14 +160,25 @@ internal sealed class LauncherGameSessionCoordinator
             return await TryPersistSelectedGameAsync(game, rollbackInstallations, rollbackSelectedGame, owner);
         }
 
-        if (!await TryPersistSelectedGameAsync(game, rollbackInstallations, rollbackSelectedGame, owner))
-        {
-            return false;
-        }
-
         bool switched = false;
         try
         {
+            // Checked before anything changes, so a refused folder leaves the current session and its deployment
+            // intact.
+            if (!await _gameFolderWriteAccess.EnsureWritableAsync(newPaths, cancellationToken))
+            {
+                return await RejectSessionChangeAsync(
+                    owner,
+                    GameFolderWriteAccess.DescribeAccessDenied(_stringLocalizer, newPaths),
+                    rollbackInstallations,
+                    rollbackSelectedGame);
+            }
+
+            if (!await TryPersistSelectedGameAsync(game, rollbackInstallations, rollbackSelectedGame, owner))
+            {
+                return false;
+            }
+
             _catalog.SaveLauncherData();
             bool cleanupSucceeded = await Task.Run(
                 () => _launchPreparationService.Cleanup(oldPaths, cancellationToken),
@@ -209,16 +224,19 @@ internal sealed class LauncherGameSessionCoordinator
                     oldConnected);
             }
 
-            RollBackPreferences(rollbackInstallations, rollbackSelectedGame);
             if (exception is OperationCanceledException)
             {
+                RollBackPreferences(rollbackInstallations, rollbackSelectedGame);
                 _logger.LogInformation("Canceled the live game-session change and restored the previous session.");
                 throw;
             }
 
             _logger.LogError(exception, "Could not apply the requested live game-session change.");
-            await ShowSwitchFailureAsync(owner, exception.Message);
-            return false;
+            return await RejectSessionChangeAsync(
+                owner,
+                exception.Message,
+                rollbackInstallations,
+                rollbackSelectedGame);
         }
     }
 
@@ -264,9 +282,11 @@ internal sealed class LauncherGameSessionCoordinator
         }
         catch (LauncherPreferencesPersistenceException)
         {
-            RollBackPreferences(rollbackInstallations, rollbackSelectedGame);
-            await ShowSwitchFailureAsync(owner, _stringLocalizer["SettingsSaveFailedDetails"]);
-            return false;
+            return await RejectSessionChangeAsync(
+                owner,
+                _stringLocalizer["SettingsSaveFailedDetails"],
+                rollbackInstallations,
+                rollbackSelectedGame);
         }
     }
 
@@ -329,13 +349,23 @@ internal sealed class LauncherGameSessionCoordinator
                 : null;
     }
 
-    private Task ShowSwitchFailureAsync(Window owner, string details)
+    /// <summary>
+    ///     Restores the previous preferences, then tells the user why the session did not change.
+    /// </summary>
+    /// <returns><see langword="false" />, for callers to return as the session change result.</returns>
+    private async Task<bool> RejectSessionChangeAsync(
+        Window owner,
+        string details,
+        LauncherInstallations rollbackInstallations,
+        SupportedGame? rollbackSelectedGame)
     {
-        return _dialogService.ShowErrorAsync(
+        RollBackPreferences(rollbackInstallations, rollbackSelectedGame);
+        await _dialogService.ShowErrorAsync(
             new LauncherInfoDialogRequest(
                 _stringLocalizer["GameSwitchFailedTitle"],
                 string.Format(CultureInfo.CurrentCulture, _stringLocalizer["GameSwitchFailedDetails"], details)),
             owner);
+        return false;
     }
 
 }

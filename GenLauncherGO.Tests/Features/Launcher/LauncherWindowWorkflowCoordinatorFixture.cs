@@ -14,7 +14,6 @@ using GenLauncherGO.Features.Startup;
 using GenLauncherGO.Features.Updating;
 using GenLauncherGO.Shared.Dialogs;
 using GenLauncherGO.Shared.Errors;
-using GenLauncherGO.Shared.Remote;
 using GenLauncherGO.Shared.Shell;
 using Microsoft.Extensions.Logging.Abstractions;
 
@@ -118,19 +117,15 @@ public sealed partial class LauncherWindowWorkflowCoordinatorTests
         return new LauncherWindowWorkflowCoordinator(
             resolvedLaunchCoordinator,
             CreateLaunchReadinessCoordinator(resolvedDialogService, executableDiscovery),
-            new LauncherGameSessionCoordinator(
+            TestLauncherGameSessionCoordinator.Create(
                 runtimeContext,
                 resolvedPreferencesService,
-                new FakeGameInstallationService(),
-                Substitute.For<ILauncherPathResolver>(),
                 launchPreparation,
-                Substitute.For<IRemoteConnectionProbe>(),
-                resolvedCatalog,
                 resolvedPackageActivityService,
                 resolvedLaunchCoordinator,
                 resolvedDialogService,
                 stringLocalizer,
-                NullLogger<LauncherGameSessionCoordinator>.Instance),
+                resolvedCatalog),
             resolvedPackageActivityService,
             Substitute.For<ILauncherShellService>(),
             resolvedPreferencesService,

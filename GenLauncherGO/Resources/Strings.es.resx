@@ -336,6 +336,8 @@
     <data name="StandaloneLocationBlockingDescription" xml:space="preserve"><value>Mueve GenLauncherGO fuera de la carpeta del juego, a una carpeta con acceso de escritura fuera de Archivos de programa.</value></data>
     <data name="LauncherFolderNotWritable" xml:space="preserve"><value>No se puede escribir en la carpeta del launcher</value></data>
     <data name="LauncherFolderNotWritableDescription" xml:space="preserve"><value>GenLauncherGO no puede guardar sus datos en {0}. Mueve GenLauncherGO a una carpeta con acceso de escritura fuera de Archivos de programa.</value></data>
+    <data name="GameFolderAccessDenied" xml:space="preserve"><value>No se pueden cambiar archivos en la carpeta del juego</value></data>
+    <data name="GameFolderAccessDeniedDescription" xml:space="preserve"><value>GenLauncherGO necesita permiso para cambiar archivos en {0}, pero Windows no lo concedió. Puede que se haya cancelado la solicitud de permiso o que la unidad o un software de seguridad estén bloqueando los cambios ahí.</value></data>
     <data name="ActiveGameLabel" xml:space="preserve"><value>Juego activo</value></data>
     <data name="GameManagement" xml:space="preserve"><value>Gestión de juegos</value></data>
     <data name="InstallationPaths" xml:space="preserve"><value>Rutas de instalación</value></data>

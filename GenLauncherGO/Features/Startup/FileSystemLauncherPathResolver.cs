@@ -25,12 +25,12 @@ internal sealed class FileSystemLauncherPathResolver : ILauncherPathResolver
             OwnedDirectoryTree.EnsureExists(paths.ExecutableDirectory, paths.DataDirectory);
             OwnedDirectoryTree.EnsureExists(paths.DataDirectory, paths.LogsDirectory);
         }
-        catch (Exception exception) when (DirectoryWriteProbe.IsWriteDenied(exception))
+        catch (Exception exception) when (DirectoryWriteProbe.IsWriteRefused(exception))
         {
             return false;
         }
 
-        return DirectoryWriteProbe.CanCreateFiles(paths.DataDirectory);
+        return DirectoryWriteProbe.ProbeFileCreation(paths.DataDirectory) == DirectoryWriteAccess.Allowed;
     }
 
     public void PrepareGameDirectories(LauncherPaths paths, bool cleanTemporaryDirectory)

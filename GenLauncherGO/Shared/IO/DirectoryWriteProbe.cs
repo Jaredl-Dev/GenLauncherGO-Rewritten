@@ -13,16 +13,16 @@ internal static class DirectoryWriteProbe
     ///     policy.
     /// </summary>
     /// <remarks>
-    ///     Kept deliberately: people run the portable archive from removable drives, and moving the launcher is their
-    ///     fix. Tests cannot create write-protected media, so this case has no automated coverage.
+    ///     Kept deliberately: people run the portable archive from removable drives. Write protection belongs to the
+    ///     drive, so no permission grant lifts it; the files have to move. Tests cannot create write-protected media,
+    ///     so this case has no automated coverage.
     /// </remarks>
     private const int ErrorWriteProtectHResult = unchecked((int)0x80070013);
 
     /// <summary>
     ///     Creates and deletes a real file in an existing directory.
     /// </summary>
-    /// <returns><see langword="false" /> when Windows denies creating the file.</returns>
-    public static bool CanCreateFiles(string directory)
+    public static DirectoryWriteAccess ProbeFileCreation(string directory)
     {
         ArgumentException.ThrowIfNullOrWhiteSpace(directory);
 
@@ -38,19 +38,29 @@ internal static class DirectoryWriteProbe
                 1,
                 FileOptions.DeleteOnClose).Dispose();
         }
-        catch (Exception exception) when (IsWriteDenied(exception))
+        catch (Exception exception) when (ClassifyRefusal(exception) is { } refusal)
         {
-            return false;
+            return refusal;
         }
 
-        return true;
+        return DirectoryWriteAccess.Allowed;
     }
 
     /// <summary>
     ///     Reports whether a file-system failure means Windows refuses writes to the location.
     /// </summary>
-    public static bool IsWriteDenied(Exception exception)
+    public static bool IsWriteRefused(Exception exception)
     {
-        return exception is UnauthorizedAccessException or IOException { HResult: ErrorWriteProtectHResult };
+        return ClassifyRefusal(exception) != null;
+    }
+
+    private static DirectoryWriteAccess? ClassifyRefusal(Exception exception)
+    {
+        return exception switch
+        {
+            UnauthorizedAccessException => DirectoryWriteAccess.Denied,
+            IOException { HResult: ErrorWriteProtectHResult } => DirectoryWriteAccess.WriteProtected,
+            _ => null
+        };
     }
 }

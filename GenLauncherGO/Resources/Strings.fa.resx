@@ -336,6 +336,8 @@
     <data name="StandaloneLocationBlockingDescription" xml:space="preserve"><value>GenLauncherGO را از پوشه بازی خارج کنید و به پوشه‌ای با مجوز نوشتن، خارج از Program Files، منتقل کنید.</value></data>
     <data name="LauncherFolderNotWritable" xml:space="preserve"><value>نوشتن در پوشه لانچر ممکن نیست</value></data>
     <data name="LauncherFolderNotWritableDescription" xml:space="preserve"><value>GenLauncherGO نمی‌تواند داده‌های خود را در {0} ذخیره کند. GenLauncherGO را به پوشه‌ای با مجوز نوشتن، خارج از Program Files، منتقل کنید.</value></data>
+    <data name="GameFolderAccessDenied" xml:space="preserve"><value>تغییر فایل‌ها در پوشه بازی ممکن نیست</value></data>
+    <data name="GameFolderAccessDeniedDescription" xml:space="preserve"><value>GenLauncherGO برای تغییر فایل‌ها در &#x2068;{0}&#x2069; به مجوز نیاز دارد، اما Windows آن را نداد. ممکن است درخواست مجوز لغو شده باشد، یا درایو یا یک نرم‌افزار امنیتی جلوی تغییرات در آنجا را گرفته باشد.</value></data>
     <data name="ActiveGameLabel" xml:space="preserve"><value>بازی فعال</value></data>
     <data name="GameManagement" xml:space="preserve"><value>مدیریت بازی</value></data>
     <data name="InstallationPaths" xml:space="preserve"><value>مسیرهای نصب</value></data>

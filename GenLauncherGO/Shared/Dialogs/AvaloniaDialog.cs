@@ -81,7 +81,10 @@ internal static class AvaloniaDialog
         return resolvedOwner;
     }
 
-    private static Window? ResolveApplicationOwner(Window dialog)
+    /// <summary>
+    ///     Resolves the active, main, or first visible application window, skipping <paramref name="excludedWindow" />.
+    /// </summary>
+    public static Window? ResolveApplicationOwner(Window? excludedWindow)
     {
         if (Application.Current?.ApplicationLifetime is not IClassicDesktopStyleApplicationLifetime desktop)
         {
@@ -89,19 +92,20 @@ internal static class AvaloniaDialog
         }
 
         Window? activeWindow =
-            desktop.Windows.FirstOrDefault(window => !ReferenceEquals(window, dialog) && window.IsActive);
+            desktop.Windows.FirstOrDefault(window => !ReferenceEquals(window, excludedWindow) && window.IsActive);
         if (activeWindow != null)
         {
             return activeWindow;
         }
 
         if (desktop.MainWindow is { } mainWindow &&
-            !ReferenceEquals(mainWindow, dialog) &&
+            !ReferenceEquals(mainWindow, excludedWindow) &&
             mainWindow.IsVisible)
         {
             return mainWindow;
         }
 
-        return desktop.Windows.FirstOrDefault(window => !ReferenceEquals(window, dialog) && window.IsVisible);
+        return desktop.Windows.FirstOrDefault(window =>
+            !ReferenceEquals(window, excludedWindow) && window.IsVisible);
     }
 }

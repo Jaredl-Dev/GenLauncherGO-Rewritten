@@ -16,16 +16,19 @@ internal sealed class LauncherShutdownCoordinator
     private readonly ILauncherApplicationUpdateService _applicationUpdateService;
     private readonly ILaunchPreparationService _launchPreparationService;
     private readonly ILogger<LauncherShutdownCoordinator> _logger;
+    private readonly LauncherRuntimeContext _runtimeContext;
     private bool _shutdownCompleted;
 
     public LauncherShutdownCoordinator(
         ILaunchPreparationService launchPreparationService,
+        LauncherRuntimeContext runtimeContext,
         ILauncherHostEnvironmentService hostEnvironmentService,
         ILauncherApplicationUpdateService applicationUpdateService,
         ILogger<LauncherShutdownCoordinator> logger)
     {
         _launchPreparationService = launchPreparationService ??
                                     throw new ArgumentNullException(nameof(launchPreparationService));
+        _runtimeContext = runtimeContext ?? throw new ArgumentNullException(nameof(runtimeContext));
         _hostEnvironmentService = hostEnvironmentService ??
                                   throw new ArgumentNullException(nameof(hostEnvironmentService));
         _applicationUpdateService = applicationUpdateService ??
@@ -37,7 +40,6 @@ internal sealed class LauncherShutdownCoordinator
     ///     Restores transient game-folder state, then releases the process guard and restarts when requested.
     /// </summary>
     public void Shutdown(
-        LauncherPaths paths,
         LauncherRestartKind restartKind,
         Action releaseSingleInstance)
     {
@@ -46,11 +48,20 @@ internal sealed class LauncherShutdownCoordinator
             return;
         }
 
-        ArgumentNullException.ThrowIfNull(paths);
         ArgumentNullException.ThrowIfNull(releaseSingleInstance);
 
         _shutdownCompleted = true;
-        Cleanup(paths);
+        if (_runtimeContext.GameFolderRecovered)
+        {
+            Cleanup(_runtimeContext.LauncherPaths);
+        }
+        else
+        {
+            _logger.LogInformation(
+                "Left the {Game} folder unchanged because startup stopped before recovering it.",
+                _runtimeContext.CurrentlyManagedGame);
+        }
+
         _logger.LogInformation(
             "Launcher shutdown cleanup finished. Restart requested: {RestartRequested}.",
             restartKind != LauncherRestartKind.None);

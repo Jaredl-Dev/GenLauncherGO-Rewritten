@@ -60,6 +60,15 @@ internal sealed class LauncherRuntimeContext
     public bool Connected { get; set; }
 
     /// <summary>
+    ///     Gets or sets whether startup confirmed write access to the active game folder and recovered its deployment.
+    /// </summary>
+    /// <remarks>
+    ///     Shutdown restores the game folder only once this is set. A startup the user stopped at the write-access or
+    ///     recovery warning leaves an interrupted deployment for the next start, which asks for access first.
+    /// </remarks>
+    public bool GameFolderRecovered { get; set; }
+
+    /// <summary>
     ///     Applies the validated active game's repository and visual defaults as one session update.
     /// </summary>
     public void ApplyActiveGameDefaults()

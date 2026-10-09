@@ -9,6 +9,10 @@ namespace GenLauncherGO.Tests.Testing;
 ///     Denies the current user creating files directly in one directory. Windows enforces a Deny entry even for an
 ///     elevated process, so this reproduces a folder the launcher can see but not write.
 /// </summary>
+/// <remarks>
+///     Disposing lifts the denial and may be repeated, so a test can lift it early to stand in for Windows granting
+///     access.
+/// </remarks>
 internal sealed class DeniedFileCreationScope : IDisposable
 {
     private readonly DirectoryInfo _directory;
