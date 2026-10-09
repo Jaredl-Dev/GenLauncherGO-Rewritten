@@ -145,14 +145,6 @@ internal sealed class LauncherApplicationHost : IDisposable
         ServiceProvider? bootstrapProvider = null;
         try
         {
-            // The executable manifest is authoritative. This fail-closed check protects unsupported entry paths
-            // that host the managed DLL without honoring that manifest.
-            if (!_hostEnvironmentService.IsCurrentProcessElevated())
-            {
-                return ShowStartupMessageAndStopAsync(
-                    _stringLocalizer["AdministratorPermissionRequired"]);
-            }
-
             LauncherStoragePaths storagePaths = ResolveStandaloneStorage();
             bootstrapProvider = CreateBootstrapServiceProvider(storagePaths);
             ILauncherPreferencesService preferencesService =
@@ -527,19 +519,6 @@ internal sealed class LauncherApplicationHost : IDisposable
     {
         await ShowStartupFailureAsync(exception);
         return false;
-    }
-
-    private async Task<bool> ShowStartupMessageAndStopAsync(string message)
-    {
-        try
-        {
-            await _bootstrapStartupDialogService.ShowMessageAsync(message);
-            return false;
-        }
-        catch (Exception exception)
-        {
-            return await ShowStartupFailureAndStopAsync(exception);
-        }
     }
 
     private bool OtherInstanceCanStart()

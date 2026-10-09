@@ -29,8 +29,8 @@
 - Preserve catalog mutation serialization, package leases/admission, process-family tracking, and operation snapshots.
 - Use structured `ILogger<T>` diagnostics around meaningful side effects and failures. Do not log credentials, tokens,
   or unnecessary full user paths. Preserve the shared HTTP/MinIO construction and logging/redaction policies.
-- Preserve elevation checks, single-instance behavior, startup ordering, culture selection, process cleanup, and
-  portable-update behavior. Keep platform, COM, and System32 DLL-search attributes in the application assembly.
+- Preserve single-instance behavior, startup ordering, culture selection, process cleanup, and portable-update
+  behavior. Keep platform, COM, and System32 DLL-search attributes in the application assembly.
 
 ## Avalonia presentation
 

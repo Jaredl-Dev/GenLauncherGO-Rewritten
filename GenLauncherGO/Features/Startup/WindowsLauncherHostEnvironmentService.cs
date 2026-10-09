@@ -3,7 +3,6 @@ using System.Diagnostics;
 using System.IO;
 using System.Linq;
 using System.Runtime.InteropServices;
-using System.Security.Principal;
 using System.Threading;
 using Microsoft.Extensions.Logging;
 using Microsoft.Extensions.Logging.Abstractions;
@@ -12,7 +11,7 @@ using Velopack.Locators;
 namespace GenLauncherGO.Features.Startup;
 
 /// <summary>
-///     Provides Windows process, elevation, single-instance, and foreground-window startup operations.
+///     Provides Windows process, single-instance, and foreground-window startup operations.
 /// </summary>
 internal sealed class WindowsLauncherHostEnvironmentService : ILauncherHostEnvironmentService
 {
@@ -79,13 +78,6 @@ internal sealed class WindowsLauncherHostEnvironmentService : ILauncherHostEnvir
         }
 
         return Path.GetDirectoryName(executablePath) ?? AppContext.BaseDirectory;
-    }
-
-    public bool IsCurrentProcessElevated()
-    {
-        using var identity = WindowsIdentity.GetCurrent();
-        WindowsPrincipal principal = new(identity);
-        return principal.IsInRole(WindowsBuiltInRole.Administrator);
     }
 
     public LauncherRestartResult TryRestartCurrentProcess()

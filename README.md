@@ -21,7 +21,7 @@ installations as clean as possible. This codebase is a complete rewrite of
 
 ## Requirements
 
-- Windows 10 or 11 and permission to approve the administrator prompt.
+- Windows 10 or 11.
 - A clean Generals or Zero Hour installation with no other modifications in its game directory.
 - Each selected game folder must be that game's own installation folder, the one containing its `.big` data archives
   (for example, `INI.big` for Generals or `INIZH.big` for Zero Hour).
@@ -59,7 +59,7 @@ Custom game client and World Builder executables can be registered under
 1. Start with a clean game installation, preferably outside `Program Files`, and a compatible game client.
 2. Download and extract the complete `GenLauncherGO-win-Portable.zip` outside any game installations, preferably on
    the same NTFS volume. Keep its files and folders together.
-3. Run the root `GenLauncherGO.exe`, approve the Windows UAC prompt, and select one or both game installation folders.
+3. Run the root `GenLauncherGO.exe` and select one or both game installation folders.
 4. Choose a game client and the content you want to use, then launch the game or World Builder.
 
 GenLauncherGO temporarily deploys the required mod files into the game directory, launches the selected program,
