@@ -1,5 +1,6 @@
 using System;
 using System.Collections.Generic;
+using System.ComponentModel;
 using System.Globalization;
 using System.Linq;
 using System.Threading;
@@ -228,17 +229,33 @@ internal sealed class LauncherWindowWorkflowCoordinator
                 targetName,
                 System.IO.Path.GetFileName(executablePath));
             context.ViewModel.ApplySelectionToPersistenceModel();
-            bool processSucceeded = await _launchCoordinator.LaunchAsync(
-                new LauncherLaunchRequest(
-                    targetKind,
-                    executablePath!,
-                    targetDisplayName,
-                    selectedExecutable!.DisplayName,
-                    useGeneralsOnline,
-                    context.ViewModel.GetSelectedVersionsOfAllSelectedModifications()),
-                selectedContent.Cast<ILaunchContentIntegrityProgressTarget>().ToList(),
-                context.Owner,
-                cancellationToken);
+            bool processSucceeded;
+            try
+            {
+                processSucceeded = await _launchCoordinator.LaunchAsync(
+                    new LauncherLaunchRequest(
+                        targetKind,
+                        executablePath!,
+                        targetDisplayName,
+                        selectedExecutable!.DisplayName,
+                        useGeneralsOnline,
+                        context.ViewModel.GetSelectedVersionsOfAllSelectedModifications()),
+                    selectedContent.Cast<ILaunchContentIntegrityProgressTarget>().ToList(),
+                    context.Owner,
+                    cancellationToken);
+            }
+            catch (Win32Exception exception) when (exception.NativeErrorCode ==
+                                                   IGameProcessLauncher.ErrorElevationRequired)
+            {
+                // The launch has ended and its deployment is cleaned up, so the close guard allows a restart.
+                string executableName = System.IO.Path.GetFileName(executablePath!);
+                _logger.LogInformation(
+                    "Windows requires administrator rights to start {ExecutableName}.",
+                    executableName);
+                await OfferAdministratorRestartAsync(executableName, context.Owner);
+                return;
+            }
+
             _logger.LogInformation(
                 "{LaunchTarget} launch workflow completed. Process succeeded: {ProcessSucceeded}.",
                 targetName,
@@ -254,6 +271,23 @@ internal sealed class LauncherWindowWorkflowCoordinator
         finally
         {
             context.Content.RestoreFocuses();
+        }
+    }
+
+    private async Task OfferAdministratorRestartAsync(string executableName, Window owner)
+    {
+        bool restart = await _dialogService.ShowWarningConfirmationAsync(
+            new LauncherInfoDialogRequest(
+                _stringLocalizer["ElevationRequiredTitle"],
+                string.Format(
+                    CultureInfo.CurrentCulture,
+                    _stringLocalizer["ElevationRequiredDetails"],
+                    executableName)),
+            _stringLocalizer["RestartAsAdministrator"],
+            owner);
+        if (restart)
+        {
+            await _restartCoordinator.TryRestartAsync(owner, LauncherRestartKind.Administrator);
         }
     }
 
@@ -316,10 +350,8 @@ internal sealed class LauncherWindowWorkflowCoordinator
         await settingsWindow.ShowDialog<bool>(context.Owner);
 
         if (settingsWindow.RestartRequested &&
-            await _restartCoordinator.TryRequestRestartAsync(context.Owner))
+            await _restartCoordinator.TryRestartAsync(context.Owner))
         {
-            _logger.LogInformation("Closing the main window for a requested launcher restart.");
-            context.Owner.Close();
             return;
         }
 
@@ -412,6 +444,14 @@ internal sealed class LauncherWindowWorkflowCoordinator
     public Task<bool> ConfirmCloseDuringActiveOperationsAsync(Window owner)
     {
         return _closeGuard.CanCloseAsync(owner, LauncherCloseReason.Exit);
+    }
+
+    /// <summary>
+    ///     Keeps a restart requested for a close that failed from applying to a later one.
+    /// </summary>
+    public void CancelRestartAfterFailedClose()
+    {
+        _restartCoordinator.CancelRestart();
     }
 
     /// <summary>

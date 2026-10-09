@@ -39,9 +39,22 @@ public sealed class LauncherShutdownCoordinatorTests
             "normal-restart");
     }
 
+    [Fact]
+    public void ShutdownForAdministratorRestart_StartsElevatedReplacementAfterCleanupAndRelease()
+    {
+        var events = new List<string>();
+        LauncherShutdownCoordinator coordinator = CreateCoordinator(events);
+
+        coordinator.Shutdown(
+            LauncherRestartKind.Administrator,
+            () => events.Add("release-single-instance"));
+
+        events.Should().Equal("cleanup", "release-single-instance", "administrator-restart");
+    }
+
     private static LauncherShutdownCoordinator CreateCoordinator(
         ICollection<string> events,
-        bool updateHandoffSucceeded)
+        bool updateHandoffSucceeded = false)
     {
         ILaunchPreparationService launchPreparationService = Substitute.For<ILaunchPreparationService>();
         launchPreparationService.Cleanup(Arg.Any<LauncherPaths>(), Arg.Any<CancellationToken>())
@@ -57,9 +70,14 @@ public sealed class LauncherShutdownCoordinatorTests
             return updateHandoffSucceeded;
         });
         ILauncherHostEnvironmentService hostEnvironmentService = Substitute.For<ILauncherHostEnvironmentService>();
-        hostEnvironmentService.TryRestartCurrentProcess().Returns(_ =>
+        hostEnvironmentService.TryRestartCurrentProcess(false).Returns(_ =>
         {
             events.Add("normal-restart");
+            return LauncherRestartResult.Success;
+        });
+        hostEnvironmentService.TryRestartCurrentProcess(true).Returns(_ =>
+        {
+            events.Add("administrator-restart");
             return LauncherRestartResult.Success;
         });
         LauncherRuntimeContext runtimeContext = TestLauncherRuntimeContext.Create();

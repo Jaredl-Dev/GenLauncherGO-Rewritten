@@ -40,12 +40,13 @@ internal sealed class LauncherRestartCoordinator
     public LauncherRestartKind RestartKind { get; private set; }
 
     /// <summary>
-    ///     Attempts to record an application restart request after applying the shared active-operation guard.
+    ///     Records an application restart after applying the shared active-operation guard, then closes the main window
+    ///     so shutdown can start the replacement.
     /// </summary>
-    /// <param name="owner">The window that owns any blocking safety message.</param>
+    /// <param name="owner">The main window, which also owns any blocking safety message.</param>
     /// <param name="restartKind">The replacement path shutdown should start.</param>
-    /// <returns><see langword="true" /> when the restart request was accepted.</returns>
-    public async Task<bool> TryRequestRestartAsync(
+    /// <returns><see langword="true" /> when the restart was accepted and the window asked to close.</returns>
+    public async Task<bool> TryRestartAsync(
         Window owner,
         LauncherRestartKind restartKind = LauncherRestartKind.Normal)
     {
@@ -61,7 +62,22 @@ internal sealed class LauncherRestartCoordinator
         }
 
         RestartKind = restartKind;
-        _logger.LogInformation("A safe launcher restart was requested with kind {RestartKind}.", restartKind);
+        _logger.LogInformation("Closing the main window to restart the launcher with kind {RestartKind}.", restartKind);
+        owner.Close();
         return true;
+    }
+
+    /// <summary>
+    ///     Drops an accepted restart whose window stayed open, so a later ordinary exit does not restart.
+    /// </summary>
+    public void CancelRestart()
+    {
+        if (RestartKind == LauncherRestartKind.None)
+        {
+            return;
+        }
+
+        _logger.LogInformation("The launcher stayed open, so the {RestartKind} restart was canceled.", RestartKind);
+        RestartKind = LauncherRestartKind.None;
     }
 }

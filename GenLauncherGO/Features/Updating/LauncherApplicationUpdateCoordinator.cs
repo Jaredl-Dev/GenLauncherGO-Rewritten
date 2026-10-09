@@ -160,15 +160,14 @@ internal sealed class LauncherApplicationUpdateCoordinator
                 return;
             }
 
-            if (await _restartCoordinator.TryRequestRestartAsync(
+            if (await _restartCoordinator.TryRestartAsync(
                     owner,
                     LauncherRestartKind.ApplicationUpdate))
             {
                 _downloadedVersion = null;
                 _logger.LogInformation(
-                    "Closing the launcher to apply downloaded application update {DownloadedVersion}.",
+                    "Restarting the launcher to apply downloaded application update {DownloadedVersion}.",
                     downloadedVersion);
-                owner.Close();
             }
         }
         finally

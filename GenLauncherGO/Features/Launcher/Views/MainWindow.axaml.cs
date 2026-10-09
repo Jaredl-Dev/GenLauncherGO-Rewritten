@@ -349,6 +349,7 @@ internal partial class MainWindow : Window
 
         if (outcome != UiOperationOutcome.Succeeded)
         {
+            _workflowCoordinator.CancelRestartAfterFailedClose();
             _windowLifetime.Dispose();
             _windowLifetime = new CancellationTokenSource();
             _closePreparationInProgress = false;

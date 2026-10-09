@@ -82,7 +82,7 @@ internal sealed class WindowsLauncherHostEnvironmentService : ILauncherHostEnvir
         return Path.GetDirectoryName(executablePath) ?? AppContext.BaseDirectory;
     }
 
-    public LauncherRestartResult TryRestartCurrentProcess()
+    public LauncherRestartResult TryRestartCurrentProcess(bool asAdministrator)
     {
         try
         {
@@ -98,7 +98,8 @@ internal sealed class WindowsLauncherHostEnvironmentService : ILauncherHostEnvir
             {
                 FileName = executablePath,
                 WorkingDirectory = Path.GetDirectoryName(executablePath) ?? AppContext.BaseDirectory,
-                UseShellExecute = true
+                UseShellExecute = true,
+                Verb = asAdministrator ? "runas" : string.Empty
             });
             if (process == null)
             {
@@ -108,7 +109,9 @@ internal sealed class WindowsLauncherHostEnvironmentService : ILauncherHostEnvir
             }
 
             process.Dispose();
-            _logger.LogInformation("Started a replacement launcher process for restart.");
+            _logger.LogInformation(
+                "Started a replacement launcher process for restart. As administrator: {AsAdministrator}.",
+                asAdministrator);
             return LauncherRestartResult.Success;
         }
         catch (Exception exception)
