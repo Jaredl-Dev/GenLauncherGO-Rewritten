@@ -15,8 +15,6 @@ namespace GenLauncherGO.Features.Startup;
 /// </summary>
 internal sealed class WindowsLauncherHostEnvironmentService : ILauncherHostEnvironmentService
 {
-    private const int SwRestore = 9;
-
     private readonly ILogger<WindowsLauncherHostEnvironmentService> _logger;
     private readonly Func<string?> _packagedRootDirectoryResolver;
     private readonly Func<string?> _processPathResolver;
@@ -58,8 +56,12 @@ internal sealed class WindowsLauncherHostEnvironmentService : ILauncherHostEnvir
             return;
         }
 
-        ShowWindowAsync(new HandleRef(null, windowHandle), SwRestore);
-        SetForegroundWindow(windowHandle);
+        // Windows refuses ShowWindowAsync from a normal process to a launcher running as administrator, so a
+        // minimized one would stay minimized. SwitchToThisWindow restores and activates it the way Alt+Tab does.
+        // Microsoft says it is not intended for general use. It is used anyway because the supported alternative is
+        // a custom window message that the running launcher would have to let through Windows' privilege filter and
+        // handle itself, and the function has stayed in user32 since Windows XP.
+        SwitchToThisWindow(windowHandle, true);
     }
 
     public string GetLauncherRootDirectory()
@@ -155,10 +157,7 @@ internal sealed class WindowsLauncherHostEnvironmentService : ILauncherHostEnvir
     }
 
     [DllImport("user32.dll")]
-    private static extern bool SetForegroundWindow(IntPtr hWnd);
-
-    [DllImport("user32.dll")]
-    private static extern bool ShowWindowAsync(HandleRef hWnd, int nCmdShow);
+    private static extern void SwitchToThisWindow(IntPtr hWnd, [MarshalAs(UnmanagedType.Bool)] bool fAltTab);
 
     private sealed class MutexSingleInstanceGuard : ILauncherSingleInstanceGuard
     {

@@ -8,7 +8,8 @@ namespace GenLauncherGO.Features.Startup;
 internal interface ILauncherHostEnvironmentService
 {
     /// <summary>
-    ///     Brings the first visible window for the current process name to the foreground when possible.
+    ///     Restores and brings the first visible window for the current process name to the foreground when possible,
+    ///     including one running as administrator.
     /// </summary>
     void ActivateCurrentProcessWindow();
 
