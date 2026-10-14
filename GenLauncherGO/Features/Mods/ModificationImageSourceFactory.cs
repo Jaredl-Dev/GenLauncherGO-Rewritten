@@ -31,16 +31,23 @@ internal sealed class ModificationImageSourceFactory
     }
 
     /// <summary>
-    ///     Loads the default unknown modification image for the currently managed game.
+    ///     Loads the banner a mod tile shows in place of a cover image, for the currently managed game.
     /// </summary>
-    public Bitmap LoadDefaultImage(SupportedGame supportedGame, bool grayscale)
+    /// <remarks>
+    ///     A local mod never had published artwork, so its banner says the user added it. A remote mod lacks artwork
+    ///     only because none was published or it could not be downloaded or decoded, and calling that user-added would
+    ///     misstate where the mod came from. Returns <see langword="null" /> when the banner cannot be loaded: it is
+    ///     embedded, so that is a packaging fault, logged only here rather than handled as a bad cache file.
+    /// </remarks>
+    public Bitmap? LoadDefaultImage(SupportedGame supportedGame, bool localMod, bool grayscale)
     {
-        string resourceName = DefaultImageResourceNamePrefix + PerGame.Select(
-            supportedGame,
-            "UserAddedModBannerGenerals.jpg",
-            "UserAddedModBannerZeroHour.jpg");
+        (string generals, string zeroHour) = localMod
+            ? ("UserAddedModBannerGenerals.jpg", "UserAddedModBannerZeroHour.jpg")
+            : ("ImageUnavailableModBannerGenerals.jpg", "ImageUnavailableModBannerZeroHour.jpg");
 
-        return LoadResourceImage(resourceName, grayscale);
+        return LoadResourceImage(
+            DefaultImageResourceNamePrefix + PerGame.Select(supportedGame, generals, zeroHour),
+            grayscale);
     }
 
     /// <summary>
@@ -100,7 +107,7 @@ internal sealed class ModificationImageSourceFactory
         return DecodeStreamImage(stream);
     }
 
-    private Bitmap LoadResourceImage(string resourceName, bool grayscale)
+    private Bitmap? LoadResourceImage(string resourceName, bool grayscale)
     {
         string cacheKey = "resource:" + resourceName;
 
@@ -109,12 +116,12 @@ internal sealed class ModificationImageSourceFactory
             Bitmap colorImage = GetOrLoadImage(cacheKey, () => DecodeResourceImage(resourceName));
             return grayscale ? GetOrCreateGrayscaleImage(cacheKey, colorImage) : colorImage;
         }
-        catch (Exception exception) when (exception is IOException or NotSupportedException)
+        catch (Exception exception)
         {
             RemoveCachedImages(cacheKey);
             _logger.LogError(exception, "Failed to load modification image resource {ImageResourceName}.",
                 resourceName);
-            throw;
+            return null;
         }
     }
 

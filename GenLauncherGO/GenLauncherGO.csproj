@@ -63,7 +63,6 @@
   </ItemGroup>
 
   <ItemGroup>
-    <EmbeddedResource Include="Features\Mods\Resources\UserAddedModBannerGenerals.jpg" LogicalName="GenLauncherGO.Features.Mods.Resources.UserAddedModBannerGenerals.jpg"/>
-    <EmbeddedResource Include="Features\Mods\Resources\UserAddedModBannerZeroHour.jpg" LogicalName="GenLauncherGO.Features.Mods.Resources.UserAddedModBannerZeroHour.jpg"/>
+    <EmbeddedResource Include="Features\Mods\Resources\*.jpg" LogicalName="GenLauncherGO.Features.Mods.Resources.%(Filename)%(Extension)"/>
   </ItemGroup>
 </Project>

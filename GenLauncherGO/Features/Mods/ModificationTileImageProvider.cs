@@ -1,6 +1,5 @@
 using System;
 using System.Globalization;
-using System.IO;
 using Avalonia.Media;
 using Avalonia.Media.Imaging;
 using GenLauncherGO.Features.Startup;
@@ -79,13 +78,7 @@ internal sealed class ModificationTileImageProvider
     {
         if (modification.ModificationType == ModificationType.Mod)
         {
-            return LoadImage(
-                GetModificationImageFileName(modification, latestVersion, localMod),
-                modification.ModificationType,
-                modification.Name,
-                latestVersion.Version,
-                true,
-                true);
+            return LoadModImage(modification, latestVersion, localMod, grayscale: true);
         }
 
         if (modification.ModificationType == ModificationType.Advertising)
@@ -109,13 +102,7 @@ internal sealed class ModificationTileImageProvider
             return null;
         }
 
-        return LoadImage(
-            GetModificationImageFileName(modification, latestVersion, localMod),
-            modification.ModificationType,
-            modification.Name,
-            latestVersion.Version,
-            false,
-            true);
+        return LoadModImage(modification, latestVersion, localMod, grayscale: false);
     }
 
     private IImage? LoadAdvertisingImage(LauncherContent modification)
@@ -137,110 +124,61 @@ internal sealed class ModificationTileImageProvider
                 : random.Next(0, filesCount / 2);
         }
 
-        string imageBaseName = _advertisingImageIndex.ToString(CultureInfo.InvariantCulture);
-        string? imageFileName = _modificationImageFileService.FindExistingImageFilePath(
-            modification.ModificationType,
-            modification.Name,
-            imageBaseName);
-
         return LoadImage(
-            imageFileName,
             modification.ModificationType,
             modification.Name,
-            imageBaseName,
-            false,
+            _advertisingImageIndex.ToString(CultureInfo.InvariantCulture),
             false);
     }
 
-    private string? GetModificationImageFileName(
+    /// <summary>
+    ///     Loads a mod tile's cached cover image, or the game's fallback banner when there is none it can show.
+    /// </summary>
+    private IImage? LoadModImage(
         LauncherContent modification,
         LauncherContentVersion latestVersion,
-        bool localMod)
+        bool localMod,
+        bool grayscale)
     {
-        string? imageFileName = _modificationImageFileService.FindExistingImageFilePath(
+        Bitmap? image = LoadImage(
             modification.ModificationType,
             modification.Name,
-            latestVersion.Version);
-
-        if (localMod && !_modificationImageFileService.ImageExists(imageFileName))
-        {
-            return null;
-        }
-
-        return imageFileName;
+            latestVersion.Version,
+            grayscale);
+        return image ?? _imageSourceFactory.LoadDefaultImage(_launcherContext.CurrentlyManagedGame, localMod, grayscale);
     }
 
     /// <summary>
-    ///     Loads a cached or default image for a modification tile.
+    ///     Loads a cached image, or returns <see langword="null" /> when it is missing or cannot be read.
     /// </summary>
-    private IImage? LoadImage(
-        string? path,
+    /// <remarks>
+    ///     Tile art and advertising share this loader and its failure policy: an image that cannot be decoded is deleted,
+    ///     published artwork then counts as missing, and the catalog downloads it again.
+    /// </remarks>
+    private Bitmap? LoadImage(
         ModificationType modificationType,
         string modificationName,
         string imageBaseName,
-        bool grayscale,
-        bool useDefaultWhenMissing)
+        bool grayscale)
     {
         try
         {
-            Bitmap? image = _modificationImageFileService.ImageExists(path)
-                ? _imageSourceFactory.LoadFileImage(path, grayscale)
-                : null;
-
-            if (image == null && useDefaultWhenMissing)
-            {
-                image = _imageSourceFactory.LoadDefaultImage(
-                    _launcherContext.CurrentlyManagedGame,
-                    grayscale);
-            }
-
-            return image;
+            return _imageSourceFactory.LoadFileImage(
+                _modificationImageFileService.FindExistingImageFilePath(
+                    modificationType,
+                    modificationName,
+                    imageBaseName),
+                grayscale);
         }
         catch (Exception exception)
         {
             _logger.LogWarning(
                 exception,
-                "Could not load modification image {ImageFileName}; attempting to remove the cached image.",
-                Path.GetFileName(path));
-
-            return TryRemoveInvalidImage(
-                path,
-                modificationType,
-                modificationName,
+                "Could not load cached image {ImageBaseName} for {ModificationName}; attempting to remove it.",
                 imageBaseName,
-                grayscale,
-                useDefaultWhenMissing);
-        }
-    }
+                modificationName);
 
-    /// <summary>
-    ///     Removes an invalid cached image and falls back to the default image when appropriate.
-    /// </summary>
-    private IImage? TryRemoveInvalidImage(
-        string? path,
-        ModificationType modificationType,
-        string modificationName,
-        string imageBaseName,
-        bool grayscale,
-        bool useDefaultWhenMissing)
-    {
-        try
-        {
-            _modificationImageFileService.TryDeleteImage(
-                modificationType,
-                modificationName,
-                imageBaseName);
-
-            return useDefaultWhenMissing
-                ? _imageSourceFactory.LoadDefaultImage(_launcherContext.CurrentlyManagedGame, grayscale)
-                : null;
-        }
-        catch (Exception deleteException)
-        {
-            _logger.LogWarning(
-                deleteException,
-                "Could not remove invalid modification image {ImageFileName}.",
-                Path.GetFileName(path));
+            _modificationImageFileService.TryDeleteImage(modificationType, modificationName, imageBaseName);
             return null;
         }
     }

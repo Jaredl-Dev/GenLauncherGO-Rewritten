@@ -64,25 +64,6 @@ internal sealed class FileSystemModificationImageFileService : IModificationImag
         return Directory.EnumerateFiles(imageDirectory).Count();
     }
 
-    public bool ImageExists(string? imageFilePath)
-    {
-        if (string.IsNullOrWhiteSpace(imageFilePath))
-        {
-            return false;
-        }
-
-        try
-        {
-            return File.Exists(ModificationImageCachePath.ResolvePath(
-                _runtimePathContext.ActivePaths,
-                imageFilePath));
-        }
-        catch (Exception exception) when (ModificationCacheFailure.IsRecoverable(exception))
-        {
-            return false;
-        }
-    }
-
     public bool TryDeleteImage(
         ModificationType modificationType,
         string modificationName,

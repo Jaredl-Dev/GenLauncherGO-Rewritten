@@ -26,11 +26,6 @@ internal interface IModificationImageFileService
     int CountImageFiles(ModificationType modificationType, string modificationName);
 
     /// <summary>
-    ///     Determines whether a path inside the active launcher-owned image cache points to an existing file.
-    /// </summary>
-    bool ImageExists(string? imageFilePath);
-
-    /// <summary>
     ///     Removes cached images for a logical image identity and reports whether no matching image remains.
     /// </summary>
     /// <remarks>The implementation resolves the logical identity inside the active image cache ownership boundary.</remarks>
