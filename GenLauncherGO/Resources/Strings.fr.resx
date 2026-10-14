@@ -258,7 +258,6 @@
     <data name="Retry" xml:space="preserve"><value>Réessayer</value></data>
     <data name="Downloading" xml:space="preserve"><value>Téléchargement</value></data>
     <data name="IntegrityRepeatedFailure" xml:space="preserve"><value>Le contenu est resté incohérent après plusieurs tentatives de résolution. Aucun lancement n'a été effectué.</value></data>
-    <data name="IntegrityCacheSuffix" xml:space="preserve"><value>cache</value></data>
     <data name="IntegrityBlockedDescription" xml:space="preserve"><value>Le contenu sélectionné présente des problèmes de vérification qui ne peuvent pas être résolus automatiquement. Supprimez les entrées bloquées ou restaurez le contenu, puis réessayez de lancer.</value></data>
     <data name="CancelLaunch" xml:space="preserve"><value>Annuler le lancement</value></data>
     <data name="IntegrityManagedDescription" xml:space="preserve"><value>Le contenu distant sélectionné diffère de sa source approuvée : {0}. Réparer restaurera, retéléchargera ou supprimera uniquement les éléments gérés indiqués, puis vérifiera à nouveau.</value></data>

@@ -1,6 +1,9 @@
 using System;
+using System.Collections.Generic;
 using System.Threading;
 using System.Threading.Tasks;
+using GenLauncherGO.Features.Mods;
+using GenLauncherGO.Features.Startup;
 
 namespace GenLauncherGO.Features.Integrity;
 
@@ -13,7 +16,8 @@ internal interface ILaunchContentIntegrityResolutionService
     ///     Verifies active launch content and returns the target contexts used for any later resolution.
     /// </summary>
     Task<LaunchContentIntegrityVerificationResult> VerifyAsync(
-        LaunchContentIntegrityTargetRequest request,
+        LauncherPaths paths,
+        IReadOnlyList<LauncherContentVersion> activeVersions,
         CancellationToken cancellationToken);
 
     /// <summary>
@@ -30,7 +34,7 @@ internal interface ILaunchContentIntegrityResolutionService
         CancellationToken cancellationToken);
 
     /// <summary>
-    ///     Applies confirmed launch-integrity resolutions, including snapshots, cleanup, package repair, and cache refresh.
+    ///     Applies confirmed launch-integrity resolutions, including snapshots, cleanup, and package repair.
     /// </summary>
     Task ResolveAsync(
         LaunchContentIntegrityVerificationResult verification,
@@ -38,17 +42,19 @@ internal interface ILaunchContentIntegrityResolutionService
         CancellationToken cancellationToken);
 
     /// <summary>
-    ///     Marks a manually imported version as manual content, and captures its initial package and cache snapshots
-    ///     only when the import still resolves to a managed remote package.
+    ///     Marks a manually imported version as manual content, and captures its initial package snapshot only when the
+    ///     import still resolves to a managed remote package.
     /// </summary>
     Task RegisterManualImportAsync(
-        LaunchContentIntegrityTargetRequest request,
+        LauncherPaths paths,
+        LauncherContentVersion version,
         CancellationToken cancellationToken);
 
     /// <summary>
-    ///     Captures initial snapshots for a newly installed managed remote version.
+    ///     Captures the initial package snapshot for a newly installed managed remote version.
     /// </summary>
     Task CaptureManagedInstallSnapshotAsync(
-        LaunchContentIntegrityTargetRequest request,
+        LauncherPaths paths,
+        LauncherContentVersion version,
         CancellationToken cancellationToken);
 }

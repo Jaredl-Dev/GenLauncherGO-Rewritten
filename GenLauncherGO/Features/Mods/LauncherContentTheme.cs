@@ -70,9 +70,9 @@ internal sealed class LauncherContentTheme
     ///     Builds the cache file name a version's shell artwork is stored under.
     /// </summary>
     /// <remarks>
-    ///     This is the single authority for the name. The download cache writes it, the presentation layer reads it,
-    ///     content removal deletes it, and integrity scanning skips it for inactive versions — they only agree because
-    ///     they all call here. The suffix keeps it clear of the tile image, which is cached under the bare version.
+    ///     This is the single authority for the name. The download cache writes it and the presentation layer reads it,
+    ///     and they only agree because both call here. The suffix keeps it clear of the tile image, which is cached under
+    ///     the bare version.
     /// </remarks>
     public static string ResolveBackgroundImageBaseName(string version)
     {

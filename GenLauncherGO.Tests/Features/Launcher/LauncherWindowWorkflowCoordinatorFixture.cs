@@ -94,7 +94,6 @@ public sealed partial class LauncherWindowWorkflowCoordinatorTests
                                                               TestLauncherLaunchCoordinator.Create(
                                                                   resolvedPackageActivityService,
                                                                   resolvedPreferencesService,
-                                                                  resolvedCatalog,
                                                                   stringLocalizer,
                                                                   processLauncher: gameProcessLauncher,
                                                                   dialogService: resolvedDialogService);
@@ -148,7 +147,6 @@ public sealed partial class LauncherWindowWorkflowCoordinatorTests
         FakeLauncherContentCatalog resolvedCatalog = catalog ?? CreateCatalog();
         FakeStringLocalizer stringLocalizer = new();
         LaunchContentIntegrityCoordinator integrityCoordinator = TestLaunchContentIntegrityCoordinator.Create(
-            catalog: resolvedCatalog,
             packageActivityService: resolvedPackageActivityService,
             dialogService: resolvedDialogService,
             stringLocalizer: stringLocalizer);
@@ -204,7 +202,7 @@ public sealed partial class LauncherWindowWorkflowCoordinatorTests
             catalog,
             TestLauncherPaths.CreateRuntimePathContext(TestLauncherPaths.Create()),
             Substitute.For<IManualModificationImporter>(),
-            TestLaunchContentIntegrityCoordinator.Create(catalog: catalog, dialogService: dialogService),
+            TestLaunchContentIntegrityCoordinator.Create(dialogService: dialogService),
             new FakeStringLocalizer(),
             NullLogger<LauncherManualImportCoordinator>.Instance);
     }
@@ -223,7 +221,6 @@ public sealed partial class LauncherWindowWorkflowCoordinatorTests
             catalog,
             packageDownloadService ?? Substitute.For<IPackageDownloadService>(),
             TestLaunchContentIntegrityCoordinator.Create(
-                catalog: catalog,
                 packageActivityService: packageActivityService,
                 dialogService: dialogService),
             packageActivityService,

@@ -49,7 +49,6 @@ internal static class TestMainWindowViewModel
             launchCoordinator ?? TestLauncherLaunchCoordinator.Create(
                 resolvedPackageActivityService,
                 resolvedPreferencesService,
-                resolvedCatalog,
                 resolvedStringLocalizer),
             NullLogger<MainWindowViewModel>.Instance);
     }

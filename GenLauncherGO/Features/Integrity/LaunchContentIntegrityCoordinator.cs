@@ -20,7 +20,6 @@ namespace GenLauncherGO.Features.Integrity;
 /// </summary>
 internal sealed class LaunchContentIntegrityCoordinator
 {
-    private readonly ILauncherContentCatalog _catalog;
     private readonly ILauncherDialogService _dialogService;
     private readonly ILogger<LaunchContentIntegrityCoordinator> _logger;
     private readonly LauncherPackageActivityService _packageActivityService;
@@ -30,7 +29,6 @@ internal sealed class LaunchContentIntegrityCoordinator
 
     public LaunchContentIntegrityCoordinator(
         ILaunchContentIntegrityResolutionService resolutionService,
-        ILauncherContentCatalog catalog,
         LauncherRuntimePathContext runtimePaths,
         LauncherPackageActivityService packageActivityService,
         ILauncherStringLocalizer stringLocalizer,
@@ -38,7 +36,6 @@ internal sealed class LaunchContentIntegrityCoordinator
         ILogger<LaunchContentIntegrityCoordinator> logger)
     {
         _resolutionService = resolutionService ?? throw new ArgumentNullException(nameof(resolutionService));
-        _catalog = catalog ?? throw new ArgumentNullException(nameof(catalog));
         _runtimePaths = runtimePaths ?? throw new ArgumentNullException(nameof(runtimePaths));
         _packageActivityService =
             packageActivityService ?? throw new ArgumentNullException(nameof(packageActivityService));
@@ -72,7 +69,8 @@ internal sealed class LaunchContentIntegrityCoordinator
             try
             {
                 verification = await _resolutionService.VerifyAsync(
-                    CreateTargetRequest(launcherPaths, activeVersions),
+                    launcherPaths,
+                    activeVersions,
                     cancellationToken);
             }
             catch (Exception exception)
@@ -166,7 +164,8 @@ internal sealed class LaunchContentIntegrityCoordinator
         try
         {
             await _resolutionService.RegisterManualImportAsync(
-                CreateTargetRequest(_runtimePaths.ActivePaths, new[] { version }),
+                _runtimePaths.ActivePaths,
+                version,
                 CancellationToken.None);
         }
         catch (LauncherContentPersistenceException)
@@ -189,7 +188,7 @@ internal sealed class LaunchContentIntegrityCoordinator
     /// </summary>
     public async Task CaptureManagedInstallSnapshotAsync(LauncherContentVersion version)
     {
-        if (version == null || !version.EffectiveContentSourceKind.IsManagedRemote())
+        if (version == null)
         {
             return;
         }
@@ -197,14 +196,15 @@ internal sealed class LaunchContentIntegrityCoordinator
         try
         {
             await _resolutionService.CaptureManagedInstallSnapshotAsync(
-                CreateTargetRequest(_runtimePaths.ActivePaths, new[] { version }),
+                _runtimePaths.ActivePaths,
+                version,
                 CancellationToken.None);
         }
         catch (Exception exception)
         {
             _logger.LogWarning(
                 exception,
-                "Could not initialize integrity snapshots for {ContentName}; launch verification will migrate them.",
+                "Could not initialize the integrity snapshot for {ContentName}; launch verification will migrate it.",
                 version.DisplayName);
         }
     }
@@ -212,17 +212,6 @@ internal sealed class LaunchContentIntegrityCoordinator
     public bool IsManual(LauncherContentVersion version)
     {
         return version != null && version.EffectiveContentSourceKind == ContentSourceKind.Manual;
-    }
-
-    private LaunchContentIntegrityTargetRequest CreateTargetRequest(
-        LauncherPaths launcherPaths,
-        IReadOnlyList<LauncherContentVersion> activeVersions)
-    {
-        return new LaunchContentIntegrityTargetRequest(
-            launcherPaths,
-            activeVersions,
-            _catalog.Data.GetAllModificationVersions(),
-            _stringLocalizer["IntegrityCacheSuffix"]);
     }
 
     private Task ShowBlockedVerificationDialogAsync(Window owner, string message)
@@ -336,17 +325,8 @@ internal sealed class LaunchContentIntegrityCoordinator
                 return;
             }
 
-            if (value.Completed)
-            {
-                progressTarget.ReportIntegrityProgress(_stringLocalizer["UnpackingPreparing"], 100);
-                return;
-            }
-
-            if (value.PackageProgress != null)
-            {
-                _packageActivityService.ReportProgress(value.PackageProgress.ProgressPercentage);
-                Report(progressTarget, value.PackageProgress);
-            }
+            _packageActivityService.ReportProgress(value.PackageProgress.ProgressPercentage);
+            Report(progressTarget, value.PackageProgress);
         }
 
         private void Begin(LaunchContentIntegrityTargetContext context)

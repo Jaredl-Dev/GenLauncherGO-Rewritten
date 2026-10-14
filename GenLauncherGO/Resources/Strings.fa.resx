@@ -258,7 +258,6 @@
     <data name="Retry" xml:space="preserve"><value>تلاش مجدد</value></data>
     <data name="Downloading" xml:space="preserve"><value>در حال دانلود</value></data>
     <data name="IntegrityRepeatedFailure" xml:space="preserve"><value>پس از چندین تلاش برای رفع مشکل، محتوا همچنان ناسازگار بود. هیچ اجرایی آغاز نشد.</value></data>
-    <data name="IntegrityCacheSuffix" xml:space="preserve"><value>کش</value></data>
     <data name="IntegrityBlockedDescription" xml:space="preserve"><value>محتوای انتخاب‌شده مشکلاتی در تأیید دارد که به‌طور خودکار قابل رفع نیستند. موارد مسدودشده را حذف یا محتوا را بازیابی کنید و سپس دوباره اجرا کنید.</value></data>
     <data name="CancelLaunch" xml:space="preserve"><value>لغو اجرا</value></data>
     <data name="IntegrityManagedDescription" xml:space="preserve"><value>محتوای انتخاب‌شده که از راه دور مدیریت می‌شود با منبع مورد اعتمادش متفاوت است: &#x2068;{0}&#x2069;. گزینه «تعمیر» فقط موارد مدیریت‌شده فهرست‌شده را تعمیر، دوباره دانلود یا حذف می‌کند و سپس پیش از اجرا دوباره آن‌ها را تأیید می‌کند.</value></data>

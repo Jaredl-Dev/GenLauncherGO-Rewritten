@@ -258,7 +258,6 @@
     <data name="Retry" xml:space="preserve"><value>Tentar novamente</value></data>
     <data name="Downloading" xml:space="preserve"><value>Baixando</value></data>
     <data name="IntegrityRepeatedFailure" xml:space="preserve"><value>O conteúdo permaneceu inconsistente após várias tentativas de resolução. O jogo não foi iniciado.</value></data>
-    <data name="IntegrityCacheSuffix" xml:space="preserve"><value>cache</value></data>
     <data name="IntegrityBlockedDescription" xml:space="preserve"><value>O conteúdo selecionado tem problemas de verificação que não podem ser resolvidos automaticamente. Remova as entradas bloqueadas ou restaure o conteúdo e tente iniciar novamente.</value></data>
     <data name="CancelLaunch" xml:space="preserve"><value>Cancelar início</value></data>
     <data name="IntegrityManagedDescription" xml:space="preserve"><value>O conteúdo remoto selecionado difere da fonte confiável: {0}. Reparar irá restaurar, transferir novamente ou eliminar apenas as entradas geridas indicadas e verificar novamente.</value></data>

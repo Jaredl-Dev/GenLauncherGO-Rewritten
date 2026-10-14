@@ -72,7 +72,7 @@ internal sealed class LauncherLocalContentReconciler
         var retainedTargetIds = launcherData.AllContent
             .SelectMany(content => content.Versions)
             .Where(version => version.Installation.Installed)
-            .SelectMany(version => ContentIntegrityTargetId.ForContent(version.ContentKey))
+            .Select(version => ContentIntegrityTargetId.ForPackage(version.ContentKey))
             .ToHashSet(StringComparer.Ordinal);
 
         return _integrityService.PruneSnapshots(paths, retainedTargetIds);

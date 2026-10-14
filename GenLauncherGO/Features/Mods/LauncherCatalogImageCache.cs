@@ -44,36 +44,36 @@ internal sealed class LauncherCatalogImageCache
         ArgumentNullException.ThrowIfNull(modification);
         ArgumentNullException.ThrowIfNull(paths);
 
-        bool themeSaved = false;
-        foreach ((string link, string baseName, bool requiresTheme) in
-                 ModificationImageCachePath.GetRemoteAssetSources(modification))
+        if (!string.IsNullOrEmpty(modification.UIImageSourceLink))
         {
-            if (requiresTheme && !themeSaved)
-            {
-                SaveTheme(modification);
-                themeSaved = true;
-            }
-
             await DownloadImageIfMissingAsync(
                 paths,
                 modification.ModificationType,
                 modification.Name,
-                baseName,
-                link,
+                modification.Version,
+                modification.UIImageSourceLink,
                 cancellationToken).ConfigureAwait(false);
         }
 
-        if (modification.Theme is not null && !themeSaved)
+        if (modification.Theme is null)
         {
-            SaveTheme(modification);
+            return;
         }
-    }
 
-    private void SaveTheme(LauncherContentVersion modification)
-    {
         // Cached ahead of selection so a themed modification can re-skin the shell the moment it is picked, and
         // so a later offline run still has both the palette and the artwork it refers to.
-        _themeCache.Save(modification.ContentKey, modification.Theme!);
+        _themeCache.Save(modification.ContentKey, modification.Theme);
+
+        if (!string.IsNullOrEmpty(modification.Theme.GenLauncherBackgroundImageLink))
+        {
+            await DownloadImageIfMissingAsync(
+                paths,
+                modification.ModificationType,
+                modification.Name,
+                LauncherContentTheme.ResolveBackgroundImageBaseName(modification.Version),
+                modification.Theme.GenLauncherBackgroundImageLink,
+                cancellationToken).ConfigureAwait(false);
+        }
     }
 
     public async Task CacheAdvertisingImagesAsync(

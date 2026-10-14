@@ -1,4 +1,5 @@
 using System;
+using System.Collections.Generic;
 using System.Threading;
 using GenLauncherGO.Features.Integrity;
 using GenLauncherGO.Features.Mods;
@@ -18,7 +19,6 @@ internal static class TestLaunchContentIntegrityCoordinator
 {
     public static LaunchContentIntegrityCoordinator Create(
         ILaunchContentIntegrityResolutionService? resolutionService = null,
-        ILauncherContentCatalog? catalog = null,
         LauncherRuntimePathContext? runtimePaths = null,
         LauncherPackageActivityService? packageActivityService = null,
         ILauncherDialogService? dialogService = null,
@@ -28,7 +28,6 @@ internal static class TestLaunchContentIntegrityCoordinator
             runtimePaths ?? TestLauncherPaths.CreateRuntimePathContext(TestLauncherPaths.Create());
         return new LaunchContentIntegrityCoordinator(
             resolutionService ?? CreateNoIssueResolutionService(effectiveRuntimePaths.ActivePaths),
-            catalog ?? new FakeLauncherContentCatalog(),
             effectiveRuntimePaths,
             packageActivityService ?? new LauncherPackageActivityService(),
             stringLocalizer ?? new FakeStringLocalizer(),
@@ -41,7 +40,8 @@ internal static class TestLaunchContentIntegrityCoordinator
         ILaunchContentIntegrityResolutionService resolutionService =
             Substitute.For<ILaunchContentIntegrityResolutionService>();
         resolutionService.VerifyAsync(
-                Arg.Any<LaunchContentIntegrityTargetRequest>(),
+                Arg.Any<LauncherPaths>(),
+                Arg.Any<IReadOnlyList<LauncherContentVersion>>(),
                 Arg.Any<CancellationToken>())
             .Returns(new LaunchContentIntegrityVerificationResult(
                 paths,

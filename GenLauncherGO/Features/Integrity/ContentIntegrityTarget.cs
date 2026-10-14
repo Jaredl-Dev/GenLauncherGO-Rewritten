@@ -1,8 +1,4 @@
 using System;
-using System.Collections.Frozen;
-using System.Collections.Generic;
-using System.Linq;
-using GenLauncherGO.Shared.IO;
 
 namespace GenLauncherGO.Features.Integrity;
 
@@ -15,21 +11,16 @@ internal sealed record ContentIntegrityTarget
         string id,
         string displayName,
         string rootDirectory,
-        ContentSourceKind sourceKind,
-        IReadOnlySet<string> ignoredRelativePaths)
+        ContentSourceKind sourceKind)
     {
         ArgumentException.ThrowIfNullOrWhiteSpace(id);
         ArgumentException.ThrowIfNullOrWhiteSpace(displayName);
         ArgumentException.ThrowIfNullOrWhiteSpace(rootDirectory);
-        ArgumentNullException.ThrowIfNull(ignoredRelativePaths);
 
         Id = id;
         DisplayName = displayName;
         RootDirectory = rootDirectory;
         SourceKind = sourceKind;
-        IgnoredRelativePaths = ignoredRelativePaths
-            .Select(LexicalPath.NormalizeRelativePath)
-            .ToFrozenSet(StringComparer.OrdinalIgnoreCase);
     }
 
     /// <summary>
@@ -42,9 +33,4 @@ internal sealed record ContentIntegrityTarget
     public string RootDirectory { get; }
 
     public ContentSourceKind SourceKind { get; init; }
-
-    /// <summary>
-    ///     Gets known owned paths that belong to inactive content and must be preserved without verification.
-    /// </summary>
-    public IReadOnlySet<string> IgnoredRelativePaths { get; }
 }

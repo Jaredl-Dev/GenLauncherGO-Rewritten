@@ -4,7 +4,7 @@ using GenLauncherGO.Shared.IO;
 namespace GenLauncherGO.Features.Integrity;
 
 /// <summary>
-///     Applies integrity-target containment and ignore policy to canonical lexical paths.
+///     Applies integrity-target containment to canonical lexical paths.
 /// </summary>
 internal static class ContentIntegrityPath
 {
@@ -31,13 +31,5 @@ internal static class ContentIntegrityPath
             root,
             relativePath,
             "An integrity issue path resolved outside its target root.");
-    }
-
-    /// <summary>
-    ///     Determines whether a target-relative path belongs to preserved inactive content.
-    /// </summary>
-    public static bool IsIgnored(ContentIntegrityTarget target, string relativePath)
-    {
-        return target.IgnoredRelativePaths.Contains(LexicalPath.NormalizeRelativePath(relativePath));
     }
 }

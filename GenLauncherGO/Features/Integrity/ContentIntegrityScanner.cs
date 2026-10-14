@@ -18,9 +18,9 @@ internal static class ContentIntegrityScanner
     private const int MaxConcurrentFileHashes = 4;
 
     /// <summary>
-    ///     Scans one target without following reparse points.
+    ///     Scans one target root without following reparse points.
     /// </summary>
-    /// <param name="target">The content target to scan.</param>
+    /// <param name="rootDirectory">The root directory of the content target to scan.</param>
     /// <param name="includeFileHashes">
     ///     <see langword="true" /> to hash every file for snapshot comparison. Pass <see langword="false" /> for a
     ///     safety-only scan: entries are still enumerated and opened, so links and unreadable files are still found,
@@ -28,7 +28,7 @@ internal static class ContentIntegrityScanner
     /// </param>
     /// <param name="cancellationToken">The token that cancels the scan.</param>
     public static async Task<ContentIntegrityScanResult> ScanAsync(
-        ContentIntegrityTarget target,
+        string rootDirectory,
         bool includeFileHashes,
         CancellationToken cancellationToken)
     {
@@ -38,7 +38,7 @@ internal static class ContentIntegrityScanner
         List<ContentIntegrityScanError> errors = [];
         List<(string Path, string RelativePath)> fileCandidates = [];
 
-        string root = LexicalPath.NormalizeFullPath(target.RootDirectory);
+        string root = LexicalPath.NormalizeFullPath(rootDirectory);
         if (!Directory.Exists(root))
         {
             return new ContentIntegrityScanResult(files, emptyDirectories, unsafeLinks, errors);
@@ -70,9 +70,7 @@ internal static class ContentIntegrityScanner
                 }
 
                 var entries = Directory.EnumerateFileSystemEntries(directory).ToList();
-                if (entries.Count == 0 &&
-                    !isRootDirectory &&
-                    !ContentIntegrityPath.IsIgnored(target, directoryRelativePath))
+                if (entries.Count == 0 && !isRootDirectory)
                 {
                     emptyDirectories.Add(directoryRelativePath);
                 }
@@ -82,16 +80,6 @@ internal static class ContentIntegrityScanner
                     cancellationToken.ThrowIfCancellationRequested();
                     string relativePath = ContentIntegrityPath.GetRelativePath(root, entry);
                     FileAttributes attributes = File.GetAttributes(entry);
-                    if (ContentIntegrityPath.IsIgnored(target, relativePath))
-                    {
-                        if ((attributes & FileAttributes.ReparsePoint) != 0)
-                        {
-                            unsafeLinks.Add(relativePath);
-                        }
-
-                        continue;
-                    }
-
                     if ((attributes & FileAttributes.ReparsePoint) != 0)
                     {
                         unsafeLinks.Add(relativePath);

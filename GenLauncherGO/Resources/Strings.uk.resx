@@ -258,7 +258,6 @@
     <data name="Retry" xml:space="preserve"><value>Повторити</value></data>
     <data name="Downloading" xml:space="preserve"><value>Завантаження</value></data>
     <data name="IntegrityRepeatedFailure" xml:space="preserve"><value>Після кількох спроб виправлення вміст залишився неузгодженим. Запуск не виконано.</value></data>
-    <data name="IntegrityCacheSuffix" xml:space="preserve"><value>кеш</value></data>
     <data name="IntegrityBlockedDescription" xml:space="preserve"><value>Вибраний вміст має проблеми перевірки, які не можна усунути автоматично. Видаліть заблоковані елементи або відновіть вміст, а потім спробуйте запустити знову.</value></data>
     <data name="CancelLaunch" xml:space="preserve"><value>Скасувати запуск</value></data>
     <data name="IntegrityManagedDescription" xml:space="preserve"><value>Вибраний віддалено керований вміст відрізняється від довіреного джерела: {0}. Виправлення відновить, повторно завантажить або видалить лише перелічені керовані елементи та повторить перевірку.</value></data>

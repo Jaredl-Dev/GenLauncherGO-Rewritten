@@ -4,15 +4,16 @@ using GenLauncherGO.Features.Updating;
 namespace GenLauncherGO.Features.Integrity;
 
 /// <summary>
-///     Reports package progress or completion for one launch-integrity resolution target.
+///     Reports package progress for one launch-integrity resolution target.
 /// </summary>
 internal sealed record LaunchContentIntegrityResolutionProgress
 {
-    private LaunchContentIntegrityResolutionProgress(
+    public LaunchContentIntegrityResolutionProgress(
         string targetId,
-        PackageUpdateProgress? packageProgress)
+        PackageUpdateProgress packageProgress)
     {
         ArgumentException.ThrowIfNullOrWhiteSpace(targetId);
+        ArgumentNullException.ThrowIfNull(packageProgress);
 
         TargetId = targetId;
         PackageProgress = packageProgress;
@@ -20,21 +21,5 @@ internal sealed record LaunchContentIntegrityResolutionProgress
 
     public string TargetId { get; }
 
-    public PackageUpdateProgress? PackageProgress { get; }
-
-    public bool Completed => PackageProgress is null;
-
-    public static LaunchContentIntegrityResolutionProgress Package(
-        string targetId,
-        PackageUpdateProgress packageProgress)
-    {
-        ArgumentNullException.ThrowIfNull(packageProgress);
-
-        return new LaunchContentIntegrityResolutionProgress(targetId, packageProgress);
-    }
-
-    public static LaunchContentIntegrityResolutionProgress Complete(string targetId)
-    {
-        return new LaunchContentIntegrityResolutionProgress(targetId, null);
-    }
+    public PackageUpdateProgress PackageProgress { get; }
 }

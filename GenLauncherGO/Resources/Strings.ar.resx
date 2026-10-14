@@ -258,7 +258,6 @@
     <data name="Retry" xml:space="preserve"><value>إعادة المحاولة</value></data>
     <data name="Downloading" xml:space="preserve"><value>جاري التنزيل</value></data>
     <data name="IntegrityRepeatedFailure" xml:space="preserve"><value>ظل المحتوى غير متناسق بعد عدة محاولات للحل. لم يتم تشغيل اللعبة.</value></data>
-    <data name="IntegrityCacheSuffix" xml:space="preserve"><value>ذاكرة التخزين المؤقت</value></data>
     <data name="IntegrityBlockedDescription" xml:space="preserve"><value>يحتوي المحتوى المحدد على مشكلات تحقق لا يمكن حلها تلقائيًا. أزل العناصر المحظورة أو استعد المحتوى، ثم حاول التشغيل مرة أخرى.</value></data>
     <data name="CancelLaunch" xml:space="preserve"><value>إلغاء التشغيل</value></data>
     <data name="IntegrityManagedDescription" xml:space="preserve"><value>يختلف المحتوى البعيد المحدد عن مصدره الموثوق: {0}. سيقوم الإصلاح باستعادة العناصر المُدارة المدرجة فقط أو إعادة تنزيلها أو حذفها ثم التحقق مرة أخرى.</value></data>

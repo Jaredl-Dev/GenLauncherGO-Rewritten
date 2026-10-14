@@ -8,18 +8,15 @@ using GenLauncherGO.Features.Mods;
 using GenLauncherGO.Features.Startup;
 using GenLauncherGO.Features.Updating;
 using GenLauncherGO.Shared.IO;
-using GenLauncherGO.Shared.Remote;
 using Microsoft.Extensions.Logging;
 
 namespace GenLauncherGO.Features.Integrity;
 
 /// <summary>
-///     Resolves launch-readiness integrity issues using persisted snapshots, package repair, and cache refresh.
+///     Resolves launch-readiness integrity issues using persisted snapshots and package repair.
 /// </summary>
 internal sealed class FileSystemLaunchContentIntegrityResolutionService : ILaunchContentIntegrityResolutionService
 {
-    private readonly IRemoteAssetDownloader _assetDownloader;
-
     private readonly ILauncherContentCatalog _catalog;
 
     private readonly IFileHashService _fileHashService;
@@ -33,44 +30,42 @@ internal sealed class FileSystemLaunchContentIntegrityResolutionService : ILaunc
 
     private readonly ISingleFilePackageUpdater _singleFilePackageUpdater;
 
-    private readonly FileSystemLaunchContentIntegrityTargetBuilder _targetBuilder;
-
     public FileSystemLaunchContentIntegrityResolutionService(
         IContentIntegrityService integrityService,
-        FileSystemLaunchContentIntegrityTargetBuilder targetBuilder,
         ManagedPackageSourceResolver packageSourceResolver,
         IS3PackageUpdater s3PackageUpdater,
         ISingleFilePackageUpdater singleFilePackageUpdater,
-        IRemoteAssetDownloader assetDownloader,
         ILauncherContentCatalog catalog,
         IFileHashService fileHashService,
         ILogger<FileSystemLaunchContentIntegrityResolutionService> logger)
     {
         _integrityService = integrityService ?? throw new ArgumentNullException(nameof(integrityService));
-        _targetBuilder = targetBuilder ?? throw new ArgumentNullException(nameof(targetBuilder));
         _packageSourceResolver = packageSourceResolver ??
                                  throw new ArgumentNullException(nameof(packageSourceResolver));
         _s3PackageUpdater = s3PackageUpdater ?? throw new ArgumentNullException(nameof(s3PackageUpdater));
         _singleFilePackageUpdater = singleFilePackageUpdater ??
                                     throw new ArgumentNullException(nameof(singleFilePackageUpdater));
-        _assetDownloader = assetDownloader ?? throw new ArgumentNullException(nameof(assetDownloader));
         _catalog = catalog ?? throw new ArgumentNullException(nameof(catalog));
         _fileHashService = fileHashService ?? throw new ArgumentNullException(nameof(fileHashService));
         _logger = logger ?? throw new ArgumentNullException(nameof(logger));
     }
 
     public async Task<LaunchContentIntegrityVerificationResult> VerifyAsync(
-        LaunchContentIntegrityTargetRequest request,
+        LauncherPaths paths,
+        IReadOnlyList<LauncherContentVersion> activeVersions,
         CancellationToken cancellationToken)
     {
-        ArgumentNullException.ThrowIfNull(request);
+        ArgumentNullException.ThrowIfNull(paths);
+        ArgumentNullException.ThrowIfNull(activeVersions);
 
-        IReadOnlyList<LaunchContentIntegrityTargetContext> contexts = _targetBuilder.BuildTargets(request);
+        var contexts = activeVersions
+            .Select(version => new LaunchContentIntegrityTargetContext(CreatePackageTarget(paths, version), version))
+            .ToList();
         ContentIntegrityReport report = await _integrityService.VerifyAsync(
-            request.Paths,
+            paths,
             contexts.Select(context => context.Target).ToList(),
             cancellationToken).ConfigureAwait(false);
-        return new LaunchContentIntegrityVerificationResult(request.Paths, report, contexts);
+        return new LaunchContentIntegrityVerificationResult(paths, report, contexts);
     }
 
     public async Task<bool> InitializeUntrackedManagedContentAsync(
@@ -87,15 +82,8 @@ internal sealed class FileSystemLaunchContentIntegrityResolutionService : ILaunc
         bool initializedAny = false;
         foreach (LaunchContentIntegrityTargetContext context in untrackedContexts)
         {
-            bool initialized = context.IsCache
-                ? await _integrityService.CaptureSnapshotIfMatchesExpectedFileSetAsync(
-                    verification.Paths,
-                    context.Target,
-                    BuildExpectedRemoteCachePaths(context),
-                    cancellationToken).ConfigureAwait(false)
-                : await AdoptUntrackedManagedPackageAsync(verification.Paths, context, cancellationToken)
-                    .ConfigureAwait(false);
-            if (!initialized)
+            if (!await AdoptUntrackedManagedPackageAsync(verification.Paths, context, cancellationToken)
+                    .ConfigureAwait(false))
             {
                 continue;
             }
@@ -129,20 +117,12 @@ internal sealed class FileSystemLaunchContentIntegrityResolutionService : ILaunc
         foreach (LaunchContentIntegrityTargetContext context in verification.TargetContexts.Where(context =>
                      issueIndex.RepairTargetIds.Contains(context.Target.Id)))
         {
-            if (context.IsCache)
-            {
-                await RefreshManagedCacheAsync(context, cancellationToken).ConfigureAwait(false);
-                progress?.Report(LaunchContentIntegrityResolutionProgress.Complete(context.Target.Id));
-            }
-            else
-            {
-                await RepairManagedPackageAsync(
-                    verification.Paths,
-                    context,
-                    verification.Report,
-                    new TargetPackageProgress(context.Target.Id, progress),
-                    cancellationToken).ConfigureAwait(false);
-            }
+            await RepairManagedPackageAsync(
+                verification.Paths,
+                context,
+                verification.Report,
+                new TargetPackageProgress(context.Target.Id, progress),
+                cancellationToken).ConfigureAwait(false);
         }
 
         foreach (string targetId in issueIndex.ManagedTargetIdsInReportOrder)
@@ -156,78 +136,62 @@ internal sealed class FileSystemLaunchContentIntegrityResolutionService : ILaunc
     }
 
     public async Task RegisterManualImportAsync(
-        LaunchContentIntegrityTargetRequest request,
+        LauncherPaths paths,
+        LauncherContentVersion version,
         CancellationToken cancellationToken)
     {
-        ArgumentNullException.ThrowIfNull(request);
-        LauncherContentVersion version = GetSingleVersion(request);
+        ArgumentNullException.ThrowIfNull(paths);
+        ArgumentNullException.ThrowIfNull(version);
 
         version.Installation.ContentSourceKind = ContentSourceKind.Manual;
         _catalog.SaveLauncherData();
 
         // Only managed content is snapshot-tracked. An import whose name and version match a published package is
         // still verified against that remote source, so it needs the initial snapshot a download would have left.
-        if (!version.EffectiveContentSourceKind.IsManagedRemote())
-        {
-            return;
-        }
-
-        IReadOnlyList<LaunchContentIntegrityTargetContext> contexts = _targetBuilder.BuildTargets(request);
-        await _integrityService.CaptureSnapshotAsync(
-            request.Paths,
-            contexts.First(context => !context.IsCache).Target,
-            cancellationToken).ConfigureAwait(false);
-
-        if (version.ModificationType == ModificationType.Mod)
-        {
-            await _integrityService.CaptureSnapshotAsync(
-                request.Paths,
-                contexts.First(context => context.IsCache).Target,
-                cancellationToken).ConfigureAwait(false);
-        }
+        await CaptureManagedInstallSnapshotAsync(paths, version, cancellationToken).ConfigureAwait(false);
     }
 
     public async Task CaptureManagedInstallSnapshotAsync(
-        LaunchContentIntegrityTargetRequest request,
+        LauncherPaths paths,
+        LauncherContentVersion version,
         CancellationToken cancellationToken)
     {
-        ArgumentNullException.ThrowIfNull(request);
-        LauncherContentVersion version = GetSingleVersion(request);
+        ArgumentNullException.ThrowIfNull(paths);
+        ArgumentNullException.ThrowIfNull(version);
 
         if (!version.EffectiveContentSourceKind.IsManagedRemote())
         {
             return;
         }
 
-        IReadOnlyList<LaunchContentIntegrityTargetContext> contexts = _targetBuilder.BuildTargets(request);
-        await _integrityService.CaptureSnapshotAsync(
-            request.Paths,
-            contexts.First(context => !context.IsCache).Target,
-            cancellationToken).ConfigureAwait(false);
-
-        if (version.ModificationType == ModificationType.Mod)
-        {
-            LaunchContentIntegrityTargetContext cacheContext = contexts.First(context => context.IsCache);
-            if (!await _integrityService.CaptureSnapshotIfMatchesExpectedFileSetAsync(
-                    request.Paths,
-                    cacheContext.Target,
-                    BuildExpectedRemoteCachePaths(cacheContext),
-                    cancellationToken).ConfigureAwait(false))
-            {
-                await RefreshManagedCacheAsync(cacheContext, cancellationToken).ConfigureAwait(false);
-                await _integrityService.CaptureSnapshotAsync(request.Paths, cacheContext.Target, cancellationToken).ConfigureAwait(false);
-            }
-        }
+        await _integrityService.CaptureSnapshotAsync(paths, CreatePackageTarget(paths, version), cancellationToken)
+            .ConfigureAwait(false);
     }
 
-    private static LauncherContentVersion GetSingleVersion(LaunchContentIntegrityTargetRequest request)
+    /// <summary>
+    ///     Builds the integrity target for a version's installed package directory.
+    /// </summary>
+    /// <remarks>
+    ///     The package is the only target a version has. Catalog artwork never reaches the game folder and comes from
+    ///     third-party hosts that can refuse a user outright, so it must never block a launch; the catalog re-downloads
+    ///     missing artwork on its own.
+    /// </remarks>
+    private static ContentIntegrityTarget CreatePackageTarget(LauncherPaths paths, LauncherContentVersion version)
     {
-        if (request.ActiveVersions.Count != 1)
-        {
-            throw new ArgumentException("Exactly one active version is required.", nameof(request));
-        }
+        OwnedContentPath packagePath = LauncherContentPathResolver.ResolveVersionPath(paths, version.ContentKey)
+                                       ?? throw new InvalidDataException(
+                                           "Content metadata did not resolve to a supported launcher content path.");
+        string packageDirectory = FileSystemPathSafety.ResolveOwnedSubpath(
+            packagePath.OwnerRoot,
+            packagePath.FullPath,
+            "Content metadata paths",
+            "a launcher-owned directory");
 
-        return request.ActiveVersions[0];
+        return new ContentIntegrityTarget(
+            ContentIntegrityTargetId.ForPackage(version.ContentKey),
+            version.DisplayName,
+            packageDirectory,
+            version.EffectiveContentSourceKind);
     }
 
     /// <summary>
@@ -472,87 +436,6 @@ internal sealed class FileSystemLaunchContentIntegrityResolutionService : ILaunc
     }
 
     /// <summary>
-    ///     Refreshes a managed launcher-owned cache target from remote asset links.
-    /// </summary>
-    private async Task RefreshManagedCacheAsync(
-        LaunchContentIntegrityTargetContext context,
-        CancellationToken cancellationToken)
-    {
-        ContentIntegrityTarget target = context.Target;
-        FileSystemPathSafety.EnsureExistingPathChainHasNoReparsePoints(
-            target.RootDirectory,
-            "Content metadata paths");
-        Directory.CreateDirectory(target.RootDirectory);
-        FileSystemPathSafety.EnsureExistingPathChainHasNoReparsePoints(
-            target.RootDirectory,
-            "Content metadata paths");
-
-        IReadOnlyList<(Uri SourceUri, string DestinationPath)> assets =
-            ModificationImageCachePath.ResolveRemoteAssets(context.Version, target.RootDirectory);
-        foreach (string filePath in EnumerateFilesWithoutLinks(target.RootDirectory).ToList())
-        {
-            cancellationToken.ThrowIfCancellationRequested();
-            string relativePath = ContentIntegrityPath.GetRelativePath(target.RootDirectory, filePath);
-            if (ContentIntegrityPath.IsIgnored(target, relativePath))
-            {
-                continue;
-            }
-
-            File.Delete(filePath);
-        }
-
-        foreach (string directory in EnumerateDirectoriesWithoutLinks(target.RootDirectory)
-                     .OrderByDescending(path => path.Length)
-                     .ToList())
-        {
-            cancellationToken.ThrowIfCancellationRequested();
-            if (!Directory.EnumerateFileSystemEntries(directory).Any())
-            {
-                Directory.Delete(directory);
-            }
-        }
-
-        foreach ((Uri sourceUri, string destinationPath) in assets)
-        {
-            await _assetDownloader.DownloadIfMissingAsync(
-                sourceUri,
-                destinationPath,
-                cancellationToken).ConfigureAwait(false);
-        }
-    }
-
-    private static HashSet<string> BuildExpectedRemoteCachePaths(LaunchContentIntegrityTargetContext context)
-    {
-        return ModificationImageCachePath.ResolveRemoteAssets(context.Version, context.Target.RootDirectory)
-            .Select(asset => ContentIntegrityPath.GetRelativePath(
-                context.Target.RootDirectory,
-                asset.DestinationPath))
-            .ToHashSet(StringComparer.OrdinalIgnoreCase);
-    }
-
-    /// <summary>
-    ///     Enumerates files without following linked directories into paths the launcher does not own.
-    /// </summary>
-    private static IEnumerable<string> EnumerateFilesWithoutLinks(string rootDirectory)
-    {
-        return Directory.EnumerateFiles(
-            rootDirectory,
-            "*",
-            FileSystemPathSafety.CreateRecursiveNoLinksOptions());
-    }
-
-    /// <summary>
-    ///     Enumerates directories without following linked directories into paths the launcher does not own.
-    /// </summary>
-    private static IEnumerable<string> EnumerateDirectoriesWithoutLinks(string rootDirectory)
-    {
-        return Directory.EnumerateDirectories(
-            rootDirectory,
-            "*",
-            FileSystemPathSafety.CreateRecursiveNoLinksOptions());
-    }
-
-    /// <summary>
     ///     Bridges package updater progress to launch integrity progress by target id.
     /// </summary>
     private sealed class TargetPackageProgress : IProgress<PackageUpdateProgress>
@@ -572,7 +455,7 @@ internal sealed class FileSystemLaunchContentIntegrityResolutionService : ILaunc
 
         public void Report(PackageUpdateProgress value)
         {
-            _progress?.Report(LaunchContentIntegrityResolutionProgress.Package(_targetId, value));
+            _progress?.Report(new LaunchContentIntegrityResolutionProgress(_targetId, value));
         }
     }
 }

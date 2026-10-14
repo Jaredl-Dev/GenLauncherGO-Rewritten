@@ -258,7 +258,6 @@
     <data name="Retry" xml:space="preserve"><value>Повторить</value></data>
     <data name="Downloading" xml:space="preserve"><value>Загрузка</value></data>
     <data name="IntegrityRepeatedFailure" xml:space="preserve"><value>После нескольких попыток исправления содержимое осталось несогласованным. Запуск не выполнен.</value></data>
-    <data name="IntegrityCacheSuffix" xml:space="preserve"><value>кэш</value></data>
     <data name="IntegrityBlockedDescription" xml:space="preserve"><value>У выбранного содержимого есть проблемы проверки, которые нельзя устранить автоматически. Удалите заблокированные элементы или восстановите содержимое, затем попробуйте запустить снова.</value></data>
     <data name="CancelLaunch" xml:space="preserve"><value>Отменить запуск</value></data>
     <data name="IntegrityManagedDescription" xml:space="preserve"><value>Выбранное удалённо управляемое содержимое отличается от доверенного источника: {0}. Исправление восстановит, повторно загрузит или удалит только перечисленные управляемые элементы, затем повторит проверку.</value></data>

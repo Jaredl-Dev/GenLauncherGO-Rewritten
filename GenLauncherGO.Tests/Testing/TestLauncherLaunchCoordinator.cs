@@ -19,7 +19,6 @@ internal static class TestLauncherLaunchCoordinator
     public static LauncherLaunchCoordinator Create(
         LauncherPackageActivityService? packageActivityService = null,
         ILauncherPreferencesService? preferencesService = null,
-        ILauncherContentCatalog? catalog = null,
         ILauncherStringLocalizer? stringLocalizer = null,
         ILaunchPreparationService? preparationService = null,
         IGameProcessLauncher? processLauncher = null,
@@ -48,7 +47,6 @@ internal static class TestLauncherLaunchCoordinator
             resolvedProcessLauncher,
             TestLaunchContentIntegrityCoordinator.Create(
                 integrityResolutionService,
-                catalog,
                 resolvedRuntimePaths,
                 resolvedPackageActivityService,
                 resolvedDialogService,

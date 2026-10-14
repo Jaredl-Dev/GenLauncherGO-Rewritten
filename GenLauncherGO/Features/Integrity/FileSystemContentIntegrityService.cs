@@ -92,7 +92,7 @@ internal sealed class FileSystemContentIntegrityService : IContentIntegrityServi
                 try
                 {
                     ContentIntegrityScanResult untrackedScan =
-                        await ContentIntegrityScanner.ScanAsync(target, true, cancellationToken).ConfigureAwait(false);
+                        await ContentIntegrityScanner.ScanAsync(target.RootDirectory, true, cancellationToken).ConfigureAwait(false);
                     AddScanSafetyIssues(target, untrackedScan, issues);
                 }
                 catch (Exception exception) when (
@@ -111,7 +111,7 @@ internal sealed class FileSystemContentIntegrityService : IContentIntegrityServi
             try
             {
                 ContentIntegrityScanResult scan =
-                    await ContentIntegrityScanner.ScanAsync(target, true, cancellationToken).ConfigureAwait(false);
+                    await ContentIntegrityScanner.ScanAsync(target.RootDirectory, true, cancellationToken).ConfigureAwait(false);
                 AddScanIssues(target, snapshot, scan, issues);
             }
             catch (Exception exception) when (
@@ -149,7 +149,7 @@ internal sealed class FileSystemContentIntegrityService : IContentIntegrityServi
         ContentIntegritySnapshotStore snapshotStore = CreateSnapshotStore(paths);
 
         ContentIntegrityScanResult scan =
-            await ContentIntegrityScanner.ScanAsync(target, true, cancellationToken).ConfigureAwait(false);
+            await ContentIntegrityScanner.ScanAsync(target.RootDirectory, true, cancellationToken).ConfigureAwait(false);
         if (!ContentIntegrityScanner.MatchesExpectedFileSet(scan, expectedRelativePaths))
         {
             _logger.LogWarning(
@@ -172,7 +172,7 @@ internal sealed class FileSystemContentIntegrityService : IContentIntegrityServi
         ContentIntegritySnapshotStore snapshotStore = CreateSnapshotStore(paths);
 
         ContentIntegrityScanResult scan =
-            await ContentIntegrityScanner.ScanAsync(target, true, cancellationToken).ConfigureAwait(false);
+            await ContentIntegrityScanner.ScanAsync(target.RootDirectory, true, cancellationToken).ConfigureAwait(false);
         if (scan.UnsafeLinks.Count > 0 || scan.Errors.Count > 0)
         {
             _logger.LogWarning(
@@ -264,7 +264,7 @@ internal sealed class FileSystemContentIntegrityService : IContentIntegrityServi
         try
         {
             ContentIntegrityScanResult scan = await ContentIntegrityScanner
-                .ScanAsync(target, false, cancellationToken)
+                .ScanAsync(target.RootDirectory, false, cancellationToken)
                 .ConfigureAwait(false);
             AddScanSafetyIssues(target, scan, issues);
         }
@@ -508,8 +508,7 @@ internal sealed class FileSystemContentIntegrityService : IContentIntegrityServi
         {
             cancellationToken.ThrowIfCancellationRequested();
             string relativePath = ContentIntegrityPath.GetRelativePath(target.RootDirectory, directory);
-            if (ContentIntegrityPath.IsIgnored(target, relativePath) ||
-                FileSystemPathSafety.IsReparsePoint(directory) ||
+            if (FileSystemPathSafety.IsReparsePoint(directory) ||
                 Directory.EnumerateFileSystemEntries(directory).Any())
             {
                 continue;

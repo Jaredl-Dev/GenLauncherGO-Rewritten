@@ -306,35 +306,6 @@ public sealed class FileSystemContentIntegrityServiceTests
     }
 
     [Fact]
-    public async Task VerifyAsync_ReportsIgnoredUnsafeLinkWithoutFollowingItAsync()
-    {
-        using TestDirectory directory = new();
-        LauncherPaths paths = CreatePaths(directory);
-        string content = directory.CreateDirectory("content");
-        ProtectedJunction junction = ReparsePointTestSupport.CreateJunctionToProtectedTarget(
-            directory,
-            Path.Combine(content, "inactive.png"));
-        FileSystemContentIntegrityService service = CreateService();
-        ContentIntegrityTarget target = new(
-            "target",
-            "Target",
-            content,
-            ContentSourceKind.ManagedS3,
-            new HashSet<string>(StringComparer.OrdinalIgnoreCase) { "inactive.png" });
-
-        ContentIntegrityReport report = await service.VerifyAsync(
-            paths,
-            new[] { target },
-            CancellationToken.None);
-
-        report.Issues.Should().Contain(issue =>
-            issue.Kind == IntegrityIssueKind.UnsafeLink &&
-            issue.Action == IntegrityIssueAction.Delete &&
-            issue.RelativePath == "inactive.png");
-        junction.ReadCanary().Should().Be(junction.CanaryContents);
-    }
-
-    [Fact]
     public async Task VerifyAsync_RequiresMigrationWhenSourceClassificationChangesAsync()
     {
         using TestDirectory directory = new();
@@ -363,8 +334,11 @@ public sealed class FileSystemContentIntegrityServiceTests
         string content = Path.Combine(directory.Path, "content");
         string nested = Path.Combine(content, "nested");
         string deeper = Path.Combine(nested, "deeper");
+        string nonEmpty = Path.Combine(content, "non-empty");
         Directory.CreateDirectory(deeper);
+        Directory.CreateDirectory(nonEmpty);
         await File.WriteAllTextAsync(Path.Combine(deeper, "unexpected.txt"), "unexpected", TestContext.Current.CancellationToken);
+        await File.WriteAllTextAsync(Path.Combine(nonEmpty, "keep.txt"), "keep", TestContext.Current.CancellationToken);
         FileSystemContentIntegrityService service = CreateService();
         ContentIntegrityTarget target = CreateTarget(content, ContentSourceKind.ManagedS3);
         ContentIntegrityReport report = new(new[]
@@ -377,38 +351,7 @@ public sealed class FileSystemContentIntegrityServiceTests
         File.Exists(Path.Combine(deeper, "unexpected.txt")).Should().BeFalse();
         Directory.Exists(deeper).Should().BeFalse();
         Directory.Exists(nested).Should().BeFalse();
-    }
-
-    [Fact]
-    public async Task ApplyCleanupAsync_PreservesIgnoredAndNonEmptyDirectoriesAsync()
-    {
-        using TestDirectory directory = new();
-        string content = Path.Combine(directory.Path, "content");
-        string unexpected = Path.Combine(content, "unexpected");
-        string ignored = Path.Combine(content, "ignored");
-        string nonEmpty = Path.Combine(content, "non-empty");
-        Directory.CreateDirectory(unexpected);
-        Directory.CreateDirectory(ignored);
-        Directory.CreateDirectory(nonEmpty);
-        string unexpectedFile = Path.Combine(unexpected, "unexpected.txt");
-        await File.WriteAllTextAsync(unexpectedFile, "unexpected", TestContext.Current.CancellationToken);
-        await File.WriteAllTextAsync(Path.Combine(nonEmpty, "keep.txt"), "keep", TestContext.Current.CancellationToken);
-        FileSystemContentIntegrityService service = CreateService();
-        ContentIntegrityTarget target = CreateTarget(
-            content,
-            ContentSourceKind.ManagedS3,
-            new HashSet<string>(StringComparer.Ordinal) { @"\IGNORED/" });
-        ContentIntegrityReport report = new(new[]
-        {
-            CreateDeleteIssue(target, "unexpected/unexpected.txt")
-        });
-
-        await service.ApplyCleanupAsync(report, new[] { target }, CancellationToken.None);
-
-        File.Exists(unexpectedFile).Should().BeFalse();
-        Directory.Exists(unexpected).Should().BeFalse();
-        Directory.Exists(ignored).Should().BeTrue();
-        Directory.Exists(nonEmpty).Should().BeTrue();
+        File.Exists(Path.Combine(nonEmpty, "keep.txt")).Should().BeTrue();
     }
 
     [Fact]
@@ -643,27 +586,14 @@ public sealed class FileSystemContentIntegrityServiceTests
             NullLogger<FileSystemContentIntegrityService>.Instance);
     }
 
-    private static ContentIntegrityTarget CreateTarget(
-        string root,
-        ContentSourceKind sourceKind,
-        IReadOnlySet<string>? ignoredRelativePaths = null)
+    private static ContentIntegrityTarget CreateTarget(string root, ContentSourceKind sourceKind)
     {
-        return new ContentIntegrityTarget(
-            "target",
-            "Target",
-            root,
-            sourceKind,
-            ignoredRelativePaths ?? new HashSet<string>(StringComparer.OrdinalIgnoreCase));
+        return new ContentIntegrityTarget("target", "Target", root, sourceKind);
     }
 
     private static ContentIntegrityTarget CreateTarget(string id, string root)
     {
-        return new ContentIntegrityTarget(
-            id,
-            id,
-            root,
-            ContentSourceKind.ManagedS3,
-            new HashSet<string>(StringComparer.OrdinalIgnoreCase));
+        return new ContentIntegrityTarget(id, id, root, ContentSourceKind.ManagedS3);
     }
 
     private static ContentIntegrityIssue CreateDeleteIssue(

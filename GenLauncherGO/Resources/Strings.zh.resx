@@ -258,7 +258,6 @@
     <data name="Retry" xml:space="preserve"><value>重试</value></data>
     <data name="Downloading" xml:space="preserve"><value>正在下载</value></data>
     <data name="IntegrityRepeatedFailure" xml:space="preserve"><value>多次处理后内容仍不一致，未启动游戏。</value></data>
-    <data name="IntegrityCacheSuffix" xml:space="preserve"><value>缓存</value></data>
     <data name="IntegrityBlockedDescription" xml:space="preserve"><value>所选内容存在无法自动解决的验证问题。请移除被阻止的项目或还原内容，然后再次尝试启动。</value></data>
     <data name="CancelLaunch" xml:space="preserve"><value>取消启动</value></data>
     <data name="IntegrityManagedDescription" xml:space="preserve"><value>所选远程管理内容与可信来源不同：{0}。修复只会恢复、重新下载或删除列出的管理项目，然后再次验证。</value></data>

@@ -67,13 +67,6 @@ internal sealed class LauncherData
             .ToList();
     }
 
-    public IReadOnlyList<LauncherContentVersion> GetAllModificationVersions()
-    {
-        return _modifications
-            .SelectMany(modification => modification.Versions)
-            .ToList();
-    }
-
     public LauncherContent? FindContent(LauncherContentKey contentKey)
     {
         List<LauncherContent>? contentStorage = GetContentStorage(contentKey.ContentType);
