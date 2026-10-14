@@ -47,7 +47,7 @@ internal sealed class ModificationTileImageProvider
         ArgumentNullException.ThrowIfNull(modification);
         ArgumentNullException.ThrowIfNull(version);
 
-        if (version.Theme is null || version.Theme.GenLauncherBackgroundImageLink.Length == 0)
+        if (version.Theme?.HasBackgroundImage != true)
         {
             return null;
         }

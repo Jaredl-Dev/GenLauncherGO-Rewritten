@@ -44,7 +44,7 @@ internal sealed class LauncherCatalogImageCache
         ArgumentNullException.ThrowIfNull(modification);
         ArgumentNullException.ThrowIfNull(paths);
 
-        if (!string.IsNullOrEmpty(modification.UIImageSourceLink))
+        if (!string.IsNullOrWhiteSpace(modification.UIImageSourceLink))
         {
             await DownloadImageIfMissingAsync(
                 paths,
@@ -64,7 +64,7 @@ internal sealed class LauncherCatalogImageCache
         // so a later offline run still has both the palette and the artwork it refers to.
         _themeCache.Save(modification.ContentKey, modification.Theme);
 
-        if (!string.IsNullOrEmpty(modification.Theme.GenLauncherBackgroundImageLink))
+        if (modification.Theme.HasBackgroundImage)
         {
             await DownloadImageIfMissingAsync(
                 paths,

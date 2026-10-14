@@ -64,7 +64,13 @@ internal sealed class LauncherContentTheme
         !string.IsNullOrWhiteSpace(GenLauncherListBoxSelectionColor1) ||
         !string.IsNullOrWhiteSpace(GenLauncherListBoxSelectionColor2) ||
         !string.IsNullOrWhiteSpace(GenLauncherButtonSelectionColor) ||
-        !string.IsNullOrWhiteSpace(GenLauncherBackgroundImageLink);
+        HasBackgroundImage;
+
+    /// <summary>
+    ///     Gets a value indicating whether this theme publishes shell artwork, so the download cache and the presentation
+    ///     layer agree on which versions have any.
+    /// </summary>
+    public bool HasBackgroundImage => !string.IsNullOrWhiteSpace(GenLauncherBackgroundImageLink);
 
     /// <summary>
     ///     Builds the cache file name a version's shell artwork is stored under.
