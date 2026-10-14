@@ -66,7 +66,8 @@ internal static class AvaloniaDialog
     }
 
     /// <summary>
-    ///     Applies the shared dialog centering and taskbar policy and resolves the preferred or active application owner.
+    ///     Applies the shared dialog centering, taskbar, and topmost policy and resolves the preferred or active
+    ///     application owner.
     /// </summary>
     public static Window? ResolveOwner(Window dialog, Window? preferredOwner)
     {
@@ -78,6 +79,14 @@ internal static class AvaloniaDialog
             : WindowStartupLocation.CenterOwner;
         // An ownerless dialog is the only launcher window, so it needs a taskbar button to be found behind other apps.
         dialog.ShowInTaskbar = resolvedOwner == null;
+        // Windows makes an owned window topmost like its owner only when it activates the window as it opens. A dialog
+        // opened while another app has the foreground would otherwise stay behind a topmost owner such as the startup
+        // splash, even after it is activated.
+        if (resolvedOwner is { Topmost: true })
+        {
+            dialog.Topmost = true;
+        }
+
         return resolvedOwner;
     }
 
