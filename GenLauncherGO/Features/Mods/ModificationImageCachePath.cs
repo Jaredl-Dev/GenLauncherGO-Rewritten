@@ -12,16 +12,53 @@ namespace GenLauncherGO.Features.Mods;
 /// </summary>
 internal static class ModificationImageCachePath
 {
+    public const string DirectorySubject = "Cached modification image directories";
+
     private const string PathSubject = "Cached modification image paths";
 
     private const string ImageDirectoryOwnerDescription = "the launcher-owned image directory";
 
-    public static string ResolveDirectory(
+    /// <summary>
+    ///     Resolves a modification's cache folder when it exists, or returns <see langword="null" /> when it does not.
+    /// </summary>
+    /// <remarks>
+    ///     Rejects a linked folder or linked entries inside it, so callers can enumerate and delete its files without
+    ///     reaching outside the launcher-owned image directory.
+    /// </remarks>
+    public static string? ResolveExistingDirectory(
         LauncherPaths paths,
         ModificationType modificationType,
         string modificationName)
     {
-        return ResolvePath(paths, GetDirectoryPath(paths, modificationType, modificationName));
+        string directory = ResolveDirectory(paths, modificationType, modificationName);
+        if (!Directory.Exists(directory))
+        {
+            return null;
+        }
+
+        FileSystemPathSafety.EnsureDirectoryTreeHasNoReparsePoints(directory, DirectorySubject);
+        return directory;
+    }
+
+    /// <summary>
+    ///     Creates a modification's cache folder when it is missing and returns it.
+    /// </summary>
+    /// <remarks>
+    ///     Applies the same link checks as <see cref="ResolveExistingDirectory" />, so callers can write into the folder
+    ///     without reaching outside the launcher-owned image directory.
+    /// </remarks>
+    public static string EnsureDirectory(
+        LauncherPaths paths,
+        ModificationType modificationType,
+        string modificationName)
+    {
+        ArgumentNullException.ThrowIfNull(paths);
+
+        string directory = OwnedDirectoryTree.EnsureExists(
+            paths.ImagesDirectory,
+            ResolveDirectory(paths, modificationType, modificationName));
+        FileSystemPathSafety.EnsureDirectoryTreeHasNoReparsePoints(directory, DirectorySubject);
+        return directory;
     }
 
     /// <summary>
@@ -141,6 +178,14 @@ internal static class ModificationImageCachePath
             ResolveBackgroundImageBaseName(version.Version),
             ResolvePaletteBaseName(version.Version)
         ];
+    }
+
+    private static string ResolveDirectory(
+        LauncherPaths paths,
+        ModificationType modificationType,
+        string modificationName)
+    {
+        return ResolvePath(paths, GetDirectoryPath(paths, modificationType, modificationName));
     }
 
     private static string GetRemoteImageFileName(string imageBaseName, Uri sourceUri)

@@ -35,7 +35,10 @@ internal sealed class FileSystemModificationImageFileService : IModificationImag
         ArgumentException.ThrowIfNullOrWhiteSpace(imageBaseName);
 
         LauncherPaths paths = _runtimePathContext.ActivePaths;
-        string? imageDirectory = ResolveExistingImageDirectory(paths, modificationType, modificationName);
+        string? imageDirectory = ModificationImageCachePath.ResolveExistingDirectory(
+            paths,
+            modificationType,
+            modificationName);
         if (imageDirectory is null)
         {
             return null;
@@ -55,7 +58,10 @@ internal sealed class FileSystemModificationImageFileService : IModificationImag
         ArgumentException.ThrowIfNullOrWhiteSpace(modificationName);
 
         LauncherPaths paths = _runtimePathContext.ActivePaths;
-        string? imageDirectory = ResolveExistingImageDirectory(paths, modificationType, modificationName);
+        string? imageDirectory = ModificationImageCachePath.ResolveExistingDirectory(
+            paths,
+            modificationType,
+            modificationName);
         if (imageDirectory is null)
         {
             return 0;
@@ -72,7 +78,10 @@ internal sealed class FileSystemModificationImageFileService : IModificationImag
         try
         {
             LauncherPaths paths = _runtimePathContext.ActivePaths;
-            string? imageDirectory = ResolveExistingImageDirectory(paths, modificationType, modificationName);
+            string? imageDirectory = ModificationImageCachePath.ResolveExistingDirectory(
+                paths,
+                modificationType,
+                modificationName);
             if (imageDirectory is null)
             {
                 return true;
@@ -141,20 +150,15 @@ internal sealed class FileSystemModificationImageFileService : IModificationImag
 
         try
         {
-            string destinationDirectory = OwnedDirectoryTree.EnsureExists(
-                paths.ImagesDirectory,
-                ModificationImageCachePath.ResolveDirectory(
-                    paths,
-                    ModificationType.Mod,
-                    modificationName));
+            string destinationDirectory = ModificationImageCachePath.EnsureDirectory(
+                paths,
+                ModificationType.Mod,
+                modificationName);
             string destinationPath = ModificationImageCachePath.ResolveImagePath(
                 paths,
                 ModificationType.Mod,
                 modificationName,
                 imageBaseName + extension);
-            FileSystemPathSafety.EnsureDirectoryTreeHasNoReparsePoints(
-                destinationDirectory,
-                "Cached modification image directories");
 
             if (LexicalPath.AreEquivalent(sourcePath, destinationPath))
             {
@@ -187,29 +191,6 @@ internal sealed class FileSystemModificationImageFileService : IModificationImag
                     modificationName),
                 exception);
         }
-    }
-
-    /// <summary>
-    ///     Resolves an existing image directory and rejects linked entries before callers enumerate it.
-    /// </summary>
-    private static string? ResolveExistingImageDirectory(
-        LauncherPaths paths,
-        ModificationType modificationType,
-        string modificationName)
-    {
-        string imageDirectory = ModificationImageCachePath.ResolveDirectory(
-            paths,
-            modificationType,
-            modificationName);
-        if (!Directory.Exists(imageDirectory))
-        {
-            return null;
-        }
-
-        FileSystemPathSafety.EnsureDirectoryTreeHasNoReparsePoints(
-            imageDirectory,
-            "Cached modification image directories");
-        return imageDirectory;
     }
 
     private static string GetImageSearchPattern(

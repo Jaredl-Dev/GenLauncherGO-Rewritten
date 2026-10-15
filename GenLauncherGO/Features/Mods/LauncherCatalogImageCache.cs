@@ -156,18 +156,15 @@ internal sealed class LauncherCatalogImageCache
     {
         try
         {
-            string imageFolderPath = ModificationImageCachePath.ResolveDirectory(
+            string? imageFolderPath = ModificationImageCachePath.ResolveExistingDirectory(
                 paths,
                 modificationType,
                 modificationName);
-            if (!Directory.Exists(imageFolderPath))
+            if (imageFolderPath is null)
             {
                 return;
             }
 
-            FileSystemPathSafety.EnsureDirectoryTreeHasNoReparsePoints(
-                imageFolderPath,
-                "Cached catalog image directories");
             foreach (FileInfo image in selectStale(new DirectoryInfo(imageFolderPath).GetFiles()))
             {
                 try
@@ -204,12 +201,10 @@ internal sealed class LauncherCatalogImageCache
         try
         {
             var sourceUri = new Uri(link, UriKind.Absolute);
-            string imageDirectory = OwnedDirectoryTree.EnsureExists(
-                paths.ImagesDirectory,
-                ModificationImageCachePath.ResolveDirectory(paths, modificationType, modificationName));
-            FileSystemPathSafety.EnsureDirectoryTreeHasNoReparsePoints(
-                imageDirectory,
-                "Cached catalog image directories");
+            string imageDirectory = ModificationImageCachePath.EnsureDirectory(
+                paths,
+                modificationType,
+                modificationName);
             string destinationFilePath = ModificationImageCachePath.ResolveRemoteImagePath(
                 paths,
                 modificationType,
@@ -222,7 +217,7 @@ internal sealed class LauncherCatalogImageCache
                 cancellationToken).ConfigureAwait(false);
             FileSystemPathSafety.EnsureDirectoryTreeHasNoReparsePoints(
                 imageDirectory,
-                "Cached catalog image directories");
+                ModificationImageCachePath.DirectorySubject);
             _ = ModificationImageCachePath.ResolvePath(paths, destinationFilePath);
         }
         catch (OperationCanceledException) when (cancellationToken.IsCancellationRequested)
