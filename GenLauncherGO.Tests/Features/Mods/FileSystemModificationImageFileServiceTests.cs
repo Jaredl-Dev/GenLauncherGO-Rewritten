@@ -17,7 +17,7 @@ public sealed class FileSystemModificationImageFileServiceTests
         string imageDirectory = paths.GetModificationImagesDirectory("ShockWave");
         Directory.CreateDirectory(imageDirectory);
         string oldImage = Path.Combine(imageDirectory, "1.0.jpg");
-        string otherImage = Path.Combine(imageDirectory, "2.0.jpg");
+        string otherImage = Path.Combine(imageDirectory, "1.0.1.jpg");
         await File.WriteAllTextAsync(oldImage, "old", TestContext.Current.CancellationToken);
         await File.WriteAllTextAsync(otherImage, "other version", TestContext.Current.CancellationToken);
         string source = directory.CreateFile("replacement.png", "replacement");

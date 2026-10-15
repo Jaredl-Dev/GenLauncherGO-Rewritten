@@ -1,4 +1,5 @@
 using System;
+using System.Collections.Generic;
 using System.Globalization;
 using System.IO;
 using System.Linq;
@@ -34,23 +35,12 @@ internal sealed class FileSystemModificationImageFileService : IModificationImag
         ArgumentException.ThrowIfNullOrWhiteSpace(modificationName);
         ArgumentException.ThrowIfNullOrWhiteSpace(imageBaseName);
 
-        LauncherPaths paths = _runtimePathContext.ActivePaths;
-        string? imageDirectory = ModificationImageCachePath.ResolveExistingDirectory(
-            paths,
-            modificationType,
-            modificationName);
-        if (imageDirectory is null)
-        {
-            return null;
-        }
-
-        string? imageFilePath = Directory.EnumerateFiles(
-                imageDirectory,
-                GetImageSearchPattern(paths, modificationType, modificationName, imageBaseName))
+        return GetImageFiles(
+                _runtimePathContext.ActivePaths,
+                modificationType,
+                modificationName,
+                imageBaseName)
             .FirstOrDefault();
-        return imageFilePath is null
-            ? null
-            : ModificationImageCachePath.ResolvePath(paths, imageFilePath);
     }
 
     public int CountImageFiles(ModificationType modificationType, string modificationName)
@@ -77,24 +67,13 @@ internal sealed class FileSystemModificationImageFileService : IModificationImag
     {
         try
         {
-            LauncherPaths paths = _runtimePathContext.ActivePaths;
-            string? imageDirectory = ModificationImageCachePath.ResolveExistingDirectory(
-                paths,
-                modificationType,
-                modificationName);
-            if (imageDirectory is null)
+            foreach (string imageFilePath in GetImageFiles(
+                             _runtimePathContext.ActivePaths,
+                             modificationType,
+                             modificationName,
+                             imageBaseName))
             {
-                return true;
-            }
-
-            string imageSearchPattern = GetImageSearchPattern(
-                paths,
-                modificationType,
-                modificationName,
-                imageBaseName);
-            foreach (string imageFilePath in Directory.EnumerateFiles(imageDirectory, imageSearchPattern).ToList())
-            {
-                File.Delete(ModificationImageCachePath.ResolvePath(paths, imageFilePath));
+                File.Delete(imageFilePath);
             }
 
             return true;
@@ -150,10 +129,7 @@ internal sealed class FileSystemModificationImageFileService : IModificationImag
 
         try
         {
-            string destinationDirectory = ModificationImageCachePath.EnsureDirectory(
-                paths,
-                ModificationType.Mod,
-                modificationName);
+            ModificationImageCachePath.EnsureDirectory(paths, ModificationType.Mod, modificationName);
             string destinationPath = ModificationImageCachePath.ResolveImagePath(
                 paths,
                 ModificationType.Mod,
@@ -165,11 +141,14 @@ internal sealed class FileSystemModificationImageFileService : IModificationImag
                 return destinationPath;
             }
 
-            string imageSearchPattern = Path.GetFileNameWithoutExtension(destinationPath) + ".*";
-            foreach (string existingImagePath in Directory.EnumerateFiles(destinationDirectory, imageSearchPattern))
+            foreach (string existingImagePath in GetImageFiles(
+                         paths,
+                         ModificationType.Mod,
+                         modificationName,
+                         imageBaseName))
             {
                 cancellationToken.ThrowIfCancellationRequested();
-                File.Delete(ModificationImageCachePath.ResolvePath(paths, existingImagePath));
+                File.Delete(existingImagePath);
             }
 
             cancellationToken.ThrowIfCancellationRequested();
@@ -193,17 +172,42 @@ internal sealed class FileSystemModificationImageFileService : IModificationImag
         }
     }
 
-    private static string GetImageSearchPattern(
+    /// <summary>
+    ///     Lists the owned cached files stored under one base name, whatever their extension, or none when the
+    ///     modification has no cache folder.
+    /// </summary>
+    /// <remarks>
+    ///     Compares whole base names because a <c>name.*</c> search pattern cannot isolate one version: a tile's base
+    ///     name is the bare version, so <c>1.0.*</c> also matches every cached file of version 1.0.1. Returns a
+    ///     snapshot, so callers can delete the files it lists.
+    /// </remarks>
+    private static IReadOnlyList<string> GetImageFiles(
         LauncherPaths paths,
         ModificationType modificationType,
         string modificationName,
         string imageBaseName)
     {
+        string? imageDirectory = ModificationImageCachePath.ResolveExistingDirectory(
+            paths,
+            modificationType,
+            modificationName);
+        if (imageDirectory is null)
+        {
+            return [];
+        }
+
         string validatedImagePath = ModificationImageCachePath.ResolveImagePath(
             paths,
             modificationType,
             modificationName,
             imageBaseName + ".cache");
-        return Path.GetFileNameWithoutExtension(validatedImagePath) + ".*";
+        string validatedBaseName = Path.GetFileNameWithoutExtension(validatedImagePath);
+        return Directory.EnumerateFiles(imageDirectory)
+            .Where(imageFilePath => string.Equals(
+                Path.GetFileNameWithoutExtension(imageFilePath),
+                validatedBaseName,
+                StringComparison.OrdinalIgnoreCase))
+            .Select(imageFilePath => ModificationImageCachePath.ResolvePath(paths, imageFilePath))
+            .ToList();
     }
 }

@@ -166,7 +166,9 @@ internal static class ModificationImageCachePath
     ///     The three builders above are the single authority for the names a version's cached files use. Writers,
     ///     readers, and catalog pruning only agree because they all call them, and pruning deletes every file this list
     ///     does not name, so a writer that drifted from these names would lose its file on the next catalog refresh. The
-    ///     suffixes keep the shell artwork and palette clear of the tile image.
+    ///     suffixes keep a version's shell artwork and palette clear of its own tile image only: the tile name is the
+    ///     bare version, so another version's names can start with it (1.0.1-theme starts with 1.0.), and finding one
+    ///     version's files must compare whole base names rather than prefixes.
     /// </remarks>
     public static IReadOnlyList<string> GetOwnedBaseNames(LauncherContentVersion version)
     {
