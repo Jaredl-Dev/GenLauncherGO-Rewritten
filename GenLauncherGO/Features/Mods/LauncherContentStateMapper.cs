@@ -165,11 +165,7 @@ internal static class LauncherContentStateMapper
         LauncherContentVersion version,
         ModificationType fallbackType)
     {
-        return version.Installation.Installed ||
-               version.Installation.IsSelected ||
-               // A suspended download has partial content on disk but is not installed yet, so it has to persist
-               // on its own merit or the next session would forget it and start over.
-               version.Installation.DownloadSuspended ||
+        return version.Installation.HasLocalState ||
                (fallbackType == ModificationType.Mod &&
                 version.EffectiveContentSourceKind.IsManagedRemote());
     }

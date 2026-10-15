@@ -136,7 +136,7 @@ internal sealed class FileSystemLocalLauncherContentService : ILocalLauncherCont
         ArgumentNullException.ThrowIfNull(launcherData);
 
         if (string.IsNullOrWhiteSpace(contentKey.Name) ||
-            ContentCardExists(launcherData, contentKey.Name))
+            ModificationImageCachePath.GetFolderOwners(launcherData, contentKey.Name).Any())
         {
             return;
         }
@@ -325,11 +325,4 @@ internal sealed class FileSystemLocalLauncherContentService : ILocalLauncherCont
             contentVersion);
         return true;
     }
-
-    private static bool ContentCardExists(LauncherData launcherData, string contentName)
-    {
-        return launcherData.AllContent
-            .Any(entry => entry.ContentKey.HasName(contentName));
-    }
-
 }

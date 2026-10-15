@@ -108,7 +108,7 @@ internal sealed class FileSystemModificationThemeCache : IModificationThemeCache
                 paths,
                 contentKey.ContentType,
                 contentKey.Name,
-                LauncherContentTheme.ResolveCacheBaseName(contentKey.Version) + ".yaml");
+                ModificationImageCachePath.ResolvePaletteBaseName(contentKey.Version) + ".yaml");
             return true;
         }
         catch (Exception exception) when (ModificationCacheFailure.IsRecoverable(exception))

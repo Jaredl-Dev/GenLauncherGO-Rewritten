@@ -294,6 +294,7 @@ internal sealed class LauncherContentCatalogService : ILauncherContentCatalog
         foreach (LauncherContentVersion reposMod in reposMods)
         {
             AddDownloadedModificationData(reposMod);
+            _imageCache.RemoveRetiredModificationImages(reposMod, _state.Data, Paths);
         }
 
         LauncherContent? selectedMod = _state.Data.GetSelectedMod();

@@ -55,7 +55,7 @@ internal sealed class ModificationTileImageProvider
         string? imagePath = _modificationImageFileService.FindExistingImageFilePath(
             modification.ModificationType,
             modification.Name,
-            LauncherContentTheme.ResolveBackgroundImageBaseName(version.Version));
+            ModificationImageCachePath.ResolveBackgroundImageBaseName(version.Version));
         Bitmap? background = _imageSourceFactory.LoadFileImage(imagePath, false);
         if (background is null)
         {
@@ -143,7 +143,7 @@ internal sealed class ModificationTileImageProvider
         Bitmap? image = LoadImage(
             modification.ModificationType,
             modification.Name,
-            latestVersion.Version,
+            ModificationImageCachePath.ResolveTileImageBaseName(latestVersion.Version),
             grayscale);
         return image ?? _imageSourceFactory.LoadDefaultImage(_launcherContext.CurrentlyManagedGame, localMod, grayscale);
     }

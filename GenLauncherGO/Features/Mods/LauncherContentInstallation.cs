@@ -35,4 +35,13 @@ internal sealed class LauncherContentInstallation
     public double SuspendedProgressPercentage { get; set; }
 
     public ContentSourceKind ContentSourceKind { get; set; } = ContentSourceKind.UnknownLegacy;
+
+    /// <summary>
+    ///     Gets whether the user holds this version locally, so it must outlive the catalog that listed it.
+    /// </summary>
+    /// <remarks>
+    ///     A suspended download has partial content on disk but is not installed yet, so it counts on its own merit;
+    ///     otherwise the next session would forget it and start over.
+    /// </remarks>
+    public bool HasLocalState => Installed || IsSelected || DownloadSuspended;
 }

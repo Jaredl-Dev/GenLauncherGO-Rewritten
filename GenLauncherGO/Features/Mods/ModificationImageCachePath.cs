@@ -1,12 +1,14 @@
 using System;
+using System.Collections.Generic;
 using System.IO;
+using System.Linq;
 using GenLauncherGO.Features.Startup;
 using GenLauncherGO.Shared.IO;
 
 namespace GenLauncherGO.Features.Mods;
 
 /// <summary>
-///     Owns safe cached-image paths and the file naming convention for catalog artwork.
+///     Owns safe cached-image paths and the file naming convention for each version's cached artwork and palette.
 /// </summary>
 internal static class ModificationImageCachePath
 {
@@ -75,6 +77,70 @@ internal static class ModificationImageCachePath
             modificationType,
             modificationName,
             GetRemoteImageFileName(imageBaseName, sourceUri));
+    }
+
+    /// <summary>
+    ///     Gets the content cards whose cached files share one content name's cache folder.
+    /// </summary>
+    /// <remarks>
+    ///     The folder is named after the content alone, so cards of every content type with that name share it. Removing
+    ///     the folder and pruning retired versions from it both decide ownership here; deciding it separately would let
+    ///     one delete files the other still counts as owned.
+    /// </remarks>
+    public static IEnumerable<LauncherContent> GetFolderOwners(LauncherData data, string contentName)
+    {
+        ArgumentNullException.ThrowIfNull(data);
+
+        return data.AllContent.Where(content => content.ContentKey.HasName(contentName));
+    }
+
+    /// <summary>
+    ///     Builds the cache file name a version's tile image is stored under.
+    /// </summary>
+    public static string ResolveTileImageBaseName(string version)
+    {
+        return version;
+    }
+
+    /// <summary>
+    ///     Builds the cache file name a version's shell artwork is stored under.
+    /// </summary>
+    public static string ResolveBackgroundImageBaseName(string version)
+    {
+        return version + "-background";
+    }
+
+    /// <summary>
+    ///     Builds the cache file name a version's palette is stored under, so it survives an offline restart.
+    /// </summary>
+    /// <remarks>
+    ///     The palette is cached beside the artwork it belongs to, which gives both the same lifetime: removing a
+    ///     modification removes its cache folder and everything in it.
+    /// </remarks>
+    public static string ResolvePaletteBaseName(string version)
+    {
+        return version + "-theme";
+    }
+
+    /// <summary>
+    ///     Gets every cache-file base name owned by one version: its tile image, its shell artwork, and its palette.
+    /// </summary>
+    /// <remarks>
+    ///     The three builders above are the single authority for the names a version's cached files use. Writers,
+    ///     readers, and catalog pruning only agree because they all call them, and pruning deletes every file this list
+    ///     does not name, so a writer that drifted from these names would lose its file on the next catalog refresh. The
+    ///     suffixes keep the shell artwork and palette clear of the tile image.
+    /// </remarks>
+    public static IReadOnlyList<string> GetOwnedBaseNames(LauncherContentVersion version)
+    {
+        ArgumentNullException.ThrowIfNull(version);
+
+        return
+        [
+            ResolveTileImageBaseName(version.Version),
+            ResolveBackgroundImageBaseName(version.Version),
+            ResolvePaletteBaseName(version.Version)
+        ];
     }
 
     private static string GetRemoteImageFileName(string imageBaseName, Uri sourceUri)

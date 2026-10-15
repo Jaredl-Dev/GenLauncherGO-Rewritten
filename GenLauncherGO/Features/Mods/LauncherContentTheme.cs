@@ -71,29 +71,4 @@ internal sealed class LauncherContentTheme
     ///     layer agree on which versions have any.
     /// </summary>
     public bool HasBackgroundImage => !string.IsNullOrWhiteSpace(GenLauncherBackgroundImageLink);
-
-    /// <summary>
-    ///     Builds the cache file name a version's shell artwork is stored under.
-    /// </summary>
-    /// <remarks>
-    ///     This is the single authority for the name. The download cache writes it and the presentation layer reads it,
-    ///     and they only agree because both call here. The suffix keeps it clear of the tile image, which is cached under
-    ///     the bare version.
-    /// </remarks>
-    public static string ResolveBackgroundImageBaseName(string version)
-    {
-        return (version ?? string.Empty) + "-background";
-    }
-
-    /// <summary>
-    ///     Builds the cache file name a version's palette is stored under, so it survives an offline restart.
-    /// </summary>
-    /// <remarks>
-    ///     The palette is cached beside the artwork it belongs to, which gives both the same lifetime: removing a
-    ///     modification removes its cache folder and everything in it.
-    /// </remarks>
-    public static string ResolveCacheBaseName(string version)
-    {
-        return (version ?? string.Empty) + "-theme";
-    }
 }

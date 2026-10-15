@@ -2,6 +2,7 @@ using System;
 using System.Collections.Generic;
 using System.Globalization;
 using System.IO;
+using System.Linq;
 using System.Threading;
 using System.Threading.Tasks;
 using GenLauncherGO.Features.Startup;
@@ -16,7 +17,8 @@ namespace GenLauncherGO.Features.Mods;
 /// </summary>
 /// <remarks>
 ///     Everything cached here shares one lifetime, because it all lands in the modification's own cache folder and is
-///     removed with the content card.
+///     removed with the content card. Files a version leaves behind are pruned once the catalog stops listing it and the
+///     user no longer holds it.
 /// </remarks>
 internal sealed class LauncherCatalogImageCache
 {
@@ -50,7 +52,7 @@ internal sealed class LauncherCatalogImageCache
                 paths,
                 modification.ModificationType,
                 modification.Name,
-                modification.Version,
+                ModificationImageCachePath.ResolveTileImageBaseName(modification.Version),
                 modification.UIImageSourceLink,
                 cancellationToken).ConfigureAwait(false);
         }
@@ -70,7 +72,7 @@ internal sealed class LauncherCatalogImageCache
                 paths,
                 modification.ModificationType,
                 modification.Name,
-                LauncherContentTheme.ResolveBackgroundImageBaseName(modification.Version),
+                ModificationImageCachePath.ResolveBackgroundImageBaseName(modification.Version),
                 modification.Theme.GenLauncherBackgroundImageLink,
                 cancellationToken).ConfigureAwait(false);
         }
@@ -84,7 +86,12 @@ internal sealed class LauncherCatalogImageCache
         ArgumentNullException.ThrowIfNull(advertising);
         ArgumentNullException.ThrowIfNull(paths);
 
-        RemoveStaleAdvertisingImages(advertising, paths);
+        // Advertising images are cached by index, so a changed image count leaves no index safe to keep.
+        DeleteStaleImages(
+            paths,
+            ModificationType.Advertising,
+            advertising.Name,
+            images => images.Length == advertising.ImageUrls.Count ? [] : images);
 
         var imageDownloads = new List<Task>(advertising.ImageUrls.Count);
         int imageIndex = 0;
@@ -105,18 +112,54 @@ internal sealed class LauncherCatalogImageCache
     }
 
     /// <summary>
-    ///     Removes stale advertising image files when the remote image count changes.
+    ///     Deletes the cached files of versions the catalog no longer lists and the user no longer holds.
     /// </summary>
-    private void RemoveStaleAdvertisingImages(
-        RemoteAdvertisingReference advertising,
+    /// <remarks>
+    ///     A card keeps every remote version it ever merged, so its version list alone cannot decide ownership. Files
+    ///     are kept for the version the catalog lists, for each card's latest version because its tile shows that
+    ///     version's art, and for versions the user holds locally, whose palette and shell artwork the catalog can no
+    ///     longer supply.
+    /// </remarks>
+    public void RemoveRetiredModificationImages(
+        LauncherContentVersion listedVersion,
+        LauncherData data,
         LauncherPaths paths)
+    {
+        ArgumentNullException.ThrowIfNull(listedVersion);
+        ArgumentNullException.ThrowIfNull(data);
+        ArgumentNullException.ThrowIfNull(paths);
+
+        var ownedBaseNames = ModificationImageCachePath.GetFolderOwners(data, listedVersion.Name)
+            .SelectMany(content => content.Versions
+                .Where(version => version.Installation.HasLocalState)
+                .Append(content.LatestVersion))
+            .Append(listedVersion)
+            .SelectMany(ModificationImageCachePath.GetOwnedBaseNames)
+            .ToHashSet(StringComparer.OrdinalIgnoreCase);
+
+        DeleteStaleImages(
+            paths,
+            listedVersion.ModificationType,
+            listedVersion.Name,
+            images => images.Where(image =>
+                !ownedBaseNames.Contains(Path.GetFileNameWithoutExtension(image.Name))));
+    }
+
+    /// <summary>
+    ///     Deletes the files <paramref name="selectStale" /> picks from one cached image folder.
+    /// </summary>
+    private void DeleteStaleImages(
+        LauncherPaths paths,
+        ModificationType modificationType,
+        string modificationName,
+        Func<FileInfo[], IEnumerable<FileInfo>> selectStale)
     {
         try
         {
             string imageFolderPath = ModificationImageCachePath.ResolveDirectory(
                 paths,
-                ModificationType.Advertising,
-                advertising.Name);
+                modificationType,
+                modificationName);
             if (!Directory.Exists(imageFolderPath))
             {
                 return;
@@ -125,14 +168,7 @@ internal sealed class LauncherCatalogImageCache
             FileSystemPathSafety.EnsureDirectoryTreeHasNoReparsePoints(
                 imageFolderPath,
                 "Cached catalog image directories");
-            var dirInfo = new DirectoryInfo(imageFolderPath);
-            FileInfo[] images = dirInfo.GetFiles();
-            if (images.Length == advertising.ImageUrls.Count)
-            {
-                return;
-            }
-
-            foreach (FileInfo image in images)
+            foreach (FileInfo image in selectStale(new DirectoryInfo(imageFolderPath).GetFiles()))
             {
                 try
                 {
@@ -142,8 +178,9 @@ internal sealed class LauncherCatalogImageCache
                 {
                     _logger.LogWarning(
                         exception,
-                        "Failed to delete stale advertising image {ImageFileName}.",
-                        image.Name);
+                        "Failed to delete stale cached image {ImageFileName} for {ModificationName}.",
+                        image.Name,
+                        modificationName);
                 }
             }
         }
@@ -151,8 +188,8 @@ internal sealed class LauncherCatalogImageCache
         {
             _logger.LogWarning(
                 exception,
-                "Skipped stale advertising image cleanup for {ModificationName} because its cache path was unavailable.",
-                advertising.Name);
+                "Skipped stale image cleanup for {ModificationName} because its cache path was unavailable.",
+                modificationName);
         }
     }
 

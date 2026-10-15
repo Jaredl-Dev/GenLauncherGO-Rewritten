@@ -410,7 +410,7 @@ internal sealed class LauncherContentActionCoordinator
                     container.LatestVersion.Version);
             await _modificationImageFileService.ReplaceImageAsync(
                 container.ContainerModification.Name,
-                container.LatestVersion.Version,
+                ModificationImageCachePath.ResolveTileImageBaseName(container.LatestVersion.Version),
                 selectedImageFile,
                 cancellationToken);
             container.RefreshPresentation();
