@@ -52,11 +52,11 @@ internal sealed class ModificationTileImageProvider
             return null;
         }
 
-        string? imagePath = _modificationImageFileService.FindExistingImageFilePath(
+        Bitmap? background = LoadImage(
             modification.ModificationType,
             modification.Name,
-            ModificationImageCachePath.ResolveBackgroundImageBaseName(version.Version));
-        Bitmap? background = _imageSourceFactory.LoadFileImage(imagePath, false);
+            ModificationImageCachePath.ResolveBackgroundImageBaseName(version.Version),
+            false);
         if (background is null)
         {
             return null;
@@ -152,8 +152,9 @@ internal sealed class ModificationTileImageProvider
     ///     Loads a cached image, or returns <see langword="null" /> when it is missing or cannot be read.
     /// </summary>
     /// <remarks>
-    ///     Tile art and advertising share this loader and its failure policy: an image that cannot be decoded is deleted,
-    ///     published artwork then counts as missing, and the catalog downloads it again.
+    ///     The only loader for cached files, so tile art, advertising, and shell artwork share one failure policy: an
+    ///     image that cannot be decoded is deleted, published artwork then counts as missing, and the catalog downloads
+    ///     it again.
     /// </remarks>
     private Bitmap? LoadImage(
         ModificationType modificationType,
