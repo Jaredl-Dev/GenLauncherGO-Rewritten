@@ -140,10 +140,6 @@
     <data name="CannotConnect" xml:space="preserve"><value>Nije se moguće povezati s GitHubom. Instalacija modifikacija s interneta nije dostupna.</value></data>
     <data name="DeploymentRecoveryFailed" xml:space="preserve"><value>GenLauncherGO nije uspio vratiti prethodnu implementaciju. Zatvorite igru ili bilo koji pokrenuti klijent, a zatim odaberite Pokušaj ponovno. Odaberite Odustani za zatvaranje pokretača kako mapa igre ne bi ostala u nesigurnom stanju.</value></data>
     <data name="ChangelogOnly" xml:space="preserve"><value>Dnevnik Promjena</value></data>
-    <data name="ChangeToFullScreen" xml:space="preserve"><value>Promijeni na puni zaslon</value></data>
-    <data name="ChangeToWindowed" xml:space="preserve"><value>Promijeni u prozorski način</value></data>
-    <data name="ChangeToNormalStart" xml:space="preserve"><value>Promijeni na normalno pokretanje</value></data>
-    <data name="ChangeToQuickStart" xml:space="preserve"><value>Promijeni na brzo pokretanje</value></data>
     <data name="Compatibility" xml:space="preserve"><value>Kompatibilnost sa modifikacijom nije garantirana!</value></data>
     <data name="Continue" xml:space="preserve"><value>Nastavi</value></data>
     <data name="CurrentVersion" xml:space="preserve"><value>Verzija: </value></data>
@@ -210,6 +206,8 @@
     <data name="UpToDate" xml:space="preserve"><value>Ažurno</value></data>
     <data name="VersionMustContainNumbers" xml:space="preserve"><value>Verzija mora sadržavati brojeve</value></data>
     <data name="WorldBuilder" xml:space="preserve"><value>World Builder</value></data>
+    <data name="Windowed" xml:space="preserve"><value>Prozor</value></data>
+    <data name="QuickStart" xml:space="preserve"><value>Brzo pokretanje</value></data>
     <data name="WorldBuilderRunning" xml:space="preserve"><value>World Builder već radi!</value></data>
     <data name="AutoDeleteToolTip" xml:space="preserve"><value>Automatski uklanja starije instalirane verzije moda nakon instalacije novije verzije.</value></data>
     <data name="EnableDiagnosticLoggingToolTip" xml:space="preserve"><value>Uključuje detaljne događaje za otklanjanje pogrešaka u zapisnike nakon sljedećeg ponovnog pokretanja pokretača. Isključite nakon što ponovite problem.</value></data>
@@ -276,7 +274,7 @@
     <data name="IntegrityIssueVerificationErrorLabel" xml:space="preserve"><value>Pogreška provjere</value></data>
     <data name="GeneralsOnlineDiscord" xml:space="preserve"><value>Discord GeneralsOnline</value></data>
     <data name="GeneralsOnlineDiscordToolTip" xml:space="preserve"><value>Otvara Discord poslužitelj GeneralsOnline.</value></data>
-    <data name="GeneralsOnlineWindowedModeDisabledToolTip" xml:space="preserve"><value>GeneralsOnline pokretač upravlja prozorskim i cjelozaslonskim načinom rada.</value></data>
+    <data name="GeneralsOnlineWindowedModeDisabledToolTip" xml:space="preserve"><value>Prozorski ili cjelozaslonski način postavite u GeneralsOnline pokretaču.</value></data>
     <data name="OpenLogsFolder" xml:space="preserve"><value>Otvori mapu zapisnika</value></data>
     <data name="OpenLogsFolderToolTip" xml:space="preserve"><value>Otvara mapu s datotekama zapisnika GenLauncherGO.</value></data>
     <data name="GitHubRepository" xml:space="preserve"><value>GitHub repozitorij</value></data>

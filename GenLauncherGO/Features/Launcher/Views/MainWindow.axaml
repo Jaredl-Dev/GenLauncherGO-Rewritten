@@ -778,6 +778,71 @@
             <Setter Property="Focusable" Value="False" />
             <Setter Property="FontSize" Value="17" />
         </Style>
+        <!--
+          Launch is the sidebar's main action, so it is taller and bolder. Like every other button it stays unlit
+          until hovered, so it never looks pressed or already chosen.
+        -->
+        <Style Selector="Button.sidebar-button.launch">
+            <Setter Property="Height" Value="68" />
+        </Style>
+        <Style Selector="TextBlock.launch-title">
+            <Setter Property="FontSize" Value="21" />
+            <Setter Property="FontWeight" Value="Bold" />
+            <Setter Property="Foreground" Value="{DynamicResource GenLauncherActionTextColor}" />
+        </Style>
+        <!--
+          The summary shrinks to fit the button instead of trimming straight away. The Viewbox may be 205 wide, but its
+          text is allowed 205 / 0.75 = 273: a long mod-and-client pair scales down at most to 75% (12 to 9) and only
+          past that does the ellipsis cut it.
+        -->
+        <Style Selector="Viewbox.launch-summary-fit">
+            <Setter Property="MaxWidth" Value="205" />
+            <Setter Property="StretchDirection" Value="DownOnly" />
+        </Style>
+        <Style Selector="TextBlock.launch-summary">
+            <Setter Property="MaxWidth" Value="273" />
+            <Setter Property="FontSize" Value="12" />
+            <Setter Property="Foreground" Value="{DynamicResource GenLauncherInactiveBorder}" />
+        </Style>
+        <Style Selector="Button.sidebar-button.launch:pointerover TextBlock">
+            <Setter Property="Foreground" Value="{DynamicResource GenLauncherActiveColor}" />
+        </Style>
+        <Style Selector="Button.sidebar-button.launch:disabled TextBlock">
+            <Setter Property="Foreground" Value="{DynamicResource GenLauncherInactiveBorder}" />
+        </Style>
+        <!--
+          Options keeps the shell's action colour on its label. The blanket TextBlock rule above would otherwise give
+          it the default text colour that the other sidebar buttons use.
+        -->
+        <Style Selector="Button.sidebar-button.options TextBlock">
+            <Setter Property="Foreground" Value="{DynamicResource GenLauncherActionTextColor}" />
+        </Style>
+        <Style Selector="Button.sidebar-button.options:pointerover TextBlock">
+            <Setter Property="Foreground" Value="{DynamicResource GenLauncherActiveColor}" />
+        </Style>
+        <Style Selector="Button.sidebar-button.options:disabled TextBlock">
+            <Setter Property="Foreground" Value="{DynamicResource GenLauncherInactiveBorder}" />
+        </Style>
+        <Style Selector="Border.sidebar-toggle">
+            <Setter Property="Height" Value="36" />
+            <Setter Property="Padding" Value="8,0" />
+            <Setter Property="Background" Value="{DynamicResource GenLauncherLightBackGround}" />
+            <Setter Property="BorderBrush" Value="{DynamicResource GenLauncherBorderColor}" />
+            <Setter Property="BorderThickness" Value="1" />
+        </Style>
+        <Style Selector="TextBlock.sidebar-toggle-label">
+            <Setter Property="FontSize" Value="13" />
+            <Setter Property="MaxLines" Value="2" />
+            <Setter Property="TextWrapping" Value="Wrap" />
+            <Setter Property="TextTrimming" Value="CharacterEllipsis" />
+        </Style>
+        <!-- The blanket TextBlock rule above would otherwise hold the label white while the box lights up. -->
+        <Style Selector="CheckBox.square-toggle:pointerover TextBlock.sidebar-toggle-label">
+            <Setter Property="Foreground" Value="{DynamicResource GenLauncherActiveColor}" />
+        </Style>
+        <Style Selector="CheckBox.square-toggle:disabled TextBlock.sidebar-toggle-label">
+            <Setter Property="Foreground" Value="{DynamicResource GenLauncherInactiveBorder}" />
+        </Style>
     </Window.Styles>
 
     <!--
@@ -835,56 +900,79 @@
                                                       SelectionMode="Multiple, Toggle"
                                                       SelectionChanged="ChildContentList_SelectionChangedAsync" />
 
-                <Button x:Name="StartGameButton"
-                        Grid.Row="2"
-                        Grid.RowSpan="2"
-                        Grid.Column="6"
-                        Classes="sidebar-button"
-                        Margin="25,14,0,0"
-                        Content="{localization:Loc Launch}"
-                        IsEnabled="{Binding StartGameButtonEnabled}"
-                        Click="LaunchGame_ClickAsync" />
-                <Button x:Name="WorldBuilderButton"
-                        Grid.Row="3"
-                        Grid.Column="6"
-                        Classes="sidebar-button"
-                        Margin="25,19,0,0"
-                        Content="{localization:Loc WorldBuilder}"
-                        IsEnabled="{Binding WorldBuilderButtonEnabled}"
-                        Click="LaunchWorldBuilder_ClickAsync" />
-                <Button x:Name="WindowedButton"
-                        Grid.Row="3"
-                        Grid.Column="6"
-                        Classes="sidebar-button"
-                        Margin="25,64,0,0"
-                        Content="{Binding WindowedModeButtonText}"
-                        IsEnabled="{Binding WindowedModeButtonEnabled}"
-                        ToolTip.Tip="{Binding WindowedModeButtonToolTip}"
-                        ToolTip.ShowOnDisabled="True"
-                        Click="ToggleWindowedMode_ClickAsync" />
-                <Button x:Name="QuickStartButton"
-                        Grid.Row="3"
-                        Grid.Column="6"
-                        Classes="sidebar-button"
-                        Margin="25,109,0,0"
-                        Content="{Binding QuickStartButtonText}"
-                        IsEnabled="{Binding MainControlsEnabled}"
-                        Click="ToggleQuickStart_ClickAsync" />
-                <Button x:Name="OptionsButton"
-                        Grid.Row="3"
-                        Grid.Column="6"
-                        Classes="sidebar-button"
-                        Margin="25,154,0,0"
-                        Content="{localization:Loc Options}"
-                        IsEnabled="{Binding MainControlsEnabled}"
-                        Click="OpenOptions_ClickAsync" />
-                <Button x:Name="ExitButton"
-                        Grid.Row="3"
-                        Grid.Column="6"
-                        Classes="sidebar-button"
-                        Margin="25,211,0,0"
-                        Content="{localization:Loc Exit}"
-                        Click="Close_Click" />
+                <!--
+                  The sidebar stays inside the painted box under the wordmark. Mod themes paint their own artwork in
+                  the gap between that box and the selector box below, so nothing may be placed there.
+                -->
+                <StackPanel x:Name="SidebarActions"
+                            Grid.Row="2"
+                            Grid.RowSpan="2"
+                            Grid.Column="6"
+                            Width="229"
+                            Margin="25,15,0,0"
+                            HorizontalAlignment="Left"
+                            VerticalAlignment="Top"
+                            Spacing="10">
+                    <Button x:Name="StartGameButton"
+                            Classes="sidebar-button launch"
+                            AutomationProperties.Name="{localization:Loc Launch}"
+                            IsEnabled="{Binding StartGameButtonEnabled}"
+                            Click="LaunchGame_ClickAsync">
+                        <StackPanel HorizontalAlignment="Center"
+                                    Spacing="2">
+                            <TextBlock Classes="launch-title"
+                                       HorizontalAlignment="Center"
+                                       Text="{localization:Loc Launch}" />
+                            <Viewbox Classes="launch-summary-fit"
+                                     HorizontalAlignment="Center"
+                                     IsVisible="{Binding LaunchSummaryText, Converter={x:Static StringConverters.IsNotNullOrEmpty}}">
+                                <TextBlock Classes="launch-summary"
+                                           Text="{Binding LaunchSummaryText}"
+                                           TextTrimming="CharacterEllipsis" />
+                            </Viewbox>
+                        </StackPanel>
+                    </Button>
+                    <!-- The toggles sit right under Launch Game because they only change how the game starts. -->
+                    <Grid ColumnDefinitions="*,7,*">
+                        <Border Grid.Column="0"
+                                Classes="sidebar-toggle">
+                            <CheckBox x:Name="WindowedModeToggle"
+                                      Classes="square-toggle"
+                                      AutomationProperties.Name="{localization:Loc Windowed}"
+                                      IsChecked="{Binding IsWindowedMode, Mode=OneWay}"
+                                      IsEnabled="{Binding WindowedModeEnabled}"
+                                      ToolTip.Tip="{Binding WindowedModeToolTip}"
+                                      ToolTip.ShowOnDisabled="True"
+                                      Click="ToggleWindowedMode_ClickAsync">
+                                <TextBlock Classes="sidebar-toggle-label"
+                                           Text="{localization:Loc Windowed}" />
+                            </CheckBox>
+                        </Border>
+                        <Border Grid.Column="2"
+                                Classes="sidebar-toggle">
+                            <CheckBox x:Name="QuickStartToggle"
+                                      Classes="square-toggle"
+                                      AutomationProperties.Name="{localization:Loc QuickStart}"
+                                      IsChecked="{Binding IsQuickStartMode, Mode=OneWay}"
+                                      IsEnabled="{Binding MainControlsEnabled}"
+                                      Click="ToggleQuickStart_ClickAsync">
+                                <TextBlock Classes="sidebar-toggle-label"
+                                           Text="{localization:Loc QuickStart}" />
+                            </CheckBox>
+                        </Border>
+                    </Grid>
+                    <Button x:Name="WorldBuilderButton"
+                            Classes="sidebar-button"
+                            Content="{localization:Loc WorldBuilder}"
+                            IsEnabled="{Binding WorldBuilderButtonEnabled}"
+                            Click="LaunchWorldBuilder_ClickAsync" />
+                    <Button x:Name="OptionsButton"
+                            Classes="sidebar-button options"
+                            AutomationProperties.Name="{localization:Loc Options}"
+                            Content="{localization:Loc Options}"
+                            IsEnabled="{Binding MainControlsEnabled}"
+                            Click="OpenOptions_ClickAsync" />
+                </StackPanel>
 
                 <TextBlock x:Name="GameClientSelectorLabel"
                            Grid.Row="4"

@@ -140,10 +140,6 @@
     <data name="CannotConnect" xml:space="preserve"><value>GitHub'a bağlanılamıyor. İnternetten modifikasyon yükleme kullanılamıyor.</value></data>
     <data name="DeploymentRecoveryFailed" xml:space="preserve"><value>GenLauncherGO önceki dağıtımı geri yükleyemedi. Oyunu veya çalışan herhangi bir istemciyi kapatın, ardından Yeniden Dene'yi seçin. Başlatıcıyı kapatmak ve oyun klasörünü güvenli olmayan bir durumda bırakmamak için İptal'i seçin.</value></data>
     <data name="ChangelogOnly" xml:space="preserve"><value>Değişiklik günlüğü</value></data>
-    <data name="ChangeToFullScreen" xml:space="preserve"><value>Tam ekrana geç</value></data>
-    <data name="ChangeToWindowed" xml:space="preserve"><value>Pencereli moda geç</value></data>
-    <data name="ChangeToNormalStart" xml:space="preserve"><value>Normal başlatmaya geç</value></data>
-    <data name="ChangeToQuickStart" xml:space="preserve"><value>Hızlı başlatmaya geç</value></data>
     <data name="Compatibility" xml:space="preserve"><value>Mod ile uyumluluk garanti edilemez!</value></data>
     <data name="Continue" xml:space="preserve"><value>Devam et</value></data>
     <data name="CurrentVersion" xml:space="preserve"><value>Geçerli sürüm: </value></data>
@@ -210,6 +206,8 @@
     <data name="UpToDate" xml:space="preserve"><value>Güncel</value></data>
     <data name="VersionMustContainNumbers" xml:space="preserve"><value>Sürüm sayı içermelidir.</value></data>
     <data name="WorldBuilder" xml:space="preserve"><value>World Builder</value></data>
+    <data name="Windowed" xml:space="preserve"><value>Pencereli</value></data>
+    <data name="QuickStart" xml:space="preserve"><value>Hızlı başlatma</value></data>
     <data name="WorldBuilderRunning" xml:space="preserve"><value>World Builder zaten çalışıyor!</value></data>
     <data name="AutoDeleteToolTip" xml:space="preserve"><value>Daha yeni bir sürüm yüklendikten sonra eski yüklü mod sürümlerini otomatik olarak kaldırır.</value></data>
     <data name="EnableDiagnosticLoggingToolTip" xml:space="preserve"><value>Başlatıcının bir sonraki yeniden başlatılmasından sonra günlük dosyalarına ayrıntılı hata ayıklama olaylarını ekler. Sorunu yeniden oluşturduktan sonra kapatın.</value></data>
@@ -276,7 +274,7 @@
     <data name="IntegrityIssueVerificationErrorLabel" xml:space="preserve"><value>Doğrulama hatası</value></data>
     <data name="GeneralsOnlineDiscord" xml:space="preserve"><value>GeneralsOnline Discord</value></data>
     <data name="GeneralsOnlineDiscordToolTip" xml:space="preserve"><value>GeneralsOnline Discord sunucusunu açar.</value></data>
-    <data name="GeneralsOnlineWindowedModeDisabledToolTip" xml:space="preserve"><value>Pencereli ve tam ekran modu GeneralsOnline başlatıcısı tarafından yönetilir.</value></data>
+    <data name="GeneralsOnlineWindowedModeDisabledToolTip" xml:space="preserve"><value>Pencereli veya tam ekran modunu GeneralsOnline başlatıcısından ayarlayın.</value></data>
     <data name="OpenLogsFolder" xml:space="preserve"><value>Günlük klasörünü aç</value></data>
     <data name="OpenLogsFolderToolTip" xml:space="preserve"><value>GenLauncherGO günlük dosyalarının bulunduğu klasörü açar.</value></data>
     <data name="GitHubRepository" xml:space="preserve"><value>GitHub deposu</value></data>

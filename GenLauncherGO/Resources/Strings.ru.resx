@@ -140,10 +140,6 @@
     <data name="CannotConnect" xml:space="preserve"><value>Не удается подключиться к GitHub. Установка модификаций из интернета недоступна.</value></data>
     <data name="DeploymentRecoveryFailed" xml:space="preserve"><value>GenLauncherGO не удалось восстановить предыдущее развертывание. Закройте игру или любой запущенный клиент, затем выберите Повторить. Выберите Отмена, чтобы закрыть лаунчер и не оставить папку игры в небезопасном состоянии.</value></data>
     <data name="ChangelogOnly" xml:space="preserve"><value>Чейнджлог</value></data>
-    <data name="ChangeToFullScreen" xml:space="preserve"><value>Переключиться в полноэкранный режим</value></data>
-    <data name="ChangeToWindowed" xml:space="preserve"><value>Переключиться в оконный режим</value></data>
-    <data name="ChangeToNormalStart" xml:space="preserve"><value>Переключиться на обычный запуск</value></data>
-    <data name="ChangeToQuickStart" xml:space="preserve"><value>Переключиться на быстрый запуск</value></data>
     <data name="Compatibility" xml:space="preserve"><value>Совместимость с модом не может быть гарантирована!</value></data>
     <data name="Continue" xml:space="preserve"><value>Продолжить</value></data>
     <data name="CurrentVersion" xml:space="preserve"><value>Версия: </value></data>
@@ -210,6 +206,8 @@
     <data name="UpToDate" xml:space="preserve"><value>АКТУАЛЬНО</value></data>
     <data name="VersionMustContainNumbers" xml:space="preserve"><value>Версия должна содержать цифры</value></data>
     <data name="WorldBuilder" xml:space="preserve"><value>РЕДАКТОР КАРТ</value></data>
+    <data name="Windowed" xml:space="preserve"><value>В окне</value></data>
+    <data name="QuickStart" xml:space="preserve"><value>Быстрый запуск</value></data>
     <data name="WorldBuilderRunning" xml:space="preserve"><value>Редактор карт уже запущен!</value></data>
     <data name="AutoDeleteToolTip" xml:space="preserve"><value>Автоматически удаляет старые установленные версии мода после установки новой версии.</value></data>
     <data name="EnableDiagnosticLoggingToolTip" xml:space="preserve"><value>Добавляет подробные отладочные события в файлы журнала после следующего перезапуска лаунчера. Отключите после воспроизведения проблемы.</value></data>
@@ -276,7 +274,7 @@
     <data name="IntegrityIssueVerificationErrorLabel" xml:space="preserve"><value>Ошибка проверки</value></data>
     <data name="GeneralsOnlineDiscord" xml:space="preserve"><value>Discord GeneralsOnline</value></data>
     <data name="GeneralsOnlineDiscordToolTip" xml:space="preserve"><value>Открывает сервер Discord GeneralsOnline.</value></data>
-    <data name="GeneralsOnlineWindowedModeDisabledToolTip" xml:space="preserve"><value>Оконный и полноэкранный режимы настраиваются в лаунчере GeneralsOnline.</value></data>
+    <data name="GeneralsOnlineWindowedModeDisabledToolTip" xml:space="preserve"><value>Выберите оконный или полноэкранный режим в лаунчере GeneralsOnline.</value></data>
     <data name="OpenLogsFolder" xml:space="preserve"><value>Открыть папку журналов</value></data>
     <data name="OpenLogsFolderToolTip" xml:space="preserve"><value>Открывает папку с файлами журналов GenLauncherGO.</value></data>
     <data name="GitHubRepository" xml:space="preserve"><value>Репозиторий GitHub</value></data>

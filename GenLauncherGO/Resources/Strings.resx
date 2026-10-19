@@ -140,10 +140,6 @@
     <data name="CannotConnect" xml:space="preserve"><value>Cannot connect to GitHub. Installing modifications from the internet is not available.</value></data>
     <data name="DeploymentRecoveryFailed" xml:space="preserve"><value>GenLauncherGO could not restore the previous deployment. Close the game or any running client, then choose Retry. Choose Cancel to close the launcher and avoid leaving the game folder in an unsafe state.</value></data>
     <data name="ChangelogOnly" xml:space="preserve"><value>Changelog</value></data>
-    <data name="ChangeToFullScreen" xml:space="preserve"><value>Switch to Fullscreen</value></data>
-    <data name="ChangeToWindowed" xml:space="preserve"><value>Switch to Windowed</value></data>
-    <data name="ChangeToNormalStart" xml:space="preserve"><value>Switch to Normal Start</value></data>
-    <data name="ChangeToQuickStart" xml:space="preserve"><value>Switch to Quick Start</value></data>
     <data name="Compatibility" xml:space="preserve"><value>Compatibility with the mod cannot be guaranteed!</value></data>
     <data name="Continue" xml:space="preserve"><value>Continue</value></data>
     <data name="CurrentVersion" xml:space="preserve"><value>Current version: </value></data>
@@ -210,6 +206,8 @@
     <data name="UpToDate" xml:space="preserve"><value>Up-to-date</value></data>
     <data name="VersionMustContainNumbers" xml:space="preserve"><value>Version must contain numbers.</value></data>
     <data name="WorldBuilder" xml:space="preserve"><value>World Builder</value></data>
+    <data name="Windowed" xml:space="preserve"><value>Windowed</value></data>
+    <data name="QuickStart" xml:space="preserve"><value>Quick Start</value></data>
     <data name="WorldBuilderRunning" xml:space="preserve"><value>World Builder is already running!</value></data>
     <data name="AutoDeleteToolTip" xml:space="preserve"><value>Automatically remove older installed mod versions after a newer version is installed.</value></data>
     <data name="EnableDiagnosticLoggingToolTip" xml:space="preserve"><value>Include detailed Debug events in log files after the next launcher restart. Disable this after reproducing the issue.</value></data>
@@ -276,7 +274,7 @@
     <data name="IntegrityIssueVerificationErrorLabel" xml:space="preserve"><value>Verification error</value></data>
     <data name="GeneralsOnlineDiscord" xml:space="preserve"><value>GeneralsOnline Discord</value></data>
     <data name="GeneralsOnlineDiscordToolTip" xml:space="preserve"><value>Open the GeneralsOnline Discord server.</value></data>
-    <data name="GeneralsOnlineWindowedModeDisabledToolTip" xml:space="preserve"><value>Windowed and fullscreen modes are managed by the GeneralsOnline launcher.</value></data>
+    <data name="GeneralsOnlineWindowedModeDisabledToolTip" xml:space="preserve"><value>Set windowed or fullscreen mode in the GeneralsOnline launcher.</value></data>
     <data name="OpenLogsFolder" xml:space="preserve"><value>Open logs folder</value></data>
     <data name="OpenLogsFolderToolTip" xml:space="preserve"><value>Open the folder containing GenLauncherGO log files.</value></data>
     <data name="GitHubRepository" xml:space="preserve"><value>GitHub repository</value></data>

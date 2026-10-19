@@ -140,10 +140,6 @@
     <data name="CannotConnect" xml:space="preserve"><value>لا يمكن الاتصال بـ GitHub. تثبيت التعديلات من الإنترنت غير متاح.</value></data>
     <data name="DeploymentRecoveryFailed" xml:space="preserve"><value>تعذر على GenLauncherGO استعادة النشر السابق. أغلق اللعبة أو أي عميل قيد التشغيل، ثم اختر إعادة المحاولة. اختر إلغاء لإغلاق المشغّل وتجنب ترك مجلد اللعبة في حالة غير آمنة.</value></data>
     <data name="ChangelogOnly" xml:space="preserve"><value>سجل التغييرات</value></data>
-    <data name="ChangeToFullScreen" xml:space="preserve"><value>التبديل إلى وضع ملء الشاشة</value></data>
-    <data name="ChangeToWindowed" xml:space="preserve"><value>التبديل إلى وضع النافذة</value></data>
-    <data name="ChangeToNormalStart" xml:space="preserve"><value>التبديل إلى التشغيل العادي</value></data>
-    <data name="ChangeToQuickStart" xml:space="preserve"><value>التبديل إلى التشغيل السريع</value></data>
     <data name="Compatibility" xml:space="preserve"><value>التوافق مع المود ليس اكيداً!</value></data>
     <data name="Continue" xml:space="preserve"><value>متابعة</value></data>
     <data name="CurrentVersion" xml:space="preserve"><value>الإصدار الحالي: </value></data>
@@ -210,6 +206,8 @@
     <data name="UpToDate" xml:space="preserve"><value>محدّث</value></data>
     <data name="VersionMustContainNumbers" xml:space="preserve"><value>يجب علي الإصدار أن يحتوي علي أرقام</value></data>
     <data name="WorldBuilder" xml:space="preserve"><value>World Builder</value></data>
+    <data name="Windowed" xml:space="preserve"><value>نافذة</value></data>
+    <data name="QuickStart" xml:space="preserve"><value>تشغيل سريع</value></data>
     <data name="WorldBuilderRunning" xml:space="preserve"><value>World Builder قيد التشغيل بالفعل!</value></data>
     <data name="AutoDeleteToolTip" xml:space="preserve"><value>يزيل تلقائياً إصدارات المود القديمة المثبتة بعد تثبيت إصدار أحدث.</value></data>
     <data name="EnableDiagnosticLoggingToolTip" xml:space="preserve"><value>يتضمن أحداث تصحيح مفصلة في ملفات السجل بعد إعادة تشغيل المشغّل في المرة التالية. عطّل هذا الخيار بعد إعادة إنتاج المشكلة.</value></data>
@@ -276,7 +274,7 @@
     <data name="IntegrityIssueVerificationErrorLabel" xml:space="preserve"><value>خطأ تحقق</value></data>
     <data name="GeneralsOnlineDiscord" xml:space="preserve"><value>ديسكورد GeneralsOnline</value></data>
     <data name="GeneralsOnlineDiscordToolTip" xml:space="preserve"><value>يفتح خادم ديسكورد الخاص بـ GeneralsOnline.</value></data>
-    <data name="GeneralsOnlineWindowedModeDisabledToolTip" xml:space="preserve"><value>يتم التحكم في وضع النافذة والشاشة الكاملة بواسطة مشغّل GeneralsOnline.</value></data>
+    <data name="GeneralsOnlineWindowedModeDisabledToolTip" xml:space="preserve"><value>اضبط وضع النافذة أو الشاشة الكاملة من مشغّل GeneralsOnline.</value></data>
     <data name="OpenLogsFolder" xml:space="preserve"><value>فتح مجلد السجلات</value></data>
     <data name="OpenLogsFolderToolTip" xml:space="preserve"><value>يفتح المجلد الذي يحتوي على ملفات سجلات GenLauncherGO.</value></data>
     <data name="GitHubRepository" xml:space="preserve"><value>مستودع GitHub</value></data>

@@ -140,10 +140,6 @@
     <data name="CannotConnect" xml:space="preserve"><value>无法连接到https://github.com/, 无法在线安装模组!</value></data>
     <data name="DeploymentRecoveryFailed" xml:space="preserve"><value>GenLauncherGO 无法还原上一次部署。请关闭游戏或任何正在运行的客户端，然后选择重试。选择取消将关闭启动器，以避免让游戏文件夹处于不安全状态。</value></data>
     <data name="ChangelogOnly" xml:space="preserve"><value>更新日志</value></data>
-    <data name="ChangeToFullScreen" xml:space="preserve"><value>切换到全屏</value></data>
-    <data name="ChangeToWindowed" xml:space="preserve"><value>切换到窗口模式</value></data>
-    <data name="ChangeToNormalStart" xml:space="preserve"><value>切换到正常启动</value></data>
-    <data name="ChangeToQuickStart" xml:space="preserve"><value>切换到快速启动</value></data>
     <data name="Compatibility" xml:space="preserve"><value>无法保证与模组的兼容性！</value></data>
     <data name="Continue" xml:space="preserve"><value>继续</value></data>
     <data name="CurrentVersion" xml:space="preserve"><value>版本：</value></data>
@@ -210,6 +206,8 @@
     <data name="UpToDate" xml:space="preserve"><value>已是最新</value></data>
     <data name="VersionMustContainNumbers" xml:space="preserve"><value>版本号必须包含数字</value></data>
     <data name="WorldBuilder" xml:space="preserve"><value>地图编辑器</value></data>
+    <data name="Windowed" xml:space="preserve"><value>窗口模式</value></data>
+    <data name="QuickStart" xml:space="preserve"><value>快速启动</value></data>
     <data name="WorldBuilderRunning" xml:space="preserve"><value>地图编辑器运行中！</value></data>
     <data name="AutoDeleteToolTip" xml:space="preserve"><value>安装较新版本后，自动移除较旧的已安装模组版本。</value></data>
     <data name="EnableDiagnosticLoggingToolTip" xml:space="preserve"><value>下次重启启动器后，在日志文件中记录详细的调试事件。重现问题后请关闭此选项。</value></data>
@@ -276,7 +274,7 @@
     <data name="IntegrityIssueVerificationErrorLabel" xml:space="preserve"><value>验证错误</value></data>
     <data name="GeneralsOnlineDiscord" xml:space="preserve"><value>GeneralsOnline Discord</value></data>
     <data name="GeneralsOnlineDiscordToolTip" xml:space="preserve"><value>打开 GeneralsOnline Discord 服务器。</value></data>
-    <data name="GeneralsOnlineWindowedModeDisabledToolTip" xml:space="preserve"><value>窗口和全屏模式由 GeneralsOnline 启动器管理。</value></data>
+    <data name="GeneralsOnlineWindowedModeDisabledToolTip" xml:space="preserve"><value>请在 GeneralsOnline 启动器中设置窗口或全屏模式。</value></data>
     <data name="OpenLogsFolder" xml:space="preserve"><value>打开日志文件夹</value></data>
     <data name="OpenLogsFolderToolTip" xml:space="preserve"><value>打开包含 GenLauncherGO 日志文件的文件夹。</value></data>
     <data name="GitHubRepository" xml:space="preserve"><value>GitHub 仓库</value></data>

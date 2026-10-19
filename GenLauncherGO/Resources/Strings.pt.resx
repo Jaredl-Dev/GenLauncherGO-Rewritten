@@ -140,10 +140,6 @@
     <data name="CannotConnect" xml:space="preserve"><value>Não é possível conectar-se ao GitHub. A instalação de modificações da Internet não está disponível.</value></data>
     <data name="DeploymentRecoveryFailed" xml:space="preserve"><value>GenLauncherGO não pôde restaurar a implantação anterior. Feche o jogo ou qualquer cliente em execução e escolha Tentar novamente. Escolha Cancelar para fechar o inicializador e evitar deixar a pasta do jogo em um estado inseguro.</value></data>
     <data name="ChangelogOnly" xml:space="preserve"><value>Registro de alterações</value></data>
-    <data name="ChangeToFullScreen" xml:space="preserve"><value>Alternar para tela cheia</value></data>
-    <data name="ChangeToWindowed" xml:space="preserve"><value>Alternar para modo janela</value></data>
-    <data name="ChangeToNormalStart" xml:space="preserve"><value>Alternar para início normal</value></data>
-    <data name="ChangeToQuickStart" xml:space="preserve"><value>Alternar para início rápido</value></data>
     <data name="Compatibility" xml:space="preserve"><value>A compatibilidade com o mod não pode ser garantida!</value></data>
     <data name="Continue" xml:space="preserve"><value>Continuar</value></data>
     <data name="CurrentVersion" xml:space="preserve"><value>Versão atual: </value></data>
@@ -210,6 +206,8 @@
     <data name="UpToDate" xml:space="preserve"><value>Atualizado</value></data>
     <data name="VersionMustContainNumbers" xml:space="preserve"><value>A versão deve conter números</value></data>
     <data name="WorldBuilder" xml:space="preserve"><value>World Builder</value></data>
+    <data name="Windowed" xml:space="preserve"><value>Janela</value></data>
+    <data name="QuickStart" xml:space="preserve"><value>Início rápido</value></data>
     <data name="WorldBuilderRunning" xml:space="preserve"><value>O World Builder já está em execução!</value></data>
     <data name="AutoDeleteToolTip" xml:space="preserve"><value>Remove automaticamente versões antigas instaladas de um mod após a instalação de uma versão mais recente.</value></data>
     <data name="EnableDiagnosticLoggingToolTip" xml:space="preserve"><value>Inclui eventos detalhados de depuração nos arquivos de log após a próxima reinicialização do launcher. Desative depois de reproduzir o problema.</value></data>
@@ -276,7 +274,7 @@
     <data name="IntegrityIssueVerificationErrorLabel" xml:space="preserve"><value>Erro de verificação</value></data>
     <data name="GeneralsOnlineDiscord" xml:space="preserve"><value>Discord do GeneralsOnline</value></data>
     <data name="GeneralsOnlineDiscordToolTip" xml:space="preserve"><value>Abre o servidor Discord do GeneralsOnline.</value></data>
-    <data name="GeneralsOnlineWindowedModeDisabledToolTip" xml:space="preserve"><value>Os modos janela e tela cheia são gerenciados pelo inicializador do GeneralsOnline.</value></data>
+    <data name="GeneralsOnlineWindowedModeDisabledToolTip" xml:space="preserve"><value>Defina o modo janela ou tela cheia no inicializador do GeneralsOnline.</value></data>
     <data name="OpenLogsFolder" xml:space="preserve"><value>Abrir pasta de logs</value></data>
     <data name="OpenLogsFolderToolTip" xml:space="preserve"><value>Abre a pasta que contém os arquivos de log do GenLauncherGO.</value></data>
     <data name="GitHubRepository" xml:space="preserve"><value>Repositório GitHub</value></data>

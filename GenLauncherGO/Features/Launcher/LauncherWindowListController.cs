@@ -197,6 +197,7 @@ internal sealed class LauncherWindowListController
             }
         }
 
+        _viewModel.RefreshLaunchSummary();
         // The shell wears the selected modification's published palette, so a selection change is a theme change.
         UpdateVisuals();
         RestoreFocuses();

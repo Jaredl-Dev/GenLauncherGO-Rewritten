@@ -408,11 +408,6 @@ internal partial class MainWindow : Window
                 _windowLifetime.Token));
     }
 
-    private void Close_Click(object? sender, RoutedEventArgs eventArgs)
-    {
-        Close();
-    }
-
     private async void ShowModifications_ClickAsync(object? sender, RoutedEventArgs eventArgs)
     {
         await ShowContentViewAsync(LauncherContentViewKind.Modifications, "showing the modifications view");

@@ -179,17 +179,35 @@ internal sealed class MainWindowViewModel : ObservableObject, IDisposable
         private set => SetProperty(ref field, value);
     } = string.Empty;
 
-    public string WindowedModeButtonText
+    public bool IsWindowedMode
     {
         get;
         private set => SetProperty(ref field, value);
-    } = string.Empty;
+    }
 
-    public string QuickStartButtonText
+    public bool IsQuickStartMode
     {
         get;
         private set => SetProperty(ref field, value);
-    } = string.Empty;
+    }
+
+    /// <summary>
+    ///     Gets what the launch button starts: the selected modification, when there is one, and the game client.
+    /// </summary>
+    /// <remarks>
+    ///     An advertisement tile can be selected but never launched, so it is left out rather than named here.
+    /// </remarks>
+    public string LaunchSummaryText => string.Join(
+        " · ",
+        new[]
+            {
+                SelectedModifications
+                    .FirstOrDefault(modification =>
+                        modification.ContainerModification.ModificationType != ModificationType.Advertising)?
+                    .ContainerModification.Name,
+                SelectedGameClientOption?.DisplayName
+            }
+            .Where(part => !string.IsNullOrWhiteSpace(part)));
 
     public string PatchesTabText
     {
@@ -236,11 +254,11 @@ internal sealed class MainWindowViewModel : ObservableObject, IDisposable
         _mainControlsEnabled &&
         !_launchCoordinator.IsLaunchInProgress;
 
-    public bool WindowedModeButtonEnabled =>
+    public bool WindowedModeEnabled =>
         MainControlsEnabled &&
         !IsGeneralsOnlineSelected;
 
-    public string? WindowedModeButtonToolTip =>
+    public string? WindowedModeToolTip =>
         IsGeneralsOnlineSelected
             ? _stringLocalizer["GeneralsOnlineWindowedModeDisabledToolTip"]
             : null;
@@ -344,7 +362,9 @@ internal sealed class MainWindowViewModel : ObservableObject, IDisposable
         }
 
         UpdateCurrentLauncherVersionText();
-        UpdateGameArgumentButtons(_launcherPreferencesService.Current);
+        UpdateGameArgumentState(_launcherPreferencesService.Current);
+        // The client is chosen before the restored modification selection, so the summary is only complete now.
+        RefreshLaunchSummary();
     }
 
     /// <summary>
@@ -424,22 +444,18 @@ internal sealed class MainWindowViewModel : ObservableObject, IDisposable
     }
 
     /// <summary>
-    ///     Updates the quick-start and windowed-mode button labels from current game arguments.
+    ///     Mirrors the active game's windowed and quick-start arguments into the sidebar checkboxes.
     /// </summary>
-    public void UpdateGameArgumentButtons(LauncherPreferences preferences)
+    private void UpdateGameArgumentState(LauncherPreferences preferences)
     {
-        ArgumentNullException.ThrowIfNull(preferences);
         LauncherGamePreferences gamePreferences = GetActiveGamePreferences(preferences);
 
-        bool isWindowed = LauncherGameArgumentService.ContainsArgument(
+        IsWindowedMode = LauncherGameArgumentService.ContainsArgument(
             gamePreferences.GameArguments,
             LauncherGameArgumentService.WindowedArgument);
-        bool isQuickStart = LauncherGameArgumentService.ContainsArgument(
+        IsQuickStartMode = LauncherGameArgumentService.ContainsArgument(
             gamePreferences.GameArguments,
             LauncherGameArgumentService.QuickStartArgument);
-
-        WindowedModeButtonText = _stringLocalizer[isWindowed ? "ChangeToFullScreen" : "ChangeToWindowed"];
-        QuickStartButtonText = _stringLocalizer[isQuickStart ? "ChangeToNormalStart" : "ChangeToQuickStart"];
     }
 
     /// <summary>
@@ -449,21 +465,42 @@ internal sealed class MainWindowViewModel : ObservableObject, IDisposable
     {
         ArgumentException.ThrowIfNullOrWhiteSpace(argument);
 
-        if (string.Equals(argument, LauncherGameArgumentService.WindowedArgument, StringComparison.OrdinalIgnoreCase) &&
-            IsGeneralsOnlineSelected)
+        try
         {
-            return;
+            if (string.Equals(
+                    argument,
+                    LauncherGameArgumentService.WindowedArgument,
+                    StringComparison.OrdinalIgnoreCase) &&
+                IsGeneralsOnlineSelected)
+            {
+                return;
+            }
+
+            LauncherGamePreferences preferences = GetActiveGamePreferences(_launcherPreferencesService.Current);
+            bool enabled = !LauncherGameArgumentService.ContainsArgument(preferences.GameArguments, argument);
+            string updatedArguments = LauncherGameArgumentService.SetArgumentEnabled(
+                preferences.GameArguments,
+                argument,
+                enabled);
+
+            UpdateActiveGamePreferences(currentPreferences =>
+                currentPreferences with { GameArguments = updatedArguments });
         }
+        finally
+        {
+            // A checkbox ticks itself when clicked. Republishing the persisted state puts it back whenever the
+            // toggle was refused or could not be saved.
+            OnPropertyChanged(nameof(IsWindowedMode));
+            OnPropertyChanged(nameof(IsQuickStartMode));
+        }
+    }
 
-        LauncherGamePreferences preferences = GetActiveGamePreferences(_launcherPreferencesService.Current);
-        bool enabled = !LauncherGameArgumentService.ContainsArgument(preferences.GameArguments, argument);
-        string updatedArguments = LauncherGameArgumentService.SetArgumentEnabled(
-            preferences.GameArguments,
-            argument,
-            enabled);
-
-        UpdateActiveGamePreferences(currentPreferences =>
-            currentPreferences with { GameArguments = updatedArguments });
+    /// <summary>
+    ///     Republishes the launch button's summary after the selected modification changes.
+    /// </summary>
+    public void RefreshLaunchSummary()
+    {
+        OnPropertyChanged(nameof(LaunchSummaryText));
     }
 
     public void UpdateCurrentLauncherVersionText()
@@ -936,7 +973,7 @@ internal sealed class MainWindowViewModel : ObservableObject, IDisposable
         object? sender,
         LauncherPreferences preferences)
     {
-        UpdateGameArgumentButtons(preferences);
+        UpdateGameArgumentState(preferences);
     }
 
     private void LaunchCoordinator_PropertyChanged(object? sender, PropertyChangedEventArgs e)
@@ -1260,8 +1297,9 @@ internal sealed class MainWindowViewModel : ObservableObject, IDisposable
         OnPropertyChanged(nameof(StartGameButtonEnabled));
         OnPropertyChanged(nameof(WorldBuilderSelectorEnabled));
         OnPropertyChanged(nameof(WorldBuilderButtonEnabled));
-        OnPropertyChanged(nameof(WindowedModeButtonEnabled));
-        OnPropertyChanged(nameof(WindowedModeButtonToolTip));
+        OnPropertyChanged(nameof(WindowedModeEnabled));
+        OnPropertyChanged(nameof(WindowedModeToolTip));
+        OnPropertyChanged(nameof(LaunchSummaryText));
         OnPropertyChanged(nameof(MainControlsEnabled));
         OnPropertyChanged(nameof(IsLoadingIndicatorVisible));
     }

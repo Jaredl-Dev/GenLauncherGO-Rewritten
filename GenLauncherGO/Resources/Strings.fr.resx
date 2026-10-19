@@ -140,10 +140,6 @@
     <data name="CannotConnect" xml:space="preserve"><value>Impossible de se connecter à GitHub. L'installation de modifications depuis Internet n'est pas disponible.</value></data>
     <data name="DeploymentRecoveryFailed" xml:space="preserve"><value>GenLauncherGO n'a pas pu restaurer le déploiement précédent. Fermez le jeu ou tout client en cours d'exécution, puis choisissez Réessayer. Choisissez Annuler pour fermer le lanceur et éviter de laisser le dossier du jeu dans un état non sûr.</value></data>
     <data name="ChangelogOnly" xml:space="preserve"><value>Journal des changements</value></data>
-    <data name="ChangeToFullScreen" xml:space="preserve"><value>Passer en plein écran</value></data>
-    <data name="ChangeToWindowed" xml:space="preserve"><value>Passer en mode fenêtré</value></data>
-    <data name="ChangeToNormalStart" xml:space="preserve"><value>Passer au démarrage normal</value></data>
-    <data name="ChangeToQuickStart" xml:space="preserve"><value>Passer au démarrage rapide</value></data>
     <data name="Compatibility" xml:space="preserve"><value>La compatibilité avec le mod ne peut être garantie !</value></data>
     <data name="Continue" xml:space="preserve"><value>Continuer</value></data>
     <data name="CurrentVersion" xml:space="preserve"><value>Version: </value></data>
@@ -210,6 +206,8 @@
     <data name="UpToDate" xml:space="preserve"><value>À jour</value></data>
     <data name="VersionMustContainNumbers" xml:space="preserve"><value>La version doit contenir des chiffres</value></data>
     <data name="WorldBuilder" xml:space="preserve"><value>World Builder</value></data>
+    <data name="Windowed" xml:space="preserve"><value>Fenêtré</value></data>
+    <data name="QuickStart" xml:space="preserve"><value>Démarrage rapide</value></data>
     <data name="WorldBuilderRunning" xml:space="preserve"><value>World Builder est déjà en cours d'exécution!</value></data>
     <data name="AutoDeleteToolTip" xml:space="preserve"><value>Supprime automatiquement les anciennes versions installées d'un mod après l'installation d'une version plus récente.</value></data>
     <data name="EnableDiagnosticLoggingToolTip" xml:space="preserve"><value>Ajoute des événements de débogage détaillés aux fichiers journaux après le prochain redémarrage du lanceur. Désactivez cette option après avoir reproduit le problème.</value></data>
@@ -276,7 +274,7 @@
     <data name="IntegrityIssueVerificationErrorLabel" xml:space="preserve"><value>Erreur de vérification</value></data>
     <data name="GeneralsOnlineDiscord" xml:space="preserve"><value>Discord GeneralsOnline</value></data>
     <data name="GeneralsOnlineDiscordToolTip" xml:space="preserve"><value>Ouvre le serveur Discord GeneralsOnline.</value></data>
-    <data name="GeneralsOnlineWindowedModeDisabledToolTip" xml:space="preserve"><value>Les modes fenêtré et plein écran sont gérés par le lanceur GeneralsOnline.</value></data>
+    <data name="GeneralsOnlineWindowedModeDisabledToolTip" xml:space="preserve"><value>Choisissez le mode fenêtré ou plein écran dans le lanceur GeneralsOnline.</value></data>
     <data name="OpenLogsFolder" xml:space="preserve"><value>Ouvrir le dossier des journaux</value></data>
     <data name="OpenLogsFolderToolTip" xml:space="preserve"><value>Ouvre le dossier contenant les fichiers journaux de GenLauncherGO.</value></data>
     <data name="GitHubRepository" xml:space="preserve"><value>Dépôt GitHub</value></data>
