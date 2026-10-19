@@ -27,7 +27,7 @@ internal sealed class LauncherGameChoiceViewModel : ObservableObject
         ArgumentNullException.ThrowIfNull(stringLocalizer);
 
         Game = game;
-        DisplayName = stringLocalizer[PerGame.Select(game, "GeneralsFullName", "ZeroHourFullName")];
+        DisplayName = stringLocalizer[PerGame.FullNameKey(game)];
         ShortName = stringLocalizer[PerGame.ShortNameKey(game)];
         SelectedText = stringLocalizer["Selected"];
         NotSelectedText = stringLocalizer["NotSelected"];

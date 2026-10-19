@@ -42,6 +42,15 @@ internal static class PerGame
     }
 
     /// <summary>
+    ///     Returns the localization key of a game's full name, such as "Command &amp; Conquer: Generals – Zero Hour".
+    /// </summary>
+    /// <exception cref="ArgumentOutOfRangeException">Thrown when <paramref name="game" /> is not supported.</exception>
+    public static string FullNameKey(SupportedGame game)
+    {
+        return Select(game, "GeneralsFullName", "ZeroHourFullName");
+    }
+
+    /// <summary>
     ///     Rejects a game value the launcher does not manage.
     /// </summary>
     /// <exception cref="ArgumentOutOfRangeException">Thrown when <paramref name="game" /> is not supported.</exception>

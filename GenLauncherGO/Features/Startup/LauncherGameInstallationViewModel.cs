@@ -26,7 +26,7 @@ internal sealed class LauncherGameInstallationViewModel : ObservableObject
 
         Game = game;
         _installations = installations ?? throw new ArgumentNullException(nameof(installations));
-        DisplayName = stringLocalizer[PerGame.Select(game, "GeneralsFullName", "ZeroHourFullName")];
+        DisplayName = stringLocalizer[PerGame.FullNameKey(game)];
         ShortName = stringLocalizer[PerGame.ShortNameKey(game)];
         BrowseCommand = installations.GetBrowseCommand(game);
         DetectCommand = installations.GetDetectCommand(game);
