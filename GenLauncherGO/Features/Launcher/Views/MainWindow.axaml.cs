@@ -399,6 +399,20 @@ internal partial class MainWindow : Window
             () => _viewModel.ToggleGameArgument(LauncherGameArgumentService.QuickStartArgument));
     }
 
+    private async void SwitchGame_ClickAsync(object? sender, RoutedEventArgs eventArgs)
+    {
+        if ((sender as Control)?.DataContext is not LauncherGameChoiceViewModel { IsSelected: false } choice)
+        {
+            return;
+        }
+
+        // A game without an installation folder cannot be switched to yet; Settings is where that folder is added.
+        Func<Task> operation = choice.IsAvailable
+            ? () => _workflowCoordinator.SwitchGameAsync(choice.Game, _windowContext, _windowLifetime.Token)
+            : () => _workflowCoordinator.OpenOptionsAsync(_windowContext, _windowLifetime.Token);
+        await ExecuteWindowOperationAsync("switching the managed game", operation);
+    }
+
     private async void OpenOptions_ClickAsync(object? sender, RoutedEventArgs eventArgs)
     {
         await ExecuteWindowOperationAsync(

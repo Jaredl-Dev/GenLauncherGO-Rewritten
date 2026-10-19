@@ -84,7 +84,8 @@ internal static class LauncherThemePresets
             downloadTextColor: "#090502",
             selectionStartColor: "#8a2e0d",
             selectionMiddleColor: "#5a210d",
-            buttonSelectionColor: "#e24c17",
+            // A step darker than the rust accent: at full strength the hover wash overpowered the label on top of it.
+            buttonSelectionColor: "#b53d12",
             // The Generals shell draws its buttons and toggles in this rust, with gold reserved for headings.
             actionTextColor: "#e24c17",
             headingTextColor: "#ffbb00",

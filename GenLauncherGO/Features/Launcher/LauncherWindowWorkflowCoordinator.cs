@@ -340,13 +340,7 @@ internal sealed class LauncherWindowWorkflowCoordinator
                     context.ViewModel,
                     context.Content,
                     settingsWindow,
-                    cancellationToken),
-            game => SwitchGameFromSettingsAsync(
-                game,
-                context.ViewModel,
-                context.Content,
-                settingsWindow,
-                cancellationToken));
+                    cancellationToken));
         await settingsWindow.ShowDialog<bool>(context.Owner);
 
         if (settingsWindow.RestartRequested &&
@@ -379,27 +373,26 @@ internal sealed class LauncherWindowWorkflowCoordinator
                 cancellationToken));
     }
 
-    private async Task<bool> SwitchGameFromSettingsAsync(
+    /// <summary>
+    ///     Switches the live session to another managed game from the main window's game switcher.
+    /// </summary>
+    public async Task<bool> SwitchGameAsync(
         SupportedGame game,
-        MainWindowViewModel viewModel,
-        LauncherWindowListController content,
-        Window settingsOwner,
+        LauncherWindowContext context,
         CancellationToken cancellationToken)
     {
-        ArgumentNullException.ThrowIfNull(viewModel);
-        ArgumentNullException.ThrowIfNull(content);
-        ArgumentNullException.ThrowIfNull(settingsOwner);
+        ArgumentNullException.ThrowIfNull(context);
         if (game == SupportedGame.Unknown)
         {
             return false;
         }
 
         return await RunLiveGameManagementChangeAsync(
-            viewModel,
-            content,
+            context.ViewModel,
+            context.Content,
             () => _gameSessionCoordinator.SwitchGameAsync(
                 game,
-                settingsOwner,
+                context.Owner,
                 cancellationToken));
     }
 

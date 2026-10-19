@@ -55,13 +55,6 @@
                                         Height="44"
                                         Content="{localization:Loc InstallationPaths}"
                                         Click="ManageInstallations_ClickAsync" />
-                                <Button x:Name="SwitchGameButton"
-                                        Grid.Column="2"
-                                        Classes="dialog-action"
-                                        Height="44"
-                                        Content="{Binding SwitchGameButtonText}"
-                                        IsEnabled="{Binding CanSwitchGame}"
-                                        Click="SwitchGame_ClickAsync" />
                             </Grid>
                         </StackPanel>
                     </Border>

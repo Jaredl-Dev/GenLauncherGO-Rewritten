@@ -1,23 +1,23 @@
 using System;
+using System.Globalization;
 using Avalonia.Media.Imaging;
-using Avalonia.Platform;
 using CommunityToolkit.Mvvm.ComponentModel;
 using GenLauncherGO.Shared.Localization;
 
 namespace GenLauncherGO.Features.Startup;
 
 /// <summary>
-///     Presents one selectable game on the initial game-choice screen.
+///     Presents one selectable game on the initial game-choice screen and in the main window's game switcher.
 /// </summary>
 /// <remarks>
-///     The choice screen shows one of these per supported game, so the card markup exists once regardless of how many
+///     Both screens show one of these per supported game, so the option markup exists once regardless of how many
 ///     games the launcher manages.
 /// </remarks>
 internal sealed class LauncherGameChoiceViewModel : ObservableObject
 {
-    private readonly Lazy<Bitmap> _coverImage;
+    private readonly string _addFolderToolTip;
 
-    private bool _isSelected;
+    private readonly string _switchToolTip;
 
     public LauncherGameChoiceViewModel(
         SupportedGame game,
@@ -27,36 +27,73 @@ internal sealed class LauncherGameChoiceViewModel : ObservableObject
         ArgumentNullException.ThrowIfNull(stringLocalizer);
 
         Game = game;
-        _isSelected = isSelected;
         DisplayName = stringLocalizer[PerGame.Select(game, "GeneralsFullName", "ZeroHourFullName")];
+        ShortName = stringLocalizer[PerGame.ShortNameKey(game)];
         SelectedText = stringLocalizer["Selected"];
         NotSelectedText = stringLocalizer["NotSelected"];
-        // Deferred so the choice list can be built and asserted on without an initialized Avalonia application.
-        _coverImage = new Lazy<Bitmap>(() => LoadCover(game));
+        _switchToolTip = string.Format(CultureInfo.CurrentCulture, stringLocalizer["SwitchToGame"], ShortName);
+        _addFolderToolTip = string.Format(
+            CultureInfo.CurrentCulture,
+            stringLocalizer["AddGameFolderToolTip"],
+            ShortName);
+        IsSelected = isSelected;
+        UpdateSwitchToolTip();
     }
 
     public SupportedGame Game { get; }
 
     public string DisplayName { get; }
 
+    public string ShortName { get; }
+
     public string SelectedText { get; }
 
     public string NotSelectedText { get; }
 
-    public Bitmap CoverImage => _coverImage.Value;
+    /// <remarks>
+    ///     Resolved on first read so the options can be built and asserted on without an initialized Avalonia
+    ///     application.
+    /// </remarks>
+    public Bitmap CoverImage => LauncherGameCovers.Get(Game);
 
     public bool IsSelected
     {
-        get => _isSelected;
-        set => SetProperty(ref _isSelected, value);
+        get;
+        set
+        {
+            if (SetProperty(ref field, value))
+            {
+                UpdateSwitchToolTip();
+            }
+        }
     }
 
-    private static Bitmap LoadCover(SupportedGame game)
+    /// <summary>
+    ///     Gets or sets whether the game has an installation folder the launcher can switch to.
+    /// </summary>
+    public bool IsAvailable
     {
-        Uri uri = new(PerGame.Select(
-            game,
-            "avares://GenLauncherGO/Shared/Resources/Images/OfficialCoverGenerals.png",
-            "avares://GenLauncherGO/Shared/Resources/Images/OfficialCoverZeroHour.jpg"));
-        return new Bitmap(AssetLoader.Open(uri));
+        get;
+        set
+        {
+            if (SetProperty(ref field, value))
+            {
+                UpdateSwitchToolTip();
+            }
+        }
+    } = true;
+
+    /// <summary>
+    ///     Gets what clicking this game in the main window's switcher does, or nothing for the managed game.
+    /// </summary>
+    public string? SwitchToolTip
+    {
+        get;
+        private set => SetProperty(ref field, value);
+    }
+
+    private void UpdateSwitchToolTip()
+    {
+        SwitchToolTip = IsSelected ? null : IsAvailable ? _switchToolTip : _addFolderToolTip;
     }
 }

@@ -341,6 +341,7 @@
     <data name="GameManagement" xml:space="preserve"><value>Oyun yönetimi</value></data>
     <data name="InstallationPaths" xml:space="preserve"><value>Kurulum yolları</value></data>
     <data name="SwitchToGame" xml:space="preserve"><value>{0} oyununa geç</value></data>
+    <data name="AddGameFolderToolTip" xml:space="preserve"><value>{0} oyun klasörünü Ayarlar bölümünden ekleyin.</value></data>
     <data name="Save" xml:space="preserve"><value>Kaydet</value></data>
     <data name="GameSwitchBlockedTitle" xml:space="preserve"><value>Oyun değişikliği kullanılamıyor</value></data>
     <data name="GameSwitchBlockedDetails" xml:space="preserve"><value>Oyunu değiştirmeden önce etkin başlatmayı, oyunu, indirmeyi veya güncellemeyi tamamlayın ya da iptal edin.</value></data>

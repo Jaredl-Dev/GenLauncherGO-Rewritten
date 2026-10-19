@@ -6,6 +6,7 @@
     xmlns:launcherModels2="using:GenLauncherGO.Features.Launching"
         xmlns:launcherViews="using:GenLauncherGO.Features.Launcher.Views"
         xmlns:mods="using:GenLauncherGO.Features.Mods"
+        xmlns:startup="using:GenLauncherGO.Features.Startup"
         xmlns:viewModels="using:GenLauncherGO.Features.Launcher"
         x:Class="GenLauncherGO.Features.Launcher.Views.MainWindow"
         x:ClassModifier="internal"
@@ -779,6 +780,43 @@
             <Setter Property="FontSize" Value="17" />
         </Style>
         <!--
+          Styles here apply in order, so the active option's rules come after the hover rules they must override.
+        -->
+        <Style Selector="Button.game-option">
+            <Setter Property="Height" Value="44" />
+            <Setter Property="HorizontalAlignment" Value="Stretch" />
+            <Setter Property="HorizontalContentAlignment" Value="Left" />
+            <Setter Property="Padding" Value="7,0" />
+            <Setter Property="BorderThickness" Value="1" />
+            <Setter Property="BorderBrush" Value="{DynamicResource GenLauncherInactiveBorder2}" />
+        </Style>
+        <Style Selector="Button.game-option:pointerover">
+            <Setter Property="BorderBrush" Value="{DynamicResource GenLauncherBorderColor}" />
+        </Style>
+        <Style Selector="TextBlock.game-option-name">
+            <Setter Property="FontSize" Value="14" />
+            <Setter Property="FontWeight" Value="SemiBold" />
+            <Setter Property="Foreground" Value="{DynamicResource GenLauncherInactiveBorder}" />
+        </Style>
+        <Style Selector="Button.game-option:pointerover TextBlock.game-option-name">
+            <Setter Property="Foreground" Value="{DynamicResource GenLauncherActiveColor}" />
+        </Style>
+        <Style Selector="Image.game-option-cover">
+            <Setter Property="Opacity" Value="0.5" />
+        </Style>
+        <!-- The managed game is marked by a stronger outline and full colour, not a fill, and has no hover state. -->
+        <Style Selector="Button.game-option.active">
+            <Setter Property="BorderThickness" Value="2" />
+            <Setter Property="BorderBrush" Value="{DynamicResource GenLauncherBorderColor}" />
+            <Setter Property="Background" Value="{DynamicResource GenLauncherLightBackGround}" />
+        </Style>
+        <Style Selector="Button.game-option.active TextBlock.game-option-name">
+            <Setter Property="Foreground" Value="{DynamicResource GenLauncherDefaultTextColor}" />
+        </Style>
+        <Style Selector="Button.game-option.active Image.game-option-cover">
+            <Setter Property="Opacity" Value="1" />
+        </Style>
+        <!--
           Launch is the sidebar's main action, so it is taller and bolder. Like every other button it stays unlit
           until hovered, so it never looks pressed or already chosen.
         -->
@@ -913,6 +951,38 @@
                             HorizontalAlignment="Left"
                             VerticalAlignment="Top"
                             Spacing="10">
+                    <ItemsControl x:Name="GameSwitcher"
+                                  ItemsSource="{Binding GameChoices}"
+                                  IsEnabled="{Binding MainControlsEnabled}">
+                        <ItemsControl.ItemsPanel>
+                            <ItemsPanelTemplate>
+                                <UniformGrid Rows="1"
+                                             ColumnSpacing="6" />
+                            </ItemsPanelTemplate>
+                        </ItemsControl.ItemsPanel>
+                        <ItemsControl.ItemTemplate>
+                            <DataTemplate x:DataType="startup:LauncherGameChoiceViewModel">
+                                <Button Classes="game-option"
+                                        Classes.active="{Binding IsSelected}"
+                                        AutomationProperties.Name="{Binding ShortName}"
+                                        ToolTip.Tip="{Binding SwitchToolTip}"
+                                        Click="SwitchGame_ClickAsync">
+                                    <StackPanel Orientation="Horizontal"
+                                                Spacing="7">
+                                        <Image Classes="game-option-cover"
+                                               Width="22"
+                                               Height="30"
+                                               Source="{Binding CoverImage}"
+                                               Stretch="UniformToFill" />
+                                        <TextBlock Classes="game-option-name"
+                                                   VerticalAlignment="Center"
+                                                   Text="{Binding ShortName}"
+                                                   TextTrimming="CharacterEllipsis" />
+                                    </StackPanel>
+                                </Button>
+                            </DataTemplate>
+                        </ItemsControl.ItemTemplate>
+                    </ItemsControl>
                     <Button x:Name="StartGameButton"
                             Classes="sidebar-button launch"
                             AutomationProperties.Name="{localization:Loc Launch}"

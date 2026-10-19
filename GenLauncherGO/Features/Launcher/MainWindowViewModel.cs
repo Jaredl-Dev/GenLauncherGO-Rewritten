@@ -81,6 +81,11 @@ internal sealed class MainWindowViewModel : ObservableObject, IDisposable
                                        throw new ArgumentNullException(nameof(modificationViewModelLogger));
         _launchCoordinator = launchCoordinator ?? throw new ArgumentNullException(nameof(launchCoordinator));
         _logger = logger ?? throw new ArgumentNullException(nameof(logger));
+        GameChoices =
+        [
+            new LauncherGameChoiceViewModel(SupportedGame.Generals, stringLocalizer, false),
+            new LauncherGameChoiceViewModel(SupportedGame.ZeroHour, stringLocalizer, false)
+        ];
 
         _launcherPreferencesService.PreferencesChanged += LauncherPreferencesService_PreferencesChanged;
         _launchCoordinator.PropertyChanged += LaunchCoordinator_PropertyChanged;
@@ -168,10 +173,13 @@ internal sealed class MainWindowViewModel : ObservableObject, IDisposable
         private set => SetProperty(ref field, value);
     } = "GenLauncherGO";
 
-    public string ManagedGameShortName => _stringLocalizer[PerGame.Select(
-        _runtimeContext.CurrentlyManagedGame,
-        "GeneralsShortName",
-        "ZeroHourShortName")];
+    public string ManagedGameShortName =>
+        _stringLocalizer[PerGame.ShortNameKey(_runtimeContext.CurrentlyManagedGame)];
+
+    /// <summary>
+    ///     Gets one switcher option per supported game, in the order the game-choice screen offers them.
+    /// </summary>
+    public IReadOnlyList<LauncherGameChoiceViewModel> GameChoices { get; }
 
     public string CurrentLauncherVersionText
     {
@@ -363,6 +371,7 @@ internal sealed class MainWindowViewModel : ObservableObject, IDisposable
 
         UpdateCurrentLauncherVersionText();
         UpdateGameArgumentState(_launcherPreferencesService.Current);
+        RefreshGameChoices(_launcherPreferencesService.Current);
         // The client is chosen before the restored modification selection, so the summary is only complete now.
         RefreshLaunchSummary();
     }
@@ -974,6 +983,19 @@ internal sealed class MainWindowViewModel : ObservableObject, IDisposable
         LauncherPreferences preferences)
     {
         UpdateGameArgumentState(preferences);
+        RefreshGameChoices(preferences);
+    }
+
+    /// <summary>
+    ///     Marks the managed game and which games have an installation folder to switch to.
+    /// </summary>
+    private void RefreshGameChoices(LauncherPreferences preferences)
+    {
+        foreach (LauncherGameChoiceViewModel choice in GameChoices)
+        {
+            choice.IsSelected = choice.Game == _runtimeContext.CurrentlyManagedGame;
+            choice.IsAvailable = !string.IsNullOrWhiteSpace(preferences.Installations.GetPath(choice.Game));
+        }
     }
 
     private void LaunchCoordinator_PropertyChanged(object? sender, PropertyChangedEventArgs e)

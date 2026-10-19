@@ -1,5 +1,4 @@
 using System;
-using System.Globalization;
 using System.Runtime.CompilerServices;
 using CommunityToolkit.Mvvm.ComponentModel;
 using CommunityToolkit.Mvvm.Input;
@@ -59,18 +58,6 @@ internal sealed class LauncherSettingsViewModel : ObservableObject
     public IRelayCommand OpenGitHubRepositoryCommand { get; }
 
     public string ActiveGameName => GetGameName(_runtimeContext.CurrentlyManagedGame);
-
-    public SupportedGame SwitchTargetGame => PerGame.Select(
-        _runtimeContext.CurrentlyManagedGame,
-        SupportedGame.ZeroHour,
-        SupportedGame.Generals);
-
-    public string SwitchGameButtonText => string.Format(CultureInfo.CurrentCulture,
-        _stringLocalizer["SwitchToGame"],
-        GetGameName(SwitchTargetGame));
-
-    public bool CanSwitchGame =>
-        !string.IsNullOrWhiteSpace(_preferences.Installations.GetPath(SwitchTargetGame));
 
     public string GameArguments
     {
@@ -172,9 +159,6 @@ internal sealed class LauncherSettingsViewModel : ObservableObject
     {
         _preferences = _preferencesService.Current;
         OnPropertyChanged(nameof(ActiveGameName));
-        OnPropertyChanged(nameof(SwitchTargetGame));
-        OnPropertyChanged(nameof(SwitchGameButtonText));
-        OnPropertyChanged(nameof(CanSwitchGame));
         OnPropertyChanged(nameof(GameArguments));
         OnPropertyChanged(nameof(WorldBuilderArguments));
     }
@@ -210,7 +194,7 @@ internal sealed class LauncherSettingsViewModel : ObservableObject
 
     private string GetGameName(SupportedGame game)
     {
-        return _stringLocalizer[PerGame.Select(game, "GeneralsShortName", "ZeroHourShortName")];
+        return _stringLocalizer[PerGame.ShortNameKey(game)];
     }
 
     private void RequestClose()

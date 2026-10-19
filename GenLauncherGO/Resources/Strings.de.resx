@@ -341,6 +341,7 @@
     <data name="GameManagement" xml:space="preserve"><value>Spielverwaltung</value></data>
     <data name="InstallationPaths" xml:space="preserve"><value>Installationspfade</value></data>
     <data name="SwitchToGame" xml:space="preserve"><value>Zu {0} wechseln</value></data>
+    <data name="AddGameFolderToolTip" xml:space="preserve"><value>Fügen Sie den Spielordner von {0} in den Launcher-Einstellungen hinzu.</value></data>
     <data name="Save" xml:space="preserve"><value>Speichern</value></data>
     <data name="GameSwitchBlockedTitle" xml:space="preserve"><value>Spielwechsel nicht verfügbar</value></data>
     <data name="GameSwitchBlockedDetails" xml:space="preserve"><value>Beende oder brich den aktiven Start, das Spiel, den Download oder das Update ab, bevor du das Spiel wechselst.</value></data>

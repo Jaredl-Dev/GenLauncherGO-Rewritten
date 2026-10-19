@@ -33,6 +33,15 @@ internal static class PerGame
     }
 
     /// <summary>
+    ///     Returns the localization key of a game's short name, such as "Zero Hour".
+    /// </summary>
+    /// <exception cref="ArgumentOutOfRangeException">Thrown when <paramref name="game" /> is not supported.</exception>
+    public static string ShortNameKey(SupportedGame game)
+    {
+        return Select(game, "GeneralsShortName", "ZeroHourShortName");
+    }
+
+    /// <summary>
     ///     Rejects a game value the launcher does not manage.
     /// </summary>
     /// <exception cref="ArgumentOutOfRangeException">Thrown when <paramref name="game" /> is not supported.</exception>

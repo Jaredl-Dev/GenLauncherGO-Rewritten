@@ -31,8 +31,6 @@ internal partial class LauncherSettingsWindow : Window
 
     private bool _gameManagementBusy;
 
-    private Func<SupportedGame, Task<bool>>? _switchGameAsync;
-
     public LauncherSettingsWindow()
     {
         InitializeComponent();
@@ -71,15 +69,13 @@ internal partial class LauncherSettingsWindow : Window
     public bool RestartRequested { get; private set; }
 
     /// <summary>
-    ///     Configures the live game-management operations owned by the main-window workflow.
+    ///     Configures the live installation-change operation owned by the main-window workflow.
     /// </summary>
     public void ConfigureGameManagement(
-        Func<LauncherInstallations, SupportedGame?, Task<bool>> applyInstallationChangesAsync,
-        Func<SupportedGame, Task<bool>> switchGameAsync)
+        Func<LauncherInstallations, SupportedGame?, Task<bool>> applyInstallationChangesAsync)
     {
         _applyInstallationChangesAsync = applyInstallationChangesAsync ??
                                          throw new ArgumentNullException(nameof(applyInstallationChangesAsync));
-        _switchGameAsync = switchGameAsync ?? throw new ArgumentNullException(nameof(switchGameAsync));
         GameManagementSection.IsEnabled = true;
     }
 
@@ -141,16 +137,6 @@ internal partial class LauncherSettingsWindow : Window
             _applyInstallationChangesAsync ??
             throw new InvalidOperationException("Settings game management has not been configured.");
         await RunGameManagementOperationAsync(() => applyChanges(previousInstallations, previousSelectedGame));
-        _viewModel.RefreshAfterGameManagementChange();
-        RestorePersistedInstallationDrafts();
-    }
-
-    private async void SwitchGame_ClickAsync(object sender, RoutedEventArgs e)
-    {
-        Func<SupportedGame, Task<bool>> switchGame = _switchGameAsync ??
-                                                     throw new InvalidOperationException(
-                                                         "Settings game management has not been configured.");
-        await RunGameManagementOperationAsync(() => switchGame(_viewModel.SwitchTargetGame));
         _viewModel.RefreshAfterGameManagementChange();
         RestorePersistedInstallationDrafts();
     }

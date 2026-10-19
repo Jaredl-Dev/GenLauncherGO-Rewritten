@@ -341,6 +341,7 @@
     <data name="GameManagement" xml:space="preserve"><value>Gerenciamento de jogos</value></data>
     <data name="InstallationPaths" xml:space="preserve"><value>Caminhos de instalação</value></data>
     <data name="SwitchToGame" xml:space="preserve"><value>Mudar para {0}</value></data>
+    <data name="AddGameFolderToolTip" xml:space="preserve"><value>Adicione a pasta do jogo {0} nas Configurações do launcher.</value></data>
     <data name="Save" xml:space="preserve"><value>Salvar</value></data>
     <data name="GameSwitchBlockedTitle" xml:space="preserve"><value>Alteração de jogo indisponível</value></data>
     <data name="GameSwitchBlockedDetails" xml:space="preserve"><value>Conclua ou cancele a inicialização, o jogo, o download ou a atualização ativa antes de trocar de jogo.</value></data>

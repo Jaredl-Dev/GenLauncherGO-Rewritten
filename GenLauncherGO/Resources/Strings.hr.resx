@@ -341,6 +341,7 @@
     <data name="GameManagement" xml:space="preserve"><value>Upravljanje igrama</value></data>
     <data name="InstallationPaths" xml:space="preserve"><value>Putanje instalacija</value></data>
     <data name="SwitchToGame" xml:space="preserve"><value>Prebaci na {0}</value></data>
+    <data name="AddGameFolderToolTip" xml:space="preserve"><value>Dodajte mapu igre {0} u Opcijama.</value></data>
     <data name="Save" xml:space="preserve"><value>Spremi</value></data>
     <data name="GameSwitchBlockedTitle" xml:space="preserve"><value>Promjena igre nije dostupna</value></data>
     <data name="GameSwitchBlockedDetails" xml:space="preserve"><value>Dovršite ili otkažite aktivno pokretanje, igru, preuzimanje ili ažuriranje prije promjene igre.</value></data>

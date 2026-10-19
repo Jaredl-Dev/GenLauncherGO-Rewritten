@@ -341,6 +341,7 @@
     <data name="GameManagement" xml:space="preserve"><value>إدارة الألعاب</value></data>
     <data name="InstallationPaths" xml:space="preserve"><value>مسارات التثبيت</value></data>
     <data name="SwitchToGame" xml:space="preserve"><value>التبديل إلى {0}</value></data>
+    <data name="AddGameFolderToolTip" xml:space="preserve"><value>أضف مجلد لعبة {0} في الإعدادات.</value></data>
     <data name="Save" xml:space="preserve"><value>حفظ</value></data>
     <data name="GameSwitchBlockedTitle" xml:space="preserve"><value>تغيير اللعبة غير متاح</value></data>
     <data name="GameSwitchBlockedDetails" xml:space="preserve"><value>أكمِل أو ألغِ التشغيل أو اللعبة أو التنزيل أو التحديث النشط قبل تغيير اللعبة.</value></data>
