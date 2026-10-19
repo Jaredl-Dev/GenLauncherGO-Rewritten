@@ -385,6 +385,65 @@
                 </Style.Animations>
             </Style>
         </ControlTheme>
+
+        <!--
+      A clickable label rather than a button: like the dialog footer links it rests in the body text colour and
+      lights up to the accent on hover, but it sits in the shell's own frame, the translucent button fill with a thin
+      accent outline, which sets it apart from those links. It stays on the launcher button theme for the outline
+      colour, hover and the keyboard focus rectangle; only the template differs, to swap in the copy confirmation.
+    -->
+        <ControlTheme x:Key="{x:Type controls:VersionCopyButton}"
+                      BasedOn="{StaticResource {x:Type Button}}"
+                      TargetType="controls:VersionCopyButton">
+            <Setter Property="Padding" Value="9,3" />
+            <Setter Property="Background" Value="{DynamicResource GenLauncherLightBackGround}" />
+            <Setter Property="BorderThickness" Value="1" />
+            <Setter Property="Foreground" Value="{DynamicResource GenLauncherDefaultTextColor}" />
+            <Setter Property="FontSize" Value="14" />
+            <Setter Property="Cursor" Value="Hand" />
+            <Setter Property="Template">
+                <ControlTemplate>
+                    <Border Background="{TemplateBinding Background}"
+                            BorderBrush="{TemplateBinding BorderBrush}"
+                            BorderThickness="{TemplateBinding BorderThickness}"
+                            Padding="{TemplateBinding Padding}">
+                        <Panel VerticalAlignment="Center">
+                            <TextBlock x:Name="PART_Text"
+                                       Foreground="{TemplateBinding Foreground}"
+                                       Text="{TemplateBinding Text}" />
+                            <StackPanel x:Name="PART_Copied"
+                                        IsVisible="False"
+                                        Orientation="Horizontal"
+                                        Spacing="6">
+                                <Path Width="12"
+                                      Height="12"
+                                      VerticalAlignment="Center"
+                                      Data="M3,8.5 L6,11.5 L13,4.5"
+                                      Stretch="Uniform"
+                                      Stroke="{DynamicResource GenLauncherActiveColor}"
+                                      StrokeThickness="2" />
+                                <TextBlock Foreground="{DynamicResource GenLauncherActiveColor}"
+                                           Text="{TemplateBinding CopiedText}" />
+                            </StackPanel>
+                        </Panel>
+                    </Border>
+                </ControlTemplate>
+            </Setter>
+            <!-- The button theme washes its fill on hover and press; the tint stays flat so only the text lights up. -->
+            <Style Selector="^:pointerover, ^:pressed">
+                <Setter Property="Background" Value="{DynamicResource GenLauncherLightBackGround}" />
+                <Setter Property="BorderBrush" Value="{DynamicResource GenLauncherBorderHighlightColor}" />
+            </Style>
+            <Style Selector="^:copied">
+                <Setter Property="BorderBrush" Value="{DynamicResource GenLauncherActiveColor}" />
+            </Style>
+            <Style Selector="^:copied /template/ TextBlock#PART_Text">
+                <Setter Property="IsVisible" Value="False" />
+            </Style>
+            <Style Selector="^:copied /template/ StackPanel#PART_Copied">
+                <Setter Property="IsVisible" Value="True" />
+            </Style>
+        </ControlTheme>
     </Application.Resources>
     <Application.Styles>
         <FluentTheme />

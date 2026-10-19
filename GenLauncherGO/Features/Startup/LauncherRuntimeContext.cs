@@ -19,6 +19,12 @@ internal sealed class LauncherRuntimeContext
     public string CurrentLauncherVersion { get; }
 
     /// <summary>
+    ///     Gets the product name and version the launcher shows and copies for bug reports, such as
+    ///     "GenLauncherGO 1.1.1".
+    /// </summary>
+    public string LauncherVersionLabel => $"GenLauncherGO {CurrentLauncherVersion}";
+
+    /// <summary>
     ///     Gets or sets the active launcher theme.
     /// </summary>
     /// <remarks>

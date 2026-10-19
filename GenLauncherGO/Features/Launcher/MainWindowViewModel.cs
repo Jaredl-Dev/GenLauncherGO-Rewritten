@@ -181,11 +181,7 @@ internal sealed class MainWindowViewModel : ObservableObject, IDisposable
     /// </summary>
     public IReadOnlyList<LauncherGameChoiceViewModel> GameChoices { get; }
 
-    public string CurrentLauncherVersionText
-    {
-        get;
-        private set => SetProperty(ref field, value);
-    } = string.Empty;
+    public string LauncherVersionLabel => _runtimeContext.LauncherVersionLabel;
 
     public bool IsWindowedMode
     {
@@ -369,7 +365,6 @@ internal sealed class MainWindowViewModel : ObservableObject, IDisposable
             UpdateAddonAndPatchTabLabels();
         }
 
-        UpdateCurrentLauncherVersionText();
         UpdateGameArgumentState(_launcherPreferencesService.Current);
         RefreshGameChoices(_launcherPreferencesService.Current);
         // The client is chosen before the restored modification selection, so the summary is only complete now.
@@ -510,11 +505,6 @@ internal sealed class MainWindowViewModel : ObservableObject, IDisposable
     public void RefreshLaunchSummary()
     {
         OnPropertyChanged(nameof(LaunchSummaryText));
-    }
-
-    public void UpdateCurrentLauncherVersionText()
-    {
-        CurrentLauncherVersionText = _stringLocalizer["CurrentVersion"] + _runtimeContext.CurrentLauncherVersion;
     }
 
     public void SetMainControlsEnabled(bool isEnabled)

@@ -208,6 +208,8 @@
     <data name="WorldBuilder" xml:space="preserve"><value>World Builder</value></data>
     <data name="Windowed" xml:space="preserve"><value>Fenster</value></data>
     <data name="QuickStart" xml:space="preserve"><value>Schnellstart</value></data>
+    <data name="CopyVersionToolTip" xml:space="preserve"><value>Klicken, um die Version zu kopieren.</value></data>
+    <data name="VersionCopied" xml:space="preserve"><value>In die Zwischenablage kopiert</value></data>
     <data name="WorldBuilderRunning" xml:space="preserve"><value>World Builder läuft bereits!</value></data>
     <data name="AutoDeleteToolTip" xml:space="preserve"><value>Entfernt ältere installierte Mod-Versionen automatisch, nachdem eine neuere Version installiert wurde.</value></data>
     <data name="EnableDiagnosticLoggingToolTip" xml:space="preserve"><value>Schreibt nach dem nächsten Neustart des Launchers detaillierte Debug-Ereignisse in die Protokolldateien. Deaktivieren Sie dies, nachdem das Problem reproduziert wurde.</value></data>

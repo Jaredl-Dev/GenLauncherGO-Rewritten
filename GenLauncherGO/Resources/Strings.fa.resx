@@ -208,6 +208,8 @@
     <data name="WorldBuilder" xml:space="preserve"><value>World Builder</value></data>
     <data name="Windowed" xml:space="preserve"><value>پنجره‌ای</value></data>
     <data name="QuickStart" xml:space="preserve"><value>اجرای سریع</value></data>
+    <data name="CopyVersionToolTip" xml:space="preserve"><value>برای کپی نسخه کلیک کنید.</value></data>
+    <data name="VersionCopied" xml:space="preserve"><value>در کلیپ‌بورد کپی شد</value></data>
     <data name="WorldBuilderRunning" xml:space="preserve"><value>World Builder از قبل در حال اجراست!</value></data>
     <data name="AutoDeleteToolTip" xml:space="preserve"><value>پس از نصب نسخه‌ای جدیدتر، نسخه‌های قدیمی نصب‌شده ماد را به‌طور خودکار حذف کنید.</value></data>
     <data name="EnableDiagnosticLoggingToolTip" xml:space="preserve"><value>پس از راه‌اندازی مجدد لانچر، رویدادهای اشکال‌زدایی را با جزئیات در فایل‌های گزارش ثبت کنید. پس از بازتولید مشکل، این گزینه را غیرفعال کنید.</value></data>

@@ -350,7 +350,6 @@ internal sealed class LauncherWindowWorkflowCoordinator
         }
 
         context.Content.RefreshTabs();
-        context.ViewModel.UpdateCurrentLauncherVersionText();
         context.ViewModel.RefreshModificationContainerData();
         _logger.LogDebug("Launcher settings window closed; refreshed launcher state.");
     }

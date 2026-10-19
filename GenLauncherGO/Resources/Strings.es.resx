@@ -208,6 +208,8 @@
     <data name="WorldBuilder" xml:space="preserve"><value>World Builder</value></data>
     <data name="Windowed" xml:space="preserve"><value>Ventana</value></data>
     <data name="QuickStart" xml:space="preserve"><value>Inicio rápido</value></data>
+    <data name="CopyVersionToolTip" xml:space="preserve"><value>Haz clic para copiar la versión.</value></data>
+    <data name="VersionCopied" xml:space="preserve"><value>Copiado al portapapeles</value></data>
     <data name="WorldBuilderRunning" xml:space="preserve"><value>¡World Builder ya está funcionando!</value></data>
     <data name="AutoDeleteToolTip" xml:space="preserve"><value>Elimina automáticamente las versiones antiguas instaladas de un mod después de instalar una versión más reciente.</value></data>
     <data name="EnableDiagnosticLoggingToolTip" xml:space="preserve"><value>Incluye eventos de depuración detallados en los archivos de registro después del próximo reinicio del iniciador. Desactívalo después de reproducir el problema.</value></data>

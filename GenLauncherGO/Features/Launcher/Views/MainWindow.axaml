@@ -1194,19 +1194,21 @@
                     </Grid>
                 </Button>
 
-                <TextBlock x:Name="CurrentLauncherVersionText"
-                           Grid.Row="4"
-                           Grid.RowSpan="2"
-                           Grid.Column="1"
-                           Grid.ColumnSpan="4"
-                           Width="605"
-                           Height="30"
-                           Margin="2,82,0,0"
-                           HorizontalAlignment="Left"
-                           VerticalAlignment="Center"
-                           FontSize="18"
-                           Text="{Binding CurrentLauncherVersionText}"
-                           TextWrapping="Wrap" />
+                <!--
+                  Shares the left edge of the Mods tab and the painted panel above it, centred in the strip between
+                  that panel and the outer frame.
+                -->
+                <controls:VersionCopyButton x:Name="LauncherVersionButton"
+                                            Grid.Row="4"
+                                            Grid.RowSpan="2"
+                                            Grid.Column="1"
+                                            Grid.ColumnSpan="4"
+                                            Margin="1,70,0,0"
+                                            HorizontalAlignment="Left"
+                                            VerticalAlignment="Center"
+                                            Text="{Binding LauncherVersionLabel}"
+                                            CopiedText="{localization:Loc VersionCopied}"
+                                            ToolTip.Tip="{localization:Loc CopyVersionToolTip}" />
 
                 <controls:UpdateButton x:Name="AddModButton"
                                        Grid.Row="2"

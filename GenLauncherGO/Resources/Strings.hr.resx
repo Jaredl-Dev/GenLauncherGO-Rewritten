@@ -208,6 +208,8 @@
     <data name="WorldBuilder" xml:space="preserve"><value>World Builder</value></data>
     <data name="Windowed" xml:space="preserve"><value>Prozor</value></data>
     <data name="QuickStart" xml:space="preserve"><value>Brzo pokretanje</value></data>
+    <data name="CopyVersionToolTip" xml:space="preserve"><value>Kliknite za kopiranje verzije.</value></data>
+    <data name="VersionCopied" xml:space="preserve"><value>Kopirano u međuspremnik</value></data>
     <data name="WorldBuilderRunning" xml:space="preserve"><value>World Builder već radi!</value></data>
     <data name="AutoDeleteToolTip" xml:space="preserve"><value>Automatski uklanja starije instalirane verzije moda nakon instalacije novije verzije.</value></data>
     <data name="EnableDiagnosticLoggingToolTip" xml:space="preserve"><value>Uključuje detaljne događaje za otklanjanje pogrešaka u zapisnike nakon sljedećeg ponovnog pokretanja pokretača. Isključite nakon što ponovite problem.</value></data>

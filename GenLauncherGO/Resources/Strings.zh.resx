@@ -208,6 +208,8 @@
     <data name="WorldBuilder" xml:space="preserve"><value>地图编辑器</value></data>
     <data name="Windowed" xml:space="preserve"><value>窗口模式</value></data>
     <data name="QuickStart" xml:space="preserve"><value>快速启动</value></data>
+    <data name="CopyVersionToolTip" xml:space="preserve"><value>点击复制版本号。</value></data>
+    <data name="VersionCopied" xml:space="preserve"><value>已复制到剪贴板</value></data>
     <data name="WorldBuilderRunning" xml:space="preserve"><value>地图编辑器运行中！</value></data>
     <data name="AutoDeleteToolTip" xml:space="preserve"><value>安装较新版本后，自动移除较旧的已安装模组版本。</value></data>
     <data name="EnableDiagnosticLoggingToolTip" xml:space="preserve"><value>下次重启启动器后，在日志文件中记录详细的调试事件。重现问题后请关闭此选项。</value></data>

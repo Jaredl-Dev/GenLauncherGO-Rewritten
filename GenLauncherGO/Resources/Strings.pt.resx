@@ -208,6 +208,8 @@
     <data name="WorldBuilder" xml:space="preserve"><value>World Builder</value></data>
     <data name="Windowed" xml:space="preserve"><value>Janela</value></data>
     <data name="QuickStart" xml:space="preserve"><value>Início rápido</value></data>
+    <data name="CopyVersionToolTip" xml:space="preserve"><value>Clique para copiar a versão.</value></data>
+    <data name="VersionCopied" xml:space="preserve"><value>Copiado para a área de transferência</value></data>
     <data name="WorldBuilderRunning" xml:space="preserve"><value>O World Builder já está em execução!</value></data>
     <data name="AutoDeleteToolTip" xml:space="preserve"><value>Remove automaticamente versões antigas instaladas de um mod após a instalação de uma versão mais recente.</value></data>
     <data name="EnableDiagnosticLoggingToolTip" xml:space="preserve"><value>Inclui eventos detalhados de depuração nos arquivos de log após a próxima reinicialização do launcher. Desative depois de reproduzir o problema.</value></data>

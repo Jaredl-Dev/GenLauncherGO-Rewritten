@@ -208,6 +208,8 @@
     <data name="WorldBuilder" xml:space="preserve"><value>РЕДАКТОР КАРТ</value></data>
     <data name="Windowed" xml:space="preserve"><value>В окне</value></data>
     <data name="QuickStart" xml:space="preserve"><value>Быстрый запуск</value></data>
+    <data name="CopyVersionToolTip" xml:space="preserve"><value>Нажмите, чтобы скопировать версию.</value></data>
+    <data name="VersionCopied" xml:space="preserve"><value>Скопировано в буфер обмена</value></data>
     <data name="WorldBuilderRunning" xml:space="preserve"><value>Редактор карт уже запущен!</value></data>
     <data name="AutoDeleteToolTip" xml:space="preserve"><value>Автоматически удаляет старые установленные версии мода после установки новой версии.</value></data>
     <data name="EnableDiagnosticLoggingToolTip" xml:space="preserve"><value>Добавляет подробные отладочные события в файлы журнала после следующего перезапуска лаунчера. Отключите после воспроизведения проблемы.</value></data>

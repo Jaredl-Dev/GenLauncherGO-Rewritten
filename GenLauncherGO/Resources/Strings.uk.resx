@@ -208,6 +208,8 @@
     <data name="WorldBuilder" xml:space="preserve"><value>World Builder</value></data>
     <data name="Windowed" xml:space="preserve"><value>У вікні</value></data>
     <data name="QuickStart" xml:space="preserve"><value>Швидкий запуск</value></data>
+    <data name="CopyVersionToolTip" xml:space="preserve"><value>Натисніть, щоб скопіювати версію.</value></data>
+    <data name="VersionCopied" xml:space="preserve"><value>Скопійовано в буфер обміну</value></data>
     <data name="WorldBuilderRunning" xml:space="preserve"><value>World Builder вже працює!</value></data>
     <data name="AutoDeleteToolTip" xml:space="preserve"><value>Автоматично видаляє старі встановлені версії моду після встановлення новішої версії.</value></data>
     <data name="EnableDiagnosticLoggingToolTip" xml:space="preserve"><value>Додає докладні налагоджувальні події до файлів журналу після наступного перезапуску лаунчера. Вимкніть після відтворення проблеми.</value></data>
