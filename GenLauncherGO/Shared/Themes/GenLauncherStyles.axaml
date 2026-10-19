@@ -1,4 +1,65 @@
-<Styles xmlns="https://github.com/avaloniaui">
+<Styles xmlns="https://github.com/avaloniaui"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml">
+    <Styles.Resources>
+        <ControlTheme x:Key="SquareToggleTheme"
+                      TargetType="ToggleButton">
+            <Setter Property="Background" Value="Transparent" />
+            <!-- The shell outlines the box in its accent whether or not it is ticked. -->
+            <Setter Property="BorderBrush" Value="{DynamicResource GenLauncherBorderColor}" />
+            <Setter Property="Foreground" Value="{DynamicResource GenLauncherDefaultTextColor}" />
+            <Setter Property="FontSize" Value="14" />
+            <Setter Property="HorizontalContentAlignment" Value="Left" />
+            <Setter Property="VerticalContentAlignment" Value="Center" />
+            <Setter Property="Template">
+                <ControlTemplate>
+                    <Grid ColumnDefinitions="18,*"
+                          Background="{TemplateBinding Background}">
+                        <Border x:Name="PART_Outer"
+                                Width="18"
+                                Height="18"
+                                VerticalAlignment="Center"
+                                Background="{DynamicResource GenLauncherDarkBackGround}"
+                                BorderBrush="{TemplateBinding BorderBrush}"
+                                BorderThickness="2">
+                            <!-- The tick contrasts against the outline: rust inside gold, pale inside blue. -->
+                            <Border x:Name="PART_Inner"
+                                    Margin="3"
+                                    Background="{DynamicResource GenLauncherActionTextColor}" />
+                        </Border>
+                        <ContentPresenter Grid.Column="1"
+                                          Margin="7,0,0,0"
+                                          Content="{TemplateBinding Content}"
+                                          ContentTemplate="{TemplateBinding ContentTemplate}"
+                                          HorizontalContentAlignment="{TemplateBinding HorizontalContentAlignment}"
+                                          VerticalContentAlignment="{TemplateBinding VerticalContentAlignment}" />
+                    </Grid>
+                </ControlTemplate>
+            </Setter>
+            <Style Selector="^ /template/ Border#PART_Inner">
+                <Setter Property="IsVisible" Value="False" />
+            </Style>
+            <Style Selector="^:checked /template/ Border#PART_Inner">
+                <Setter Property="IsVisible" Value="True" />
+            </Style>
+            <!-- The shell lifts the whole row, label included, to the attention colour on hover. -->
+            <Style Selector="^:pointerover">
+                <Setter Property="BorderBrush" Value="{DynamicResource GenLauncherBorderHighlightColor}" />
+                <Setter Property="Foreground" Value="{DynamicResource GenLauncherActiveColor}" />
+            </Style>
+            <Style Selector="^:focus-visible">
+                <Setter Property="BorderBrush" Value="{DynamicResource GenLauncherBorderHighlightColor}" />
+            </Style>
+            <Style Selector="^:disabled">
+                <Setter Property="Foreground" Value="{DynamicResource GenLauncherInactiveBorder}" />
+                <Setter Property="Opacity" Value="0.56" />
+            </Style>
+        </ControlTheme>
+    </Styles.Resources>
+
+    <Style Selector="CheckBox.square-toggle, RadioButton.square-toggle">
+        <Setter Property="Theme" Value="{StaticResource SquareToggleTheme}" />
+    </Style>
+
     <!--
     Every launcher window is a fixed-size, undecorated panel painted from the active theme. Declaring that once
     here keeps the windows themselves free of chrome attributes; a window that needs something else, such as the
