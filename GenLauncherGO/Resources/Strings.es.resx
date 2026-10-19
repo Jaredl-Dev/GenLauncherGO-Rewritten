@@ -222,9 +222,9 @@
     <data name="GameExecutableArgumentsToolTip" xml:space="preserve"><value>Argumentos pasados al ejecutable del juego seleccionado.</value></data>
     <data name="GeneralsOnlineGameClientDisplayName" xml:space="preserve"><value>GeneralsOnline</value></data>
     <data name="Language" xml:space="preserve"><value>Idioma</value></data>
+    <data name="LauncherSection" xml:space="preserve"><value>Launcher</value></data>
+    <data name="Troubleshooting" xml:space="preserve"><value>Solución de problemas</value></data>
     <data name="LaunchArguments" xml:space="preserve"><value>Argumentos de inicio</value></data>
-    <data name="Links" xml:space="preserve"><value>Enlaces</value></data>
-    <data name="Maintenance" xml:space="preserve"><value>Mantenimiento</value></data>
     <data name="SelectedGameClient" xml:space="preserve"><value>Cliente de juego seleccionado</value></data>
     <data name="SelectedWorldBuilder" xml:space="preserve"><value>World Builder seleccionado</value></data>
     <data name="CommunityGameClientDisplayName" xml:space="preserve"><value>TheSuperHackers</value></data>
@@ -238,7 +238,6 @@
     <data name="GenPatcherRecommendationTitle" xml:space="preserve"><value>Recomendación de GenPatcher</value></data>
     <data name="GenPatcherRecommendationMessage" xml:space="preserve"><value>Se recomienda encarecidamente usar GenPatcher al jugar a la versión comercial.</value></data>
     <data name="VisitGenPatcherDownloadPage" xml:space="preserve"><value>Visitar la página de descarga de GenPatcher</value></data>
-    <data name="WindowBehavior" xml:space="preserve"><value>Comportamiento de la ventana</value></data>
     <data name="WorldBuilderArguments" xml:space="preserve"><value>Argumentos de World Builder</value></data>
     <data name="WorldBuilderArgumentsInputToolTip" xml:space="preserve"><value>Argumentos opcionales de línea de comandos para el ejecutable de World Builder seleccionado. Déjelo en blanco para iniciar normalmente.</value></data>
     <data name="WorldBuilderArgumentsToolTip" xml:space="preserve"><value>Argumentos pasados al ejecutable de World Builder seleccionado.</value></data>
@@ -340,8 +339,9 @@
     <data name="GameFolderAccessDenied" xml:space="preserve"><value>No se pueden cambiar archivos en la carpeta del juego</value></data>
     <data name="GameFolderAccessDeniedDescription" xml:space="preserve"><value>GenLauncherGO necesita permiso para cambiar archivos en {0}, pero Windows no lo concedió. Puede que se haya cancelado la solicitud de permiso o que la unidad o un software de seguridad estén bloqueando los cambios ahí.</value></data>
     <data name="ActiveGameLabel" xml:space="preserve"><value>Juego activo</value></data>
-    <data name="GameManagement" xml:space="preserve"><value>Gestión de juegos</value></data>
+    <data name="GameSettingsScopeHint" xml:space="preserve"><value>Se guarda por separado para cada juego. Cambia de juego en la pantalla principal.</value></data>
     <data name="InstallationPaths" xml:space="preserve"><value>Rutas de instalación</value></data>
+    <data name="ChangeInstallationPaths" xml:space="preserve"><value>Cambiar carpetas…</value></data>
     <data name="SwitchToGame" xml:space="preserve"><value>Cambiar a {0}</value></data>
     <data name="AddGameFolderToolTip" xml:space="preserve"><value>Añade la carpeta del juego {0} en Configuración del launcher.</value></data>
     <data name="Save" xml:space="preserve"><value>Guardar</value></data>

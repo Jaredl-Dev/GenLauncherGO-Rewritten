@@ -222,9 +222,9 @@
     <data name="GameExecutableArgumentsToolTip" xml:space="preserve"><value>Arguments passed to the selected game executable.</value></data>
     <data name="GeneralsOnlineGameClientDisplayName" xml:space="preserve"><value>GeneralsOnline</value></data>
     <data name="Language" xml:space="preserve"><value>Language</value></data>
+    <data name="LauncherSection" xml:space="preserve"><value>Launcher</value></data>
+    <data name="Troubleshooting" xml:space="preserve"><value>Troubleshooting</value></data>
     <data name="LaunchArguments" xml:space="preserve"><value>Launch arguments</value></data>
-    <data name="Links" xml:space="preserve"><value>Links</value></data>
-    <data name="Maintenance" xml:space="preserve"><value>Maintenance</value></data>
     <data name="SelectedGameClient" xml:space="preserve"><value>Selected Game Client</value></data>
     <data name="SelectedWorldBuilder" xml:space="preserve"><value>Selected World Builder</value></data>
     <data name="CommunityGameClientDisplayName" xml:space="preserve"><value>TheSuperHackers</value></data>
@@ -238,7 +238,6 @@
     <data name="GenPatcherRecommendationTitle" xml:space="preserve"><value>GenPatcher recommendation</value></data>
     <data name="GenPatcherRecommendationMessage" xml:space="preserve"><value>It is strongly recommended to use GenPatcher when playing the retail game.</value></data>
     <data name="VisitGenPatcherDownloadPage" xml:space="preserve"><value>Visit GenPatcher download page</value></data>
-    <data name="WindowBehavior" xml:space="preserve"><value>Window behavior</value></data>
     <data name="WorldBuilderArguments" xml:space="preserve"><value>World Builder arguments</value></data>
     <data name="WorldBuilderArgumentsInputToolTip" xml:space="preserve"><value>Optional command-line arguments for the selected World Builder executable. Leave blank to launch normally.</value></data>
     <data name="WorldBuilderArgumentsToolTip" xml:space="preserve"><value>Arguments passed to the selected World Builder executable.</value></data>
@@ -340,8 +339,9 @@
     <data name="GameFolderAccessDenied" xml:space="preserve"><value>Can't change files in the game folder</value></data>
     <data name="GameFolderAccessDeniedDescription" xml:space="preserve"><value>GenLauncherGO needs permission to change files in {0}, but Windows didn't grant it. The permission prompt may have been cancelled, or the drive or security software may be blocking changes there.</value></data>
     <data name="ActiveGameLabel" xml:space="preserve"><value>Active game</value></data>
-    <data name="GameManagement" xml:space="preserve"><value>Game management</value></data>
+    <data name="GameSettingsScopeHint" xml:space="preserve"><value>Saved separately for each game. Switch games on the main screen.</value></data>
     <data name="InstallationPaths" xml:space="preserve"><value>Installation paths</value></data>
+    <data name="ChangeInstallationPaths" xml:space="preserve"><value>Change folders…</value></data>
     <data name="SwitchToGame" xml:space="preserve"><value>Switch to {0}</value></data>
     <data name="AddGameFolderToolTip" xml:space="preserve"><value>Add the {0} game folder in Launcher Settings.</value></data>
     <data name="Save" xml:space="preserve"><value>Save</value></data>

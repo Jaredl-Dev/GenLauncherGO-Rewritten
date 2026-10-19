@@ -1,5 +1,6 @@
 using System;
 using System.IO;
+using Avalonia.Data.Converters;
 using Avalonia.Media.Imaging;
 using Avalonia.Platform;
 
@@ -23,6 +24,12 @@ internal static class LauncherGameCovers
 
     private static readonly Lazy<Bitmap> _zeroHour =
         new(() => Load("avares://GenLauncherGO/Shared/Resources/Images/OfficialCoverZeroHour.jpg"));
+
+    /// <summary>
+    ///     Converts a game value to its cover, for markup that holds only the game.
+    /// </summary>
+    public static IValueConverter ForGame { get; } =
+        new FuncValueConverter<SupportedGame, Bitmap?>(game => game == SupportedGame.Unknown ? null : Get(game));
 
     /// <summary>
     ///     Returns the cover of a supported game, decoding it on first use.

@@ -1,6 +1,8 @@
 using System;
+using System.Linq;
 using System.Threading.Tasks;
 using Avalonia.Controls;
+using Avalonia.Data.Converters;
 using Avalonia.Interactivity;
 using GenLauncherGO.Features.Launcher;
 using GenLauncherGO.Features.Launching;
@@ -14,6 +16,14 @@ namespace GenLauncherGO.Features.Settings.Views;
 
 internal partial class LauncherSettingsWindow : Window
 {
+    /// <summary>
+    ///     Reports whether an installation row belongs to the game the launcher is managing.
+    /// </summary>
+    /// <remarks>Public because compiled markup resolves <c>x:Static</c> members only when they are public.</remarks>
+    public static readonly IMultiValueConverter IsActiveGame =
+        new FuncMultiValueConverter<object?, bool>(values =>
+            values.ToList() is [SupportedGame rowGame, SupportedGame activeGame] && rowGame == activeGame);
+
     private readonly ILauncherDialogService _dialogService = null!;
 
     private readonly LauncherExecutableManagementViewModel _executableManagementViewModel = null!;
@@ -139,6 +149,18 @@ internal partial class LauncherSettingsWindow : Window
         await RunGameManagementOperationAsync(() => applyChanges(previousInstallations, previousSelectedGame));
         _viewModel.RefreshAfterGameManagementChange();
         RestorePersistedInstallationDrafts();
+    }
+
+    /// <summary>
+    ///     Shows the full path in a tooltip only while the ellipsis is hiding part of it.
+    /// </summary>
+    private void PathText_ToolTipOpening(object? sender, CancelRoutedEventArgs eventArgs)
+    {
+        if (sender is not TextBlock textBlock ||
+            !textBlock.TextLayout.TextLines.Any(line => line.HasCollapsed))
+        {
+            eventArgs.Cancel = true;
+        }
     }
 
     private async void ManageGameClients_ClickAsync(object? sender, RoutedEventArgs e)

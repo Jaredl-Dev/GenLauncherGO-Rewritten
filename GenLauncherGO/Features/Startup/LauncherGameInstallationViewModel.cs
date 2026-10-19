@@ -27,6 +27,7 @@ internal sealed class LauncherGameInstallationViewModel : ObservableObject
         Game = game;
         _installations = installations ?? throw new ArgumentNullException(nameof(installations));
         DisplayName = stringLocalizer[PerGame.Select(game, "GeneralsFullName", "ZeroHourFullName")];
+        ShortName = stringLocalizer[PerGame.ShortNameKey(game)];
         BrowseCommand = installations.GetBrowseCommand(game);
         DetectCommand = installations.GetDetectCommand(game);
     }
@@ -34,6 +35,11 @@ internal sealed class LauncherGameInstallationViewModel : ObservableObject
     public SupportedGame Game { get; }
 
     public string DisplayName { get; }
+
+    /// <summary>
+    ///     Gets the compact name for rows that need the room for the path.
+    /// </summary>
+    public string ShortName { get; }
 
     public IAsyncRelayCommand<object?> BrowseCommand { get; }
 

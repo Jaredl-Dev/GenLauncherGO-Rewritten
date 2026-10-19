@@ -222,9 +222,9 @@
     <data name="GameExecutableArgumentsToolTip" xml:space="preserve"><value>Seçili oyun yürütülebilir dosyasına iletilen argümanlar.</value></data>
     <data name="GeneralsOnlineGameClientDisplayName" xml:space="preserve"><value>GeneralsOnline</value></data>
     <data name="Language" xml:space="preserve"><value>Dil</value></data>
+    <data name="LauncherSection" xml:space="preserve"><value>Başlatıcı</value></data>
+    <data name="Troubleshooting" xml:space="preserve"><value>Sorun giderme</value></data>
     <data name="LaunchArguments" xml:space="preserve"><value>Başlatma argümanları</value></data>
-    <data name="Links" xml:space="preserve"><value>Bağlantılar</value></data>
-    <data name="Maintenance" xml:space="preserve"><value>Bakım</value></data>
     <data name="SelectedGameClient" xml:space="preserve"><value>Seçili oyun istemcisi</value></data>
     <data name="SelectedWorldBuilder" xml:space="preserve"><value>Seçili World Builder</value></data>
     <data name="CommunityGameClientDisplayName" xml:space="preserve"><value>TheSuperHackers</value></data>
@@ -238,7 +238,6 @@
     <data name="GenPatcherRecommendationTitle" xml:space="preserve"><value>GenPatcher önerisi</value></data>
     <data name="GenPatcherRecommendationMessage" xml:space="preserve"><value>Perakende sürümü oynarken GenPatcher kullanmanız kesinlikle önerilir.</value></data>
     <data name="VisitGenPatcherDownloadPage" xml:space="preserve"><value>GenPatcher indirme sayfasını ziyaret et</value></data>
-    <data name="WindowBehavior" xml:space="preserve"><value>Pencere davranışı</value></data>
     <data name="WorldBuilderArguments" xml:space="preserve"><value>World Builder argümanları</value></data>
     <data name="WorldBuilderArgumentsInputToolTip" xml:space="preserve"><value>Seçili World Builder yürütülebilir dosyası için isteğe bağlı komut satırı argümanları. Normal başlatmak için boş bırakın.</value></data>
     <data name="WorldBuilderArgumentsToolTip" xml:space="preserve"><value>Seçili World Builder yürütülebilir dosyasına iletilen argümanlar.</value></data>
@@ -340,8 +339,9 @@
     <data name="GameFolderAccessDenied" xml:space="preserve"><value>Oyun klasöründeki dosyalar değiştirilemiyor</value></data>
     <data name="GameFolderAccessDeniedDescription" xml:space="preserve"><value>GenLauncherGO'nun {0} içindeki dosyaları değiştirmek için izne ihtiyacı var, ancak Windows bu izni vermedi. İzin isteği iptal edilmiş olabilir ya da sürücü veya bir güvenlik yazılımı orada değişiklik yapılmasını engelliyor olabilir.</value></data>
     <data name="ActiveGameLabel" xml:space="preserve"><value>Etkin oyun</value></data>
-    <data name="GameManagement" xml:space="preserve"><value>Oyun yönetimi</value></data>
+    <data name="GameSettingsScopeHint" xml:space="preserve"><value>Her oyun için ayrı kaydedilir. Oyunu ana ekrandan değiştirin.</value></data>
     <data name="InstallationPaths" xml:space="preserve"><value>Kurulum yolları</value></data>
+    <data name="ChangeInstallationPaths" xml:space="preserve"><value>Klasörleri değiştir…</value></data>
     <data name="SwitchToGame" xml:space="preserve"><value>{0} oyununa geç</value></data>
     <data name="AddGameFolderToolTip" xml:space="preserve"><value>{0} oyun klasörünü Ayarlar bölümünden ekleyin.</value></data>
     <data name="Save" xml:space="preserve"><value>Kaydet</value></data>

@@ -222,9 +222,9 @@
     <data name="GameExecutableArgumentsToolTip" xml:space="preserve"><value>آرگومان‌هایی که به فایل اجرایی بازی انتخاب‌شده ارسال می‌شوند.</value></data>
     <data name="GeneralsOnlineGameClientDisplayName" xml:space="preserve"><value>GeneralsOnline</value></data>
     <data name="Language" xml:space="preserve"><value>زبان</value></data>
+    <data name="LauncherSection" xml:space="preserve"><value>لانچر</value></data>
+    <data name="Troubleshooting" xml:space="preserve"><value>عیب‌یابی</value></data>
     <data name="LaunchArguments" xml:space="preserve"><value>آرگومان‌های اجرا</value></data>
-    <data name="Links" xml:space="preserve"><value>پیوندها</value></data>
-    <data name="Maintenance" xml:space="preserve"><value>نگه‌داری</value></data>
     <data name="SelectedGameClient" xml:space="preserve"><value>کلاینت بازی انتخاب‌شده</value></data>
     <data name="SelectedWorldBuilder" xml:space="preserve"><value>World Builder انتخاب‌شده</value></data>
     <data name="CommunityGameClientDisplayName" xml:space="preserve"><value>TheSuperHackers</value></data>
@@ -238,7 +238,6 @@
     <data name="GenPatcherRecommendationTitle" xml:space="preserve"><value>پیشنهاد GenPatcher</value></data>
     <data name="GenPatcherRecommendationMessage" xml:space="preserve"><value>برای اجرای نسخه اصلی بازی، استفاده از GenPatcher قویاً توصیه می‌شود.</value></data>
     <data name="VisitGenPatcherDownloadPage" xml:space="preserve"><value>رفتن به صفحه دانلود GenPatcher</value></data>
-    <data name="WindowBehavior" xml:space="preserve"><value>رفتار پنجره</value></data>
     <data name="WorldBuilderArguments" xml:space="preserve"><value>آرگومان‌های World Builder</value></data>
     <data name="WorldBuilderArgumentsInputToolTip" xml:space="preserve"><value>آرگومان‌های اختیاری خط فرمان برای فایل اجرایی World Builder انتخاب‌شده. برای اجرای عادی خالی بگذارید.</value></data>
     <data name="WorldBuilderArgumentsToolTip" xml:space="preserve"><value>آرگومان‌هایی که به فایل اجرایی World Builder انتخاب‌شده ارسال می‌شوند.</value></data>
@@ -340,8 +339,9 @@
     <data name="GameFolderAccessDenied" xml:space="preserve"><value>تغییر فایل‌ها در پوشه بازی ممکن نیست</value></data>
     <data name="GameFolderAccessDeniedDescription" xml:space="preserve"><value>GenLauncherGO برای تغییر فایل‌ها در &#x2068;{0}&#x2069; به مجوز نیاز دارد، اما Windows آن را نداد. ممکن است درخواست مجوز لغو شده باشد، یا درایو یا یک نرم‌افزار امنیتی جلوی تغییرات در آنجا را گرفته باشد.</value></data>
     <data name="ActiveGameLabel" xml:space="preserve"><value>بازی فعال</value></data>
-    <data name="GameManagement" xml:space="preserve"><value>مدیریت بازی</value></data>
+    <data name="GameSettingsScopeHint" xml:space="preserve"><value>برای هر بازی جداگانه ذخیره می‌شود. بازی را از صفحه اصلی تغییر دهید.</value></data>
     <data name="InstallationPaths" xml:space="preserve"><value>مسیرهای نصب</value></data>
+    <data name="ChangeInstallationPaths" xml:space="preserve"><value>تغییر پوشه‌ها…</value></data>
     <data name="SwitchToGame" xml:space="preserve"><value>تغییر به &#x2068;{0}&#x2069;</value></data>
     <data name="AddGameFolderToolTip" xml:space="preserve"><value>پوشه بازی &#x2068;{0}&#x2069; را در تنظیمات لانچر اضافه کنید.</value></data>
     <data name="Save" xml:space="preserve"><value>ذخیره</value></data>

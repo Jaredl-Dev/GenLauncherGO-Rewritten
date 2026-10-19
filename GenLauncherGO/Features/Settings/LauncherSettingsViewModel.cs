@@ -57,7 +57,11 @@ internal sealed class LauncherSettingsViewModel : ObservableObject
 
     public IRelayCommand OpenGitHubRepositoryCommand { get; }
 
-    public string ActiveGameName => GetGameName(_runtimeContext.CurrentlyManagedGame);
+    public SupportedGame ActiveGame => _runtimeContext.CurrentlyManagedGame;
+
+    public string ActiveGameName => GetGameName(ActiveGame);
+
+    public string LauncherVersionLabel => _runtimeContext.LauncherVersionLabel;
 
     public string GameArguments
     {
@@ -158,6 +162,7 @@ internal sealed class LauncherSettingsViewModel : ObservableObject
     public void RefreshAfterGameManagementChange()
     {
         _preferences = _preferencesService.Current;
+        OnPropertyChanged(nameof(ActiveGame));
         OnPropertyChanged(nameof(ActiveGameName));
         OnPropertyChanged(nameof(GameArguments));
         OnPropertyChanged(nameof(WorldBuilderArguments));

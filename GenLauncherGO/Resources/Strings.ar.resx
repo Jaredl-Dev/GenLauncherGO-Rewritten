@@ -222,9 +222,9 @@
     <data name="GameExecutableArgumentsToolTip" xml:space="preserve"><value>الوسائط التي تُمرر إلى ملف تشغيل اللعبة المحدد.</value></data>
     <data name="GeneralsOnlineGameClientDisplayName" xml:space="preserve"><value>GeneralsOnline</value></data>
     <data name="Language" xml:space="preserve"><value>اللغة</value></data>
+    <data name="LauncherSection" xml:space="preserve"><value>المشغّل</value></data>
+    <data name="Troubleshooting" xml:space="preserve"><value>استكشاف الأخطاء وإصلاحها</value></data>
     <data name="LaunchArguments" xml:space="preserve"><value>وسائط التشغيل</value></data>
-    <data name="Links" xml:space="preserve"><value>الروابط</value></data>
-    <data name="Maintenance" xml:space="preserve"><value>الصيانة</value></data>
     <data name="SelectedGameClient" xml:space="preserve"><value>عميل اللعبة المحدد</value></data>
     <data name="SelectedWorldBuilder" xml:space="preserve"><value>World Builder المحدد</value></data>
     <data name="CommunityGameClientDisplayName" xml:space="preserve"><value>TheSuperHackers</value></data>
@@ -238,7 +238,6 @@
     <data name="GenPatcherRecommendationTitle" xml:space="preserve"><value>توصية GenPatcher</value></data>
     <data name="GenPatcherRecommendationMessage" xml:space="preserve"><value>يوصى بشدة باستخدام GenPatcher عند تشغيل نسخة البيع بالتجزئة من اللعبة.</value></data>
     <data name="VisitGenPatcherDownloadPage" xml:space="preserve"><value>زيارة صفحة تنزيل GenPatcher</value></data>
-    <data name="WindowBehavior" xml:space="preserve"><value>سلوك النافذة</value></data>
     <data name="WorldBuilderArguments" xml:space="preserve"><value>وسائط World Builder</value></data>
     <data name="WorldBuilderArgumentsInputToolTip" xml:space="preserve"><value>وسائط سطر أوامر اختيارية لملف تشغيل World Builder المحدد. اتركها فارغة للتشغيل العادي.</value></data>
     <data name="WorldBuilderArgumentsToolTip" xml:space="preserve"><value>الوسائط التي تُمرر إلى ملف تشغيل World Builder المحدد.</value></data>
@@ -340,8 +339,9 @@
     <data name="GameFolderAccessDenied" xml:space="preserve"><value>تعذّر تغيير الملفات في مجلد اللعبة</value></data>
     <data name="GameFolderAccessDeniedDescription" xml:space="preserve"><value>يحتاج GenLauncherGO إلى إذن لتغيير الملفات في {0}، لكن Windows لم يمنحه. ربما أُلغي طلب الإذن، أو أن محرك الأقراص أو برنامج حماية يمنع التغييرات هناك.</value></data>
     <data name="ActiveGameLabel" xml:space="preserve"><value>اللعبة النشطة</value></data>
-    <data name="GameManagement" xml:space="preserve"><value>إدارة الألعاب</value></data>
+    <data name="GameSettingsScopeHint" xml:space="preserve"><value>تُحفظ بشكل منفصل لكل لعبة. بدّل الألعاب من الشاشة الرئيسية.</value></data>
     <data name="InstallationPaths" xml:space="preserve"><value>مسارات التثبيت</value></data>
+    <data name="ChangeInstallationPaths" xml:space="preserve"><value>تغيير المجلدات…</value></data>
     <data name="SwitchToGame" xml:space="preserve"><value>التبديل إلى {0}</value></data>
     <data name="AddGameFolderToolTip" xml:space="preserve"><value>أضف مجلد لعبة {0} في الإعدادات.</value></data>
     <data name="Save" xml:space="preserve"><value>حفظ</value></data>

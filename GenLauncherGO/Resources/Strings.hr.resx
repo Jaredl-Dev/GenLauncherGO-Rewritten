@@ -222,9 +222,9 @@
     <data name="GameExecutableArgumentsToolTip" xml:space="preserve"><value>Argumenti proslijeđeni odabranoj izvršnoj datoteci igre.</value></data>
     <data name="GeneralsOnlineGameClientDisplayName" xml:space="preserve"><value>GeneralsOnline</value></data>
     <data name="Language" xml:space="preserve"><value>Jezik</value></data>
+    <data name="LauncherSection" xml:space="preserve"><value>Pokretač</value></data>
+    <data name="Troubleshooting" xml:space="preserve"><value>Rješavanje problema</value></data>
     <data name="LaunchArguments" xml:space="preserve"><value>Argumenti pokretanja</value></data>
-    <data name="Links" xml:space="preserve"><value>Poveznice</value></data>
-    <data name="Maintenance" xml:space="preserve"><value>Održavanje</value></data>
     <data name="SelectedGameClient" xml:space="preserve"><value>Odabrani klijent igre</value></data>
     <data name="SelectedWorldBuilder" xml:space="preserve"><value>Odabrani World Builder</value></data>
     <data name="CommunityGameClientDisplayName" xml:space="preserve"><value>TheSuperHackers</value></data>
@@ -238,7 +238,6 @@
     <data name="GenPatcherRecommendationTitle" xml:space="preserve"><value>Preporuka za GenPatcher</value></data>
     <data name="GenPatcherRecommendationMessage" xml:space="preserve"><value>Preporučuje se korištenje GenPatchera pri igranju maloprodajne verzije igre.</value></data>
     <data name="VisitGenPatcherDownloadPage" xml:space="preserve"><value>Posjeti stranicu za preuzimanje GenPatchera</value></data>
-    <data name="WindowBehavior" xml:space="preserve"><value>Ponašanje prozora</value></data>
     <data name="WorldBuilderArguments" xml:space="preserve"><value>Argumenti za World Builder</value></data>
     <data name="WorldBuilderArgumentsInputToolTip" xml:space="preserve"><value>Neobavezni argumenti naredbenog retka za odabranu izvršnu datoteku World Buildera. Ostavite prazno za normalno pokretanje.</value></data>
     <data name="WorldBuilderArgumentsToolTip" xml:space="preserve"><value>Argumenti proslijeđeni odabranoj izvršnoj datoteci World Buildera.</value></data>
@@ -340,8 +339,9 @@
     <data name="GameFolderAccessDenied" xml:space="preserve"><value>Nije moguće mijenjati datoteke u mapi igre</value></data>
     <data name="GameFolderAccessDeniedDescription" xml:space="preserve"><value>GenLauncherGO treba dopuštenje za mijenjanje datoteka u {0}, ali ga Windows nije dodijelio. Zahtjev za dopuštenje možda je otkazan ili pogon ili sigurnosni softver ondje blokira promjene.</value></data>
     <data name="ActiveGameLabel" xml:space="preserve"><value>Aktivna igra</value></data>
-    <data name="GameManagement" xml:space="preserve"><value>Upravljanje igrama</value></data>
+    <data name="GameSettingsScopeHint" xml:space="preserve"><value>Sprema se zasebno za svaku igru. Igru mijenjate na glavnom zaslonu.</value></data>
     <data name="InstallationPaths" xml:space="preserve"><value>Putanje instalacija</value></data>
+    <data name="ChangeInstallationPaths" xml:space="preserve"><value>Promijeni mape…</value></data>
     <data name="SwitchToGame" xml:space="preserve"><value>Prebaci na {0}</value></data>
     <data name="AddGameFolderToolTip" xml:space="preserve"><value>Dodajte mapu igre {0} u Opcijama.</value></data>
     <data name="Save" xml:space="preserve"><value>Spremi</value></data>

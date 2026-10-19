@@ -222,9 +222,9 @@
     <data name="GameExecutableArgumentsToolTip" xml:space="preserve"><value>Аргументы, передаваемые выбранному исполняемому файлу игры.</value></data>
     <data name="GeneralsOnlineGameClientDisplayName" xml:space="preserve"><value>GeneralsOnline</value></data>
     <data name="Language" xml:space="preserve"><value>Язык</value></data>
+    <data name="LauncherSection" xml:space="preserve"><value>Лаунчер</value></data>
+    <data name="Troubleshooting" xml:space="preserve"><value>Устранение неполадок</value></data>
     <data name="LaunchArguments" xml:space="preserve"><value>Аргументы запуска</value></data>
-    <data name="Links" xml:space="preserve"><value>Ссылки</value></data>
-    <data name="Maintenance" xml:space="preserve"><value>Обслуживание</value></data>
     <data name="SelectedGameClient" xml:space="preserve"><value>Выбранный игровой клиент</value></data>
     <data name="SelectedWorldBuilder" xml:space="preserve"><value>Выбранный редактор карт</value></data>
     <data name="CommunityGameClientDisplayName" xml:space="preserve"><value>TheSuperHackers</value></data>
@@ -238,7 +238,6 @@
     <data name="GenPatcherRecommendationTitle" xml:space="preserve"><value>Рекомендация GenPatcher</value></data>
     <data name="GenPatcherRecommendationMessage" xml:space="preserve"><value>Для игры в розничную версию настоятельно рекомендуется использовать GenPatcher.</value></data>
     <data name="VisitGenPatcherDownloadPage" xml:space="preserve"><value>Перейти на страницу загрузки GenPatcher</value></data>
-    <data name="WindowBehavior" xml:space="preserve"><value>Поведение окна</value></data>
     <data name="WorldBuilderArguments" xml:space="preserve"><value>Аргументы редактора карт</value></data>
     <data name="WorldBuilderArgumentsInputToolTip" xml:space="preserve"><value>Необязательные аргументы командной строки для выбранного исполняемого файла редактора карт. Оставьте поле пустым для обычного запуска.</value></data>
     <data name="WorldBuilderArgumentsToolTip" xml:space="preserve"><value>Аргументы, передаваемые выбранному исполняемому файлу редактора карт.</value></data>
@@ -340,8 +339,9 @@
     <data name="GameFolderAccessDenied" xml:space="preserve"><value>Не удаётся изменить файлы в папке игры</value></data>
     <data name="GameFolderAccessDeniedDescription" xml:space="preserve"><value>GenLauncherGO нужно разрешение на изменение файлов в {0}, но Windows его не выдала. Возможно, запрос разрешения был отменён или изменения там блокирует диск или защитное ПО.</value></data>
     <data name="ActiveGameLabel" xml:space="preserve"><value>Активная игра</value></data>
-    <data name="GameManagement" xml:space="preserve"><value>Управление играми</value></data>
+    <data name="GameSettingsScopeHint" xml:space="preserve"><value>Сохраняется отдельно для каждой игры. Переключайте игры на главном экране.</value></data>
     <data name="InstallationPaths" xml:space="preserve"><value>Пути установки</value></data>
+    <data name="ChangeInstallationPaths" xml:space="preserve"><value>Изменить папки…</value></data>
     <data name="SwitchToGame" xml:space="preserve"><value>Переключиться на {0}</value></data>
     <data name="AddGameFolderToolTip" xml:space="preserve"><value>Добавьте папку игры {0} в настройках.</value></data>
     <data name="Save" xml:space="preserve"><value>Сохранить</value></data>

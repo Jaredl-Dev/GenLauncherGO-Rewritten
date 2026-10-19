@@ -222,9 +222,9 @@
     <data name="GameExecutableArgumentsToolTip" xml:space="preserve"><value>传递给所选游戏可执行文件的参数。</value></data>
     <data name="GeneralsOnlineGameClientDisplayName" xml:space="preserve"><value>GeneralsOnline</value></data>
     <data name="Language" xml:space="preserve"><value>语言</value></data>
+    <data name="LauncherSection" xml:space="preserve"><value>启动器</value></data>
+    <data name="Troubleshooting" xml:space="preserve"><value>故障排除</value></data>
     <data name="LaunchArguments" xml:space="preserve"><value>启动参数</value></data>
-    <data name="Links" xml:space="preserve"><value>链接</value></data>
-    <data name="Maintenance" xml:space="preserve"><value>维护</value></data>
     <data name="SelectedGameClient" xml:space="preserve"><value>已选择的游戏客户端</value></data>
     <data name="SelectedWorldBuilder" xml:space="preserve"><value>已选择的 World Builder</value></data>
     <data name="CommunityGameClientDisplayName" xml:space="preserve"><value>TheSuperHackers</value></data>
@@ -238,7 +238,6 @@
     <data name="GenPatcherRecommendationTitle" xml:space="preserve"><value>GenPatcher 建议</value></data>
     <data name="GenPatcherRecommendationMessage" xml:space="preserve"><value>游玩零售版游戏时，强烈建议使用 GenPatcher。</value></data>
     <data name="VisitGenPatcherDownloadPage" xml:space="preserve"><value>访问 GenPatcher 下载页面</value></data>
-    <data name="WindowBehavior" xml:space="preserve"><value>窗口行为</value></data>
     <data name="WorldBuilderArguments" xml:space="preserve"><value>World Builder 参数</value></data>
     <data name="WorldBuilderArgumentsInputToolTip" xml:space="preserve"><value>所选 World Builder 可执行文件的可选命令行参数。留空则正常启动。</value></data>
     <data name="WorldBuilderArgumentsToolTip" xml:space="preserve"><value>传递给所选 World Builder 可执行文件的参数。</value></data>
@@ -340,8 +339,9 @@
     <data name="GameFolderAccessDenied" xml:space="preserve"><value>无法更改游戏文件夹中的文件</value></data>
     <data name="GameFolderAccessDeniedDescription" xml:space="preserve"><value>GenLauncherGO 需要权限才能更改 {0} 中的文件，但 Windows 未授予该权限。可能是权限提示被取消，或者驱动器或安全软件阻止了对该位置的更改。</value></data>
     <data name="ActiveGameLabel" xml:space="preserve"><value>当前游戏</value></data>
-    <data name="GameManagement" xml:space="preserve"><value>游戏管理</value></data>
+    <data name="GameSettingsScopeHint" xml:space="preserve"><value>每个游戏单独保存。在主界面切换游戏。</value></data>
     <data name="InstallationPaths" xml:space="preserve"><value>安装路径</value></data>
+    <data name="ChangeInstallationPaths" xml:space="preserve"><value>更改文件夹…</value></data>
     <data name="SwitchToGame" xml:space="preserve"><value>切换到{0}</value></data>
     <data name="AddGameFolderToolTip" xml:space="preserve"><value>请在选项中添加{0}的游戏文件夹。</value></data>
     <data name="Save" xml:space="preserve"><value>保存</value></data>

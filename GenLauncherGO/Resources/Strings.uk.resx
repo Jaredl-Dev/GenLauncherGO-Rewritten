@@ -222,9 +222,9 @@
     <data name="GameExecutableArgumentsToolTip" xml:space="preserve"><value>Аргументи, що передаються вибраному виконуваному файлу гри.</value></data>
     <data name="GeneralsOnlineGameClientDisplayName" xml:space="preserve"><value>GeneralsOnline</value></data>
     <data name="Language" xml:space="preserve"><value>Мова</value></data>
+    <data name="LauncherSection" xml:space="preserve"><value>Лаунчер</value></data>
+    <data name="Troubleshooting" xml:space="preserve"><value>Усунення несправностей</value></data>
     <data name="LaunchArguments" xml:space="preserve"><value>Аргументи запуску</value></data>
-    <data name="Links" xml:space="preserve"><value>Посилання</value></data>
-    <data name="Maintenance" xml:space="preserve"><value>Обслуговування</value></data>
     <data name="SelectedGameClient" xml:space="preserve"><value>Вибраний ігровий клієнт</value></data>
     <data name="SelectedWorldBuilder" xml:space="preserve"><value>Вибраний World Builder</value></data>
     <data name="CommunityGameClientDisplayName" xml:space="preserve"><value>TheSuperHackers</value></data>
@@ -238,7 +238,6 @@
     <data name="GenPatcherRecommendationTitle" xml:space="preserve"><value>Рекомендація GenPatcher</value></data>
     <data name="GenPatcherRecommendationMessage" xml:space="preserve"><value>Для гри в роздрібну версію наполегливо рекомендується використовувати GenPatcher.</value></data>
     <data name="VisitGenPatcherDownloadPage" xml:space="preserve"><value>Відвідати сторінку завантаження GenPatcher</value></data>
-    <data name="WindowBehavior" xml:space="preserve"><value>Поведінка вікна</value></data>
     <data name="WorldBuilderArguments" xml:space="preserve"><value>Аргументи World Builder</value></data>
     <data name="WorldBuilderArgumentsInputToolTip" xml:space="preserve"><value>Необов'язкові аргументи командного рядка для вибраного виконуваного файлу World Builder. Залиште порожнім для звичайного запуску.</value></data>
     <data name="WorldBuilderArgumentsToolTip" xml:space="preserve"><value>Аргументи, що передаються вибраному виконуваному файлу World Builder.</value></data>
@@ -340,8 +339,9 @@
     <data name="GameFolderAccessDenied" xml:space="preserve"><value>Не вдається змінити файли в папці гри</value></data>
     <data name="GameFolderAccessDeniedDescription" xml:space="preserve"><value>GenLauncherGO потрібен дозвіл на зміну файлів у {0}, але Windows його не надала. Можливо, запит дозволу було скасовано або зміни там блокує диск чи захисне програмне забезпечення.</value></data>
     <data name="ActiveGameLabel" xml:space="preserve"><value>Активна гра</value></data>
-    <data name="GameManagement" xml:space="preserve"><value>Керування іграми</value></data>
+    <data name="GameSettingsScopeHint" xml:space="preserve"><value>Зберігається окремо для кожної гри. Перемикайте ігри на головному екрані.</value></data>
     <data name="InstallationPaths" xml:space="preserve"><value>Шляхи встановлення</value></data>
+    <data name="ChangeInstallationPaths" xml:space="preserve"><value>Змінити теки…</value></data>
     <data name="SwitchToGame" xml:space="preserve"><value>Перемкнутися на {0}</value></data>
     <data name="AddGameFolderToolTip" xml:space="preserve"><value>Додайте теку гри {0} у налаштуваннях.</value></data>
     <data name="Save" xml:space="preserve"><value>Зберегти</value></data>
