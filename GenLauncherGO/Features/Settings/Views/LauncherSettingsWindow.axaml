@@ -193,11 +193,6 @@
                                         Command="{Binding OpenGitHubRepositoryCommand}"
                                         Content="{localization:Loc GitHubRepository}"
                                         ToolTip.Tip="{localization:Loc GitHubRepositoryToolTip}" />
-                                <Button Grid.Column="2"
-                                        Classes="dialog-action"
-                                        Command="{Binding OpenDonationCommand}"
-                                        Content="{localization:Loc DonateOriginalAuthor}"
-                                        ToolTip.Tip="{localization:Loc DonateOriginalAuthorToolTip}" />
                             </Grid>
                         </StackPanel>
                     </Border>

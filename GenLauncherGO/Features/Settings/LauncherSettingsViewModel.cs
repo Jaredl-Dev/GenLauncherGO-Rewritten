@@ -11,11 +11,6 @@ namespace GenLauncherGO.Features.Settings;
 
 internal sealed class LauncherSettingsViewModel : ObservableObject
 {
-    private const string PredecessorRepositoryUrl = "https://github.com/x64-dev/GenLauncher_GO";
-
-    private const string OriginalAuthorDonationUrl =
-        "https://boosty.to/genlauncher/single-payment/donation/157147?share=target_link";
-
     private readonly string _logsDirectory;
 
     private readonly ILauncherPreferencesService _preferencesService;
@@ -49,8 +44,8 @@ internal sealed class LauncherSettingsViewModel : ObservableObject
         OpenGeneralsOnlineDiscordCommand =
             new RelayCommand(() => OpenUri(LauncherApplicationDefaults.GeneralsOnlineDiscordUrl));
         OpenLogsDirectoryCommand = new RelayCommand(OpenLogsDirectory);
-        OpenGitHubRepositoryCommand = new RelayCommand(() => OpenUri(PredecessorRepositoryUrl));
-        OpenDonationCommand = new RelayCommand(() => OpenUri(OriginalAuthorDonationUrl));
+        OpenGitHubRepositoryCommand =
+            new RelayCommand(() => OpenUri(LauncherApplicationDefaults.GetLauncherRepositoryUrl()));
     }
 
     public LauncherInstallationsViewModel Installations { get; }
@@ -62,8 +57,6 @@ internal sealed class LauncherSettingsViewModel : ObservableObject
     public IRelayCommand OpenLogsDirectoryCommand { get; }
 
     public IRelayCommand OpenGitHubRepositoryCommand { get; }
-
-    public IRelayCommand OpenDonationCommand { get; }
 
     public string ActiveGameName => GetGameName(_runtimeContext.CurrentlyManagedGame);
 

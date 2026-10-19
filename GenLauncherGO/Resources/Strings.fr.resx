@@ -217,8 +217,6 @@
     <data name="SettingsSaveFailedDetails" xml:space="preserve"><value>GenLauncherGO n’a pas pu enregistrer vos paramètres. Vos paramètres précédents restent actifs. Vérifiez que le dossier de données du launcher est accessible en écriture, puis réessayez.</value></data>
     <data name="CloseAnyway" xml:space="preserve"><value>Fermer quand même</value></data>
     <data name="ClosePackageActivityDetails" xml:space="preserve"><value>{0} est toujours en cours. La fermeture de GenLauncherGO arrêtera l’opération actuelle.</value></data>
-    <data name="DonateOriginalAuthor" xml:space="preserve"><value>Don à l'auteur de GenLauncher</value></data>
-    <data name="DonateOriginalAuthorToolTip" xml:space="preserve"><value>Ouvre la page de don de l'auteur original de GenLauncher.</value></data>
     <data name="GameExecutableArguments" xml:space="preserve"><value>Arguments de l'exécutable du jeu</value></data>
     <data name="GameExecutableArgumentsInputToolTip" xml:space="preserve"><value>Arguments de ligne de commande facultatifs pour l'exécutable du jeu sélectionné. Laissez vide pour lancer normalement.</value></data>
     <data name="GameExecutableArgumentsToolTip" xml:space="preserve"><value>Arguments transmis à l'exécutable du jeu sélectionné.</value></data>
@@ -276,8 +274,8 @@
     <data name="IntegrityIssueEmptyDirectoryLabel" xml:space="preserve"><value>Dossier vide</value></data>
     <data name="IntegrityIssueUnsafeLinkLabel" xml:space="preserve"><value>Lien non sûr</value></data>
     <data name="IntegrityIssueVerificationErrorLabel" xml:space="preserve"><value>Erreur de vérification</value></data>
-    <data name="GeneralsOnlineDiscord" xml:space="preserve"><value>Discord Generals Online</value></data>
-    <data name="GeneralsOnlineDiscordToolTip" xml:space="preserve"><value>Ouvre le serveur Discord Generals Online.</value></data>
+    <data name="GeneralsOnlineDiscord" xml:space="preserve"><value>Discord GeneralsOnline</value></data>
+    <data name="GeneralsOnlineDiscordToolTip" xml:space="preserve"><value>Ouvre le serveur Discord GeneralsOnline.</value></data>
     <data name="GeneralsOnlineWindowedModeDisabledToolTip" xml:space="preserve"><value>Les modes fenêtré et plein écran sont gérés par le lanceur GeneralsOnline.</value></data>
     <data name="OpenLogsFolder" xml:space="preserve"><value>Ouvrir le dossier des journaux</value></data>
     <data name="OpenLogsFolderToolTip" xml:space="preserve"><value>Ouvre le dossier contenant les fichiers journaux de GenLauncherGO.</value></data>

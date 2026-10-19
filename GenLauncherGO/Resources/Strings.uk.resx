@@ -217,8 +217,6 @@
     <data name="SettingsSaveFailedDetails" xml:space="preserve"><value>GenLauncherGO не вдалося зберегти ваші налаштування. Попередні налаштування залишаються активними. Переконайтеся, що папка даних лаунчера доступна для запису, і повторіть спробу.</value></data>
     <data name="CloseAnyway" xml:space="preserve"><value>Усе одно закрити</value></data>
     <data name="ClosePackageActivityDetails" xml:space="preserve"><value>{0} все ще виконується. Закриття GenLauncherGO зупинить поточну операцію.</value></data>
-    <data name="DonateOriginalAuthor" xml:space="preserve"><value>Пожертвувати автору GenLauncher</value></data>
-    <data name="DonateOriginalAuthorToolTip" xml:space="preserve"><value>Відкриває сторінку пожертв оригінального автора GenLauncher.</value></data>
     <data name="GameExecutableArguments" xml:space="preserve"><value>Аргументи виконуваного файлу гри</value></data>
     <data name="GameExecutableArgumentsInputToolTip" xml:space="preserve"><value>Необов'язкові аргументи командного рядка для вибраного виконуваного файлу гри. Залиште порожнім для звичайного запуску.</value></data>
     <data name="GameExecutableArgumentsToolTip" xml:space="preserve"><value>Аргументи, що передаються вибраному виконуваному файлу гри.</value></data>
@@ -276,8 +274,8 @@
     <data name="IntegrityIssueEmptyDirectoryLabel" xml:space="preserve"><value>Порожня папка</value></data>
     <data name="IntegrityIssueUnsafeLinkLabel" xml:space="preserve"><value>Небезпечне посилання</value></data>
     <data name="IntegrityIssueVerificationErrorLabel" xml:space="preserve"><value>Помилка перевірки</value></data>
-    <data name="GeneralsOnlineDiscord" xml:space="preserve"><value>Discord Generals Online</value></data>
-    <data name="GeneralsOnlineDiscordToolTip" xml:space="preserve"><value>Відкриває Discord-сервер Generals Online.</value></data>
+    <data name="GeneralsOnlineDiscord" xml:space="preserve"><value>Discord GeneralsOnline</value></data>
+    <data name="GeneralsOnlineDiscordToolTip" xml:space="preserve"><value>Відкриває Discord-сервер GeneralsOnline.</value></data>
     <data name="GeneralsOnlineWindowedModeDisabledToolTip" xml:space="preserve"><value>Віконний і повноекранний режими керуються в лаунчері GeneralsOnline.</value></data>
     <data name="OpenLogsFolder" xml:space="preserve"><value>Відкрити папку журналів</value></data>
     <data name="OpenLogsFolderToolTip" xml:space="preserve"><value>Відкриває папку з файлами журналів GenLauncherGO.</value></data>

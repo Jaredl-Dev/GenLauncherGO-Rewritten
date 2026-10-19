@@ -217,8 +217,6 @@
     <data name="SettingsSaveFailedDetails" xml:space="preserve"><value>GenLauncherGO نتوانست تنظیمات شما را ذخیره کند. تنظیمات قبلی شما همچنان فعال است. بررسی کنید پوشه داده‌های لانچر قابل نوشتن باشد و سپس دوباره تلاش کنید.</value></data>
     <data name="CloseAnyway" xml:space="preserve"><value>بستن در هر صورت</value></data>
     <data name="ClosePackageActivityDetails" xml:space="preserve"><value>&#x2068;{0}&#x2069; همچنان در حال اجراست. بستن GenLauncherGO عملیات فعلی را متوقف می‌کند.</value></data>
-    <data name="DonateOriginalAuthor" xml:space="preserve"><value>کمک مالی به سازنده اصلی GenLauncher</value></data>
-    <data name="DonateOriginalAuthorToolTip" xml:space="preserve"><value>صفحه کمک مالی سازنده اصلی GenLauncher را باز کنید.</value></data>
     <data name="GameExecutableArguments" xml:space="preserve"><value>آرگومان‌های فایل اجرایی بازی</value></data>
     <data name="GameExecutableArgumentsInputToolTip" xml:space="preserve"><value>آرگومان‌های اختیاری خط فرمان برای فایل اجرایی بازی انتخاب‌شده. برای اجرای عادی خالی بگذارید.</value></data>
     <data name="GameExecutableArgumentsToolTip" xml:space="preserve"><value>آرگومان‌هایی که به فایل اجرایی بازی انتخاب‌شده ارسال می‌شوند.</value></data>
@@ -276,8 +274,8 @@
     <data name="IntegrityIssueEmptyDirectoryLabel" xml:space="preserve"><value>پوشه خالی</value></data>
     <data name="IntegrityIssueUnsafeLinkLabel" xml:space="preserve"><value>پیوند ناامن</value></data>
     <data name="IntegrityIssueVerificationErrorLabel" xml:space="preserve"><value>خطای تأیید</value></data>
-    <data name="GeneralsOnlineDiscord" xml:space="preserve"><value>Discord رسمی Generals Online</value></data>
-    <data name="GeneralsOnlineDiscordToolTip" xml:space="preserve"><value>سرور Discord رسمی Generals Online را باز کنید.</value></data>
+    <data name="GeneralsOnlineDiscord" xml:space="preserve"><value>Discord رسمی GeneralsOnline</value></data>
+    <data name="GeneralsOnlineDiscordToolTip" xml:space="preserve"><value>سرور Discord رسمی GeneralsOnline را باز کنید.</value></data>
     <data name="GeneralsOnlineWindowedModeDisabledToolTip" xml:space="preserve"><value>حالت پنجره‌ای و تمام‌صفحه توسط لانچر GeneralsOnline مدیریت می‌شود.</value></data>
     <data name="OpenLogsFolder" xml:space="preserve"><value>بازکردن پوشه گزارش‌ها</value></data>
     <data name="OpenLogsFolderToolTip" xml:space="preserve"><value>پوشه حاوی فایل‌های گزارش GenLauncherGO را باز کنید.</value></data>

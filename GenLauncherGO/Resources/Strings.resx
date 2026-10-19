@@ -217,8 +217,6 @@
     <data name="SettingsSaveFailedDetails" xml:space="preserve"><value>GenLauncherGO could not save your settings. Your previous settings are still active. Check that the launcher data folder is writable, then try again.</value></data>
     <data name="CloseAnyway" xml:space="preserve"><value>Close anyway</value></data>
     <data name="ClosePackageActivityDetails" xml:space="preserve"><value>{0} is still running. Closing GenLauncherGO will stop the current operation.</value></data>
-    <data name="DonateOriginalAuthor" xml:space="preserve"><value>Donate to GenLauncher author</value></data>
-    <data name="DonateOriginalAuthorToolTip" xml:space="preserve"><value>Open the donation page for the original GenLauncher author.</value></data>
     <data name="GameExecutableArguments" xml:space="preserve"><value>Game executable arguments</value></data>
     <data name="GameExecutableArgumentsInputToolTip" xml:space="preserve"><value>Optional command-line arguments for the selected game executable. Leave blank to launch normally.</value></data>
     <data name="GameExecutableArgumentsToolTip" xml:space="preserve"><value>Arguments passed to the selected game executable.</value></data>
@@ -276,8 +274,8 @@
     <data name="IntegrityIssueEmptyDirectoryLabel" xml:space="preserve"><value>Empty folder</value></data>
     <data name="IntegrityIssueUnsafeLinkLabel" xml:space="preserve"><value>Unsafe link</value></data>
     <data name="IntegrityIssueVerificationErrorLabel" xml:space="preserve"><value>Verification error</value></data>
-    <data name="GeneralsOnlineDiscord" xml:space="preserve"><value>Generals Online Discord</value></data>
-    <data name="GeneralsOnlineDiscordToolTip" xml:space="preserve"><value>Open the Generals Online Discord server.</value></data>
+    <data name="GeneralsOnlineDiscord" xml:space="preserve"><value>GeneralsOnline Discord</value></data>
+    <data name="GeneralsOnlineDiscordToolTip" xml:space="preserve"><value>Open the GeneralsOnline Discord server.</value></data>
     <data name="GeneralsOnlineWindowedModeDisabledToolTip" xml:space="preserve"><value>Windowed and fullscreen modes are managed by the GeneralsOnline launcher.</value></data>
     <data name="OpenLogsFolder" xml:space="preserve"><value>Open logs folder</value></data>
     <data name="OpenLogsFolderToolTip" xml:space="preserve"><value>Open the folder containing GenLauncherGO log files.</value></data>

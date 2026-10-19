@@ -217,8 +217,6 @@
     <data name="SettingsSaveFailedDetails" xml:space="preserve"><value>تعذر على GenLauncherGO حفظ إعداداتك. لا تزال إعداداتك السابقة نشطة. تحقق من أن مجلد بيانات اللانشر قابل للكتابة، ثم حاول مرة أخرى.</value></data>
     <data name="CloseAnyway" xml:space="preserve"><value>إغلاق على أي حال</value></data>
     <data name="ClosePackageActivityDetails" xml:space="preserve"><value>لا تزال العملية {0} قيد التشغيل. سيؤدي إغلاق GenLauncherGO إلى إيقاف العملية الحالية.</value></data>
-    <data name="DonateOriginalAuthor" xml:space="preserve"><value>تبرع لمؤلف GenLauncher</value></data>
-    <data name="DonateOriginalAuthorToolTip" xml:space="preserve"><value>يفتح صفحة التبرع للمؤلف الأصلي لـ GenLauncher.</value></data>
     <data name="GameExecutableArguments" xml:space="preserve"><value>وسائط ملف تشغيل اللعبة</value></data>
     <data name="GameExecutableArgumentsInputToolTip" xml:space="preserve"><value>وسائط سطر أوامر اختيارية لملف تشغيل اللعبة المحدد. اتركها فارغة للتشغيل العادي.</value></data>
     <data name="GameExecutableArgumentsToolTip" xml:space="preserve"><value>الوسائط التي تُمرر إلى ملف تشغيل اللعبة المحدد.</value></data>
@@ -276,8 +274,8 @@
     <data name="IntegrityIssueEmptyDirectoryLabel" xml:space="preserve"><value>مجلد فارغ</value></data>
     <data name="IntegrityIssueUnsafeLinkLabel" xml:space="preserve"><value>رابط غير آمن</value></data>
     <data name="IntegrityIssueVerificationErrorLabel" xml:space="preserve"><value>خطأ تحقق</value></data>
-    <data name="GeneralsOnlineDiscord" xml:space="preserve"><value>ديسكورد Generals Online</value></data>
-    <data name="GeneralsOnlineDiscordToolTip" xml:space="preserve"><value>يفتح خادم ديسكورد الخاص بـ Generals Online.</value></data>
+    <data name="GeneralsOnlineDiscord" xml:space="preserve"><value>ديسكورد GeneralsOnline</value></data>
+    <data name="GeneralsOnlineDiscordToolTip" xml:space="preserve"><value>يفتح خادم ديسكورد الخاص بـ GeneralsOnline.</value></data>
     <data name="GeneralsOnlineWindowedModeDisabledToolTip" xml:space="preserve"><value>يتم التحكم في وضع النافذة والشاشة الكاملة بواسطة مشغّل GeneralsOnline.</value></data>
     <data name="OpenLogsFolder" xml:space="preserve"><value>فتح مجلد السجلات</value></data>
     <data name="OpenLogsFolderToolTip" xml:space="preserve"><value>يفتح المجلد الذي يحتوي على ملفات سجلات GenLauncherGO.</value></data>

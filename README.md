@@ -122,11 +122,6 @@ emblems, and screenshots, are excluded from this license grant. Their rights rem
 - **Jaredl-Dev** — Rewrote the predecessor GenLauncherGO application.
 - **Zeke** — Created the Generals and Zero Hour backgrounds used by the launcher.
 
-## Donations
-
-Want to support the original creator of GenLauncher? You can donate through
-[Boosty](https://boosty.to/genlauncher/single-payment/donation/157147?share=target_link).
-
 ## Disclaimer
 
 GenLauncherGO is a community-developed tool intended for retail game installations and community clients from

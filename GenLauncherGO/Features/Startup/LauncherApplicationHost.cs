@@ -1,6 +1,5 @@
 using System;
 using System.Globalization;
-using System.Linq;
 using System.Reflection;
 using System.Threading.Tasks;
 using Avalonia.Controls;
@@ -35,8 +34,6 @@ namespace GenLauncherGO.Features.Startup;
 /// </summary>
 internal sealed class LauncherApplicationHost : IDisposable
 {
-    private const string VelopackUpdateRepositoryUrlMetadataName = "VelopackUpdateRepositoryUrl";
-
     private readonly IStartupDialogService _bootstrapStartupDialogService;
     private readonly ILauncherHostEnvironmentService _hostEnvironmentService;
     private readonly ILauncherPathResolver _launcherPathResolver;
@@ -337,7 +334,7 @@ internal sealed class LauncherApplicationHost : IDisposable
                 serviceProvider.GetRequiredService<LauncherStoragePaths>(),
                 serviceProvider.GetRequiredService<IAtomicFileWriter>(),
                 serviceProvider.GetRequiredService<TimeProvider>(),
-                GetApplicationUpdateRepositoryUrl(),
+                LauncherApplicationDefaults.GetLauncherRepositoryUrl(),
                 serviceProvider.GetRequiredService<ILogger<VelopackLauncherApplicationUpdateService>>()));
         services.AddSingleton<IArchiveExtractor, ArchiveExtractor>();
         services.AddSingleton<IResumableFileDownloader, ResumableHttpFileDownloader>();
@@ -458,20 +455,6 @@ internal sealed class LauncherApplicationHost : IDisposable
 
         Dispatcher.UIThread.UnhandledException += HandleDispatcherUnhandledExceptionAsync;
         _dispatcherExceptionHandlerAttached = true;
-    }
-
-    private static string GetApplicationUpdateRepositoryUrl()
-    {
-        Assembly assembly = typeof(LauncherApplicationHost).Assembly;
-        return assembly.GetCustomAttributes<AssemblyMetadataAttribute>()
-                   .Single(attribute =>
-                       string.Equals(
-                           attribute.Key,
-                           VelopackUpdateRepositoryUrlMetadataName,
-                           StringComparison.Ordinal))
-                   .Value
-               ?? throw new InvalidOperationException(
-                   "The application-update repository URL assembly metadata is missing.");
     }
 
     private async void HandleDispatcherUnhandledExceptionAsync(

@@ -217,8 +217,6 @@
     <data name="SettingsSaveFailedDetails" xml:space="preserve"><value>GenLauncherGO nije mogao spremiti vaše postavke. Prethodne postavke i dalje su aktivne. Provjerite može li se pisati u podatkovnu mapu launchera, a zatim pokušajte ponovno.</value></data>
     <data name="CloseAnyway" xml:space="preserve"><value>Svejedno zatvori</value></data>
     <data name="ClosePackageActivityDetails" xml:space="preserve"><value>{0} je još u tijeku. Zatvaranje GenLauncherGO zaustavit će trenutnu operaciju.</value></data>
-    <data name="DonateOriginalAuthor" xml:space="preserve"><value>Doniraj autoru GenLaunchera</value></data>
-    <data name="DonateOriginalAuthorToolTip" xml:space="preserve"><value>Otvara stranicu za donacije izvornog autora GenLaunchera.</value></data>
     <data name="GameExecutableArguments" xml:space="preserve"><value>Argumenti izvršne datoteke igre</value></data>
     <data name="GameExecutableArgumentsInputToolTip" xml:space="preserve"><value>Neobavezni argumenti naredbenog retka za odabranu izvršnu datoteku igre. Ostavite prazno za normalno pokretanje.</value></data>
     <data name="GameExecutableArgumentsToolTip" xml:space="preserve"><value>Argumenti proslijeđeni odabranoj izvršnoj datoteci igre.</value></data>
@@ -276,8 +274,8 @@
     <data name="IntegrityIssueEmptyDirectoryLabel" xml:space="preserve"><value>Prazna mapa</value></data>
     <data name="IntegrityIssueUnsafeLinkLabel" xml:space="preserve"><value>Nesigurna veza</value></data>
     <data name="IntegrityIssueVerificationErrorLabel" xml:space="preserve"><value>Pogreška provjere</value></data>
-    <data name="GeneralsOnlineDiscord" xml:space="preserve"><value>Discord Generals Online</value></data>
-    <data name="GeneralsOnlineDiscordToolTip" xml:space="preserve"><value>Otvara Discord poslužitelj Generals Online.</value></data>
+    <data name="GeneralsOnlineDiscord" xml:space="preserve"><value>Discord GeneralsOnline</value></data>
+    <data name="GeneralsOnlineDiscordToolTip" xml:space="preserve"><value>Otvara Discord poslužitelj GeneralsOnline.</value></data>
     <data name="GeneralsOnlineWindowedModeDisabledToolTip" xml:space="preserve"><value>GeneralsOnline pokretač upravlja prozorskim i cjelozaslonskim načinom rada.</value></data>
     <data name="OpenLogsFolder" xml:space="preserve"><value>Otvori mapu zapisnika</value></data>
     <data name="OpenLogsFolderToolTip" xml:space="preserve"><value>Otvara mapu s datotekama zapisnika GenLauncherGO.</value></data>

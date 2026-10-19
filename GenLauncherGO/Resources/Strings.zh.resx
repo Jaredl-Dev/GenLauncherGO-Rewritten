@@ -217,8 +217,6 @@
     <data name="SettingsSaveFailedDetails" xml:space="preserve"><value>GenLauncherGO 无法保存您的设置。之前的设置仍然有效。请检查启动器数据文件夹是否可写，然后重试。</value></data>
     <data name="CloseAnyway" xml:space="preserve"><value>仍然关闭</value></data>
     <data name="ClosePackageActivityDetails" xml:space="preserve"><value>{0} 仍在运行。关闭 GenLauncherGO 将停止当前操作。</value></data>
-    <data name="DonateOriginalAuthor" xml:space="preserve"><value>捐助 GenLauncher 作者</value></data>
-    <data name="DonateOriginalAuthorToolTip" xml:space="preserve"><value>打开 GenLauncher 原作者的捐赠页面。</value></data>
     <data name="GameExecutableArguments" xml:space="preserve"><value>游戏可执行文件参数</value></data>
     <data name="GameExecutableArgumentsInputToolTip" xml:space="preserve"><value>所选游戏可执行文件的可选命令行参数。留空则正常启动。</value></data>
     <data name="GameExecutableArgumentsToolTip" xml:space="preserve"><value>传递给所选游戏可执行文件的参数。</value></data>
@@ -276,8 +274,8 @@
     <data name="IntegrityIssueEmptyDirectoryLabel" xml:space="preserve"><value>空文件夹</value></data>
     <data name="IntegrityIssueUnsafeLinkLabel" xml:space="preserve"><value>不安全链接</value></data>
     <data name="IntegrityIssueVerificationErrorLabel" xml:space="preserve"><value>验证错误</value></data>
-    <data name="GeneralsOnlineDiscord" xml:space="preserve"><value>Generals Online Discord</value></data>
-    <data name="GeneralsOnlineDiscordToolTip" xml:space="preserve"><value>打开 Generals Online Discord 服务器。</value></data>
+    <data name="GeneralsOnlineDiscord" xml:space="preserve"><value>GeneralsOnline Discord</value></data>
+    <data name="GeneralsOnlineDiscordToolTip" xml:space="preserve"><value>打开 GeneralsOnline Discord 服务器。</value></data>
     <data name="GeneralsOnlineWindowedModeDisabledToolTip" xml:space="preserve"><value>窗口和全屏模式由 GeneralsOnline 启动器管理。</value></data>
     <data name="OpenLogsFolder" xml:space="preserve"><value>打开日志文件夹</value></data>
     <data name="OpenLogsFolderToolTip" xml:space="preserve"><value>打开包含 GenLauncherGO 日志文件的文件夹。</value></data>
