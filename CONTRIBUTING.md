@@ -73,13 +73,15 @@ percentage because executing a line does not establish that its behavior is mean
 
 ## Publishing
 
-`VersionPrefix` in `GenLauncherGO/GenLauncherGO.csproj` is the single source of truth for the release version.
-Update it through a pull request and merge to `main`. After CI passes, run **Actions** > **Publish release** on
+`VersionPrefix` in `GenLauncherGO/GenLauncherGO.csproj` is the single source of truth for the release version. In
+one pull request, update it and rename the `[Unreleased]` heading in `CHANGELOG.md` to
+`[<VersionPrefix>] - YYYY-MM-DD`, then merge to `main`. After CI passes, run **Actions** > **Publish release** on
 `main`.
 
 The workflow builds the Windows x64 portable package and creates a draft GitHub release with the matching
-`v<VersionPrefix>` tag. Review its notes and assets, test the archive when appropriate, then publish the draft. Drafts
-are not offered to update clients. Do not create the tag or release manually, or reuse a published version.
+`v<VersionPrefix>` tag. Replace the draft's generated notes with that version's `CHANGELOG.md` section, keeping the
+generated **Full Changelog** link, then review the assets, test the archive when appropriate, and publish the draft.
+Drafts are not offered to update clients. Do not create the tag or release manually, or reuse a published version.
 
 The packaging tool is a C# file-based app under `eng`. It uses the same .NET 10 SDK as the launcher and needs no
 PowerShell version or additional scripting runtime. Use `--no-cache` so the SDK checks and rebuilds the runner rather
