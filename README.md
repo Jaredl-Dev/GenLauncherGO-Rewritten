@@ -51,8 +51,8 @@ World Builder support is optional.
 | TheSuperHackers Generals | `worldbuilderv.exe` |
 | TheSuperHackers Zero Hour | `worldbuilderzh.exe` |
 
-Custom game client and World Builder executables can be registered under
-**Launcher Settings > Custom executables**.
+Custom game client and World Builder executables can be registered under **Launcher Settings > Executables**, with
+**Manage game clients** or **Manage World Builders**.
 
 ## Quick Start
 
@@ -86,7 +86,7 @@ The portable package keeps its update machinery beside the root launcher and cre
 | `GenLauncherGO Data\<game>\Runtime\Deployment` | Deployment manifests, journals, locks, and recovery backups |
 | `GenLauncherGO Data\<game>\Runtime\Integrity` | Managed-content integrity snapshots |
 | `GenLauncherGO Data\<game>\Runtime\State\LauncherData.yaml` | Local catalog state and installed-content metadata |
-| `GenLauncherGO Data\<game>\Runtime\Temp` | Temporary download and installation staging, cleared on startup |
+| `GenLauncherGO Data\<game>\Runtime\Temp` | Temporary download and installation staging, cleared on startup except partly downloaded packages, which a paused download resumes from |
 | `GenLauncherGO Data\Logs` | Rolling diagnostic logs |
 
 GenLauncherGO checks its GitHub releases for a portable update at most once every 24 hours. An available update is
