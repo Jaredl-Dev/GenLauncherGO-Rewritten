@@ -47,4 +47,12 @@ internal sealed class AddModificationItemViewModel : ObservableObject
     {
         PackageSizeText = packageSizeText;
     }
+
+    /// <summary>
+    ///     Names the list item for screen readers, which announce it by its content's text.
+    /// </summary>
+    public override string ToString()
+    {
+        return Name;
+    }
 }

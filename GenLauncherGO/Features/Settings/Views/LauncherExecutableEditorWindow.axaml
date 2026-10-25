@@ -27,6 +27,7 @@
                            Classes="field-label"
                            Text="{localization:Loc ExecutableFile}" />
                 <TextBox x:Name="ExecutableFileInput"
+                         AutomationProperties.Name="{localization:Loc ExecutableFile}"
                          Grid.Row="1"
                          Classes="dialog-input"
                          Text="{Binding ExecutablePath}"
@@ -46,6 +47,7 @@
                 <TextBox Grid.Row="4"
                          Grid.ColumnSpan="3"
                          Classes="dialog-input"
+                         AutomationProperties.Name="{localization:Loc DisplayName}"
                          Text="{Binding DisplayName, Mode=TwoWay}"
                          PlaceholderText="{localization:Loc ExecutableDisplayNameWatermark}" />
                 <TextBlock Grid.Row="5"

@@ -56,6 +56,7 @@
                 <ItemsControl.ItemTemplate>
                     <DataTemplate x:DataType="vm:LauncherGameChoiceViewModel">
                         <Button Classes="game-card"
+                                AutomationProperties.Name="{Binding DisplayName}"
                                 Classes.selected="{Binding IsSelected}"
                                 Margin="7,0"
                                 Command="{Binding $parent[ItemsControl].((vm:LauncherGameSelectionViewModel)DataContext).SelectGameCommand}"

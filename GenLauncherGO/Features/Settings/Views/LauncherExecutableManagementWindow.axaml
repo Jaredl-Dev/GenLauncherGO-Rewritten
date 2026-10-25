@@ -82,6 +82,7 @@
                   Margin="18,16,18,8"
                   ColumnDefinitions="*,12,Auto">
                 <TextBox x:Name="ExecutableSearchInput"
+                         AutomationProperties.Name="{localization:Loc SearchExecutables}"
                          Grid.Column="0"
                          Classes="dialog-input"
                          Text="{Binding SearchText, Mode=TwoWay}"
@@ -132,6 +133,8 @@
                                 </StackPanel>
                                 <Button Grid.Column="1"
                                         Classes="row-edit"
+                                        AutomationProperties.Name="{Binding DisplayName}"
+                                        AutomationProperties.HelpText="{localization:Loc EditExecutable}"
                                         Tag="{Binding}"
                                         ToolTip.Tip="{localization:Loc EditExecutable}"
                                         IsVisible="{Binding CanRemove}"

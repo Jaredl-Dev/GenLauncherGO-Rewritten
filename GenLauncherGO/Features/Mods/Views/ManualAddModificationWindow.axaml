@@ -25,6 +25,7 @@
                            Text="{localization:Loc ModificationName}" />
                 <TextBox Grid.Row="1"
                          Classes="dialog-input"
+                         AutomationProperties.Name="{localization:Loc ModificationName}"
                          Text="{Binding ModificationName, Mode=TwoWay}" />
                 <TextBlock Grid.Row="2"
                            Classes="validation"
@@ -35,6 +36,7 @@
                            Text="{localization:Loc CurrentVersion}" />
                 <TextBox Grid.Row="5"
                          Classes="dialog-input"
+                         AutomationProperties.Name="{localization:Loc CurrentVersion}"
                          Text="{Binding Version, Mode=TwoWay}" />
                 <TextBlock Grid.Row="6"
                            Classes="validation"

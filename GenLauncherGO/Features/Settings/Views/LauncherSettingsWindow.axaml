@@ -245,6 +245,7 @@
                                                VerticalAlignment="Center"
                                                Text="{localization:Loc Language}" />
                                     <RadioButton Classes="square-toggle"
+                                                 AutomationProperties.Name="{localization:Loc UseEnglishLanguage}"
                                                  GroupName="Language"
                                                  IsChecked="{Binding UseEnglishLanguage, Mode=TwoWay}"
                                                  ToolTip.Tip="{localization:Loc UseEnglishLanguageToolTip}">
@@ -252,6 +253,7 @@
                                                    TextWrapping="Wrap" />
                                     </RadioButton>
                                     <RadioButton Classes="square-toggle"
+                                                 AutomationProperties.Name="{localization:Loc UseSystemLanguage}"
                                                  GroupName="Language"
                                                  IsChecked="{Binding UseSystemLanguage, Mode=TwoWay}"
                                                  ToolTip.Tip="{localization:Loc UseSystemLanguageToolTip}">
@@ -260,12 +262,14 @@
                                     </RadioButton>
                                 </WrapPanel>
                                 <CheckBox Classes="square-toggle"
+                                          AutomationProperties.Name="{localization:Loc HideLauncher}"
                                           IsChecked="{Binding HideLauncherAfterGameStart, Mode=TwoWay}"
                                           ToolTip.Tip="{localization:Loc HideLauncherToolTip}">
                                     <TextBlock Text="{localization:Loc HideLauncher}"
                                                TextWrapping="Wrap" />
                                 </CheckBox>
                                 <CheckBox Classes="square-toggle"
+                                          AutomationProperties.Name="{localization:Loc AutoDelete}"
                                           IsChecked="{Binding AutoDeleteOldVersions, Mode=TwoWay}"
                                           ToolTip.Tip="{localization:Loc AutoDeleteToolTip}">
                                     <TextBlock Text="{localization:Loc AutoDelete}"
@@ -280,6 +284,7 @@
                                            Margin="0"
                                            Text="{localization:Loc Troubleshooting}" />
                                 <CheckBox x:Name="DiagnosticLoggingCheckBox"
+                                          AutomationProperties.Name="{localization:Loc EnableDiagnosticLogging}"
                                           Classes="square-toggle"
                                           IsChecked="{Binding EnableDiagnosticLogging, Mode=TwoWay}"
                                           ToolTip.Tip="{localization:Loc EnableDiagnosticLoggingToolTip}">

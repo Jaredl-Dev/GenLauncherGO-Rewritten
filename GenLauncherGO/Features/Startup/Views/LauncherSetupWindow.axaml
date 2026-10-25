@@ -114,6 +114,7 @@
                                                    Classes="installation-folder-label"
                                                    Text="{localization:Loc InstallationFolder}" />
                                         <TextBox Classes="installation-path"
+                                                 AutomationProperties.Name="{Binding DisplayName}"
                                                  Text="{Binding Path, Mode=TwoWay}"
                                                  TextChanged="PathTextBox_TextChanged"
                                                  ToolTip.ToolTipOpening="PathTextBox_ToolTipOpening">

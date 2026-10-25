@@ -367,6 +367,7 @@
                       VerticalAlignment="Top"
                       IsVisible="{Binding IsSelected}">
                     <ComboBox x:Name="LauncherContentVersionSelector"
+                              AutomationProperties.Name="{localization:Loc CurrentVersion}"
                               Classes="tile-version-selector"
                               HorizontalAlignment="Stretch"
                               VerticalAlignment="Stretch"
@@ -1056,6 +1057,7 @@
                            Text="{localization:Loc SelectedGameClient}"
                            TextWrapping="Wrap" />
                 <ComboBox x:Name="GameClientSelector"
+                          AutomationProperties.Name="{localization:Loc SelectedGameClient}"
                           Grid.Row="4"
                           Grid.Column="6"
                           Width="229"
@@ -1088,6 +1090,7 @@
                            Text="{localization:Loc SelectedWorldBuilder}"
                            TextWrapping="Wrap" />
                 <ComboBox x:Name="WorldBuilderSelector"
+                          AutomationProperties.Name="{localization:Loc SelectedWorldBuilder}"
                           Grid.Row="4"
                           Grid.Column="6"
                           Width="229"
@@ -1129,6 +1132,7 @@
                         IsEnabled="{Binding MainControlsEnabled}"
                         Click="ShowModifications_ClickAsync" />
                 <Button x:Name="PatchesButton"
+                        AutomationProperties.Name="{Binding PatchesTabText}"
                         Grid.Row="1"
                         Grid.Column="2"
                         Grid.ColumnSpan="2"
@@ -1162,6 +1166,7 @@
                     </Grid>
                 </Button>
                 <Button x:Name="AddonsButton"
+                        AutomationProperties.Name="{Binding AddonsTabText}"
                         Grid.Row="1"
                         Grid.Column="4"
                         Width="265"
@@ -1311,6 +1316,7 @@
                                     MinHeight="46"
                                     Padding="18,4"
                                     HorizontalAlignment="Center"
+                                    AutomationProperties.Name="{localization:Loc ForceQuitRunningProcess}"
                                     Click="ForceQuitRunningProcess_ClickAsync">
                                 <TextBlock Text="{localization:Loc ForceQuitRunningProcess}"
                                            TextAlignment="Center"

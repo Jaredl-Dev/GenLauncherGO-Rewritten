@@ -357,6 +357,14 @@ internal sealed class ModificationViewModel : ObservableObject, ILaunchContentIn
 
     public LauncherContentVersion ActiveIntegrityVersion => ActiveVersion;
 
+    /// <summary>
+    ///     Names the tile for screen readers, which announce a list item by its content's text.
+    /// </summary>
+    public override string ToString()
+    {
+        return NameInfo;
+    }
+
     public void BeginIntegrityProgress(string message)
     {
         _integrityProgressActive = true;
