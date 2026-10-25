@@ -228,7 +228,17 @@ internal sealed class LauncherWindowWorkflowCoordinator
                 "Starting {LaunchTarget} launch workflow for {ExecutableName}.",
                 targetName,
                 System.IO.Path.GetFileName(executablePath));
-            context.ViewModel.ApplySelectionToPersistenceModel();
+            try
+            {
+                // Selection is otherwise saved only on a clean exit, so a crash while the game runs would lose it.
+                context.ViewModel.SaveLauncherData();
+            }
+            catch (LauncherContentPersistenceException)
+            {
+                // The catalog logged the failure and keeps the selection in memory; the launch does not depend on it.
+                _logger.LogWarning("The content selection was not saved before the {LaunchTarget} launch.", targetName);
+            }
+
             bool processSucceeded;
             try
             {

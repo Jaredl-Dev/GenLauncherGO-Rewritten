@@ -198,6 +198,7 @@
     <data name="PackageSizeUnavailable" xml:space="preserve"><value>Nicht verfügbar</value></data>
     <data name="SelectMod" xml:space="preserve"><value>Mod zum Hinzufügen auswählen</value></data>
     <data name="SetImage" xml:space="preserve"><value>Bild festlegen (500x100)</value></data>
+    <data name="ImageNotReadable" xml:space="preserve"><value>Die ausgewählte Datei ist kein lesbares PNG- oder JPG-Bild. Das aktuelle Bild wurde beibehalten.</value></data>
     <data name="Stop" xml:space="preserve"><value>Stop</value></data>
     <data name="ThankYou" xml:space="preserve"><value>Vielen Dank!</value></data>
     <data name="UninstalledUpdate" xml:space="preserve"><value>Es gibt ein nicht installiertes Update für {0} </value></data>

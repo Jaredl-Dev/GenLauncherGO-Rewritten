@@ -198,6 +198,7 @@
     <data name="PackageSizeUnavailable" xml:space="preserve"><value>Недоступно</value></data>
     <data name="SelectMod" xml:space="preserve"><value>Виберіть мод, який потрібно додати</value></data>
     <data name="SetImage" xml:space="preserve"><value>Встановити картинку (500x100)</value></data>
+    <data name="ImageNotReadable" xml:space="preserve"><value>Вибраний файл не є придатним для читання зображенням PNG або JPG. Поточне зображення збережено.</value></data>
     <data name="Stop" xml:space="preserve"><value>СТОП</value></data>
     <data name="ThankYou" xml:space="preserve"><value>Дякую!</value></data>
     <data name="UninstalledUpdate" xml:space="preserve"><value>Є невстановлене оновлення для {0} </value></data>

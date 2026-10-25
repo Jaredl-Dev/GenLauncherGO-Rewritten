@@ -87,6 +87,31 @@ internal sealed class ModificationImageSourceFactory
     }
 
     /// <summary>
+    ///     Reports whether a file decodes as an image, without adding it to the bitmap cache.
+    /// </summary>
+    /// <remarks>
+    ///     A cached image that cannot be decoded is deleted when its tile loads, so a replacement must be checked before
+    ///     it takes the place of the image the tile shows now.
+    /// </remarks>
+    public bool CanDecodeFileImage(string path)
+    {
+        ArgumentException.ThrowIfNullOrWhiteSpace(path);
+
+        try
+        {
+            DecodeFileImage(path).Dispose();
+            return true;
+        }
+        catch (Exception exception) when (exception is ArgumentException or IOException or NotSupportedException
+                                              or UnauthorizedAccessException)
+        {
+            // Skia reports undecodable data as an ArgumentException.
+            _logger.LogWarning(exception, "Image file {ImageFileName} cannot be decoded.", Path.GetFileName(path));
+            return false;
+        }
+    }
+
+    /// <summary>
     ///     Creates a cache key that changes when a file is replaced or edited.
     /// </summary>
     private static string CreateFileCacheKey(FileInfo fileInfo)

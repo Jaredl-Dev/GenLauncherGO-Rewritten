@@ -198,6 +198,7 @@
     <data name="PackageSizeUnavailable" xml:space="preserve"><value>Kullanılamıyor</value></data>
     <data name="SelectMod" xml:space="preserve"><value>Eklenecek modu seçin</value></data>
     <data name="SetImage" xml:space="preserve"><value>Resmi ayarla (500x100)</value></data>
+    <data name="ImageNotReadable" xml:space="preserve"><value>Seçilen dosya okunabilir bir PNG veya JPG resmi değil. Mevcut resim korundu.</value></data>
     <data name="Stop" xml:space="preserve"><value>DUR</value></data>
     <data name="ThankYou" xml:space="preserve"><value>Teşekkürler!</value></data>
     <data name="UninstalledUpdate" xml:space="preserve"><value>{0} için yüklenmemiş bir güncelleme var </value></data>

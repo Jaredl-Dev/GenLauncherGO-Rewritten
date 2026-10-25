@@ -33,6 +33,7 @@ internal sealed class LauncherContentActionCoordinator
     private readonly ILogger<LauncherContentActionCoordinator> _logger;
     private readonly LauncherManualImportCoordinator _manualImportCoordinator;
     private readonly IModificationImageFileService _modificationImageFileService;
+    private readonly ModificationImageSourceFactory _modificationImageSourceFactory;
     private readonly LauncherRuntimePathContext _runtimePaths;
     private readonly ILauncherStringLocalizer _stringLocalizer;
 
@@ -46,6 +47,7 @@ internal sealed class LauncherContentActionCoordinator
         LaunchContentIntegrityCoordinator launchContentIntegrityCoordinator,
         ILauncherStringLocalizer stringLocalizer,
         IModificationImageFileService modificationImageFileService,
+        ModificationImageSourceFactory modificationImageSourceFactory,
         ILauncherDialogService dialogService,
         LauncherRuntimePathContext runtimePaths,
         ILogger<LauncherContentActionCoordinator> logger)
@@ -64,6 +66,8 @@ internal sealed class LauncherContentActionCoordinator
         _stringLocalizer = stringLocalizer ?? throw new ArgumentNullException(nameof(stringLocalizer));
         _modificationImageFileService = modificationImageFileService ??
                                         throw new ArgumentNullException(nameof(modificationImageFileService));
+        _modificationImageSourceFactory = modificationImageSourceFactory ??
+                                          throw new ArgumentNullException(nameof(modificationImageSourceFactory));
         _dialogService = dialogService ?? throw new ArgumentNullException(nameof(dialogService));
         _runtimePaths = runtimePaths ?? throw new ArgumentNullException(nameof(runtimePaths));
         _logger = logger ?? throw new ArgumentNullException(nameof(logger));
@@ -203,7 +207,11 @@ internal sealed class LauncherContentActionCoordinator
         {
             bool isModCardRemoval = versionData.SelectedVersion.ModificationType == ModificationType.Mod &&
                                     ShouldRemoveContentCard(versionData);
-            if (!await ConfirmContentRemovalAsync(versionData.SelectedVersion.Name, isModCardRemoval, context.Owner))
+            // Removing a mod card deletes every version, so only a single-version removal names the version.
+            string removedContentName = isModCardRemoval
+                ? versionData.SelectedVersion.Name
+                : versionData.SelectedVersion.DisplayName;
+            if (!await ConfirmContentRemovalAsync(removedContentName, isModCardRemoval, context.Owner))
             {
                 _logger.LogDebug(
                     "Content removal for {ContentName} {ContentVersion} was declined.",
@@ -404,6 +412,18 @@ internal sealed class LauncherContentActionCoordinator
         viewModel.SetMainControlsEnabled(false);
         try
         {
+            if (!await Task.Run(
+                    () => _modificationImageSourceFactory.CanDecodeFileImage(selectedImageFile),
+                    cancellationToken))
+            {
+                await _dialogService.ShowErrorAsync(
+                    new LauncherInfoDialogRequest(
+                        _stringLocalizer["OperationAborted"],
+                        _stringLocalizer["ImageNotReadable"]),
+                    owner);
+                return;
+            }
+
             _logger.LogDebug(
                 "Replacing modification image for {ModificationName} {ContentVersion}.",
                     container.ContainerModification.Name,

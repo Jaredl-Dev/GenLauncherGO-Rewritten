@@ -170,6 +170,7 @@ public sealed partial class LauncherWindowWorkflowCoordinatorTests
             integrityCoordinator,
             stringLocalizer,
             Substitute.For<IModificationImageFileService>(),
+            new ModificationImageSourceFactory(NullLogger<ModificationImageSourceFactory>.Instance),
             resolvedDialogService,
             TestLauncherPaths.CreateRuntimePathContext(TestLauncherPaths.Create()),
             NullLogger<LauncherContentActionCoordinator>.Instance);

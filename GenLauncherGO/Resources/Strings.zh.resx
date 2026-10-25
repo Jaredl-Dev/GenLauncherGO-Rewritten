@@ -198,6 +198,7 @@
     <data name="PackageSizeUnavailable" xml:space="preserve"><value>不可用</value></data>
     <data name="SelectMod" xml:space="preserve"><value>选择添加的模组</value></data>
     <data name="SetImage" xml:space="preserve"><value>选择图片(500*100)</value></data>
+    <data name="ImageNotReadable" xml:space="preserve"><value>所选文件不是可读取的 PNG 或 JPG 图片。已保留当前图片。</value></data>
     <data name="Stop" xml:space="preserve"><value>停止</value></data>
     <data name="ThankYou" xml:space="preserve"><value>谢谢！</value></data>
     <data name="UninstalledUpdate" xml:space="preserve"><value>{0} 有一个未安装的更新 </value></data>

@@ -198,6 +198,7 @@
     <data name="PackageSizeUnavailable" xml:space="preserve"><value>Nedostupno</value></data>
     <data name="SelectMod" xml:space="preserve"><value>Odaberite koju modifikaciju treba dodati</value></data>
     <data name="SetImage" xml:space="preserve"><value>Postavi sliku (500x100)</value></data>
+    <data name="ImageNotReadable" xml:space="preserve"><value>Odabrana datoteka nije čitljiva PNG ili JPG slika. Trenutna slika je zadržana.</value></data>
     <data name="Stop" xml:space="preserve"><value>STANI</value></data>
     <data name="ThankYou" xml:space="preserve"><value>Hvala vam!</value></data>
     <data name="UninstalledUpdate" xml:space="preserve"><value>Postoji neinstalirano ažuriranje za {0} </value></data>

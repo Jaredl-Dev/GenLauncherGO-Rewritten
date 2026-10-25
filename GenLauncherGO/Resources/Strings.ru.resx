@@ -198,6 +198,7 @@
     <data name="PackageSizeUnavailable" xml:space="preserve"><value>Недоступно</value></data>
     <data name="SelectMod" xml:space="preserve"><value>Выберите мод для добавления</value></data>
     <data name="SetImage" xml:space="preserve"><value>Задать изображение (500x100)</value></data>
+    <data name="ImageNotReadable" xml:space="preserve"><value>Выбранный файл не является читаемым изображением PNG или JPG. Текущее изображение сохранено.</value></data>
     <data name="Stop" xml:space="preserve"><value>СТОП</value></data>
     <data name="ThankYou" xml:space="preserve"><value>Спасибо!</value></data>
     <data name="UninstalledUpdate" xml:space="preserve"><value>Есть неустановленное обновление для {0} </value></data>

@@ -198,6 +198,7 @@
     <data name="PackageSizeUnavailable" xml:space="preserve"><value>در دسترس نیست</value></data>
     <data name="SelectMod" xml:space="preserve"><value>ماد موردنظر برای افزودن را انتخاب کنید</value></data>
     <data name="SetImage" xml:space="preserve"><value>تنظیم تصویر (500×100)</value></data>
+    <data name="ImageNotReadable" xml:space="preserve"><value>فایل انتخاب‌شده یک تصویر PNG یا JPG قابل خواندن نیست. تصویر فعلی حفظ شد.</value></data>
     <data name="Stop" xml:space="preserve"><value>توقف</value></data>
     <data name="ThankYou" xml:space="preserve"><value>متشکریم!</value></data>
     <data name="UninstalledUpdate" xml:space="preserve"><value>یک به‌روزرسانی نصب‌نشده برای &#x2068;{0}&#x2069; وجود دارد </value></data>

@@ -198,6 +198,7 @@
     <data name="PackageSizeUnavailable" xml:space="preserve"><value>غير متاح</value></data>
     <data name="SelectMod" xml:space="preserve"><value>الحدد المود المراد إضافته</value></data>
     <data name="SetImage" xml:space="preserve"><value>تعيين الصورة (500x100)</value></data>
+    <data name="ImageNotReadable" xml:space="preserve"><value>الملف المحدد ليس صورة PNG أو JPG قابلة للقراءة. تم الاحتفاظ بالصورة الحالية.</value></data>
     <data name="Stop" xml:space="preserve"><value>اوقف</value></data>
     <data name="ThankYou" xml:space="preserve"><value>شكراً لك!</value></data>
     <data name="UninstalledUpdate" xml:space="preserve"><value>هناك تحديث تم إلغاء تثبيته لـ {0} </value></data>
