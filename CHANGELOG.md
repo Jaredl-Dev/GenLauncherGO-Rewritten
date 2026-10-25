@@ -7,7 +7,7 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 Changes in versions up to and including 1.1.1 were not recorded.
 
-## [Unreleased]
+## [1.2.0] - 2026-10-25
 
 > **Note:** GenLauncherGO now ships as a portable ZIP instead of a single executable. To upgrade, close
 > GenLauncherGO, extract the ZIP into your existing launcher folder without replacing `GenLauncherGO Data`, and
@@ -49,3 +49,9 @@ Changes in versions up to and including 1.1.1 were not recorded.
   Corrupted images are downloaded again, and artwork for retired versions is cleaned up. Remote mods without
   cover art now show an "image unavailable" banner instead of the user-added mod banner.
 - Dialogs no longer get hidden behind other windows during startup.
+- Screen readers now announce game cards, tabs, mod tiles, settings options and input fields by name instead of
+  internal type names.
+- Choosing an unreadable image for a mod no longer removes its current image. GenLauncherGO now says the file
+  isn't a readable PNG or JPG image.
+- The prompt for deleting one version of a mod now names that version.
+- Your mod selection is saved when a game launches, so it is kept even if the launcher closes unexpectedly.
