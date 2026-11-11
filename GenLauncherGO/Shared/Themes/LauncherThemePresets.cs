@@ -12,11 +12,13 @@ namespace GenLauncherGO.Shared.Themes;
 /// </summary>
 internal static class LauncherThemePresets
 {
-    private static readonly Uri _generalsBackgroundUri =
-        new("avares://GenLauncherGO/Shared/Resources/Images/LauncherBackgroundGenerals.jpg");
+    // Each game's artwork is decoded once and kept for the session. A preset is rebuilt on every palette change,
+    // including each modification selection, and the immutable brush is safe to share across themes and windows.
+    private static readonly Lazy<IImageBrush> _generalsBackground =
+        new(() => CreateImageBrush("avares://GenLauncherGO/Shared/Resources/Images/LauncherBackgroundGenerals.jpg"));
 
-    private static readonly Uri _zeroHourBackgroundUri =
-        new("avares://GenLauncherGO/Shared/Resources/Images/LauncherBackgroundZeroHour.jpg");
+    private static readonly Lazy<IImageBrush> _zeroHourBackground =
+        new(() => CreateImageBrush("avares://GenLauncherGO/Shared/Resources/Images/LauncherBackgroundZeroHour.jpg"));
 
     /// <summary>
     ///     Creates the built-in theme for a managed game.
@@ -31,13 +33,9 @@ internal static class LauncherThemePresets
         };
     }
 
-    private static IImageBrush CreateImageBrush(Uri uri)
+    private static IImageBrush CreateImageBrush(string uri)
     {
-        ArgumentNullException.ThrowIfNull(uri);
-
-        using Stream stream = uri.IsFile
-            ? File.Open(uri.LocalPath, FileMode.Open, FileAccess.Read, FileShare.ReadWrite)
-            : AssetLoader.Open(uri);
+        using Stream stream = AssetLoader.Open(new Uri(uri));
         return (IImageBrush)new ImageBrush(new Bitmap(stream))
         {
             Stretch = Stretch.Fill
@@ -66,7 +64,7 @@ internal static class LauncherThemePresets
             disabledTextColor: "#FF888888",
             chromeBackgroundColor: "#FF000000",
             scrimColor: "#66000000",
-            backgroundImage: CreateImageBrush(_zeroHourBackgroundUri));
+            backgroundImage: _zeroHourBackground.Value);
     }
 
     private static ColorsInfo CreateGenerals()
@@ -93,6 +91,6 @@ internal static class LauncherThemePresets
             disabledTextColor: "#FF888888",
             chromeBackgroundColor: "#FF000000",
             scrimColor: "#66000000",
-            backgroundImage: CreateImageBrush(_generalsBackgroundUri));
+            backgroundImage: _generalsBackground.Value);
     }
 }
