@@ -182,7 +182,14 @@ internal static class FileSystemPathSafety
     {
         foreach (string entryPath in Directory.EnumerateFileSystemEntries(directoryPath))
         {
-            FileAttributes attributes = File.GetAttributes(entryPath);
+            // Another writer can rename or delete an entry after enumeration, such as a concurrent download committing
+            // its temporary file into the same image folder. A missing entry cannot be a reparse point, and a listing
+            // taken a moment later would not have returned it, so the walk moves on.
+            if (!TryGetAttributes(entryPath, out FileAttributes attributes))
+            {
+                continue;
+            }
+
             if ((attributes & FileAttributes.ReparsePoint) != 0)
             {
                 throw new InvalidDataException(CreateLinkedPathMessage(pathSubject));
