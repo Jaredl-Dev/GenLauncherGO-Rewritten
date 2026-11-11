@@ -230,13 +230,14 @@ internal static class PackageRelease
         string[] entries = archive.Entries.Select(entry => entry.FullName.Replace('\\', '/').TrimStart('/')).ToArray();
         string[] expectedEntries =
         [
-            ".portable", $"{packageId}.exe", "Update.exe", $"current/{packageId}.exe", "current/LICENSE", "current/sq.version"
+            ".portable", $"{packageId}.exe", "Update.exe", $"current/{packageId}.exe", "current/LICENSE", "current/sq.version",
+            "current/av_libglesv2.dll", "current/libHarfBuzzSharp.dll", "current/libSkiaSharp.dll"
         ];
         if (!entries.Order(StringComparer.OrdinalIgnoreCase)
                 .SequenceEqual(expectedEntries.Order(StringComparer.OrdinalIgnoreCase), StringComparer.OrdinalIgnoreCase))
         {
             throw new InvalidDataException(
-                "The portable archive does not have the expected root stub, updater, marker, current app, license, and version metadata layout.");
+                "The portable archive does not have the expected root stub, updater, marker, current app, native libraries, license, and version metadata layout.");
         }
 
         if (entries.Any(entry => entry.Split('/').Contains("GenLauncherGO Data", StringComparer.OrdinalIgnoreCase)))

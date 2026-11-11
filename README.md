@@ -77,6 +77,7 @@ The portable package keeps its update machinery beside the root launcher and cre
 | `Update.exe` | Portable update host |
 | `.portable` | Marker that prevents installer registration and shortcuts |
 | `current\GenLauncherGO.exe` | Current application payload |
+| `current\*.dll` | Native rendering and text-shaping libraries used by the application |
 | `current\LICENSE` | GPLv3 license text supplied with the application |
 | `current\sq.version` | Installed package identity and version |
 | `packages` | Downloaded update packages managed by Velopack |
