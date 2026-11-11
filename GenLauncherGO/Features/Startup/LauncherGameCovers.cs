@@ -11,16 +11,13 @@ namespace GenLauncherGO.Features.Startup;
 /// </summary>
 /// <remarks>
 ///     Each cover is decoded once and kept for the session, because the game-choice screen, the main window's game
-///     switcher and the settings window all show it. Decoding to a bounded width matters: the Generals artwork ships
-///     1054 pixels wide, while no screen shows a cover wider than 188 pixels.
+///     switcher and the settings window all show it. No screen shows a cover wider than 188 pixels, so the artwork
+///     ships no wider than 376 pixels, enough to stay sharp at 200% display scaling, and decodes at its own size.
 /// </remarks>
 internal static class LauncherGameCovers
 {
-    // Twice the widest on-screen cover, so the artwork stays sharp at 200% display scaling.
-    private const int DecodeWidth = 376;
-
     private static readonly Lazy<Bitmap> _generals =
-        new(() => Load("avares://GenLauncherGO/Shared/Resources/Images/OfficialCoverGenerals.png"));
+        new(() => Load("avares://GenLauncherGO/Shared/Resources/Images/OfficialCoverGenerals.jpg"));
 
     private static readonly Lazy<Bitmap> _zeroHour =
         new(() => Load("avares://GenLauncherGO/Shared/Resources/Images/OfficialCoverZeroHour.jpg"));
@@ -43,6 +40,6 @@ internal static class LauncherGameCovers
     private static Bitmap Load(string uri)
     {
         using Stream stream = AssetLoader.Open(new Uri(uri));
-        return Bitmap.DecodeToWidth(stream, DecodeWidth);
+        return new Bitmap(stream);
     }
 }

@@ -13,10 +13,10 @@ namespace GenLauncherGO.Shared.Themes;
 internal static class LauncherThemePresets
 {
     private static readonly Uri _generalsBackgroundUri =
-        new("avares://GenLauncherGO/Shared/Resources/Images/LauncherBackgroundGenerals.png");
+        new("avares://GenLauncherGO/Shared/Resources/Images/LauncherBackgroundGenerals.jpg");
 
     private static readonly Uri _zeroHourBackgroundUri =
-        new("avares://GenLauncherGO/Shared/Resources/Images/LauncherBackgroundZeroHour.png");
+        new("avares://GenLauncherGO/Shared/Resources/Images/LauncherBackgroundZeroHour.jpg");
 
     /// <summary>
     ///     Creates the built-in theme for a managed game.
