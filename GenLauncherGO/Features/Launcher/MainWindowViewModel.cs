@@ -1020,7 +1020,7 @@ internal sealed class MainWindowViewModel : ObservableObject, IDisposable
 
     private void UpdateWindowTitle()
     {
-        string title = $"GenLauncherGO - {ManagedGameShortName}";
+        string title = "GenLauncherGO";
         WindowTitle = Environment.IsPrivilegedProcess
             ? string.Format(CultureInfo.CurrentCulture, _stringLocalizer["AdministratorWindowTitle"], title)
             : title;
