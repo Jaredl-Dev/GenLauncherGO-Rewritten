@@ -29,6 +29,19 @@ internal interface ILauncherDialogService
         Window? owner = null);
 
     /// <summary>
+    ///     Shows a themed information dialog offering two actions beside a cancel.
+    /// </summary>
+    /// <returns>
+    ///     <see langword="true" /> for the primary action, <see langword="false" /> for the secondary action, or
+    ///     <see langword="null" /> when the user cancelled or closed the dialog.
+    /// </returns>
+    Task<bool?> ShowInfoChoiceAsync(
+        LauncherInfoDialogRequest request,
+        string primaryActionText,
+        string secondaryActionText,
+        Window? owner = null);
+
+    /// <summary>
     ///     Shows a themed error dialog.
     /// </summary>
     Task ShowErrorAsync(LauncherInfoDialogRequest request, Window? owner = null);

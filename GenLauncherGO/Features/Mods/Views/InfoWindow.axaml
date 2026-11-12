@@ -141,6 +141,11 @@
                             IsVisible="{Binding IsCancelVisible}"
                             IsCancel="True"
                             Command="{Binding CancelCommand}" />
+                    <Button x:Name="SecondaryActionButton"
+                            Classes="dialog-action"
+                            Content="{Binding SecondaryActionText}"
+                            IsVisible="{Binding IsSecondaryActionVisible}"
+                            Command="{Binding SecondaryActionCommand}" />
                     <Button x:Name="ContinueButton"
                             Classes="dialog-action primary"
                             Content="{Binding ContinueText}"

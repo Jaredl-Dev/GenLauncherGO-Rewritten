@@ -22,12 +22,19 @@ internal partial class InfoWindow : Window
         InfoDialogKind kind,
         string? continueText = null,
         string? cancelText = null,
-        string? actionText = null)
+        string? actionText = null,
+        string? secondaryActionText = null)
         : this()
     {
         ArgumentNullException.ThrowIfNull(request);
 
-        ViewModel = new InfoDialogViewModel(request, kind, continueText, cancelText, actionText);
+        ViewModel = new InfoDialogViewModel(
+            request,
+            kind,
+            continueText,
+            cancelText,
+            actionText,
+            secondaryActionText);
         DataContext = ViewModel;
         ViewModel.CloseRequested += ViewModel_CloseRequested;
     }

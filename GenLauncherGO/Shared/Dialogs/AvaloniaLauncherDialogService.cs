@@ -62,6 +62,30 @@ internal sealed class AvaloniaLauncherDialogService : ILauncherDialogService
             actionText: actionText);
     }
 
+    public async Task<bool?> ShowInfoChoiceAsync(
+        LauncherInfoDialogRequest request,
+        string primaryActionText,
+        string secondaryActionText,
+        Window? owner = null)
+    {
+        ArgumentNullException.ThrowIfNull(request);
+        ArgumentException.ThrowIfNullOrWhiteSpace(primaryActionText);
+        ArgumentException.ThrowIfNullOrWhiteSpace(secondaryActionText);
+
+        _logger.LogDebug("Showing launcher choice dialog {DialogTitle}.", request.MainMessage);
+        InfoWindow dialog = CreateInfoWindow(
+            request,
+            InfoDialogKind.Choice,
+            actionText: primaryActionText,
+            secondaryActionText: secondaryActionText);
+        bool? choice = await AvaloniaDialog.ShowAsync(dialog, owner, () => dialog.ViewModel.DialogResult);
+        _logger.LogDebug(
+            "Launcher choice dialog {DialogTitle} completed with choice: {Choice}.",
+            request.MainMessage,
+            choice);
+        return choice;
+    }
+
     public Task ShowErrorAsync(LauncherInfoDialogRequest request, Window? owner = null)
     {
         ArgumentNullException.ThrowIfNull(request);
@@ -182,16 +206,27 @@ internal sealed class AvaloniaLauncherDialogService : ILauncherDialogService
         string? continueText = null,
         string? actionText = null)
     {
+        InfoWindow dialog = CreateInfoWindow(request, kind, continueText, actionText);
+        return AvaloniaDialog.ShowAsync(dialog, owner, () => dialog.Accepted);
+    }
+
+    private InfoWindow CreateInfoWindow(
+        LauncherInfoDialogRequest request,
+        InfoDialogKind kind,
+        string? continueText = null,
+        string? actionText = null,
+        string? secondaryActionText = null)
+    {
         string cancelText = request.CancelText ??
                             (kind == InfoDialogKind.InfoAction
                                 ? _stringLocalizer["Ok"]
                                 : _stringLocalizer["Cancel"]);
-        InfoWindow dialog = new(
+        return new InfoWindow(
             request,
             kind,
             continueText,
             cancelText,
-            actionText);
-        return AvaloniaDialog.ShowAsync(dialog, owner, () => dialog.Accepted);
+            actionText,
+            secondaryActionText);
     }
 }

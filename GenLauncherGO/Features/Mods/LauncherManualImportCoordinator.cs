@@ -133,19 +133,23 @@ internal sealed class LauncherManualImportCoordinator
     /// </summary>
     /// <remarks>
     ///     Windows offers no picker that selects files and folders together, so the choice has to be made before a
-    ///     picker opens. Both answers lead to a picker the user can still cancel, which is why this prompt has no
-    ///     cancel of its own.
+    ///     picker opens. Escape or closing the prompt cancels the import rather than picking either answer.
     /// </remarks>
     private async Task<IReadOnlyList<string>> PickImportSourcesAsync(Window owner)
     {
-        bool importFolder = await _dialogService.ShowInfoActionAsync(
+        bool? importFolder = await _dialogService.ShowInfoChoiceAsync(
             new LauncherInfoDialogRequest(
                 _stringLocalizer["ManualImportSourceTitle"],
-                _stringLocalizer["ManualImportSourceDetails"],
-                cancelText: _stringLocalizer["ManualImportSourceFiles"]),
-            _stringLocalizer["ManualImportSourceFolder"],
-            owner);
-        if (!importFolder)
+                _stringLocalizer["ManualImportSourceDetails"]),
+            primaryActionText: _stringLocalizer["ManualImportSourceFolder"],
+            secondaryActionText: _stringLocalizer["ManualImportSourceFiles"],
+            owner: owner);
+        if (importFolder == null)
+        {
+            return [];
+        }
+
+        if (importFolder == false)
         {
             return await _filePicker.PickManualPackageFilesAsync(owner);
         }

@@ -8,5 +8,10 @@ internal enum InfoDialogKind
 
     Error,
 
-    WarningConfirmation
+    WarningConfirmation,
+
+    /// <summary>
+    ///     Offers a primary and a secondary action beside a cancel that dismisses the dialog with neither.
+    /// </summary>
+    Choice
 }

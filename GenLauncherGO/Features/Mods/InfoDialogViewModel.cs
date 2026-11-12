@@ -11,7 +11,8 @@ internal sealed class InfoDialogViewModel
         InfoDialogKind kind,
         string? continueText = null,
         string? cancelText = null,
-        string? actionText = null)
+        string? actionText = null,
+        string? secondaryActionText = null)
     {
         ArgumentNullException.ThrowIfNull(request);
 
@@ -21,19 +22,24 @@ internal sealed class InfoDialogViewModel
         ContinueText = string.IsNullOrWhiteSpace(continueText) ? null : continueText;
         CancelText = string.IsNullOrWhiteSpace(cancelText) ? "Cancel" : cancelText;
         ActionText = string.IsNullOrWhiteSpace(actionText) ? null : actionText;
+        SecondaryActionText = string.IsNullOrWhiteSpace(secondaryActionText) ? null : secondaryActionText;
         IsInfoAction = kind == InfoDialogKind.InfoAction;
+        IsChoice = kind == InfoDialogKind.Choice;
         OkCommand = new RelayCommand(Accept);
         CancelCommand = new RelayCommand(Cancel);
         ContinueCommand = OkCommand;
         ActionCommand = new RelayCommand(CompleteAction);
+        SecondaryActionCommand = new RelayCommand(CompleteSecondaryAction);
         CloseCommand = new RelayCommand(Close);
 
         IsWarningConfirmation = kind == InfoDialogKind.WarningConfirmation;
         IsOkVisible = kind is InfoDialogKind.Info or InfoDialogKind.Error;
-        IsActionVisible = IsInfoAction && ActionText != null;
+        IsActionVisible = (IsInfoAction || IsChoice) && ActionText != null;
+        IsSecondaryActionVisible = IsChoice && SecondaryActionText != null;
         IsContinueVisible = kind == InfoDialogKind.WarningConfirmation;
-        IsCancelVisible = kind is InfoDialogKind.WarningConfirmation or InfoDialogKind.InfoAction;
-        IsInfoIconVisible = kind is InfoDialogKind.Info or InfoDialogKind.InfoAction;
+        IsCancelVisible = kind is InfoDialogKind.WarningConfirmation or InfoDialogKind.InfoAction or
+            InfoDialogKind.Choice;
+        IsInfoIconVisible = kind is InfoDialogKind.Info or InfoDialogKind.InfoAction or InfoDialogKind.Choice;
         IsWarningIconVisible = kind == InfoDialogKind.WarningConfirmation;
         IsErrorIconVisible = kind == InfoDialogKind.Error;
     }
@@ -50,11 +56,15 @@ internal sealed class InfoDialogViewModel
 
     public string? ActionText { get; }
 
+    public string? SecondaryActionText { get; }
+
     public bool IsOkVisible { get; }
 
     public bool IsContinueVisible { get; }
 
     public bool IsActionVisible { get; }
+
+    public bool IsSecondaryActionVisible { get; }
 
     public bool IsCancelVisible { get; }
 
@@ -72,16 +82,24 @@ internal sealed class InfoDialogViewModel
 
     public IRelayCommand ActionCommand { get; }
 
+    public IRelayCommand SecondaryActionCommand { get; }
+
     public IRelayCommand CloseCommand { get; }
 
     /// <summary>
     ///     Gets the result requested by the dialog command.
     /// </summary>
+    /// <remarks>
+    ///     A choice reports its primary action as <see langword="true" />, its secondary action as
+    ///     <see langword="false" />, and a cancel as <see langword="null" />, so dismissing it never picks an action.
+    /// </remarks>
     public bool? DialogResult { get; private set; }
 
     private bool IsWarningConfirmation { get; }
 
     private bool IsInfoAction { get; }
+
+    private bool IsChoice { get; }
 
     /// <summary>
     ///     Occurs when the view model requests that the owning dialog close.
@@ -98,12 +116,17 @@ internal sealed class InfoDialogViewModel
         CompleteDialog(true);
     }
 
-    private void Cancel()
+    private void CompleteSecondaryAction()
     {
         CompleteDialog(false);
     }
 
-    private void CompleteDialog(bool result)
+    private void Cancel()
+    {
+        CompleteDialog(IsChoice ? null : false);
+    }
+
+    private void CompleteDialog(bool? result)
     {
         DialogResult = result;
         CloseRequested?.Invoke(this, EventArgs.Empty);
@@ -111,7 +134,7 @@ internal sealed class InfoDialogViewModel
 
     private void Close()
     {
-        if (IsWarningConfirmation || IsInfoAction)
+        if (IsWarningConfirmation || IsInfoAction || IsChoice)
         {
             Cancel();
             return;
