@@ -8,8 +8,7 @@
         x:DataType="vm:ManualAddModificationViewModel"
         Title="{localization:Loc InputModData}"
         Width="620"
-        Height="370"
-        Topmost="True">
+        Height="370">
     <Border Classes="dialog-frame">
         <Grid RowDefinitions="56,*,64">
             <Border Classes="dialog-band header"
