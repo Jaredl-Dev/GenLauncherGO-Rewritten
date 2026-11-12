@@ -60,4 +60,35 @@ public sealed class LauncherLocalContentReconcilerTests
         launcherData.Patches.Should().BeEmpty();
         launcherData.Addons.Should().BeEmpty();
     }
+
+    [Fact]
+    public void DiscardContent_PatchNamedAfterMod_KeepsTheModsAddons()
+    {
+        using TestDirectory directory = new();
+        LauncherPaths paths = TestLauncherPaths.Create(directory);
+        string originalGame = LauncherContentKey.OriginalGame.Name;
+        string addonDir = Path.Combine(paths.ModsDirectory, "ShockWave", LauncherFileSystemLayout.AddonsFolderName, "Maps", "1.0");
+        string patchDir = Path.Combine(paths.ModsDirectory, originalGame, LauncherFileSystemLayout.PatchesFolderName, "ShockWave", "1.1");
+        Directory.CreateDirectory(addonDir);
+        Directory.CreateDirectory(patchDir);
+        File.WriteAllText(Path.Combine(addonDir, "maps.big"), "addon");
+        File.WriteAllText(Path.Combine(patchDir, "patch.big"), "patch");
+
+        LauncherData launcherData = new();
+        LauncherContentVersion addonVersion = TestLauncherContent.Version("Maps", "1.0", type: ModificationType.Addon, parentContentName: "ShockWave", installed: true);
+        LauncherContentVersion patchVersion = TestLauncherContent.Version("ShockWave", "1.1", type: ModificationType.Patch, parentContentName: originalGame, installed: true);
+        launcherData.AddOrUpdate(TestLauncherContent.Version("ShockWave", "1.0", installed: true));
+        launcherData.AddOrUpdate(addonVersion);
+        launcherData.AddOrUpdate(patchVersion);
+
+        LauncherLocalContentReconciler reconciler = new(
+            new FileSystemLocalLauncherContentService(NullLogger<FileSystemLocalLauncherContentService>.Instance),
+            Substitute.For<IContentIntegrityService>(),
+            NullLogger<LauncherLocalContentReconciler>.Instance);
+
+        reconciler.DiscardContent(launcherData, patchVersion.ContentKey, paths);
+
+        Directory.Exists(addonDir).Should().BeTrue();
+        launcherData.Addons.Should().ContainSingle(addon => addon.ContentKey.HasName("Maps"));
+    }
 }

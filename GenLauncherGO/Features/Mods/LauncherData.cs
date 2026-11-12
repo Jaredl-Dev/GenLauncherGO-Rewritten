@@ -156,17 +156,40 @@ internal sealed class LauncherData
             foreach (LauncherContent patch in dependentPatches)
             {
                 results.Add(patch.ContentKey);
-                results.AddRange(_addons
-                    .Where(addon => IsDependentOn(addon, patch.ContentKey))
-                    .Select(addon => addon.ContentKey));
+                results.AddRange(GetPatchAddonKeys(patch.ContentKey));
             }
+
+            results.AddRange(_addons
+                .Where(addon => IsDependentOn(addon, contentKey))
+                .Select(addon => addon.ContentKey));
+        }
+        else
+        {
+            results.AddRange(GetPatchAddonKeys(contentKey));
         }
 
-        results.AddRange(_addons
-            .Where(addon => IsDependentOn(addon, contentKey))
-            .Select(addon => addon.ContentKey));
-
         return results.Distinct().ToList();
+    }
+
+    /// <summary>
+    ///     Gets the add-ons that belong to a patch.
+    /// </summary>
+    /// <remarks>
+    ///     An add-on names its parent without saying whether that parent is a mod or a patch, and it is stored in the
+    ///     folder of a mod with that name. When a mod or the original game shares the patch's name, the add-ons are that
+    ///     mod's, so removing the patch must leave them and their files in place.
+    /// </remarks>
+    private IEnumerable<LauncherContentKey> GetPatchAddonKeys(LauncherContentKey patchKey)
+    {
+        var sameNamedModKey = LauncherContentKey.ForModificationName(patchKey.Name);
+        if (sameNamedModKey == LauncherContentKey.OriginalGame || FindContent(sameNamedModKey) is not null)
+        {
+            return [];
+        }
+
+        return _addons
+            .Where(addon => IsDependentOn(addon, patchKey))
+            .Select(addon => addon.ContentKey);
     }
 
     private void DeleteDependentContent(LauncherContentKey contentKey)
