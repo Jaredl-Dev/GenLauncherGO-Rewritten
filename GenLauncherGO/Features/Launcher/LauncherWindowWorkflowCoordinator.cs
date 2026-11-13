@@ -347,8 +347,7 @@ internal sealed class LauncherWindowWorkflowCoordinator
                 ApplyInstallationChangesFromSettingsAsync(
                     previousInstallations,
                     previousSelectedGame,
-                    context.ViewModel,
-                    context.Content,
+                    context,
                     settingsWindow,
                     cancellationToken));
         await settingsWindow.ShowDialog<bool>(context.Owner);
@@ -367,14 +366,11 @@ internal sealed class LauncherWindowWorkflowCoordinator
     private async Task<bool> ApplyInstallationChangesFromSettingsAsync(
         LauncherInstallations previousInstallations,
         SupportedGame? previousSelectedGame,
-        MainWindowViewModel viewModel,
-        LauncherWindowListController content,
+        LauncherWindowContext context,
         Window settingsOwner,
         CancellationToken cancellationToken)
     {
-        return await RunLiveGameManagementChangeAsync(
-            viewModel,
-            content,
+        return await context.ReloadListsAsync(
             () => _gameSessionCoordinator.ApplyInstallationChangesAsync(
                 previousInstallations,
                 previousSelectedGame,
@@ -396,48 +392,11 @@ internal sealed class LauncherWindowWorkflowCoordinator
             return false;
         }
 
-        return await RunLiveGameManagementChangeAsync(
-            context.ViewModel,
-            context.Content,
+        return await context.ReloadListsAsync(
             () => _gameSessionCoordinator.SwitchGameAsync(
                 game,
                 context.Owner,
                 cancellationToken));
-    }
-
-    private static async Task<bool> RunLiveGameManagementChangeAsync(
-        MainWindowViewModel viewModel,
-        LauncherWindowListController content,
-        Func<Task<bool>> change)
-    {
-        viewModel.SetMainControlsEnabled(false);
-        try
-        {
-            // Tile selection and scroll position are UI-owned until a persistence boundary. Capture both before
-            // a live reload so the outgoing game's state is saved before the active runtime changes.
-            content.SaveModsListVerticalOffset();
-            viewModel.ApplySelectionToPersistenceModel();
-            if (!await change())
-            {
-                return false;
-            }
-
-            RefreshAfterLiveGameManagementChange(viewModel, content);
-            return true;
-        }
-        finally
-        {
-            viewModel.SetMainControlsEnabled(true);
-        }
-    }
-
-    private static void RefreshAfterLiveGameManagementChange(
-        MainWindowViewModel viewModel,
-        LauncherWindowListController content)
-    {
-        viewModel.ReloadForActiveGame();
-        content.Initialize();
-        content.RestoreModsListVerticalOffset();
     }
 
     /// <summary>
