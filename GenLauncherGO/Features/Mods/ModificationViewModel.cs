@@ -112,8 +112,7 @@ internal sealed class ModificationViewModel : ObservableObject, ILaunchContentIn
 
     public bool LocalMod =>
         ContainerModification.ModificationType == ModificationType.Mod &&
-        !ContainerModification.Versions.Any(version =>
-            version.EffectiveContentSourceKind.IsManagedRemote());
+        !ContainerModification.HasRepositoryVersion;
 
     /// <summary>
     ///     Gets the palette this modification publishes for the launcher shell, or <see langword="null" /> for none.

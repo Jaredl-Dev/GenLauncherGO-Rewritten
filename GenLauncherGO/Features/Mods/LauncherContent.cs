@@ -46,6 +46,12 @@ internal sealed class LauncherContent
 
     public bool Installed => _versions.Any(version => version.Installation.Installed);
 
+    /// <summary>
+    ///     Gets whether any version comes from the repository, so the launcher can download and restore it.
+    /// </summary>
+    public bool HasRepositoryVersion =>
+        _versions.Any(version => version.EffectiveContentSourceKind.IsManagedRemote());
+
     public bool IsSelected { get; set; }
 
     public int NumberInList { get; set; }

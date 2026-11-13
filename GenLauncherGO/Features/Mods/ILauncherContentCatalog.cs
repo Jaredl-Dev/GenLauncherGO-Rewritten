@@ -56,6 +56,20 @@ internal interface ILauncherContentCatalog
         CancellationToken cancellationToken);
 
     /// <summary>
+    ///     Gives a mod that the repository also publishes, but that has no repository version yet, its repository card
+    ///     now, as the next start would.
+    /// </summary>
+    /// <remarks>
+    ///     Its files are already installed and listed, so a failure here only leaves it a manual mod until the next
+    ///     start matches it. Matching takes no snapshot: a version that matches a published one is still checked against
+    ///     the repository's files at its first launch.
+    /// </remarks>
+    /// <returns>The mod's card, which is the repository's card when matching succeeded.</returns>
+    Task<LauncherContent> MatchRepositoryModificationAsync(
+        LauncherContent modification,
+        CancellationToken cancellationToken);
+
+    /// <summary>
     ///     Reads remote patches and add-ons for a modification.
     /// </summary>
     Task ReadPatchesAndAddonsForModAsync(

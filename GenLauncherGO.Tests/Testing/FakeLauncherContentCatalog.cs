@@ -95,6 +95,16 @@ internal sealed class FakeLauncherContentCatalog : ILauncherContentCatalog
                throw new InvalidOperationException($"'{name}' was not added to the fake catalog.");
     }
 
+    /// <remarks>
+    ///     No test relies on repository matching, so the fake leaves every mod as it is.
+    /// </remarks>
+    public Task<LauncherContent> MatchRepositoryModificationAsync(
+        LauncherContent modification,
+        CancellationToken cancellationToken)
+    {
+        return Task.FromResult(modification);
+    }
+
     public Task ReadPatchesAndAddonsForModAsync(
         LauncherContentKey modificationKey,
         CancellationToken cancellationToken)

@@ -135,6 +135,40 @@ internal sealed class LauncherContentCatalogService : ILauncherContentCatalog
             cancellationToken).ConfigureAwait(false);
     }
 
+    public async Task<LauncherContent> MatchRepositoryModificationAsync(
+        LauncherContent modification,
+        CancellationToken cancellationToken)
+    {
+        ArgumentNullException.ThrowIfNull(modification);
+
+        if (modification.ModificationType != ModificationType.Mod ||
+            modification.HasRepositoryVersion ||
+            RepositoryModificationNames?.Any(name =>
+                LauncherContentKey.ForModificationName(name) == modification.ContentKey) != true)
+        {
+            return modification;
+        }
+
+        try
+        {
+            LauncherContent repositoryContent = await AddRepositoryModificationAsync(
+                modification.Name,
+                cancellationToken).ConfigureAwait(false);
+            _logger.LogInformation(
+                "Matched modification {ModificationName} to the repository.",
+                modification.Name);
+            return repositoryContent;
+        }
+        catch (Exception exception) when (!cancellationToken.IsCancellationRequested)
+        {
+            _logger.LogWarning(
+                exception,
+                "Could not match modification {ModificationName} to the repository; it stays manual until the next start.",
+                modification.Name);
+            return modification;
+        }
+    }
+
     public void UninstallVersion(LauncherContentKey contentKey)
     {
         _localContentReconciler.DeleteVersion(contentKey, Paths);

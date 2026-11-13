@@ -337,6 +337,7 @@ internal sealed class LauncherContentActionCoordinator
 
             if (importedContent != null)
             {
+                importedContent = await _catalog.MatchRepositoryModificationAsync(importedContent, cancellationToken);
                 context.ViewModel.AddImportedContentToList(importedContent);
                 _logger.LogInformation(
                     "Manual content import workflow {ImportKind} completed.",
