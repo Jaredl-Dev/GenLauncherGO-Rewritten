@@ -237,12 +237,17 @@ internal sealed class ManualAddModificationViewModel : ObservableObject
         return value.All(IsSupportedFieldCharacter);
     }
 
+    /// <remarks>
+    ///     Allows <c>&amp;</c> because several repository mods are named "C&amp;C …", and an import only matches its
+    ///     repository mod when the user can enter that exact name.
+    /// </remarks>
     private static bool IsSupportedFieldCharacter(char character)
     {
         return char.IsLetterOrDigit(character) ||
                character == '_' ||
                character == '.' ||
                character == '@' ||
+               character == '&' ||
                character == '-' ||
                character == ' ';
     }
