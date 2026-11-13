@@ -245,11 +245,11 @@
     <data name="HideLauncherToolTip" xml:space="preserve"><value>Oculta a janela do launcher enquanto o jogo ou o World Builder está em execução e a mostra novamente quando o processo termina.</value></data>
     <data name="AddModFromFiles" xml:space="preserve"><value>Adicionar mod a partir de arquivos</value></data>
     <data name="ManualImportSourceTitle" xml:space="preserve"><value>Importar conteúdo</value></data>
-    <data name="ManualImportSourceDetails" xml:space="preserve"><value>Importe uma modificação a partir de ficheiros individuais ou de uma pasta que contenha os seus ficheiros.</value></data>
-    <data name="ManualImportSourceFiles" xml:space="preserve"><value>Selecionar ficheiros</value></data>
+    <data name="ManualImportSourceDetails" xml:space="preserve"><value>Importe uma modificação a partir de arquivos individuais ou de uma pasta que contenha os seus arquivos.</value></data>
+    <data name="ManualImportSourceFiles" xml:space="preserve"><value>Selecionar arquivos</value></data>
     <data name="ManualImportSourceFolder" xml:space="preserve"><value>Selecionar pasta</value></data>
     <data name="LauncherPackagesFilter" xml:space="preserve"><value>Pacotes do launcher</value></data>
-    <data name="AllFilesFilter" xml:space="preserve"><value>Todos os ficheiros</value></data>
+    <data name="AllFilesFilter" xml:space="preserve"><value>Todos os arquivos</value></data>
     <data name="ManualImportFolderTitle" xml:space="preserve"><value>Selecione a pasta que contém o conteúdo</value></data>
     <data name="FinishProcess" xml:space="preserve"><value>Feche o jogo antes de abrir as opções.</value></data>
     <data name="Info" xml:space="preserve"><value>Informação</value></data>
