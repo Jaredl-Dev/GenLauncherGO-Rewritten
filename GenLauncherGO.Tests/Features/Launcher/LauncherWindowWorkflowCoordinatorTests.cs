@@ -26,7 +26,9 @@ public sealed partial class LauncherWindowWorkflowCoordinatorTests
             LauncherContentVersion repositoryVersion =
                 CreateVersion("Shockwave", ContentSourceKind.ManagedSingleFile);
             catalog.DownloadHandler = (_, _) => Task.FromResult(repositoryVersion);
-            LauncherContentActionCoordinator coordinator = CreateContentActionCoordinator(dialogService: dialogService);
+            LauncherContentActionCoordinator coordinator = CreateContentActionCoordinator(
+                dialogService: dialogService,
+                catalog: catalog);
             WorkflowFixture fixture = new(catalog);
 
             await coordinator.AddRepositoryModificationAsync(fixture.Context);

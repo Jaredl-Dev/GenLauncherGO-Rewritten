@@ -109,7 +109,7 @@ internal sealed class LauncherContentCatalogService : ILauncherContentCatalog
             cancellationToken).ConfigureAwait(false);
     }
 
-    public async Task<LauncherContentVersion> AddRepositoryModificationAsync(
+    public async Task<LauncherContent> AddRepositoryModificationAsync(
         string name,
         CancellationToken cancellationToken)
     {
@@ -126,7 +126,11 @@ internal sealed class LauncherContentCatalogService : ILauncherContentCatalog
                 await _imageCache.CacheModificationImagesAsync(manifest.Content, Paths, cancellationToken)
                     .ConfigureAwait(false);
                 AddDownloadedModificationData(manifest.Content);
-                return manifest.Content;
+                await ReadPatchesAndAddonsForModCoreAsync(manifest.Content.ContentKey, cancellationToken)
+                    .ConfigureAwait(false);
+                return _state.Data.FindContent(manifest.Content.ContentKey) ??
+                       throw new InvalidOperationException(
+                           "Downloaded modification was not added to the launcher catalog.");
             },
             cancellationToken).ConfigureAwait(false);
     }

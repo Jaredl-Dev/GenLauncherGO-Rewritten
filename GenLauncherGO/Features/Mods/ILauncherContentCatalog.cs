@@ -47,9 +47,11 @@ internal interface ILauncherContentCatalog
         CancellationToken cancellationToken);
 
     /// <summary>
-    ///     Downloads one repository modification, caches its images, and adds it to the active catalog.
+    ///     Downloads one repository modification, caches its images, and adds it to the active catalog together with
+    ///     its patches and add-ons.
     /// </summary>
-    Task<LauncherContentVersion> AddRepositoryModificationAsync(
+    /// <returns>The modification's catalog card, merged with any version already listed under its name.</returns>
+    Task<LauncherContent> AddRepositoryModificationAsync(
         string name,
         CancellationToken cancellationToken);
 

@@ -559,22 +559,12 @@ internal sealed class MainWindowViewModel : ObservableObject, IDisposable
         UpdateChildDownloadTabIndicators();
     }
 
-    public async Task AddModToListAsync(
-        string modName,
-        CancellationToken cancellationToken = default)
+    /// <summary>
+    ///     Adds the tile of a repository modification the catalog just loaded to the top of the list.
+    /// </summary>
+    public void AddModToList(LauncherContent modification)
     {
-        ArgumentException.ThrowIfNullOrWhiteSpace(modName);
-
-        LauncherContentVersion modVersion = await _catalog.AddRepositoryModificationAsync(
-            modName,
-            cancellationToken);
-        await _catalog.ReadPatchesAndAddonsForModAsync(
-            modVersion.ContentKey,
-            cancellationToken);
-
-        LauncherContent modification = _catalog.Data.FindContent(modVersion.ContentKey)
-                                       ?? throw new InvalidOperationException(
-                                           "Downloaded modification was not added to the launcher catalog.");
+        ArgumentNullException.ThrowIfNull(modification);
 
         ModificationViewModel tile = CreateModificationViewModel(modification);
         tile.NotifyInstallAvailable();

@@ -103,7 +103,10 @@ internal sealed class LauncherContentActionCoordinator
             context.ViewModel.SetMainControlsEnabled(false);
             try
             {
-                await context.ViewModel.AddModToListAsync(modificationName, cancellationToken);
+                LauncherContent modification = await _catalog.AddRepositoryModificationAsync(
+                    modificationName,
+                    cancellationToken);
+                context.ViewModel.AddModToList(modification);
             }
             finally
             {

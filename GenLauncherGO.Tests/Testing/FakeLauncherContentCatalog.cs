@@ -79,7 +79,7 @@ internal sealed class FakeLauncherContentCatalog : ILauncherContentCatalog
                    new InvalidOperationException($"No metadata result was configured for '{name}'."));
     }
 
-    public async Task<LauncherContentVersion> AddRepositoryModificationAsync(
+    public async Task<LauncherContent> AddRepositoryModificationAsync(
         string name,
         CancellationToken cancellationToken)
     {
@@ -90,7 +90,9 @@ internal sealed class FakeLauncherContentCatalog : ILauncherContentCatalog
                                                              $"No download result was configured for '{name}'.")));
         Data.AddOrUpdate(modification);
         _repositoryContent.Add(modification.ContentKey);
-        return modification;
+        await ReadPatchesAndAddonsForModAsync(modification.ContentKey, cancellationToken);
+        return Data.FindContent(modification.ContentKey) ??
+               throw new InvalidOperationException($"'{name}' was not added to the fake catalog.");
     }
 
     public Task ReadPatchesAndAddonsForModAsync(
