@@ -12,6 +12,8 @@ namespace GenLauncherGO.Shared.IO;
 /// </remarks>
 internal static class LexicalPath
 {
+    private const int MaxPathSegmentLength = 255;
+
     /// <summary>
     ///     Returns a fully qualified path without a non-root trailing directory separator.
     /// </summary>
@@ -173,9 +175,31 @@ internal static class LexicalPath
     /// </summary>
     public static string NormalizePathSegment(string? segment, string paramName)
     {
+        string? problem = GetPathSegmentProblem(segment);
+        if (problem != null)
+        {
+            throw new ArgumentException(problem, paramName);
+        }
+
+        return segment!.Trim();
+    }
+
+    /// <summary>
+    ///     Determines whether <see cref="NormalizePathSegment" /> accepts a segment, without throwing.
+    /// </summary>
+    /// <remarks>
+    ///     Input that becomes a folder name can be checked against the same rules before anything is written.
+    /// </remarks>
+    public static bool IsValidPathSegment(string? segment)
+    {
+        return GetPathSegmentProblem(segment) == null;
+    }
+
+    private static string? GetPathSegmentProblem(string? segment)
+    {
         if (string.IsNullOrWhiteSpace(segment))
         {
-            throw new ArgumentException("Path segments must not be empty.", paramName);
+            return "Path segments must not be empty.";
         }
 
         string normalizedSegment = segment.Trim();
@@ -185,8 +209,7 @@ internal static class LexicalPath
             normalizedSegment.Contains(':', StringComparison.Ordinal) ||
             normalizedSegment.IndexOfAny(Path.GetInvalidFileNameChars()) >= 0)
         {
-            throw new ArgumentException("Path segments must not contain rooted paths or directory separators.",
-                paramName);
+            return "Path segments must not contain rooted paths or directory separators.";
         }
 
         if (string.Equals(normalizedSegment, ".", StringComparison.Ordinal) ||
@@ -194,10 +217,13 @@ internal static class LexicalPath
             normalizedSegment.EndsWith('.') ||
             IsReservedDeviceName(normalizedSegment))
         {
-            throw new ArgumentException("Path segments must not use reserved file-system names.", paramName);
+            return "Path segments must not use reserved file-system names.";
         }
 
-        return normalizedSegment;
+        // Windows file systems cap each path component at 255 characters, so a longer segment can never be created.
+        return normalizedSegment.Length > MaxPathSegmentLength
+            ? $"Path segments must not be longer than {MaxPathSegmentLength} characters."
+            : null;
     }
 
     private static bool IsReservedDeviceName(string segment)

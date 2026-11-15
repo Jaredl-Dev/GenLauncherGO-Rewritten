@@ -182,6 +182,8 @@
     <data name="ModificationsWithUpdate" xml:space="preserve"><value>برخی مادها قابل به‌روزرسانی هستند:</value></data>
     <data name="Mods" xml:space="preserve"><value>مادها</value></data>
     <data name="NameAndVersionValidSymbols" xml:space="preserve"><value>نام و نسخه ماد باید فقط شامل نویسه‌های معتبر باشند.</value></data>
+    <data name="ReservedOrInvalidName" xml:space="preserve"><value>این نام رزرو شده است یا نمی‌توان از آن به‌عنوان نام پوشه استفاده کرد. نام دیگری انتخاب کنید.</value></data>
+    <data name="ReservedOrInvalidVersion" xml:space="preserve"><value>این نسخه رزرو شده است یا نمی‌توان از آن به‌عنوان نام پوشه استفاده کرد. نسخه دیگری وارد کنید.</value></data>
     <data name="No" xml:space="preserve"><value>خیر</value></data>
     <data name="Yes" xml:space="preserve"><value>بله</value></data>
     <data name="NotInstalled" xml:space="preserve"><value>&#x2068;{0}&#x2069; انتخاب شده، اما نصب نیست. اجرا لغو شد!</value></data>

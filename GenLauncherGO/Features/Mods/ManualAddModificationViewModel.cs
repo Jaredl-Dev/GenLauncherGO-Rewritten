@@ -7,6 +7,7 @@ using System.Threading.Tasks;
 using CommunityToolkit.Mvvm.ComponentModel;
 using CommunityToolkit.Mvvm.Input;
 using GenLauncherGO.Shared.Dialogs;
+using GenLauncherGO.Shared.IO;
 using GenLauncherGO.Shared.Localization;
 
 namespace GenLauncherGO.Features.Mods;
@@ -14,6 +15,11 @@ namespace GenLauncherGO.Features.Mods;
 /// <summary>
 ///     Provides bindable manual import fields, validation, and actions for launcher content.
 /// </summary>
+/// <remarks>
+///     The name and version become folder names and the content's catalog identity, so they are trimmed and checked
+///     against the same path rules the importer applies. Anything accepted here therefore installs under exactly the
+///     identity the catalog later looks it up by.
+/// </remarks>
 internal sealed class ManualAddModificationViewModel : ObservableObject
 {
     private const string MissingModificationNameKey = "EnterModName";
@@ -21,6 +27,10 @@ internal sealed class ManualAddModificationViewModel : ObservableObject
     private const string MissingVersionKey = "EnterModVersion";
 
     private const string UnsupportedCharactersKey = "NameAndVersionValidSymbols";
+
+    private const string ReservedOrInvalidNameKey = "ReservedOrInvalidName";
+
+    private const string ReservedOrInvalidVersionKey = "ReservedOrInvalidVersion";
 
     private const string VersionMissingNumberKey = "VersionMustContainNumbers";
 
@@ -111,8 +121,8 @@ internal sealed class ManualAddModificationViewModel : ObservableObject
         }
 
         ImportResult = new ManualModificationDialogResult(
-            ModificationName,
-            Version);
+            ModificationName.Trim(),
+            Version.Trim());
         CompleteDialog(true);
     }
 
@@ -175,31 +185,43 @@ internal sealed class ManualAddModificationViewModel : ObservableObject
 
     private static string? GetModificationNameValidationKey(string value)
     {
-        if (string.IsNullOrWhiteSpace(value))
+        string name = value.Trim();
+        if (name.Length == 0)
         {
             return MissingModificationNameKey;
         }
 
-        return ContainsOnlySupportedFieldCharacters(value)
+        if (!ContainsOnlySupportedFieldCharacters(name))
+        {
+            return UnsupportedCharactersKey;
+        }
+
+        return LexicalPath.IsValidPathSegment(name)
             ? null
-            : UnsupportedCharactersKey;
+            : ReservedOrInvalidNameKey;
     }
 
     private static string? GetVersionValidationKey(string value)
     {
-        if (string.IsNullOrWhiteSpace(value))
+        string version = value.Trim();
+        if (version.Length == 0)
         {
             return MissingVersionKey;
         }
 
-        if (!value.Any(character => character is >= '0' and <= '9'))
+        if (!version.Any(character => character is >= '0' and <= '9'))
         {
             return VersionMissingNumberKey;
         }
 
-        return ContainsOnlySupportedFieldCharacters(value)
+        if (!ContainsOnlySupportedFieldCharacters(version))
+        {
+            return UnsupportedCharactersKey;
+        }
+
+        return LexicalPath.IsValidPathSegment(version)
             ? null
-            : UnsupportedCharactersKey;
+            : ReservedOrInvalidVersionKey;
     }
 
     private string GetLocalizedValidationMessage(string? validationKey)

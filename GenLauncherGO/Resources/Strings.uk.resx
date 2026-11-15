@@ -182,6 +182,8 @@
     <data name="ModificationsWithUpdate" xml:space="preserve"><value>Є модифікації, які можна оновити:</value></data>
     <data name="Mods" xml:space="preserve"><value>Моди</value></data>
     <data name="NameAndVersionValidSymbols" xml:space="preserve"><value>Назва модифікації та версія мають містити дійсні символи</value></data>
+    <data name="ReservedOrInvalidName" xml:space="preserve"><value>Ця назва зарезервована або не може бути назвою теки. Виберіть іншу.</value></data>
+    <data name="ReservedOrInvalidVersion" xml:space="preserve"><value>Ця версія зарезервована або не може бути назвою теки. Введіть іншу версію.</value></data>
     <data name="No" xml:space="preserve"><value>Ні</value></data>
     <data name="Yes" xml:space="preserve"><value>Так</value></data>
     <data name="NotInstalled" xml:space="preserve"><value>{0} було вибрано, але не встановлено - запуск перервано!</value></data>
