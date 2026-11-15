@@ -7,6 +7,7 @@ using Avalonia.Controls;
 using GenLauncherGO.Features.Integrity;
 using GenLauncherGO.Features.Launcher;
 using GenLauncherGO.Features.Startup;
+using GenLauncherGO.Features.Updating;
 using GenLauncherGO.Shared.Dialogs;
 using GenLauncherGO.Shared.IO;
 using GenLauncherGO.Shared.Localization;
@@ -93,14 +94,21 @@ internal sealed class LauncherManualImportCoordinator
             resolvedParentContentName,
             importResult.ModificationName,
             importResult.Version);
-        OwnedContentPath destinationPath = ResolveDestinationPath(launcherPaths, importedKey);
+        var importPaths = PackageUpdatePathSet.CreateForManualImport(
+            launcherPaths,
+            ResolveDestinationPath(launcherPaths, importedKey));
 
-        await Task.Run(
+        bool installed = await Task.Run(
             () => _manualModificationImporter.Import(
                 selectedFiles,
-                destinationPath,
+                importPaths,
                 cancellationToken),
             cancellationToken);
+        if (!installed)
+        {
+            await ShowImportErrorAsync(_stringLocalizer["ManualImportNothingToImport"], owner);
+            return null;
+        }
 
         _catalog.UpdateLocalModificationsData();
 
@@ -144,6 +152,16 @@ internal sealed class LauncherManualImportCoordinator
 
         string? selectedFolder = await _filePicker.PickManualContentFolderAsync(owner);
         return selectedFolder == null ? [] : [selectedFolder];
+    }
+
+    /// <summary>
+    ///     Explains why an import stopped, under the title the import details dialog uses for its own refusals.
+    /// </summary>
+    private Task ShowImportErrorAsync(string detail, Window owner)
+    {
+        return _dialogService.ShowErrorAsync(
+            new LauncherInfoDialogRequest(_stringLocalizer["OperationAborted"], detail),
+            owner);
     }
 
     private static string GetParentContentName(

@@ -251,6 +251,7 @@
     <data name="LauncherPackagesFilter" xml:space="preserve"><value>Başlatıcı paketleri</value></data>
     <data name="AllFilesFilter" xml:space="preserve"><value>Tüm dosyalar</value></data>
     <data name="ManualImportFolderTitle" xml:space="preserve"><value>İçeriği barındıran klasörü seçin</value></data>
+    <data name="ManualImportNothingToImport" xml:space="preserve"><value>Seçilen dosyalar veya klasör içe aktarılacak bir şey içermiyor.</value></data>
     <data name="FinishProcess" xml:space="preserve"><value>Seçenekleri açmadan önce oyunu kapatın.</value></data>
     <data name="Info" xml:space="preserve"><value>Bilgi</value></data>
     <data name="Retry" xml:space="preserve"><value>Yeniden dene</value></data>

@@ -47,6 +47,16 @@ internal sealed record LauncherPaths
 
     public string PackagesDirectory => Path.Combine(TempDirectory, LauncherFileSystemLayout.PackagesFolderName);
 
+    /// <summary>
+    ///     Gets the folder a manual import is assembled in before it is installed.
+    /// </summary>
+    /// <remarks>
+    ///     It sits in Temp beside, not inside, <see cref="PackagesDirectory" />: startup empties Temp except Packages,
+    ///     so an import interrupted by a crash is swept on the next start instead of resurfacing as a mod.
+    /// </remarks>
+    public string ManualImportStagingDirectory =>
+        Path.Combine(TempDirectory, LauncherFileSystemLayout.ManualImportFolderName);
+
     public string PackageBackupsDirectory =>
         Path.Combine(StateDirectory, LauncherFileSystemLayout.PackageBackupsFolderName);
 

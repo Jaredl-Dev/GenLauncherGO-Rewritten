@@ -251,6 +251,7 @@
     <data name="LauncherPackagesFilter" xml:space="preserve"><value>Paketi pokretača</value></data>
     <data name="AllFilesFilter" xml:space="preserve"><value>Sve datoteke</value></data>
     <data name="ManualImportFolderTitle" xml:space="preserve"><value>Odaberite mapu sa sadržajem</value></data>
+    <data name="ManualImportNothingToImport" xml:space="preserve"><value>Odabrane datoteke ili mapa ne sadrže ništa za uvoz.</value></data>
     <data name="FinishProcess" xml:space="preserve"><value>Zatvorite igru prije otvaranja postavki.</value></data>
     <data name="Info" xml:space="preserve"><value>Informacije</value></data>
     <data name="Retry" xml:space="preserve"><value>Pokušaj ponovno</value></data>

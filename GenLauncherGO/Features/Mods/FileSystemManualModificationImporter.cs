@@ -1,7 +1,9 @@
 using System;
 using System.Collections.Generic;
 using System.IO;
+using System.Linq;
 using System.Threading;
+using GenLauncherGO.Features.Updating;
 using GenLauncherGO.Shared.Archives;
 using GenLauncherGO.Shared.IO;
 using Microsoft.Extensions.Logging;
@@ -12,6 +14,11 @@ namespace GenLauncherGO.Features.Mods;
 ///     Imports manually selected modification content by copying files and folders, extracting supported archives, and
 ///     converting <c>.big</c> packages to launcher-managed <c>.gib</c> files.
 /// </summary>
+/// <remarks>
+///     Content is assembled in the manual-import staging folder and moved into the installed version folder only once
+///     it is complete, through the same replacement downloads use. A failed or cancelled import therefore never leaves
+///     a partial version behind for the catalog to list, and launch, as installed.
+/// </remarks>
 internal sealed class FileSystemManualModificationImporter : IManualModificationImporter
 {
     /// <summary>
@@ -52,60 +59,76 @@ internal sealed class FileSystemManualModificationImporter : IManualModification
         _logger = logger ?? throw new ArgumentNullException(nameof(logger));
     }
 
-    public void Import(
+    public bool Import(
         IReadOnlyList<string> sourcePaths,
-        OwnedContentPath destinationPath,
+        PackageUpdatePathSet paths,
         CancellationToken cancellationToken = default)
     {
         ArgumentNullException.ThrowIfNull(sourcePaths);
-        ArgumentNullException.ThrowIfNull(destinationPath);
+        ArgumentNullException.ThrowIfNull(paths);
 
         if (sourcePaths.Count == 0)
         {
             throw new ArgumentException("At least one source file is required.", nameof(sourcePaths));
         }
 
-        string destinationDirectory = destinationPath.FullPath;
+        OwnedContentPath stagingPath = paths.TemporaryPath;
+        string installedFolderName = Path.GetFileName(paths.InstalledPath.FullPath);
         try
         {
+            OwnedDirectoryTree.PrepareEmpty(stagingPath.OwnerRoot, stagingPath.FullPath);
             foreach (string sourcePath in sourcePaths)
             {
                 cancellationToken.ThrowIfCancellationRequested();
-                destinationDirectory = PrepareSafeDestination(destinationPath);
+                string stagingDirectory = PrepareSafeStaging(stagingPath);
                 if (Directory.Exists(sourcePath))
                 {
-                    ImportDirectory(sourcePath, destinationDirectory, cancellationToken);
+                    ImportDirectory(sourcePath, stagingDirectory, cancellationToken);
                     continue;
                 }
 
-                ImportFile(
-                    sourcePath,
-                    destinationPath,
-                    destinationDirectory,
-                    cancellationToken);
+                ImportFile(sourcePath, stagingDirectory, cancellationToken);
             }
 
-            UnwrapRedundantDirectories(destinationPath);
+            string contentRoot = FindContentRoot(PrepareSafeStaging(stagingPath));
+            if (!Directory.EnumerateFiles(contentRoot, "*", FileSystemPathSafety.CreateRecursiveNoLinksOptions())
+                    .Any())
+            {
+                _logger.LogWarning("Manual import found no files to install for {DestinationDirectory}.",
+                    installedFolderName);
+                return false;
+            }
+
+            cancellationToken.ThrowIfCancellationRequested();
+            PackageInstallFolderReplacer.Replace(
+                new OwnedContentPath(stagingPath.OwnerRoot, contentRoot),
+                paths.InstalledPath,
+                paths.BackupPath,
+                _logger);
 
             _logger.LogInformation(
                 "Imported {SourceCount} manual content source(s) to {DestinationDirectory}.",
                 sourcePaths.Count,
-                Path.GetFileName(destinationDirectory));
+                installedFolderName);
+            return true;
         }
         catch (Exception exception) when (exception is not OperationCanceledException)
         {
             _logger.LogError(
                 exception,
                 "Failed to import manual content into {DestinationDirectory}.",
-                Path.GetFileName(destinationDirectory));
+                installedFolderName);
             throw;
+        }
+        finally
+        {
+            DeleteStaging(stagingPath);
         }
     }
 
     private void ImportFile(
         string sourceFilePath,
-        OwnedContentPath destinationPath,
-        string destinationDirectory,
+        string stagingDirectory,
         CancellationToken cancellationToken)
     {
         ArgumentException.ThrowIfNullOrWhiteSpace(sourceFilePath);
@@ -118,31 +141,19 @@ internal sealed class FileSystemManualModificationImporter : IManualModification
 
         if (!LauncherContentFileTypes.IsArchive(sourceFileName))
         {
-            CopyImportedFile(sourceFilePath, sourceFileName, destinationDirectory);
+            CopyImportedFile(sourceFilePath, sourceFileName, stagingDirectory);
             return;
         }
 
-        string archiveFilePath = ResolveSafeDestinationFilePath(
-            destinationDirectory,
-            Path.Combine(destinationDirectory, sourceFileName));
-        if (!File.Exists(archiveFilePath))
-        {
-            File.Copy(sourceFilePath, archiveFilePath);
-        }
-
-        destinationDirectory = PrepareSafeDestination(destinationPath);
-        archiveFilePath = ResolveSafeDestinationFilePath(destinationDirectory, archiveFilePath);
-
         // Archives carry the same packages a download does, so their .big entries are stored under the inert .gib
         // name here for the same reason: an imported archive and a downloaded one must leave the same folder behind.
+        // The archive is read where the user keeps it. A copy beside its extracted entries would cost a second full
+        // write and collide with an archive that holds an entry of its own name.
         _archiveExtractor.ExtractToDirectory(
-            archiveFilePath,
-            destinationDirectory,
+            sourceFilePath,
+            stagingDirectory,
             true,
             cancellationToken);
-        destinationDirectory = PrepareSafeDestination(destinationPath);
-        ResolveSafeDestinationFilePath(destinationDirectory, archiveFilePath);
-        File.Delete(archiveFilePath);
     }
 
     /// <summary>
@@ -229,22 +240,24 @@ internal sealed class FileSystemManualModificationImporter : IManualModification
     }
 
     /// <summary>
-    ///     Removes packaging folders that wrap the imported content, so an archive built around its own folder does
-    ///     not install one level below where the game reads it.
+    ///     Finds the staged folder that holds the content, skipping packaging folders that wrap it so an archive built
+    ///     around its own folder does not install one level below where the game reads it.
     /// </summary>
     /// <remarks>
-    ///     A lone folder is only ever packaging when nothing sits beside it. Any second entry at the content root
-    ///     means the author placed that folder deliberately, and it is left alone.
+    ///     A lone folder is only ever packaging when nothing sits beside it. Any second entry at the content root means
+    ///     the author placed that folder deliberately, and it is left alone. The innermost wrapper is installed as the
+    ///     version folder rather than having its children moved up, so a wrapper holding a folder of its own name
+    ///     cannot collide with itself.
     /// </remarks>
-    private void UnwrapRedundantDirectories(OwnedContentPath destinationPath)
+    private string FindContentRoot(string stagingDirectory)
     {
+        string contentRoot = stagingDirectory;
         for (int depth = 0; depth < MaxWrapperDirectoryDepth; depth++)
         {
-            string destinationDirectory = PrepareSafeDestination(destinationPath);
-            string[] entries = Directory.GetFileSystemEntries(destinationDirectory);
+            string[] entries = Directory.GetFileSystemEntries(contentRoot);
             if (entries.Length != 1)
             {
-                return;
+                break;
             }
 
             string wrapperDirectory = entries[0];
@@ -253,47 +266,57 @@ internal sealed class FileSystemManualModificationImporter : IManualModification
                 FileSystemPathSafety.IsReparsePoint(wrapperDirectory) ||
                 _gameContentDirectoryNames.Contains(wrapperName))
             {
-                return;
+                break;
             }
 
-            foreach (string childEntry in Directory.GetFileSystemEntries(wrapperDirectory))
-            {
-                string movedEntry = ResolveSafeDestinationFilePath(
-                    destinationDirectory,
-                    Path.Combine(destinationDirectory, Path.GetFileName(childEntry)));
-                if (Directory.Exists(childEntry))
-                {
-                    Directory.Move(childEntry, movedEntry);
-                    continue;
-                }
-
-                File.Move(childEntry, movedEntry);
-            }
-
-            Directory.Delete(wrapperDirectory);
             _logger.LogInformation(
                 "Unwrapped manual import packaging folder {DirectoryName}.",
                 wrapperName);
+            contentRoot = wrapperDirectory;
+        }
+
+        return contentRoot;
+    }
+
+    /// <summary>
+    ///     Removes the staging folder after an import, whether it was installed, failed, or cancelled.
+    /// </summary>
+    /// <remarks>
+    ///     A failure here never replaces the import's own outcome: startup empties Temp, so leftover staging is swept
+    ///     on the next start.
+    /// </remarks>
+    private void DeleteStaging(OwnedContentPath stagingPath)
+    {
+        try
+        {
+            OwnedDirectoryTree.DeleteIfExists(stagingPath);
+        }
+        catch (Exception exception) when (
+            exception is IOException or UnauthorizedAccessException or InvalidDataException)
+        {
+            _logger.LogWarning(
+                exception,
+                "Could not clear the manual import staging folder; it is cleared on the next start.");
         }
     }
 
     /// <summary>
-    ///     Creates the owned destination when needed and rejects any linked path before mutation or extraction.
+    ///     Creates the owned staging folder when needed and rejects any linked path before mutation or extraction.
     /// </summary>
-    private static string PrepareSafeDestination(OwnedContentPath destinationPath)
+    private static string PrepareSafeStaging(OwnedContentPath stagingPath)
     {
-        string destinationDirectory = FileSystemPathSafety.ResolveOwnedSubpath(
-            destinationPath.OwnerRoot,
-            destinationPath.FullPath,
+        string stagingDirectory = FileSystemPathSafety.ResolveOwnedSubpath(
+            stagingPath.OwnerRoot,
+            stagingPath.FullPath,
             "Manual import destinations",
             "their launcher-owned root");
-        destinationDirectory = OwnedDirectoryTree.EnsureExists(
-            destinationPath.OwnerRoot,
-            destinationDirectory);
+        stagingDirectory = OwnedDirectoryTree.EnsureExists(
+            stagingPath.OwnerRoot,
+            stagingDirectory);
         FileSystemPathSafety.EnsureDirectoryTreeHasNoReparsePoints(
-            destinationDirectory,
+            stagingDirectory,
             "Manual import destinations");
-        return destinationDirectory;
+        return stagingDirectory;
     }
 
     /// <summary>

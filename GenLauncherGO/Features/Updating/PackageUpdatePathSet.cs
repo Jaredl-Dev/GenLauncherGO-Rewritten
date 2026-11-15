@@ -46,4 +46,20 @@ internal sealed record PackageUpdatePathSet
             launcherPaths.GetPackageBackupPath(installedPath),
             latestInstalledPath);
     }
+
+    /// <summary>
+    ///     Creates the paths for installing a manual import, staged in the launcher's manual-import folder.
+    /// </summary>
+    public static PackageUpdatePathSet CreateForManualImport(
+        LauncherPaths launcherPaths,
+        OwnedContentPath installedPath)
+    {
+        ArgumentNullException.ThrowIfNull(launcherPaths);
+        ArgumentNullException.ThrowIfNull(installedPath);
+
+        return new PackageUpdatePathSet(
+            new OwnedContentPath(launcherPaths.TempDirectory, launcherPaths.ManualImportStagingDirectory),
+            installedPath,
+            launcherPaths.GetPackageBackupPath(installedPath));
+    }
 }

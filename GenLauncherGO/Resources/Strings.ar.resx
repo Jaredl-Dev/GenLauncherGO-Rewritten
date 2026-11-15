@@ -251,6 +251,7 @@
     <data name="LauncherPackagesFilter" xml:space="preserve"><value>حزم المشغل</value></data>
     <data name="AllFilesFilter" xml:space="preserve"><value>كل الملفات</value></data>
     <data name="ManualImportFolderTitle" xml:space="preserve"><value>اختر المجلد الذي يحتوي على المحتوى</value></data>
+    <data name="ManualImportNothingToImport" xml:space="preserve"><value>لا تحتوي الملفات أو المجلد المحدد على أي شيء للاستيراد.</value></data>
     <data name="FinishProcess" xml:space="preserve"><value>قم بإغلاق اللعبة قبل فتح الإعدادات</value></data>
     <data name="Info" xml:space="preserve"><value>معلومات</value></data>
     <data name="Retry" xml:space="preserve"><value>إعادة المحاولة</value></data>

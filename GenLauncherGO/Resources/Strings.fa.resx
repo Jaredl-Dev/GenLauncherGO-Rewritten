@@ -251,6 +251,7 @@
     <data name="LauncherPackagesFilter" xml:space="preserve"><value>بسته های لانچر</value></data>
     <data name="AllFilesFilter" xml:space="preserve"><value>همه فایل ها</value></data>
     <data name="ManualImportFolderTitle" xml:space="preserve"><value>پوشه حاوی محتوا را انتخاب کنید</value></data>
+    <data name="ManualImportNothingToImport" xml:space="preserve"><value>فایل‌ها یا پوشه انتخاب‌شده چیزی برای وارد کردن ندارند.</value></data>
     <data name="FinishProcess" xml:space="preserve"><value>پیش از بازکردن تنظیمات لانچر، بازی را ببندید.</value></data>
     <data name="Info" xml:space="preserve"><value>اطلاعات</value></data>
     <data name="Retry" xml:space="preserve"><value>تلاش مجدد</value></data>

@@ -38,6 +38,8 @@ internal static class LauncherFileSystemLayout
 
     public const string PackagesFolderName = "Packages";
 
+    public const string ManualImportFolderName = "ManualImport";
+
     public const string AddonsFolderName = "Addons";
 
     public const string PatchesFolderName = "Patches";

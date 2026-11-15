@@ -251,6 +251,7 @@
     <data name="LauncherPackagesFilter" xml:space="preserve"><value>Launcher packages</value></data>
     <data name="AllFilesFilter" xml:space="preserve"><value>All files</value></data>
     <data name="ManualImportFolderTitle" xml:space="preserve"><value>Select the folder holding the content</value></data>
+    <data name="ManualImportNothingToImport" xml:space="preserve"><value>The selected files or folder contain nothing to import.</value></data>
     <data name="FinishProcess" xml:space="preserve"><value>Close the game before opening launcher settings.</value></data>
     <data name="Info" xml:space="preserve"><value>Information</value></data>
     <data name="Retry" xml:space="preserve"><value>Retry</value></data>
