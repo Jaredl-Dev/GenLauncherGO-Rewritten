@@ -127,6 +127,28 @@ internal static class FileSystemPathSafety
     }
 
     /// <summary>
+    ///     Clears the read-only flag on a regular file so it can be deleted or rewritten.
+    /// </summary>
+    /// <remarks>
+    ///     Copying keeps the flag, so files that came from read-only media keep it, and <see cref="File.Delete" /> and
+    ///     writes refuse them. The attributes are read again here without following links, and a link or a missing
+    ///     entry is left untouched, so this never changes the flags of a link or its target.
+    /// </remarks>
+    public static void ClearReadOnly(string filePath)
+    {
+        if (!TryGetAttributes(filePath, out FileAttributes attributes) ||
+            (attributes & (FileAttributes.ReparsePoint | FileAttributes.ReadOnly)) != FileAttributes.ReadOnly)
+        {
+            return;
+        }
+
+        FileAttributes writableAttributes = attributes & ~FileAttributes.ReadOnly;
+        File.SetAttributes(
+            filePath,
+            writableAttributes == 0 ? FileAttributes.Normal : writableAttributes);
+    }
+
+    /// <summary>
     ///     Creates recursive enumeration options that never traverse reparse points.
     /// </summary>
     public static EnumerationOptions CreateRecursiveNoLinksOptions()

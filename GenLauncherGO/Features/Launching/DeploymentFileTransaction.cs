@@ -478,11 +478,7 @@ internal sealed class DeploymentFileTransaction
         try
         {
             File.Copy(sourcePath, destinationPath, false);
-            FileAttributes destinationAttributes = File.GetAttributes(destinationPath);
-            if ((destinationAttributes & FileAttributes.ReadOnly) != 0)
-            {
-                File.SetAttributes(destinationPath, destinationAttributes & ~FileAttributes.ReadOnly);
-            }
+            FileSystemPathSafety.ClearReadOnly(destinationPath);
 
             using (FileStream destination = new(
                        destinationPath,
@@ -507,7 +503,7 @@ internal sealed class DeploymentFileTransaction
                 FileAttributes.Temporary |
                 FileAttributes.Offline |
                 FileAttributes.NotContentIndexed;
-            destinationAttributes = File.GetAttributes(destinationPath);
+            FileAttributes destinationAttributes = File.GetAttributes(destinationPath);
             File.SetAttributes(
                 destinationPath,
                 (destinationAttributes & ~MutableAttributes) | (sourceAttributes & MutableAttributes));
@@ -601,12 +597,7 @@ internal sealed class DeploymentFileTransaction
             return;
         }
 
-        FileAttributes attributes = File.GetAttributes(path);
-        if ((attributes & FileAttributes.ReadOnly) != 0)
-        {
-            File.SetAttributes(path, attributes & ~FileAttributes.ReadOnly);
-        }
-
+        FileSystemPathSafety.ClearReadOnly(path);
         File.Delete(path);
     }
 

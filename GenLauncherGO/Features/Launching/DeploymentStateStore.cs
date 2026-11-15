@@ -472,12 +472,7 @@ internal sealed class DeploymentStateStore
             "the deployment directory");
         if (File.Exists(stagingPath))
         {
-            FileAttributes attributes = File.GetAttributes(stagingPath);
-            if ((attributes & FileAttributes.ReadOnly) != 0)
-            {
-                File.SetAttributes(stagingPath, attributes & ~FileAttributes.ReadOnly);
-            }
-
+            FileSystemPathSafety.ClearReadOnly(stagingPath);
             File.Delete(stagingPath);
         }
     }
