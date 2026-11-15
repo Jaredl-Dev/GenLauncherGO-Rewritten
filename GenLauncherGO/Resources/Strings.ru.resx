@@ -253,6 +253,7 @@
     <data name="ManualImportFolderTitle" xml:space="preserve"><value>Выберите папку с содержимым</value></data>
     <data name="ManualImportNothingToImport" xml:space="preserve"><value>Выбранные файлы или папка не содержат ничего для импорта.</value></data>
     <data name="ManualImportFolderContainsLauncherData" xml:space="preserve"><value>Эта папка содержит собственные данные GenLauncherGO, поэтому её нельзя импортировать. Выберите папку, в которой находятся только файлы модификации.</value></data>
+    <data name="ManualImportFolderHoldsAddonsOrPatches" xml:space="preserve"><value>Эта папка содержит версии модификации вместе с её аддонами или патчами, поэтому её нельзя импортировать как одну версию. Чтобы перенести всё, скопируйте эту папку в {0}, и GenLauncherGO покажет всё её содержимое. Чтобы импортировать одну версию, выберите папку этой версии.</value></data>
     <data name="FinishProcess" xml:space="preserve"><value>Закройте игру перед открытием настроек.</value></data>
     <data name="Info" xml:space="preserve"><value>Информация</value></data>
     <data name="Retry" xml:space="preserve"><value>Повторить</value></data>

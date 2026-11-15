@@ -253,6 +253,7 @@
     <data name="ManualImportFolderTitle" xml:space="preserve"><value>Виберіть теку із вмістом</value></data>
     <data name="ManualImportNothingToImport" xml:space="preserve"><value>Вибрані файли або тека не містять нічого для імпорту.</value></data>
     <data name="ManualImportFolderContainsLauncherData" xml:space="preserve"><value>Ця тека містить власні дані GenLauncherGO, тому її не можна імпортувати. Виберіть теку, у якій є лише файли модифікації.</value></data>
+    <data name="ManualImportFolderHoldsAddonsOrPatches" xml:space="preserve"><value>Ця тека містить версії модифікації разом з її аддонами або патчами, тому її не можна імпортувати як одну версію. Щоб перенести все, скопіюйте цю теку до {0}, і GenLauncherGO покаже весь її вміст. Щоб імпортувати одну версію, виберіть теку цієї версії.</value></data>
     <data name="FinishProcess" xml:space="preserve"><value>Закрийте гру перед відкриттям налаштувань.</value></data>
     <data name="Info" xml:space="preserve"><value>Інформація</value></data>
     <data name="Retry" xml:space="preserve"><value>Повторити</value></data>

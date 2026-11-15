@@ -253,6 +253,7 @@
     <data name="ManualImportFolderTitle" xml:space="preserve"><value>Wähle den Ordner mit dem Inhalt</value></data>
     <data name="ManualImportNothingToImport" xml:space="preserve"><value>Die ausgewählten Dateien oder der ausgewählte Ordner enthalten nichts zum Importieren.</value></data>
     <data name="ManualImportFolderContainsLauncherData" xml:space="preserve"><value>Dieser Ordner enthält die eigenen Daten von GenLauncherGO und kann daher nicht importiert werden. Wähle den Ordner, der nur die Dateien der Modifikation enthält.</value></data>
+    <data name="ManualImportFolderHoldsAddonsOrPatches" xml:space="preserve"><value>Dieser Ordner enthält die Versionen einer Modifikation zusammen mit ihren Add-ons oder Patches und kann daher nicht als eine Version importiert werden. Um alles zu übernehmen, kopiere diesen Ordner nach {0}; GenLauncherGO listet dann alles darin auf. Um eine einzelne Version zu importieren, wähle den Ordner dieser Version.</value></data>
     <data name="FinishProcess" xml:space="preserve"><value>Beenden Sie den Spielprozess, bevor Sie die Optionen öffnen.</value></data>
     <data name="Info" xml:space="preserve"><value>Information</value></data>
     <data name="Retry" xml:space="preserve"><value>Wiederholen</value></data>

@@ -1,5 +1,7 @@
 using System;
 using System.Collections.Generic;
+using System.Globalization;
+using System.IO;
 using System.Linq;
 using System.Threading;
 using System.Threading.Tasks;
@@ -170,6 +172,19 @@ internal sealed class LauncherManualImportCoordinator
         {
             _logger.LogWarning("Refused a manual import folder that holds the launcher's own data.");
             await ShowImportErrorAsync(_stringLocalizer["ManualImportFolderContainsLauncherData"], owner);
+            return [];
+        }
+
+        if (Directory.Exists(Path.Combine(selectedFolder, LauncherFileSystemLayout.AddonsFolderName)) ||
+            Directory.Exists(Path.Combine(selectedFolder, LauncherFileSystemLayout.PatchesFolderName)))
+        {
+            _logger.LogWarning("Refused a manual import folder that holds its own patches or add-ons.");
+            await ShowImportErrorAsync(
+                string.Format(
+                    CultureInfo.CurrentCulture,
+                    _stringLocalizer["ManualImportFolderHoldsAddonsOrPatches"],
+                    launcherPaths.ModsDirectory),
+                owner);
             return [];
         }
 

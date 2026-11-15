@@ -253,6 +253,7 @@
     <data name="ManualImportFolderTitle" xml:space="preserve"><value>选择包含内容的文件夹</value></data>
     <data name="ManualImportNothingToImport" xml:space="preserve"><value>所选文件或文件夹中没有可导入的内容。</value></data>
     <data name="ManualImportFolderContainsLauncherData" xml:space="preserve"><value>此文件夹包含 GenLauncherGO 自身的数据，因此无法导入。请选择只包含模组文件的文件夹。</value></data>
+    <data name="ManualImportFolderHoldsAddonsOrPatches" xml:space="preserve"><value>此文件夹同时包含模组的各个版本及其插件或补丁，因此无法作为单个版本导入。要全部迁移，请将此文件夹复制到 {0}，GenLauncherGO 会列出其中的所有内容。要导入单个版本，请选择该版本的文件夹。</value></data>
     <data name="FinishProcess" xml:space="preserve"><value>打开设置前请先关闭游戏。</value></data>
     <data name="Info" xml:space="preserve"><value>信息</value></data>
     <data name="Retry" xml:space="preserve"><value>重试</value></data>
