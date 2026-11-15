@@ -563,7 +563,7 @@ internal sealed class ModificationViewModel : ObservableObject, ILaunchContentIn
                 RecordSuspendedDownload(progressAtCompletion);
                 break;
             case PackageDownloadStatus.RecoverableFailure:
-                ShowDownloadFailure(result.Message);
+                ShowDownloadFailure(_stringLocalizer[result.MessageKey]);
                 break;
             case PackageDownloadStatus.UnexpectedFailure:
                 ShowDownloadFailure(_stringLocalizer["UnexpectedErrorDetails"]);

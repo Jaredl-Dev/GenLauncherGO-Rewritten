@@ -292,6 +292,9 @@
     <data name="RunningProcessCloseBlockedDetails" xml:space="preserve"><value>Close the running process or use Force quit before closing GenLauncherGO.</value></data>
     <data name="UnexpectedErrorTitle" xml:space="preserve"><value>Something went wrong</value></data>
     <data name="UnexpectedErrorDetails" xml:space="preserve"><value>An unexpected error occurred. Try again. If it continues, check the launcher logs.</value></data>
+    <data name="PackageDownloadProviderFailed" xml:space="preserve"><value>The remote package provider could not complete the download.</value></data>
+    <data name="PackageDownloadValidationFailed" xml:space="preserve"><value>The downloaded package could not be validated.</value></data>
+    <data name="PackageDownloadInstallFailed" xml:space="preserve"><value>The package could not be staged or installed in launcher storage.</value></data>
     <data name="LanguageRestartPromptTitle" xml:space="preserve"><value>Restart required</value></data>
     <data name="LanguageRestartPromptDetails" xml:space="preserve"><value>Your language change is saved and will be applied the next time GenLauncherGO starts.</value></data>
     <data name="ApplicationUpdateReadyTitle" xml:space="preserve"><value>GenLauncherGO update ready</value></data>

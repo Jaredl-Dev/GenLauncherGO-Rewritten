@@ -292,6 +292,9 @@
     <data name="RunningProcessCloseBlockedDetails" xml:space="preserve"><value>Закрийте запущений процес або скористайтеся «Завершити примусово», перш ніж закривати GenLauncherGO.</value></data>
     <data name="UnexpectedErrorTitle" xml:space="preserve"><value>Щось пішло не так</value></data>
     <data name="UnexpectedErrorDetails" xml:space="preserve"><value>Сталася неочікувана помилка. Спробуйте ще раз. Якщо помилка повторюється, перевірте журнали лаунчера.</value></data>
+    <data name="PackageDownloadProviderFailed" xml:space="preserve"><value>Віддалене джерело пакетів не змогло завершити завантаження.</value></data>
+    <data name="PackageDownloadValidationFailed" xml:space="preserve"><value>Не вдалося перевірити завантажений пакет.</value></data>
+    <data name="PackageDownloadInstallFailed" xml:space="preserve"><value>Не вдалося підготувати або встановити пакет у сховищі лаунчера.</value></data>
     <data name="LanguageRestartPromptTitle" xml:space="preserve"><value>Потрібен перезапуск</value></data>
     <data name="LanguageRestartPromptDetails" xml:space="preserve"><value>Зміну мови збережено, і її буде застосовано під час наступного запуску GenLauncherGO.</value></data>
     <data name="ApplicationUpdateReadyTitle" xml:space="preserve"><value>Оновлення GenLauncherGO готове</value></data>

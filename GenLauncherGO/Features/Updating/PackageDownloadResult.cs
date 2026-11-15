@@ -7,15 +7,19 @@ internal sealed record PackageDownloadResult
 {
     private PackageDownloadResult(
         PackageDownloadStatus status,
-        string message)
+        string messageKey)
     {
         Status = status;
-        Message = message;
+        MessageKey = messageKey;
     }
 
     public PackageDownloadStatus Status { get; }
 
-    public string Message { get; }
+    /// <summary>
+    ///     Gets the localization key of the message that explains a recoverable failure, or an empty string for any
+    ///     other outcome.
+    /// </summary>
+    public string MessageKey { get; }
 
     public static PackageDownloadResult Succeeded()
     {
@@ -44,20 +48,20 @@ internal sealed record PackageDownloadResult
     /// <summary>
     ///     Creates an expected failure result that can normally be retried or corrected by the user.
     /// </summary>
-    public static PackageDownloadResult RecoverableFailure(string message)
+    public static PackageDownloadResult RecoverableFailure(string messageKey)
     {
         return new PackageDownloadResult(
             PackageDownloadStatus.RecoverableFailure,
-            message);
+            messageKey);
     }
 
     /// <summary>
-    ///     Creates an unexpected failure result while preserving diagnostic detail.
+    ///     Creates a result for a failure the launcher did not anticipate, whose details are only in the log.
     /// </summary>
-    public static PackageDownloadResult UnexpectedFailure(string message)
+    public static PackageDownloadResult UnexpectedFailure()
     {
         return new PackageDownloadResult(
             PackageDownloadStatus.UnexpectedFailure,
-            message);
+            string.Empty);
     }
 }

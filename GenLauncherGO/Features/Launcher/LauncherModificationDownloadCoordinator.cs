@@ -272,8 +272,7 @@ internal sealed class LauncherModificationDownloadCoordinator
                 exception,
                 "Could not complete package download workflow for {ModificationName}.",
                 modification.ContainerModification.Name);
-            result = PackageDownloadResult.UnexpectedFailure(
-                "An unexpected package download error occurred.");
+            result = PackageDownloadResult.UnexpectedFailure();
         }
 
         if (result.Status != PackageDownloadStatus.Succeeded)

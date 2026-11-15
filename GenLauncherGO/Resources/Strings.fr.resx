@@ -292,6 +292,9 @@
     <data name="RunningProcessCloseBlockedDetails" xml:space="preserve"><value>Fermez le processus en cours ou utilisez « Forcer la fermeture » avant de fermer GenLauncherGO.</value></data>
     <data name="UnexpectedErrorTitle" xml:space="preserve"><value>Une erreur s’est produite</value></data>
     <data name="UnexpectedErrorDetails" xml:space="preserve"><value>Une erreur inattendue s’est produite. Réessayez. Si elle persiste, consultez les journaux du lanceur.</value></data>
+    <data name="PackageDownloadProviderFailed" xml:space="preserve"><value>Le fournisseur de paquets distant n’a pas pu terminer le téléchargement.</value></data>
+    <data name="PackageDownloadValidationFailed" xml:space="preserve"><value>Le paquet téléchargé n’a pas pu être validé.</value></data>
+    <data name="PackageDownloadInstallFailed" xml:space="preserve"><value>Le paquet n’a pas pu être préparé ou installé dans le stockage du lanceur.</value></data>
     <data name="LanguageRestartPromptTitle" xml:space="preserve"><value>Redémarrage requis</value></data>
     <data name="LanguageRestartPromptDetails" xml:space="preserve"><value>Le changement de langue est enregistré et sera appliqué au prochain démarrage de GenLauncherGO.</value></data>
     <data name="ApplicationUpdateReadyTitle" xml:space="preserve"><value>La mise à jour de GenLauncherGO est prête</value></data>

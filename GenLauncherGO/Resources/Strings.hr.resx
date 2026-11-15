@@ -292,6 +292,9 @@
     <data name="RunningProcessCloseBlockedDetails" xml:space="preserve"><value>Zatvorite pokrenuti proces ili upotrijebite „Prisilno zatvori” prije zatvaranja GenLauncherGO-a.</value></data>
     <data name="UnexpectedErrorTitle" xml:space="preserve"><value>Nešto je pošlo po zlu</value></data>
     <data name="UnexpectedErrorDetails" xml:space="preserve"><value>Dogodila se neočekivana pogreška. Pokušajte ponovno. Ako se nastavi, provjerite zapise pokretača.</value></data>
+    <data name="PackageDownloadProviderFailed" xml:space="preserve"><value>Udaljeni pružatelj paketa nije mogao dovršiti preuzimanje.</value></data>
+    <data name="PackageDownloadValidationFailed" xml:space="preserve"><value>Preuzeti paket nije moguće provjeriti.</value></data>
+    <data name="PackageDownloadInstallFailed" xml:space="preserve"><value>Paket nije moguće pripremiti ni instalirati u pohranu pokretača.</value></data>
     <data name="LanguageRestartPromptTitle" xml:space="preserve"><value>Potrebno je ponovno pokretanje</value></data>
     <data name="LanguageRestartPromptDetails" xml:space="preserve"><value>Promjena jezika je spremljena i primijenit će se pri sljedećem pokretanju GenLauncherGO-a.</value></data>
     <data name="ApplicationUpdateReadyTitle" xml:space="preserve"><value>Ažuriranje za GenLauncherGO je spremno</value></data>

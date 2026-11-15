@@ -292,6 +292,9 @@
     <data name="RunningProcessCloseBlockedDetails" xml:space="preserve"><value>GenLauncherGO'yu kapatmadan önce çalışan işlemi kapatın veya "Zorla kapat"ı kullanın.</value></data>
     <data name="UnexpectedErrorTitle" xml:space="preserve"><value>Bir şeyler ters gitti</value></data>
     <data name="UnexpectedErrorDetails" xml:space="preserve"><value>Beklenmeyen bir hata oluştu. Yeniden deneyin. Sorun sürerse başlatıcı günlüklerini kontrol edin.</value></data>
+    <data name="PackageDownloadProviderFailed" xml:space="preserve"><value>Uzak paket sağlayıcısı indirmeyi tamamlayamadı.</value></data>
+    <data name="PackageDownloadValidationFailed" xml:space="preserve"><value>İndirilen paket doğrulanamadı.</value></data>
+    <data name="PackageDownloadInstallFailed" xml:space="preserve"><value>Paket, başlatıcı depolamasında hazırlanamadı veya kurulamadı.</value></data>
     <data name="LanguageRestartPromptTitle" xml:space="preserve"><value>Yeniden başlatma gerekli</value></data>
     <data name="LanguageRestartPromptDetails" xml:space="preserve"><value>Dil değişikliği kaydedildi ve GenLauncherGO bir sonraki başlatıldığında uygulanacak.</value></data>
     <data name="ApplicationUpdateReadyTitle" xml:space="preserve"><value>GenLauncherGO güncellemesi hazır</value></data>

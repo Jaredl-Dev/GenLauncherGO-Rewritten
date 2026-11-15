@@ -292,6 +292,9 @@
     <data name="RunningProcessCloseBlockedDetails" xml:space="preserve"><value>请先关闭正在运行的进程，或使用“强制退出”，然后再关闭 GenLauncherGO。</value></data>
     <data name="UnexpectedErrorTitle" xml:space="preserve"><value>出现问题</value></data>
     <data name="UnexpectedErrorDetails" xml:space="preserve"><value>发生意外错误。请重试；如果问题仍然存在，请查看启动器日志。</value></data>
+    <data name="PackageDownloadProviderFailed" xml:space="preserve"><value>远程包提供方未能完成下载。</value></data>
+    <data name="PackageDownloadValidationFailed" xml:space="preserve"><value>无法验证已下载的包。</value></data>
+    <data name="PackageDownloadInstallFailed" xml:space="preserve"><value>无法在启动器存储中暂存或安装此包。</value></data>
     <data name="LanguageRestartPromptTitle" xml:space="preserve"><value>需要重新启动</value></data>
     <data name="LanguageRestartPromptDetails" xml:space="preserve"><value>语言更改已保存，并将在下次启动 GenLauncherGO 时应用。</value></data>
     <data name="ApplicationUpdateReadyTitle" xml:space="preserve"><value>GenLauncherGO 更新已准备就绪</value></data>

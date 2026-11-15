@@ -129,8 +129,7 @@ internal sealed class PackageDownloadService : IPackageDownloadService
                 "Package validation failed for {ContentName} {ContentVersion}.",
                 version.Name,
                 version.Version);
-            return PackageDownloadResult.RecoverableFailure(
-                "The downloaded package could not be validated.");
+            return PackageDownloadResult.RecoverableFailure("PackageDownloadValidationFailed");
         }
         catch (Exception exception) when (exception is IOException or UnauthorizedAccessException)
         {
@@ -139,8 +138,7 @@ internal sealed class PackageDownloadService : IPackageDownloadService
                 "Package staging or installation failed for {ContentName} {ContentVersion}.",
                 version.Name,
                 version.Version);
-            return PackageDownloadResult.RecoverableFailure(
-                "The package could not be staged or installed in launcher storage.");
+            return PackageDownloadResult.RecoverableFailure("PackageDownloadInstallFailed");
         }
         catch (Exception exception)
         {
@@ -149,8 +147,7 @@ internal sealed class PackageDownloadService : IPackageDownloadService
                 "Package download failed unexpectedly for {ContentName} {ContentVersion}.",
                 version.Name,
                 version.Version);
-            return PackageDownloadResult.UnexpectedFailure(
-                "An unexpected package download error occurred.");
+            return PackageDownloadResult.UnexpectedFailure();
         }
     }
 
@@ -247,7 +244,6 @@ internal sealed class PackageDownloadService : IPackageDownloadService
             "Remote package provider failed for {ContentName} {ContentVersion}.",
             version.Name,
             version.Version);
-        return PackageDownloadResult.RecoverableFailure(
-            "The remote package provider could not complete the download.");
+        return PackageDownloadResult.RecoverableFailure("PackageDownloadProviderFailed");
     }
 }
