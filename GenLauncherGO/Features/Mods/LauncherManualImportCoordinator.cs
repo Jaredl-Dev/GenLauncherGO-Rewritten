@@ -132,7 +132,7 @@ internal sealed class LauncherManualImportCoordinator
             return null;
         }
 
-        _catalog.UpdateLocalModificationsData();
+        _catalog.UpdateLocalModificationsData(importedKey);
 
         LauncherContent savedModification = _catalog.Data.FindContent(importedKey)
                                             ?? throw CreateMissingImportedModificationException(kind,

@@ -39,6 +39,16 @@ internal sealed class LauncherData
             .SelectMany(content => content.Versions)
             .Where(version => version.Installation.Installed);
 
+    /// <summary>
+    ///     Gets the identities of every installed version as a new set, which the caller may change.
+    /// </summary>
+    public HashSet<LauncherContentKey> GetInstalledVersionKeys()
+    {
+        return InstalledVersions
+            .Select(version => version.ContentKey)
+            .ToHashSet();
+    }
+
     public LauncherContent? GetSelectedMod()
     {
         return _modifications.FirstOrDefault(modification => modification.IsSelected);

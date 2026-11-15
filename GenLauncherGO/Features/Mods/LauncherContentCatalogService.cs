@@ -60,6 +60,8 @@ internal sealed class LauncherContentCatalogService : ILauncherContentCatalog
 
     public IReadOnlyList<string>? RepositoryModificationNames => _state.RepositoryModificationNames;
 
+    public IReadOnlySet<LauncherContentKey> UnlistedFolderChanges => _state.UnlistedFolderChanges;
+
     public async Task InitDataAsync(
         Uri? remoteManifestUri,
         LauncherPaths paths,
@@ -172,7 +174,7 @@ internal sealed class LauncherContentCatalogService : ILauncherContentCatalog
     public void UninstallVersion(LauncherContentKey contentKey)
     {
         _localContentReconciler.DeleteVersion(contentKey, Paths);
-        UpdateLocalModificationsData();
+        UpdateLocalModificationsData(contentKey);
     }
 
     public void DiscardContent(LauncherContentKey contentKey)
@@ -180,7 +182,7 @@ internal sealed class LauncherContentCatalogService : ILauncherContentCatalog
         IReadOnlyList<LauncherContentKey> dependentKeys =
             _localContentReconciler.DiscardContent(_state.Data, contentKey, Paths);
         PruneDiscardedContentSessionState(contentKey, dependentKeys);
-        UpdateLocalModificationsData();
+        UpdateLocalModificationsData(contentKey);
     }
 
     private void PruneDiscardedContentSessionState(
@@ -213,7 +215,35 @@ internal sealed class LauncherContentCatalogService : ILauncherContentCatalog
             cancellationToken).ConfigureAwait(false);
     }
 
-    public void UpdateLocalModificationsData()
+    /// <inheritdoc />
+    /// <remarks>
+    ///     The re-sync covers the whole Mods folder, so it also records changes another program made meanwhile. Any
+    ///     version whose installed state it changes, other than <paramref name="changedContent" />, is one of those.
+    /// </remarks>
+    public void UpdateLocalModificationsData(LauncherContentKey changedContent)
+    {
+        HashSet<LauncherContentKey> changedVersions = _state.Data.GetInstalledVersionKeys();
+        ReconcileWithModsFolder();
+        changedVersions.SymmetricExceptWith(_state.Data.GetInstalledVersionKeys());
+        changedVersions.Remove(changedContent);
+        if (changedVersions.Count == 0)
+        {
+            return;
+        }
+
+        _state.UnlistedFolderChanges.UnionWith(changedVersions);
+        _logger.LogInformation(
+            "Found {ChangedVersionCount} content version change(s) in the Mods folder that the launcher did not make.",
+            changedVersions.Count);
+    }
+
+    public void RefreshLocalModificationsData()
+    {
+        ReconcileWithModsFolder();
+        _state.UnlistedFolderChanges.Clear();
+    }
+
+    private void ReconcileWithModsFolder()
     {
         _localContentReconciler.Reconcile(_state.Data, _state.DownloadedRepositoryContent, Paths);
     }
@@ -306,7 +336,7 @@ internal sealed class LauncherContentCatalogService : ILauncherContentCatalog
         }
 
         ReadLocalModsData();
-        UpdateLocalModificationsData();
+        ReconcileWithModsFolder();
 
         if (_state.RepositoryData is null)
         {
@@ -574,6 +604,8 @@ internal sealed class LauncherContentCatalogService : ILauncherContentCatalog
         public HashSet<LauncherContentKey> DownloadedModificationInfo { get; } = [];
 
         public HashSet<LauncherContentKey> DownloadedRepositoryContent { get; } = [];
+
+        public HashSet<LauncherContentKey> UnlistedFolderChanges { get; } = [];
 
         public LauncherContentVersion? Advertising { get; set; }
 

@@ -315,13 +315,15 @@ internal sealed class LauncherModificationDownloadCoordinator
 
     private async Task FinalizeSuccessfulInstallAsync(ModificationViewModel modification)
     {
+        // Each outdated version's removal re-syncs with the Mods folder, which would otherwise count the new version
+        // as a change made outside the launcher and rebuild the lists for it later.
+        modification.LatestVersion.Installation.Installed = true;
         if (_launcherPreferencesService.Current.Shared.AutoDeleteOldVersions)
         {
             DeleteOutdatedModifications(modification);
         }
 
-        _catalog.UpdateLocalModificationsData();
-        modification.LatestVersion.Installation.Installed = true;
+        _catalog.UpdateLocalModificationsData(modification.LatestVersion.ContentKey);
         await _launchContentIntegrityCoordinator.CaptureManagedInstallSnapshotAsync(modification.LatestVersion);
     }
 
@@ -331,7 +333,7 @@ internal sealed class LauncherModificationDownloadCoordinator
 
         try
         {
-            _catalog.UpdateLocalModificationsData();
+            _catalog.UpdateLocalModificationsData(modification.LatestVersion.ContentKey);
         }
         catch (Exception exception)
         {

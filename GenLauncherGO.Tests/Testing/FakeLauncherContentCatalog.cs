@@ -55,6 +55,8 @@ internal sealed class FakeLauncherContentCatalog : ILauncherContentCatalog
 
     public IReadOnlyList<string>? RepositoryModificationNames { get; set; }
 
+    public IReadOnlySet<LauncherContentKey> UnlistedFolderChanges { get; } = new HashSet<LauncherContentKey>();
+
     public Task InitDataAsync(
         Uri? remoteManifestUri,
         LauncherPaths paths,
@@ -132,7 +134,7 @@ internal sealed class FakeLauncherContentCatalog : ILauncherContentCatalog
         }
 
         UninstallVersionHandler?.Invoke(contentKey);
-        UpdateLocalModificationsData();
+        UpdateLocalModificationsData(contentKey);
     }
 
     public void DiscardContent(LauncherContentKey contentKey)
@@ -146,10 +148,16 @@ internal sealed class FakeLauncherContentCatalog : ILauncherContentCatalog
             .ToHashSet();
         _repositoryContent.RemoveWhere(candidate =>
             discardedCardKeys.Contains(candidate.WithoutVersion()));
-        UpdateLocalModificationsData();
+        UpdateLocalModificationsData(contentKey);
     }
 
-    public void UpdateLocalModificationsData()
+    public void UpdateLocalModificationsData(LauncherContentKey changedContent)
+    {
+        LocalDataUpdateCount++;
+        LocalDataUpdateHandler?.Invoke();
+    }
+
+    public void RefreshLocalModificationsData()
     {
         LocalDataUpdateCount++;
         LocalDataUpdateHandler?.Invoke();

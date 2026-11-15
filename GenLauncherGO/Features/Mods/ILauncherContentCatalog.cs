@@ -87,9 +87,26 @@ internal interface ILauncherContentCatalog
     void DiscardContent(LauncherContentKey contentKey);
 
     /// <summary>
-    ///     Refreshes the catalog from locally installed content and removes stale local-only cards.
+    ///     Gets the versions whose installed state a re-sync after a launcher operation found changed by another program.
     /// </summary>
-    void UpdateLocalModificationsData();
+    /// <remarks>
+    ///     Such a re-sync records those changes in the catalog, but the lists show them only after
+    ///     <see cref="RefreshLocalModificationsData" /> rebuilds them.
+    /// </remarks>
+    IReadOnlySet<LauncherContentKey> UnlistedFolderChanges { get; }
+
+    /// <summary>
+    ///     Re-syncs the catalog with the Mods folder after the launcher changed one content version, and removes stale
+    ///     local-only cards.
+    /// </summary>
+    /// <param name="changedContent">The version or card the launcher itself added, replaced, or removed.</param>
+    void UpdateLocalModificationsData(LauncherContentKey changedContent);
+
+    /// <summary>
+    ///     Re-syncs the catalog with the Mods folder for lists that are rebuilt from it right after, and removes stale
+    ///     local-only cards.
+    /// </summary>
+    void RefreshLocalModificationsData();
 
     /// <summary>
     ///     Saves the current catalog selection and installed state.
