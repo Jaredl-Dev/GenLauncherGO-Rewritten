@@ -292,6 +292,7 @@
     <data name="RunningProcessCloseBlockedDetails" xml:space="preserve"><value>Закройте запущенный процесс или используйте «Завершить принудительно», прежде чем закрывать GenLauncherGO.</value></data>
     <data name="UnexpectedErrorTitle" xml:space="preserve"><value>Что-то пошло не так</value></data>
     <data name="UnexpectedErrorDetails" xml:space="preserve"><value>Произошла непредвиденная ошибка. Повторите попытку. Если ошибка повторяется, проверьте журналы лаунчера.</value></data>
+    <data name="PackageDownloadFileUnavailable" xml:space="preserve"><value>Сервер загрузки больше не предоставляет этот файл.</value></data>
     <data name="PackageDownloadProviderFailed" xml:space="preserve"><value>Удалённый источник пакетов не смог завершить загрузку.</value></data>
     <data name="PackageDownloadValidationFailed" xml:space="preserve"><value>Не удалось проверить загруженный пакет.</value></data>
     <data name="PackageDownloadInstallFailed" xml:space="preserve"><value>Не удалось подготовить или установить пакет в хранилище лаунчера.</value></data>

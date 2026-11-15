@@ -292,6 +292,7 @@
     <data name="RunningProcessCloseBlockedDetails" xml:space="preserve"><value>Schließen Sie den laufenden Prozess oder verwenden Sie „Beenden erzwingen“, bevor Sie GenLauncherGO schließen.</value></data>
     <data name="UnexpectedErrorTitle" xml:space="preserve"><value>Etwas ist schiefgelaufen</value></data>
     <data name="UnexpectedErrorDetails" xml:space="preserve"><value>Ein unerwarteter Fehler ist aufgetreten. Versuche es erneut. Wenn das Problem weiterhin besteht, prüfe die Launcher-Protokolle.</value></data>
+    <data name="PackageDownloadFileUnavailable" xml:space="preserve"><value>Der Download-Host stellt diese Datei nicht mehr bereit.</value></data>
     <data name="PackageDownloadProviderFailed" xml:space="preserve"><value>Der entfernte Paketanbieter konnte den Download nicht abschließen.</value></data>
     <data name="PackageDownloadValidationFailed" xml:space="preserve"><value>Das heruntergeladene Paket konnte nicht überprüft werden.</value></data>
     <data name="PackageDownloadInstallFailed" xml:space="preserve"><value>Das Paket konnte im Launcher-Speicher nicht vorbereitet oder installiert werden.</value></data>

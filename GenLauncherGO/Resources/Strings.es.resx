@@ -292,6 +292,7 @@
     <data name="RunningProcessCloseBlockedDetails" xml:space="preserve"><value>Cierra el proceso en ejecución o usa «Forzar cierre» antes de cerrar GenLauncherGO.</value></data>
     <data name="UnexpectedErrorTitle" xml:space="preserve"><value>Algo salió mal</value></data>
     <data name="UnexpectedErrorDetails" xml:space="preserve"><value>Se produjo un error inesperado. Inténtalo de nuevo. Si continúa, revisa los registros del lanzador.</value></data>
+    <data name="PackageDownloadFileUnavailable" xml:space="preserve"><value>El servidor de descarga ya no ofrece este archivo.</value></data>
     <data name="PackageDownloadProviderFailed" xml:space="preserve"><value>El proveedor remoto de paquetes no pudo completar la descarga.</value></data>
     <data name="PackageDownloadValidationFailed" xml:space="preserve"><value>No se pudo validar el paquete descargado.</value></data>
     <data name="PackageDownloadInstallFailed" xml:space="preserve"><value>No se pudo preparar ni instalar el paquete en el almacenamiento del lanzador.</value></data>

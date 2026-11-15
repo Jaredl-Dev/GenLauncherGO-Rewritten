@@ -292,6 +292,7 @@
     <data name="RunningProcessCloseBlockedDetails" xml:space="preserve"><value>پیش از بستن GenLauncherGO، فرایند در حال اجرا را ببندید یا از «بستن اجباری» استفاده کنید.</value></data>
     <data name="UnexpectedErrorTitle" xml:space="preserve"><value>مشکلی پیش آمد</value></data>
     <data name="UnexpectedErrorDetails" xml:space="preserve"><value>خطای پیش‌بینی‌نشده‌ای رخ داد. دوباره تلاش کنید. اگر ادامه داشت، گزارش‌های لانچر را بررسی کنید.</value></data>
+    <data name="PackageDownloadFileUnavailable" xml:space="preserve"><value>میزبان دانلود دیگر این فایل را ارائه نمی‌دهد.</value></data>
     <data name="PackageDownloadProviderFailed" xml:space="preserve"><value>ارائه‌دهندهٔ راه‌دور بسته‌ها نتوانست دانلود را کامل کند.</value></data>
     <data name="PackageDownloadValidationFailed" xml:space="preserve"><value>اعتبارسنجی بستهٔ دانلودشده ممکن نشد.</value></data>
     <data name="PackageDownloadInstallFailed" xml:space="preserve"><value>آماده‌سازی یا نصب بسته در فضای ذخیره‌سازی لانچر ممکن نشد.</value></data>

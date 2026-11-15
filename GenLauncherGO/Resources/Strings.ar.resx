@@ -292,6 +292,7 @@
     <data name="RunningProcessCloseBlockedDetails" xml:space="preserve"><value>أغلق العملية قيد التشغيل أو استخدم "إنهاء إجباري" قبل إغلاق GenLauncherGO.</value></data>
     <data name="UnexpectedErrorTitle" xml:space="preserve"><value>حدث خطأ ما</value></data>
     <data name="UnexpectedErrorDetails" xml:space="preserve"><value>حدث خطأ غير متوقع. حاول مرة أخرى. إذا استمرت المشكلة، فتحقق من سجلات المشغّل.</value></data>
+    <data name="PackageDownloadFileUnavailable" xml:space="preserve"><value>لم يعد مضيف التحميل يوفّر هذا الملف.</value></data>
     <data name="PackageDownloadProviderFailed" xml:space="preserve"><value>تعذّر على مزوّد الحزم البعيد إكمال التحميل.</value></data>
     <data name="PackageDownloadValidationFailed" xml:space="preserve"><value>تعذّر التحقق من الحزمة التي تم تحميلها.</value></data>
     <data name="PackageDownloadInstallFailed" xml:space="preserve"><value>تعذّر تجهيز الحزمة أو تثبيتها في مساحة تخزين المشغّل.</value></data>

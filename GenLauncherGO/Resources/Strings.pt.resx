@@ -292,6 +292,7 @@
     <data name="RunningProcessCloseBlockedDetails" xml:space="preserve"><value>Feche o processo em execução ou use "Forçar encerramento" antes de fechar o GenLauncherGO.</value></data>
     <data name="UnexpectedErrorTitle" xml:space="preserve"><value>Algo correu mal</value></data>
     <data name="UnexpectedErrorDetails" xml:space="preserve"><value>Ocorreu um erro inesperado. Tente novamente. Se continuar, consulte os registos do iniciador.</value></data>
+    <data name="PackageDownloadFileUnavailable" xml:space="preserve"><value>O servidor de download não disponibiliza mais este arquivo.</value></data>
     <data name="PackageDownloadProviderFailed" xml:space="preserve"><value>O provedor remoto de pacotes não conseguiu concluir o download.</value></data>
     <data name="PackageDownloadValidationFailed" xml:space="preserve"><value>Não foi possível validar o pacote baixado.</value></data>
     <data name="PackageDownloadInstallFailed" xml:space="preserve"><value>Não foi possível preparar ou instalar o pacote no armazenamento do iniciador.</value></data>

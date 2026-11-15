@@ -1,5 +1,6 @@
 using System;
 using System.IO;
+using System.Net;
 using System.Net.Http;
 using System.Threading;
 using System.Threading.Tasks;
@@ -117,6 +118,19 @@ internal sealed class PackageDownloadService : IPackageDownloadService
         catch (UnexpectedMinioException exception)
         {
             return CreateRecoverableProviderFailure(version, exception);
+        }
+        // The host answered but refuses the file: it was deleted, moved or made private, as with the repository's
+        // OneDrive links, which are now deleted or behind a sign-in. Unlike a network failure, retrying cannot help.
+        catch (HttpRequestException exception) when (exception.StatusCode is HttpStatusCode.Unauthorized or
+                                                          HttpStatusCode.Forbidden or HttpStatusCode.NotFound or
+                                                          HttpStatusCode.Gone)
+        {
+            _logger.LogWarning(
+                exception,
+                "Download host refused the package for {ContentName} {ContentVersion}.",
+                version.Name,
+                version.Version);
+            return PackageDownloadResult.RecoverableFailure("PackageDownloadFileUnavailable");
         }
         catch (Exception exception) when (exception is HttpRequestException or TimeoutException)
         {
