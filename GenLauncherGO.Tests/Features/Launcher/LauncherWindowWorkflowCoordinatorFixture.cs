@@ -25,7 +25,8 @@ public sealed partial class LauncherWindowWorkflowCoordinatorTests
         MainWindowViewModel viewModel,
         LauncherWindowWorkflowCoordinator coordinator,
         IUiExceptionBoundary exceptionBoundary,
-        LauncherContentActionCoordinator? contentActionCoordinator = null)
+        LauncherContentActionCoordinator? contentActionCoordinator = null,
+        LauncherModsFolderChangeCoordinator? modsFolderChangeCoordinator = null)
     {
         return new MainWindow(
             viewModel,
@@ -34,7 +35,25 @@ public sealed partial class LauncherWindowWorkflowCoordinatorTests
             coordinator,
             contentActionCoordinator ?? CreateContentActionCoordinator(),
             TestLauncherApplicationUpdateCoordinator.Create(out _, downloadedVersion: null),
+            modsFolderChangeCoordinator ?? CreateModsFolderChangeCoordinator(),
             exceptionBoundary);
+    }
+
+    private static LauncherModsFolderChangeCoordinator CreateModsFolderChangeCoordinator(
+        FakeLauncherContentCatalog? catalog = null,
+        LauncherPackageActivityService? packageActivityService = null,
+        ILocalLauncherContentService? localContentService = null)
+    {
+        LauncherPackageActivityService resolvedPackageActivityService =
+            packageActivityService ?? new LauncherPackageActivityService();
+        return new LauncherModsFolderChangeCoordinator(
+            catalog ?? CreateCatalog(),
+            localContentService ?? Substitute.For<ILocalLauncherContentService>(),
+            TestLauncherPaths.CreateRuntimePathContext(TestLauncherPaths.Create()),
+            TestLauncherCloseGuard.Create(resolvedPackageActivityService),
+            resolvedPackageActivityService,
+            new FakeStringLocalizer(),
+            NullLogger<LauncherModsFolderChangeCoordinator>.Instance);
     }
 
     private static LauncherSettingsWindow CreateAutoClosingSettingsWindow()

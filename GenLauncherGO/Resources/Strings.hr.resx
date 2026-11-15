@@ -308,6 +308,7 @@
     <data name="LanguageRestartPromptDetails" xml:space="preserve"><value>Promjena jezika je spremljena i primijenit će se pri sljedećem pokretanju GenLauncherGO-a.</value></data>
     <data name="ApplicationUpdateReadyTitle" xml:space="preserve"><value>Ažuriranje za GenLauncherGO je spremno</value></data>
     <data name="ApplicationUpdateReadyDetails" xml:space="preserve"><value>Verzija {0} je preuzeta. Ponovno pokrenite GenLauncherGO da biste dovršili ažuriranje.</value></data>
+    <data name="ModsFolderRefreshActivity" xml:space="preserve"><value>Ažuriranje popisa modova</value></data>
     <data name="RestartNow" xml:space="preserve"><value>Ponovno pokreni sada</value></data>
     <data name="RestartLater" xml:space="preserve"><value>Kasnije</value></data>
     <data name="RestartBlockedTitle" xml:space="preserve"><value>Ponovno pokretanje nije dostupno</value></data>

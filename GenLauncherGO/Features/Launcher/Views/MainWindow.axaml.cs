@@ -28,6 +28,7 @@ internal partial class MainWindow : Window
     private readonly IUiExceptionBoundary _exceptionBoundary = null!;
     private readonly LauncherContentActionCoordinator _contentActionCoordinator = null!;
     private readonly LauncherApplicationUpdateCoordinator _applicationUpdateCoordinator = null!;
+    private readonly LauncherModsFolderChangeCoordinator _modsFolderChangeCoordinator = null!;
     private readonly MainWindowViewModel _viewModel = null!;
     private readonly LauncherWindowContext _windowContext = null!;
     private readonly LauncherWindowWorkflowCoordinator _workflowCoordinator = null!;
@@ -48,6 +49,7 @@ internal partial class MainWindow : Window
         LauncherWindowWorkflowCoordinator workflowCoordinator,
         LauncherContentActionCoordinator contentActionCoordinator,
         LauncherApplicationUpdateCoordinator applicationUpdateCoordinator,
+        LauncherModsFolderChangeCoordinator modsFolderChangeCoordinator,
         IUiExceptionBoundary exceptionBoundary)
         : this()
     {
@@ -59,6 +61,8 @@ internal partial class MainWindow : Window
                                     throw new ArgumentNullException(nameof(contentActionCoordinator));
         _applicationUpdateCoordinator = applicationUpdateCoordinator ??
                                         throw new ArgumentNullException(nameof(applicationUpdateCoordinator));
+        _modsFolderChangeCoordinator = modsFolderChangeCoordinator ??
+                                       throw new ArgumentNullException(nameof(modsFolderChangeCoordinator));
         _exceptionBoundary = exceptionBoundary ?? throw new ArgumentNullException(nameof(exceptionBoundary));
 
         DataContext = _viewModel;
@@ -117,11 +121,15 @@ internal partial class MainWindow : Window
         await ExecuteWindowOperationAsync(
             "showing a downloaded launcher application update",
             () => _applicationUpdateCoordinator.HandleLauncherActivatedAsync(this));
+        await ExecuteWindowOperationAsync(
+            "checking the Mods folder for changes made outside the launcher",
+            () => _modsFolderChangeCoordinator.HandleLauncherActivatedAsync(_windowContext, _windowLifetime.Token));
     }
 
     private void MainWindow_Deactivated(object? sender, EventArgs eventArgs)
     {
         CancelContentPointerGesture();
+        _modsFolderChangeCoordinator.HandleLauncherDeactivated(_windowContext);
     }
 
     private void ModsList_PointerPressed(object? sender, PointerPressedEventArgs eventArgs)

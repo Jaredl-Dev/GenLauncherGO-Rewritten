@@ -308,6 +308,7 @@
     <data name="LanguageRestartPromptDetails" xml:space="preserve"><value>Die Sprachänderung wurde gespeichert und wird beim nächsten Start von GenLauncherGO angewendet.</value></data>
     <data name="ApplicationUpdateReadyTitle" xml:space="preserve"><value>GenLauncherGO-Update ist bereit</value></data>
     <data name="ApplicationUpdateReadyDetails" xml:space="preserve"><value>Version {0} wurde heruntergeladen. Starte GenLauncherGO neu, um die Aktualisierung abzuschließen.</value></data>
+    <data name="ModsFolderRefreshActivity" xml:space="preserve"><value>Aktualisierung der Mod-Liste</value></data>
     <data name="RestartNow" xml:space="preserve"><value>Jetzt neu starten</value></data>
     <data name="RestartLater" xml:space="preserve"><value>Später</value></data>
     <data name="RestartBlockedTitle" xml:space="preserve"><value>Neustart nicht verfügbar</value></data>

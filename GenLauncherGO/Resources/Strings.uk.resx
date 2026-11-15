@@ -308,6 +308,7 @@
     <data name="LanguageRestartPromptDetails" xml:space="preserve"><value>Зміну мови збережено, і її буде застосовано під час наступного запуску GenLauncherGO.</value></data>
     <data name="ApplicationUpdateReadyTitle" xml:space="preserve"><value>Оновлення GenLauncherGO готове</value></data>
     <data name="ApplicationUpdateReadyDetails" xml:space="preserve"><value>Версію {0} завантажено. Перезапустіть GenLauncherGO, щоб завершити оновлення.</value></data>
+    <data name="ModsFolderRefreshActivity" xml:space="preserve"><value>Оновлення списку модів</value></data>
     <data name="RestartNow" xml:space="preserve"><value>Перезапустити зараз</value></data>
     <data name="RestartLater" xml:space="preserve"><value>Пізніше</value></data>
     <data name="RestartBlockedTitle" xml:space="preserve"><value>Перезапуск недоступний</value></data>

@@ -394,6 +394,7 @@ internal sealed class LauncherApplicationHost : IDisposable
         services.AddSingleton<LauncherCloseGuard>();
         services.AddSingleton<LauncherWindowWorkflowCoordinator>();
         services.AddSingleton<LauncherApplicationUpdateCoordinator>();
+        services.AddSingleton<LauncherModsFolderChangeCoordinator>();
         services.AddTransient<LauncherDragDropController>();
         services.AddTransient<MainWindowViewModel>();
 

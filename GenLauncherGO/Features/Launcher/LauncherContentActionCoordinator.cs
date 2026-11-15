@@ -76,46 +76,55 @@ internal sealed class LauncherContentActionCoordinator
     /// <summary>
     ///     Opens repository modification selection and adds the selected modification.
     /// </summary>
+    /// <remarks>
+    ///     The package activity lease keeps a Mods folder refresh from rebuilding the lists while the selection loads,
+    ///     which would list the added modification twice.
+    /// </remarks>
     public async Task AddRepositoryModificationAsync(
         LauncherWindowContext context,
         CancellationToken cancellationToken = default)
     {
         ArgumentNullException.ThrowIfNull(context);
 
-        if (!await _activityAdmissionService.EnsureCanStartAsync(context.Owner))
+        LauncherPackageActivityService.LauncherPackageActivityLease? activityLease =
+            await _activityAdmissionService.TryReserveAsync(_stringLocalizer["AddMod"], context.Owner);
+        if (activityLease == null)
         {
             _logger.LogInformation("Repository modification add workflow was blocked by active package activity.");
             context.Content.RestoreFocuses();
             return;
         }
 
-        IReadOnlyList<string> availableModificationNames =
-            context.ViewModel.GetNotAddedRepositoryModificationNames();
+        using (activityLease)
+        {
+            IReadOnlyList<string> availableModificationNames =
+                context.ViewModel.GetNotAddedRepositoryModificationNames();
 
-        string? modificationName = await _dialogService.ShowModificationSelectionAsync(
-            availableModificationNames,
-            context.Owner);
-        if (!string.IsNullOrWhiteSpace(modificationName))
-        {
-            _logger.LogInformation(
-                "Adding repository modification {ModificationName}.",
-                modificationName);
-            context.ViewModel.SetMainControlsEnabled(false);
-            try
+            string? modificationName = await _dialogService.ShowModificationSelectionAsync(
+                availableModificationNames,
+                context.Owner);
+            if (!string.IsNullOrWhiteSpace(modificationName))
             {
-                LauncherContent modification = await _catalog.AddRepositoryModificationAsync(
-                    modificationName,
-                    cancellationToken);
-                context.ViewModel.AddModToList(modification);
+                _logger.LogInformation(
+                    "Adding repository modification {ModificationName}.",
+                    modificationName);
+                context.ViewModel.SetMainControlsEnabled(false);
+                try
+                {
+                    LauncherContent modification = await _catalog.AddRepositoryModificationAsync(
+                        modificationName,
+                        cancellationToken);
+                    context.ViewModel.AddModToList(modification);
+                }
+                finally
+                {
+                    context.ViewModel.SetMainControlsEnabled(true);
+                }
             }
-            finally
+            else
             {
-                context.ViewModel.SetMainControlsEnabled(true);
+                _logger.LogDebug("Repository modification add workflow was canceled.");
             }
-        }
-        else
-        {
-            _logger.LogDebug("Repository modification add workflow was canceled.");
         }
 
         context.Content.RestoreFocuses();
