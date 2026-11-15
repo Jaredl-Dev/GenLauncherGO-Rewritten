@@ -74,18 +74,18 @@ internal static class RemoteLauncherCatalogMapper
             NetworkInfo = manifest.NetworkInfo ?? string.Empty,
             Deprecated = manifest.Deprecated,
             SupportLink = manifest.SupportLink ?? string.Empty,
-            Theme = ToLauncherContentTheme(manifest.ColorsInformation)
+            Theme = NormalizeTheme(manifest.ColorsInformation)
         };
     }
 
     /// <summary>
-    ///     Maps the backend's per-modification palette, dropping a block that carries nothing usable.
+    ///     Normalizes the backend's per-modification palette, dropping a block that carries nothing usable.
     /// </summary>
     /// <remarks>
     ///     Slots stay independent on purpose: a modification may publish only the few colours it cares about, and the
     ///     launcher fills the rest from the active game's palette rather than rejecting the block.
     /// </remarks>
-    private static LauncherContentTheme? ToLauncherContentTheme(LegacyContentThemeManifest? theme)
+    private static LauncherContentTheme? NormalizeTheme(LauncherContentTheme? theme)
     {
         if (theme is null)
         {

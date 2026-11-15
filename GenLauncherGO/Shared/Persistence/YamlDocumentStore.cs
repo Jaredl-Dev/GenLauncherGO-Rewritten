@@ -2,7 +2,6 @@ using System;
 using System.IO;
 using GenLauncherGO.Shared.IO;
 using Microsoft.Extensions.Logging;
-using YamlDotNet.Serialization;
 
 namespace GenLauncherGO.Shared.Persistence;
 
@@ -42,12 +41,8 @@ internal sealed class YamlDocumentStore<TDocument> : IYamlDocumentStore<TDocumen
             FileSystemPathSafety.EnsureExistingPathChainHasNoReparsePoints(
                 _documentFilePath,
                 "YAML document paths");
-            IDeserializer deserializer = new DeserializerBuilder()
-                .IgnoreUnmatchedProperties()
-                .Build();
-
             using TextReader reader = File.OpenText(_documentFilePath);
-            return deserializer.Deserialize<TDocument>(reader) ?? defaultDocument;
+            return LauncherYamlContext.Deserializer.Deserialize<TDocument>(reader) ?? defaultDocument;
         }
         catch (Exception exception)
         {
@@ -66,8 +61,7 @@ internal sealed class YamlDocumentStore<TDocument> : IYamlDocumentStore<TDocumen
 
         try
         {
-            ISerializer serializer = new Serializer();
-            string yaml = serializer.Serialize(document);
+            string yaml = LauncherYamlContext.Serializer.Serialize(document);
             _atomicFileWriter.WriteText(_documentFilePath, yaml);
         }
         catch (Exception exception)

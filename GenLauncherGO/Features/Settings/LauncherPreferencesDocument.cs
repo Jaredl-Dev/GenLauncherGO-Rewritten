@@ -1,5 +1,6 @@
 using System.Collections.Generic;
 using GenLauncherGO.Features.Startup;
+using YamlDotNet.Serialization;
 
 namespace GenLauncherGO.Features.Settings;
 
@@ -23,6 +24,7 @@ internal sealed class LauncherPreferencesSchemaDocument
         }
     }
 
+    [YamlIgnore]
     internal bool HasSchemaVersion { get; private set; }
 }
 

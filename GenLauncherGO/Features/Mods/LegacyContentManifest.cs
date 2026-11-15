@@ -46,7 +46,7 @@ internal sealed class LegacyContentManifest
     /// <summary>
     ///     Gets or sets the optional palette this modification asks the launcher to wear while it is selected.
     /// </summary>
-    public LegacyContentThemeManifest? ColorsInformation { get; set; }
+    public LauncherContentTheme? ColorsInformation { get; set; }
 
     public ContentSourceKind ContentSourceKind { get; set; } = ContentSourceKind.UnknownLegacy;
 }

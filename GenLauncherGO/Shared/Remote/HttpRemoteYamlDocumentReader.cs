@@ -3,9 +3,9 @@ using System.IO;
 using System.Net.Http;
 using System.Threading;
 using System.Threading.Tasks;
+using GenLauncherGO.Shared.Persistence;
 using Microsoft.Extensions.Logging;
 using Microsoft.Extensions.Logging.Abstractions;
-using YamlDotNet.Serialization;
 
 namespace GenLauncherGO.Shared.Remote;
 
@@ -17,7 +17,6 @@ internal sealed class HttpRemoteYamlDocumentReader : IRemoteYamlDocumentReader
     private static readonly HttpClient _sharedHttpClient =
         SharedHttpClientFactory.Create(TimeSpan.FromSeconds(60));
 
-    private readonly IDeserializer _deserializer;
     private readonly HttpClient _httpClient;
     private readonly ILogger<HttpRemoteYamlDocumentReader> _logger;
 
@@ -27,9 +26,6 @@ internal sealed class HttpRemoteYamlDocumentReader : IRemoteYamlDocumentReader
     {
         _httpClient = httpClient ?? _sharedHttpClient;
         _logger = logger ?? NullLogger<HttpRemoteYamlDocumentReader>.Instance;
-        _deserializer = new DeserializerBuilder()
-            .IgnoreUnmatchedProperties()
-            .Build();
     }
 
     public async Task<T> ReadYamlAsync<T>(Uri documentUri, CancellationToken cancellationToken)
@@ -50,7 +46,7 @@ internal sealed class HttpRemoteYamlDocumentReader : IRemoteYamlDocumentReader
                 .ConfigureAwait(false);
             using StreamReader reader = new(contentStream);
 
-            return _deserializer.Deserialize<T>(reader);
+            return LauncherYamlContext.Deserializer.Deserialize<T>(reader);
         }
         catch (OperationCanceledException) when (cancellationToken.IsCancellationRequested)
         {

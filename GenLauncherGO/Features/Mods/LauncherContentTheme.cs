@@ -4,30 +4,32 @@ namespace GenLauncherGO.Features.Mods;
 ///     Describes the palette a published modification asks the launcher to wear while it is selected.
 /// </summary>
 /// <remarks>
-///     Property names match the remote manifest's <c>ColorsInformation</c> keys, which are also the launcher's own
-///     resource key names. Values stay as the raw strings the backend published: they are colour literals in a
-///     presentation format retained for transport and persistence. The theme resolver parses them and applies per-slot
-///     fallback when building the Avalonia palette. Any slot may be absent, and a modification may supply none at all.
+///     The remote manifest's <c>ColorsInformation</c> mapping reads into this type directly, so the property names are
+///     part of the legacy backend's external contract and must not be renamed; they are also the launcher's own resource
+///     key names. Values stay as the raw strings the backend published: they are colour literals in a presentation
+///     format retained for transport and persistence. The theme resolver parses them and applies per-slot fallback when
+///     building the Avalonia palette. Any slot may be absent, and a modification may supply none at all. Palette caches
+///     written by earlier versions also contain the computed properties, which loading skips.
 /// </remarks>
 internal sealed class LauncherContentTheme
 {
-    public string GenLauncherBorderColor { get; init; } = string.Empty;
+    public string GenLauncherBorderColor { get; set; } = string.Empty;
 
-    public string GenLauncherInactiveBorder { get; init; } = string.Empty;
+    public string GenLauncherInactiveBorder { get; set; } = string.Empty;
 
-    public string GenLauncherInactiveBorder2 { get; init; } = string.Empty;
+    public string GenLauncherInactiveBorder2 { get; set; } = string.Empty;
 
-    public string GenLauncherActiveColor { get; init; } = string.Empty;
+    public string GenLauncherActiveColor { get; set; } = string.Empty;
 
-    public string GenLauncherDarkFillColor { get; init; } = string.Empty;
+    public string GenLauncherDarkFillColor { get; set; } = string.Empty;
 
-    public string GenLauncherDarkBackGround { get; init; } = string.Empty;
+    public string GenLauncherDarkBackGround { get; set; } = string.Empty;
 
-    public string GenLauncherLightBackGround { get; init; } = string.Empty;
+    public string GenLauncherLightBackGround { get; set; } = string.Empty;
 
-    public string GenLauncherDefaultTextColor { get; init; } = string.Empty;
+    public string GenLauncherDefaultTextColor { get; set; } = string.Empty;
 
-    public string GenLauncherDownloadTextColor { get; init; } = string.Empty;
+    public string GenLauncherDownloadTextColor { get; set; } = string.Empty;
 
     /// <summary>
     ///     Gets the colour the list-selection gradient starts from.
@@ -37,16 +39,16 @@ internal sealed class LauncherContentTheme
     ///     so a published mod's documented start colour actually rendered at the far stop. This launcher maps the
     ///     names as documented instead, which is the behaviour mod authors were writing against.
     /// </remarks>
-    public string GenLauncherListBoxSelectionColor1 { get; init; } = string.Empty;
+    public string GenLauncherListBoxSelectionColor1 { get; set; } = string.Empty;
 
-    public string GenLauncherListBoxSelectionColor2 { get; init; } = string.Empty;
+    public string GenLauncherListBoxSelectionColor2 { get; set; } = string.Empty;
 
-    public string GenLauncherButtonSelectionColor { get; init; } = string.Empty;
+    public string GenLauncherButtonSelectionColor { get; set; } = string.Empty;
 
     /// <summary>
     ///     Gets the absolute URL of the artwork drawn behind the launcher shell.
     /// </summary>
-    public string GenLauncherBackgroundImageLink { get; init; } = string.Empty;
+    public string GenLauncherBackgroundImageLink { get; set; } = string.Empty;
 
     /// <summary>
     ///     Gets a value indicating whether this theme publishes at least one usable palette or artwork value.
