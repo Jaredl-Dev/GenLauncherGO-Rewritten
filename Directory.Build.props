@@ -52,12 +52,15 @@
   </PropertyGroup>
 
   <PropertyGroup Condition="'$(MSBuildProjectName)' == 'GenLauncherGO'">
-    <!-- The supported publish is single-file self-contained (see
-         WinX64SelfContained.pubxml), which bundles the application
-         assembly. Enabling the analyzer here reports IL3000/IL3001 during
-         `dotnet build` rather than only at publish time, where a broken
-         assumption about assembly locations would otherwise ship. Tests and build tooling are
-         excluded because they are never published this way. -->
+    <!-- The supported publish is Native AOT (see WinX64SelfContained.pubxml),
+         which has no JIT, trims unreferenced code, and has no assembly
+         files on disk. Enabling the analyzers here reports reflection,
+         dynamic code, and assembly-location problems during `dotnet build`
+         rather than only at publish time, where a serializer or library
+         that silently stops working would otherwise ship. Tests and build
+         tooling are excluded because they are never published this way. -->
+    <EnableAotAnalyzer>true</EnableAotAnalyzer>
+    <EnableTrimAnalyzer>true</EnableTrimAnalyzer>
     <EnableSingleFileAnalyzer>true</EnableSingleFileAnalyzer>
   </PropertyGroup>
 </Project>

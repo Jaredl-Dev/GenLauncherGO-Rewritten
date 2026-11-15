@@ -33,7 +33,6 @@
     <Optimize>true</Optimize>
     <DefineConstants>TRACE</DefineConstants>
     <PublishDocumentationFiles>false</PublishDocumentationFiles>
-    <CopyOutputSymbolsToPublishDirectory>false</CopyOutputSymbolsToPublishDirectory>
     <AllowedReferenceRelatedFileExtensions>.pri;.dll.config;.exe.config</AllowedReferenceRelatedFileExtensions>
   </PropertyGroup>
 
@@ -65,4 +64,15 @@
   <ItemGroup>
     <EmbeddedResource Include="Features\Mods\Resources\*.jpg" LogicalName="GenLauncherGO.Features.Mods.Resources.%(Filename)%(Extension)"/>
   </ItemGroup>
+
+  <!-- Native AOT compiles the satellite resource assemblies into the executable before this point, yet the SDK still
+       copies the per-culture folders beside it. Nothing loads them, so they stay out of the package. -->
+  <Target Name="ExcludeCompiledSatelliteAssembliesFromPublish"
+          AfterTargets="ComputeResolvedFilesToPublishList"
+          Condition="'$(PublishAot)' == 'true'">
+    <ItemGroup>
+      <ResolvedFileToPublish Remove="@(ResolvedFileToPublish)"
+                             Condition="$([System.String]::Copy('%(ResolvedFileToPublish.RelativePath)').EndsWith('.resources.dll'))"/>
+    </ItemGroup>
+  </Target>
 </Project>

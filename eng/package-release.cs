@@ -116,6 +116,12 @@ internal static class PackageRelease
             throw new FileNotFoundException($"Expected the published launcher executable at {launcherPath}.");
         }
 
+        string symbolsPath = Path.Combine(publishDirectory, $"{packageId}.pdb");
+        if (!File.Exists(symbolsPath))
+        {
+            throw new FileNotFoundException($"Expected the published launcher's native symbols at {symbolsPath}.");
+        }
+
         File.Copy(Path.Combine(repositoryRoot, "LICENSE"), Path.Combine(publishDirectory, "LICENSE"), overwrite: true);
 
         await RunDotNetAsync(repositoryRoot, false,
@@ -156,6 +162,15 @@ internal static class PackageRelease
         if (File.Exists(deltaPath))
         {
             File.Copy(deltaPath, Path.Combine(uploadDirectory, deltaName));
+        }
+
+        // Native AOT stack traces name methods and offsets but not source lines, so each release keeps the symbols
+        // that map its executable's offsets back to lines. Velopack leaves .pdb files out of the package itself.
+        using (ZipArchive symbolsArchive = ZipFile.Open(
+                   Path.Combine(uploadDirectory, $"{packageId}-{version}-symbols.zip"),
+                   ZipArchiveMode.Create))
+        {
+            symbolsArchive.CreateEntryFromFile(symbolsPath, Path.GetFileName(symbolsPath), CompressionLevel.SmallestSize);
         }
 
         VerifyPortableArchive(uploadDirectory, packageId);

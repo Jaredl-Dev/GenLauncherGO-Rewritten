@@ -14,10 +14,18 @@ test checks first. The launcher's updater reads this repository's GitHub release
 `GenLauncherGO/GenLauncherGO.csproj`), so publishing a draft offers it to every installed launcher. Releases stay
 portable-only.
 
+Each release also carries `GenLauncherGO-<version>-symbols.zip`, the native symbols for that release's executable.
+Native AOT stack traces in launcher logs name each method and its offset but not the source line; open the executable
+with these symbols in a native debugger to map an offset to its line. Updates never download this asset.
+
 ## Packaging locally
 
-The packaging tool is a C# file-based app under `eng` that uses the repository's .NET SDK. Use `--no-cache` so the
-SDK rebuilds the runner instead of reusing its temporary build cache. From the repository root, run:
+The packaging tool is a C# file-based app under `eng` that uses the repository's .NET SDK. The launcher is published
+with Native AOT, which links with the MSVC toolchain, so install Visual Studio or its Build Tools with the **Desktop
+development with C++** workload.
+
+Use `--no-cache` so the SDK rebuilds the runner instead of reusing its temporary build cache. From the repository root,
+run:
 
 ```powershell
 dotnet run --file ./eng/package-release.cs --no-cache
