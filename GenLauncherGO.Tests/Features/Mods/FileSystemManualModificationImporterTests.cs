@@ -23,7 +23,7 @@ public sealed class FileSystemManualModificationImporterTests
             [damagedArchive],
             PackageUpdatePathSet.CreateForManualImport(paths, installedPath));
 
-        act.Should().Throw<Exception>();
+        act.Should().Throw<ManualImportArchiveException>();
         Directory.Exists(installedPath.FullPath).Should().BeFalse();
     }
 

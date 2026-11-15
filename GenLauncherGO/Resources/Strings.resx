@@ -254,6 +254,7 @@
     <data name="ManualImportNothingToImport" xml:space="preserve"><value>The selected files or folder contain nothing to import.</value></data>
     <data name="ManualImportFolderContainsLauncherData" xml:space="preserve"><value>This folder contains GenLauncherGO's own data, so it can't be imported. Choose the folder that holds only the modification's files.</value></data>
     <data name="ManualImportFolderHoldsAddonsOrPatches" xml:space="preserve"><value>This folder holds a modification's versions together with its add-ons or patches, so it can't be imported as one version. To bring everything across, copy this folder into {0}, and GenLauncherGO lists everything in it. To import one version, choose that version's folder.</value></data>
+    <data name="ManualImportArchiveUnreadable" xml:space="preserve"><value>{0} couldn't be extracted: {1}</value></data>
     <data name="FinishProcess" xml:space="preserve"><value>Close the game before opening launcher settings.</value></data>
     <data name="Info" xml:space="preserve"><value>Information</value></data>
     <data name="Retry" xml:space="preserve"><value>Retry</value></data>

@@ -149,11 +149,18 @@ internal sealed class FileSystemManualModificationImporter : IManualModification
         // name here for the same reason: an imported archive and a downloaded one must leave the same folder behind.
         // The archive is read where the user keeps it. A copy beside its extracted entries would cost a second full
         // write and collide with an archive that holds an entry of its own name.
-        _archiveExtractor.ExtractToDirectory(
-            sourceFilePath,
-            stagingDirectory,
-            true,
-            cancellationToken);
+        try
+        {
+            _archiveExtractor.ExtractToDirectory(
+                sourceFilePath,
+                stagingDirectory,
+                true,
+                cancellationToken);
+        }
+        catch (Exception exception) when (exception is not OperationCanceledException)
+        {
+            throw new ManualImportArchiveException(sourceFileName, exception);
+        }
     }
 
     /// <summary>

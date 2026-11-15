@@ -254,6 +254,7 @@
     <data name="ManualImportNothingToImport" xml:space="preserve"><value>Seçilen dosyalar veya klasör içe aktarılacak bir şey içermiyor.</value></data>
     <data name="ManualImportFolderContainsLauncherData" xml:space="preserve"><value>Bu klasör GenLauncherGO'nun kendi verilerini içerdiği için içe aktarılamaz. Yalnızca modun dosyalarını içeren klasörü seçin.</value></data>
     <data name="ManualImportFolderHoldsAddonsOrPatches" xml:space="preserve"><value>Bu klasör bir modun sürümlerini eklentileri veya yamalarıyla birlikte içerdiği için tek bir sürüm olarak içe aktarılamaz. Hepsini taşımak için bu klasörü {0} konumuna kopyalayın; GenLauncherGO içindeki her şeyi listeler. Tek bir sürümü içe aktarmak için o sürümün klasörünü seçin.</value></data>
+    <data name="ManualImportArchiveUnreadable" xml:space="preserve"><value>{0} çıkarılamadı: {1}</value></data>
     <data name="FinishProcess" xml:space="preserve"><value>Seçenekleri açmadan önce oyunu kapatın.</value></data>
     <data name="Info" xml:space="preserve"><value>Bilgi</value></data>
     <data name="Retry" xml:space="preserve"><value>Yeniden dene</value></data>

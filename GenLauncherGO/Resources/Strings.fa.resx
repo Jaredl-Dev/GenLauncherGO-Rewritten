@@ -254,6 +254,7 @@
     <data name="ManualImportNothingToImport" xml:space="preserve"><value>فایل‌ها یا پوشه انتخاب‌شده چیزی برای وارد کردن ندارند.</value></data>
     <data name="ManualImportFolderContainsLauncherData" xml:space="preserve"><value>این پوشه داده‌های خود GenLauncherGO را دارد، بنابراین نمی‌توان آن را وارد کرد. پوشه‌ای را انتخاب کنید که فقط فایل‌های مود را دارد.</value></data>
     <data name="ManualImportFolderHoldsAddonsOrPatches" xml:space="preserve"><value>این پوشه نسخه‌های یک مود را همراه با افزونه‌ها یا پچ‌های آن در خود دارد، بنابراین نمی‌توان آن را به‌عنوان یک نسخه وارد کرد. برای انتقال همه چیز، این پوشه را در &#x2068;{0}&#x2069; کپی کنید تا GenLauncherGO همه محتوای آن را نشان دهد. برای وارد کردن یک نسخه، پوشه همان نسخه را انتخاب کنید.</value></data>
+    <data name="ManualImportArchiveUnreadable" xml:space="preserve"><value>استخراج {0} ممکن نشد: {1}</value></data>
     <data name="FinishProcess" xml:space="preserve"><value>پیش از بازکردن تنظیمات لانچر، بازی را ببندید.</value></data>
     <data name="Info" xml:space="preserve"><value>اطلاعات</value></data>
     <data name="Retry" xml:space="preserve"><value>تلاش مجدد</value></data>

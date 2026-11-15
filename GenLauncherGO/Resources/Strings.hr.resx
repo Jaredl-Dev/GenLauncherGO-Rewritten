@@ -254,6 +254,7 @@
     <data name="ManualImportNothingToImport" xml:space="preserve"><value>Odabrane datoteke ili mapa ne sadrže ništa za uvoz.</value></data>
     <data name="ManualImportFolderContainsLauncherData" xml:space="preserve"><value>Ova mapa sadrži vlastite podatke GenLauncherGO-a pa se ne može uvesti. Odaberite mapu koja sadrži samo datoteke modifikacije.</value></data>
     <data name="ManualImportFolderHoldsAddonsOrPatches" xml:space="preserve"><value>Ova mapa sadrži verzije modifikacije zajedno s njezinim dodacima ili patchevima pa se ne može uvesti kao jedna verzija. Da biste prenijeli sve, kopirajte ovu mapu u {0} i GenLauncherGO će prikazati sve što je u njoj. Da biste uvezli jednu verziju, odaberite mapu te verzije.</value></data>
+    <data name="ManualImportArchiveUnreadable" xml:space="preserve"><value>Nije moguće raspakirati {0}: {1}</value></data>
     <data name="FinishProcess" xml:space="preserve"><value>Zatvorite igru prije otvaranja postavki.</value></data>
     <data name="Info" xml:space="preserve"><value>Informacije</value></data>
     <data name="Retry" xml:space="preserve"><value>Pokušaj ponovno</value></data>

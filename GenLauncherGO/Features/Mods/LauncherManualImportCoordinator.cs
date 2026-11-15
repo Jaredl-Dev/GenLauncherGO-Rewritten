@@ -100,12 +100,28 @@ internal sealed class LauncherManualImportCoordinator
             launcherPaths,
             ResolveDestinationPath(launcherPaths, importedKey));
 
-        bool installed = await Task.Run(
-            () => _manualModificationImporter.Import(
-                selectedFiles,
-                importPaths,
-                cancellationToken),
-            cancellationToken);
+        bool installed;
+        try
+        {
+            installed = await Task.Run(
+                () => _manualModificationImporter.Import(
+                    selectedFiles,
+                    importPaths,
+                    cancellationToken),
+                cancellationToken);
+        }
+        catch (ManualImportArchiveException exception)
+        {
+            await ShowImportErrorAsync(
+                string.Format(
+                    CultureInfo.CurrentCulture,
+                    _stringLocalizer["ManualImportArchiveUnreadable"],
+                    exception.ArchiveFileName,
+                    exception.InnerException?.Message),
+                owner);
+            return null;
+        }
+
         if (!installed)
         {
             await ShowImportErrorAsync(_stringLocalizer["ManualImportNothingToImport"], owner);

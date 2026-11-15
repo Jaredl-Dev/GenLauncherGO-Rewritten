@@ -254,6 +254,7 @@
     <data name="ManualImportNothingToImport" xml:space="preserve"><value>لا تحتوي الملفات أو المجلد المحدد على أي شيء للاستيراد.</value></data>
     <data name="ManualImportFolderContainsLauncherData" xml:space="preserve"><value>يحتوي هذا المجلد على بيانات GenLauncherGO نفسها، لذا لا يمكن استيراده. اختر المجلد الذي يحتوي على ملفات التعديل فقط.</value></data>
     <data name="ManualImportFolderHoldsAddonsOrPatches" xml:space="preserve"><value>يحتوي هذا المجلد على إصدارات تعديل مع إضافاته أو باتشاته، لذا لا يمكن استيراده كإصدار واحد. لنقل كل شيء، انسخ هذا المجلد إلى {0} وسيعرض GenLauncherGO كل ما فيه. لاستيراد إصدار واحد، اختر مجلد ذلك الإصدار.</value></data>
+    <data name="ManualImportArchiveUnreadable" xml:space="preserve"><value>تعذر استخراج {0}: {1}</value></data>
     <data name="FinishProcess" xml:space="preserve"><value>قم بإغلاق اللعبة قبل فتح الإعدادات</value></data>
     <data name="Info" xml:space="preserve"><value>معلومات</value></data>
     <data name="Retry" xml:space="preserve"><value>إعادة المحاولة</value></data>
