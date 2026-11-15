@@ -145,7 +145,10 @@ internal sealed class ManualAddModificationViewModel : ObservableObject
             return string.Empty;
         }
 
-        string fileName = Path.GetFileNameWithoutExtension(firstFile);
+        // A folder name has no extension, so a dot in it ("ShockWave 1.2") is part of the name.
+        string fileName = Directory.Exists(firstFile)
+            ? Path.GetFileName(Path.TrimEndingDirectorySeparator(firstFile))
+            : Path.GetFileNameWithoutExtension(firstFile);
         if (string.IsNullOrWhiteSpace(fileName))
         {
             return string.Empty;
