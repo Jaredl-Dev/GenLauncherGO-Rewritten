@@ -3,6 +3,7 @@ using Avalonia;
 using Avalonia.Controls;
 using Avalonia.Media;
 using Avalonia.Media.Immutable;
+using Avalonia.Threading;
 
 namespace GenLauncherGO.Shared.Themes;
 
@@ -70,11 +71,14 @@ internal static class LauncherThemeResourceApplier
     ///     Publishes launcher theme values to application-scoped resources, so every open window follows them.
     /// </summary>
     /// <remarks>
-    ///     Publishing is skipped when no Avalonia application is running, which is the case in plain unit tests.
+    ///     Application resources belong to the UI thread, where every launcher caller runs, so a call from any other
+    ///     thread publishes nothing, as does a call with no Avalonia application running. Plain unit tests make such
+    ///     calls from worker threads while the headless test application is rebuilt on its own thread, and writing its
+    ///     resources from there corrupts them.
     /// </remarks>
     public static void ApplyToApplication(ColorsInfo colors, bool includeBackgroundImage = true)
     {
-        if (Application.Current is { } application)
+        if (Application.Current is { } application && Dispatcher.UIThread.CheckAccess())
         {
             Apply(application.Resources, colors, includeBackgroundImage);
         }

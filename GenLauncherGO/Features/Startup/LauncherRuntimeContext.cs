@@ -31,7 +31,8 @@ internal sealed class LauncherRuntimeContext
     ///     Assigning also publishes the theme to application-scoped resources, so every open window follows through
     ///     <c>DynamicResource</c> without being told. This is what makes the assignment the single place a theme can
     ///     change; windows that deliberately preview a different palette shadow it with their own resources instead.
-    ///     Publishing is skipped when no Avalonia application is running, which is the case in plain unit tests.
+    ///     Publishing follows the UI-thread rule of <see cref="LauncherThemeResourceApplier.ApplyToApplication" />, so
+    ///     plain unit tests publish nothing.
     /// </remarks>
     public ColorsInfo Colors
     {
