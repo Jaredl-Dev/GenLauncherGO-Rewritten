@@ -14,6 +14,14 @@ internal interface ILocalLauncherContentService
     IReadOnlyList<LauncherContentVersion> FindInstalledVersions(LauncherPaths paths);
 
     /// <summary>
+    ///     Determines whether another program still holds one of a version's files open for writing, as a copy into the
+    ///     mods directory does until each file is complete.
+    /// </summary>
+    bool IsVersionBeingWritten(
+        LauncherPaths paths,
+        LauncherContentKey contentKey);
+
+    /// <summary>
     ///     Removes empty package-recovery directories that no longer contain a durable backup.
     /// </summary>
     void DeleteEmptyPackageBackupDirectories(LauncherPaths paths);

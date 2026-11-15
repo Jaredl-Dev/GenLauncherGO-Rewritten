@@ -13,6 +13,12 @@ namespace GenLauncherGO.Features.Mods;
 /// </summary>
 internal sealed class FileSystemLocalLauncherContentService : ILocalLauncherContentService
 {
+    /// <summary>
+    ///     The HRESULT of <c>ERROR_SHARING_VIOLATION</c>, raised when another handle already holds a file in a way the
+    ///     requested sharing does not allow.
+    /// </summary>
+    private const int ErrorSharingViolationHResult = unchecked((int)0x80070020);
+
     private readonly ILogger<FileSystemLocalLauncherContentService> _logger;
 
     public FileSystemLocalLauncherContentService(ILogger<FileSystemLocalLauncherContentService> logger)
@@ -44,6 +50,46 @@ internal sealed class FileSystemLocalLauncherContentService : ILocalLauncherCont
         }
 
         return versions;
+    }
+
+    /// <remarks>
+    ///     Each file is opened for reading while refusing to share write access, which fails while any other handle can
+    ///     write it. File sizes and times cannot answer this instead: a folder listing can report a file's state from
+    ///     before the copy finished, because Windows updates the listing lazily while the file is open.
+    /// </remarks>
+    public bool IsVersionBeingWritten(
+        LauncherPaths paths,
+        LauncherContentKey contentKey)
+    {
+        ArgumentNullException.ThrowIfNull(paths);
+
+        OwnedContentPath? versionPath = LauncherContentPathResolver.ResolveVersionPath(paths, contentKey);
+        if (versionPath is null || !Directory.Exists(versionPath.FullPath))
+        {
+            return false;
+        }
+
+        foreach (string filePath in Directory.EnumerateFiles(
+                     versionPath.FullPath,
+                     "*",
+                     FileSystemPathSafety.CreateRecursiveNoLinksOptions()))
+        {
+            try
+            {
+                File.Open(filePath, FileMode.Open, FileAccess.Read, FileShare.Read).Dispose();
+            }
+            catch (IOException exception) when (exception.HResult == ErrorSharingViolationHResult)
+            {
+                return true;
+            }
+            catch (Exception exception) when (exception is FileNotFoundException or DirectoryNotFoundException or
+                                                  UnauthorizedAccessException)
+            {
+                // A file removed meanwhile, or one this account cannot read, is not a copy still in progress.
+            }
+        }
+
+        return false;
     }
 
     public void DeleteEmptyPackageBackupDirectories(LauncherPaths paths)
