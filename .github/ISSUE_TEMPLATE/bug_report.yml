@@ -30,7 +30,7 @@ body:
     id: environment
     attributes:
       label: Environment
-      description: Include the launcher version, Windows version, game and client, and affected mod or add-on when relevant.
+      description: Include the launcher version (click the version label in the main window to copy it), Windows version, game and client, and affected mod or add-on when relevant.
       placeholder: |
         Launcher version:
         Windows version:
