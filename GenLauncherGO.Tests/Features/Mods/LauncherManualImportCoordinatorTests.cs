@@ -3,15 +3,56 @@ using System.Collections.Generic;
 using System.IO;
 using System.Threading;
 using Avalonia.Controls;
+using GenLauncherGO.Features.Integrity;
 using GenLauncherGO.Features.Mods;
 using GenLauncherGO.Features.Startup;
+using GenLauncherGO.Features.Updating;
+using GenLauncherGO.Shared.Archives;
 using GenLauncherGO.Shared.Dialogs;
+using GenLauncherGO.Shared.Persistence;
 using Microsoft.Extensions.Logging.Abstractions;
 
 namespace GenLauncherGO.Tests.Features.Mods;
 
 public sealed class LauncherManualImportCoordinatorTests
 {
+    /// <summary>
+    ///     An import that matches a published version has to be compared with that package at its first launch.
+    ///     Trusting it at import would accept modified files as the official package and never flag them.
+    /// </summary>
+    [Fact]
+    public void ImportAsync_MatchingRepositoryVersion_StaysUntrackedUntilItsFirstLaunch()
+    {
+        StaTestRunner.Run(async () =>
+        {
+            using TestDirectory directory = new();
+            LauncherPaths paths = TestLauncherPaths.Create(directory);
+            LauncherContentVersion publishedVersion = TestLauncherContent.S3Version();
+            FakeLauncherContentCatalog catalog = new();
+            catalog.Data.AddOrUpdate(publishedVersion);
+            FileSystemLaunchContentIntegrityResolutionService resolutionService = CreateResolutionService();
+            LauncherManualImportCoordinator coordinator = CreateCoordinator(
+                new StubLauncherFilePicker
+                {
+                    ManualPackageFilesResult = [directory.CreateFile("notes.txt", "not the published package")]
+                },
+                CreateDialogService(
+                    importFolder: false,
+                    importDetails: new ManualModificationDialogResult(publishedVersion.Name, publishedVersion.Version)),
+                paths,
+                catalog,
+                new FileSystemManualModificationImporter(
+                    new ArchiveExtractor(),
+                    NullLogger<FileSystemManualModificationImporter>.Instance));
+
+            await coordinator.ImportAsync(ModificationType.Mod, new Window(), null, CancellationToken.None);
+
+            LaunchContentIntegrityVerificationResult verification =
+                await resolutionService.VerifyAsync(paths, [publishedVersion], CancellationToken.None);
+            verification.Report.Issues.Should().ContainSingle(issue => issue.Kind == IntegrityIssueKind.Untracked);
+        });
+    }
+
     /// <summary>
     ///     An import is staged inside the launcher's data, so importing a folder that holds that data copies staging into
     ///     itself until the stack overflows. A junction above the selected folder hides this from its path text.
@@ -106,16 +147,32 @@ public sealed class LauncherManualImportCoordinatorTests
         StubLauncherFilePicker filePicker,
         ILauncherDialogService dialogService,
         LauncherPaths paths,
+        FakeLauncherContentCatalog? catalog = null,
         IManualModificationImporter? importer = null)
     {
         return new LauncherManualImportCoordinator(
             filePicker,
             dialogService,
-            new FakeLauncherContentCatalog(),
+            catalog ?? new FakeLauncherContentCatalog(),
             TestLauncherPaths.CreateRuntimePathContext(paths),
             importer ?? Substitute.For<IManualModificationImporter>(),
-            TestLaunchContentIntegrityCoordinator.Create(dialogService: dialogService),
             new FakeStringLocalizer(),
             NullLogger<LauncherManualImportCoordinator>.Instance);
+    }
+
+    private static FileSystemLaunchContentIntegrityResolutionService CreateResolutionService()
+    {
+        return new FileSystemLaunchContentIntegrityResolutionService(
+            new FileSystemContentIntegrityService(
+                new AtomicFileWriter(),
+                NullLogger<FileSystemContentIntegrityService>.Instance),
+            new ManagedPackageSourceResolver(
+                Substitute.For<IDownloadFileMetadataReader>(),
+                Substitute.For<IS3ObjectManifestReader>(),
+                NullLogger<ManagedPackageSourceResolver>.Instance),
+            Substitute.For<IS3PackageUpdater>(),
+            Substitute.For<ISingleFilePackageUpdater>(),
+            Substitute.For<IFileHashService>(),
+            NullLogger<FileSystemLaunchContentIntegrityResolutionService>.Instance);
     }
 }

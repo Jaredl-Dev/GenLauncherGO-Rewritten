@@ -42,15 +42,6 @@ internal interface ILaunchContentIntegrityResolutionService
         CancellationToken cancellationToken);
 
     /// <summary>
-    ///     Marks a manually imported version as manual content, and captures its initial package snapshot only when the
-    ///     import still resolves to a managed remote package.
-    /// </summary>
-    Task RegisterManualImportAsync(
-        LauncherPaths paths,
-        LauncherContentVersion version,
-        CancellationToken cancellationToken);
-
-    /// <summary>
     ///     Captures the initial package snapshot for a newly installed managed remote version.
     /// </summary>
     Task CaptureManagedInstallSnapshotAsync(

@@ -196,14 +196,12 @@ public sealed partial class LauncherWindowWorkflowCoordinatorTests
     private static LauncherManualImportCoordinator CreateManualImportCoordinator(
         FakeLauncherContentCatalog catalog)
     {
-        ILauncherDialogService dialogService = Substitute.For<ILauncherDialogService>();
         return new LauncherManualImportCoordinator(
             new StubLauncherFilePicker(),
-            dialogService,
+            Substitute.For<ILauncherDialogService>(),
             catalog,
             TestLauncherPaths.CreateRuntimePathContext(TestLauncherPaths.Create()),
             Substitute.For<IManualModificationImporter>(),
-            TestLaunchContentIntegrityCoordinator.Create(dialogService: dialogService),
             new FakeStringLocalizer(),
             NullLogger<LauncherManualImportCoordinator>.Instance);
     }

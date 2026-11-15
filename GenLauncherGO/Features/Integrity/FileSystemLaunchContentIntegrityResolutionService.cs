@@ -17,8 +17,6 @@ namespace GenLauncherGO.Features.Integrity;
 /// </summary>
 internal sealed class FileSystemLaunchContentIntegrityResolutionService : ILaunchContentIntegrityResolutionService
 {
-    private readonly ILauncherContentCatalog _catalog;
-
     private readonly IFileHashService _fileHashService;
     private readonly IContentIntegrityService _integrityService;
 
@@ -35,7 +33,6 @@ internal sealed class FileSystemLaunchContentIntegrityResolutionService : ILaunc
         ManagedPackageSourceResolver packageSourceResolver,
         IS3PackageUpdater s3PackageUpdater,
         ISingleFilePackageUpdater singleFilePackageUpdater,
-        ILauncherContentCatalog catalog,
         IFileHashService fileHashService,
         ILogger<FileSystemLaunchContentIntegrityResolutionService> logger)
     {
@@ -45,7 +42,6 @@ internal sealed class FileSystemLaunchContentIntegrityResolutionService : ILaunc
         _s3PackageUpdater = s3PackageUpdater ?? throw new ArgumentNullException(nameof(s3PackageUpdater));
         _singleFilePackageUpdater = singleFilePackageUpdater ??
                                     throw new ArgumentNullException(nameof(singleFilePackageUpdater));
-        _catalog = catalog ?? throw new ArgumentNullException(nameof(catalog));
         _fileHashService = fileHashService ?? throw new ArgumentNullException(nameof(fileHashService));
         _logger = logger ?? throw new ArgumentNullException(nameof(logger));
     }
@@ -133,22 +129,6 @@ internal sealed class FileSystemLaunchContentIntegrityResolutionService : ILaunc
                     .ConfigureAwait(false);
             }
         }
-    }
-
-    public async Task RegisterManualImportAsync(
-        LauncherPaths paths,
-        LauncherContentVersion version,
-        CancellationToken cancellationToken)
-    {
-        ArgumentNullException.ThrowIfNull(paths);
-        ArgumentNullException.ThrowIfNull(version);
-
-        version.Installation.ContentSourceKind = ContentSourceKind.Manual;
-        _catalog.SaveLauncherData();
-
-        // Only managed content is snapshot-tracked. An import whose name and version match a published package is
-        // still verified against that remote source, so it needs the initial snapshot a download would have left.
-        await CaptureManagedInstallSnapshotAsync(paths, version, cancellationToken).ConfigureAwait(false);
     }
 
     public async Task CaptureManagedInstallSnapshotAsync(

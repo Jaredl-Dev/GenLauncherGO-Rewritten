@@ -18,7 +18,7 @@ using Microsoft.Extensions.Logging;
 namespace GenLauncherGO.Features.Mods;
 
 /// <summary>
-///     Coordinates user-selected manual content imports with dialogs, catalog refresh, and integrity snapshots.
+///     Coordinates user-selected manual content imports with dialogs, staged installation, and catalog refresh.
 /// </summary>
 internal sealed class LauncherManualImportCoordinator
 {
@@ -28,8 +28,6 @@ internal sealed class LauncherManualImportCoordinator
 
     private readonly ILauncherDialogService _dialogService;
     private readonly ILauncherFilePicker _filePicker;
-
-    private readonly LaunchContentIntegrityCoordinator _integrityCoordinator;
 
     private readonly ILogger<LauncherManualImportCoordinator> _logger;
 
@@ -45,7 +43,6 @@ internal sealed class LauncherManualImportCoordinator
         ILauncherContentCatalog catalog,
         LauncherRuntimePathContext runtimePaths,
         IManualModificationImporter manualModificationImporter,
-        LaunchContentIntegrityCoordinator integrityCoordinator,
         ILauncherStringLocalizer stringLocalizer,
         ILogger<LauncherManualImportCoordinator> logger)
     {
@@ -55,7 +52,6 @@ internal sealed class LauncherManualImportCoordinator
         _runtimePaths = runtimePaths ?? throw new ArgumentNullException(nameof(runtimePaths));
         _manualModificationImporter = manualModificationImporter ??
                                       throw new ArgumentNullException(nameof(manualModificationImporter));
-        _integrityCoordinator = integrityCoordinator ?? throw new ArgumentNullException(nameof(integrityCoordinator));
         _stringLocalizer = stringLocalizer ?? throw new ArgumentNullException(nameof(stringLocalizer));
         _logger = logger ?? throw new ArgumentNullException(nameof(logger));
     }
@@ -149,7 +145,11 @@ internal sealed class LauncherManualImportCoordinator
                                                   importResult.ModificationName,
                                                   importResult.Version);
 
-        await _integrityCoordinator.RegisterManualImportAsync(savedVersion);
+        // No integrity snapshot is taken here. An import whose name and version match a published package still
+        // resolves to that package, so its first launch adopts it silently only when every file matches. A snapshot
+        // taken now would trust whatever was imported as the official package.
+        savedVersion.Installation.ContentSourceKind = ContentSourceKind.Manual;
+        _catalog.SaveLauncherData();
 
         return savedModification;
     }

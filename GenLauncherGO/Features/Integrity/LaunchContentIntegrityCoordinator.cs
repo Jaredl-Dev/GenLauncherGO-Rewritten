@@ -152,38 +152,6 @@ internal sealed class LaunchContentIntegrityCoordinator
     }
 
     /// <summary>
-    ///     Registers a manually imported version as trusted manual content.
-    /// </summary>
-    public async Task RegisterManualImportAsync(LauncherContentVersion version)
-    {
-        if (version == null)
-        {
-            return;
-        }
-
-        try
-        {
-            await _resolutionService.RegisterManualImportAsync(
-                _runtimePaths.ActivePaths,
-                version,
-                CancellationToken.None);
-        }
-        catch (LauncherContentPersistenceException)
-        {
-            // The import exists on disk and in memory, but its manual classification must not be reported as
-            // complete until it is durably saved. Let the owning UI operation show the failure and retry on close.
-            throw;
-        }
-        catch (Exception exception)
-        {
-            _logger.LogWarning(
-                exception,
-                "Could not capture the initial manual integrity snapshot for {ContentName}; launch verification will migrate it.",
-                version.DisplayName);
-        }
-    }
-
-    /// <summary>
     ///     Captures an integrity snapshot for a managed installed version.
     /// </summary>
     public async Task CaptureManagedInstallSnapshotAsync(LauncherContentVersion version)
