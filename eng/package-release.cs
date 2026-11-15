@@ -25,16 +25,12 @@ internal static class PackageRelease
         try
         {
             bool bootstrap = false;
-            string? previousReleaseRepositoryUrl = null;
-            for (int index = 0; index < args.Length; index++)
+            foreach (string argument in args)
             {
-                switch (args[index])
+                switch (argument)
                 {
                     case "--bootstrap":
                         bootstrap = true;
-                        break;
-                    case "--previous-release-repository-url" when index + 1 < args.Length:
-                        previousReleaseRepositoryUrl = args[++index];
                         break;
                     case "--help":
                     case "-h":
@@ -42,20 +38,14 @@ internal static class PackageRelease
                             Environment.CurrentDirectory,
                             Path.Combine(GetRepositoryRoot(), "eng", "package-release.cs"));
                         Console.WriteLine(
-                            $"dotnet run --file \"{scriptPath}\" --no-cache -- [--bootstrap | --previous-release-repository-url URL]");
+                            $"dotnet run --file \"{scriptPath}\" --no-cache -- [--bootstrap]");
                         return 0;
                     default:
-                        throw new ArgumentException($"Unknown or incomplete option '{args[index]}'. Use --help for usage.");
+                        throw new ArgumentException($"Unknown option '{argument}'. Use --help for usage.");
                 }
             }
 
-            if (bootstrap && !string.IsNullOrWhiteSpace(previousReleaseRepositoryUrl))
-            {
-                throw new ArgumentException(
-                    "--previous-release-repository-url cannot be combined with --bootstrap because a bootstrap release has no predecessor.");
-            }
-
-            await PackageAsync(bootstrap, previousReleaseRepositoryUrl);
+            await PackageAsync(bootstrap);
             return 0;
         }
         catch (Exception exception)
@@ -65,7 +55,7 @@ internal static class PackageRelease
         }
     }
 
-    private static async Task PackageAsync(bool bootstrap, string? previousReleaseRepositoryUrl)
+    private static async Task PackageAsync(bool bootstrap)
     {
         string repositoryRoot = GetRepositoryRoot();
         string projectPath = Path.Combine(repositoryRoot, "GenLauncherGO", "GenLauncherGO.csproj");
@@ -108,12 +98,9 @@ internal static class PackageRelease
 
         if (!bootstrap)
         {
-            string previousRepositoryUrl = string.IsNullOrWhiteSpace(previousReleaseRepositoryUrl)
-                ? repositoryUrl
-                : previousReleaseRepositoryUrl;
             await RunDotNetAsync(repositoryRoot, false,
                 "tool", "run", "vpk", "--", "download", "github",
-                "--repoUrl", previousRepositoryUrl,
+                "--repoUrl", repositoryUrl,
                 "--outputDir", workingReleaseDirectory,
                 "--channel", Channel);
         }
