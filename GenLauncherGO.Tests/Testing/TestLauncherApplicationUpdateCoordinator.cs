@@ -23,17 +23,11 @@ internal static class TestLauncherApplicationUpdateCoordinator
             packageActivityService ?? new LauncherPackageActivityService();
         ILauncherDialogService resolvedDialogService =
             dialogService ?? Substitute.For<ILauncherDialogService>();
-        LauncherLaunchCoordinator resolvedLaunchCoordinator =
-            launchCoordinator ?? TestLauncherLaunchCoordinator.Create(
-                resolvedPackageActivityService,
-                dialogService: resolvedDialogService);
         FakeStringLocalizer stringLocalizer = new();
-        LauncherCloseGuard closeGuard = new(
-            resolvedLaunchCoordinator,
+        LauncherCloseGuard closeGuard = TestLauncherCloseGuard.Create(
             resolvedPackageActivityService,
             resolvedDialogService,
-            stringLocalizer,
-            NullLogger<LauncherCloseGuard>.Instance);
+            launchCoordinator);
         restartCoordinator = new LauncherRestartCoordinator(
             closeGuard,
             NullLogger<LauncherRestartCoordinator>.Instance);

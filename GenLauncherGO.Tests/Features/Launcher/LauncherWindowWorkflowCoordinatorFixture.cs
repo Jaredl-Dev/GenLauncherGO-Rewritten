@@ -97,12 +97,10 @@ public sealed partial class LauncherWindowWorkflowCoordinatorTests
                                                                   stringLocalizer,
                                                                   processLauncher: gameProcessLauncher,
                                                                   dialogService: resolvedDialogService);
-        LauncherCloseGuard closeGuard = new(
-            resolvedLaunchCoordinator,
+        LauncherCloseGuard closeGuard = TestLauncherCloseGuard.Create(
             resolvedPackageActivityService,
             resolvedDialogService,
-            stringLocalizer,
-            NullLogger<LauncherCloseGuard>.Instance);
+            resolvedLaunchCoordinator);
         LauncherRestartCoordinator restartCoordinator = new(
             closeGuard,
             NullLogger<LauncherRestartCoordinator>.Instance);
