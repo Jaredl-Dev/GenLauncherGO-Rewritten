@@ -76,9 +76,7 @@ internal sealed class LauncherLocalContentReconciler
     /// </remarks>
     private int DeleteOrphanedIntegritySnapshots(LauncherData launcherData, LauncherPaths paths)
     {
-        var retainedTargetIds = launcherData.AllContent
-            .SelectMany(content => content.Versions)
-            .Where(version => version.Installation.Installed)
+        var retainedTargetIds = launcherData.InstalledVersions
             .Select(version => ContentIntegrityTargetId.ForPackage(version.ContentKey))
             .ToHashSet(StringComparer.Ordinal);
 

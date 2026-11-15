@@ -261,8 +261,7 @@ internal sealed class LauncherManualImportCoordinator
     /// </summary>
     private bool IsVersionInstalled(LauncherContentKey contentKey)
     {
-        return _catalog.Data.FindContent(contentKey)?.Versions
-            .Any(version => version.ContentKey == contentKey && version.Installation.Installed) == true;
+        return _catalog.Data.InstalledVersions.Any(version => version.ContentKey == contentKey);
     }
 
     private static string GetParentContentName(

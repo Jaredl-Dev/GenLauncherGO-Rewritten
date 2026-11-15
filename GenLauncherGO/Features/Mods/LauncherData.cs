@@ -31,6 +31,14 @@ internal sealed class LauncherData
     /// </summary>
     public IEnumerable<LauncherContent> AllContent => _modifications.Concat(_addons).Concat(_patches);
 
+    /// <summary>
+    ///     Enumerates every installed version of every modification, add-on, and patch.
+    /// </summary>
+    public IEnumerable<LauncherContentVersion> InstalledVersions =>
+        AllContent
+            .SelectMany(content => content.Versions)
+            .Where(version => version.Installation.Installed);
+
     public LauncherContent? GetSelectedMod()
     {
         return _modifications.FirstOrDefault(modification => modification.IsSelected);
