@@ -16,92 +16,40 @@ installations as clean as possible. This codebase is a complete rewrite of
 
 - Manage mods, patches, add-ons, and manually imported content.
 - Share configured Generals and Zero Hour installations across multiple mods.
-- Manage both games from one portable launcher, with launcher-owned data kept beside the executable.
-- Deploy content with hard links when possible, with a file-copy fallback.
-
-## Requirements
-
-- Windows 10 or 11.
-- A clean Generals or Zero Hour installation with no other modifications in its game directory.
-- Each selected game folder must be that game's own installation folder, the one containing its `.big` data archives
-  (for example, `INI.big` for Generals or `INIZH.big` for Zero Hour).
-- A game installation outside Windows' `Program Files` directories when possible, because User Account Control
-  (UAC) can interfere with modding tools.
-- For best performance, keep GenLauncherGO and each game installation on the same NTFS volume. Otherwise, deployment
-  uses file copies instead of hard links.
-
-### Supported game clients
-
-The following game clients are automatically detected in the configured game folder:
-
-| Game | Client | Executable |
-| --- | --- | --- |
-| Generals or Zero Hour | Retail | `generals.exe` |
-| Generals | TheSuperHackers | `generalsv.exe` |
-| Zero Hour | GeneralsOnline | `generalsonlinezh.exe` |
-| Zero Hour | TheSuperHackers | `generalszh.exe` |
-
-### Supported World Builders
-
-World Builder support is optional.
-
-| World Builder | Executable |
-| --- | --- |
-| Original World Builder | `WorldBuilder.exe` |
-| TheSuperHackers Generals | `worldbuilderv.exe` |
-| TheSuperHackers Zero Hour | `worldbuilderzh.exe` |
-
-Custom game client and World Builder executables can be registered under **Launcher Settings > Executables**, with
-**Manage game clients** or **Manage World Builders**.
+- Manage both games from one portable launcher that updates itself.
+- Verify downloaded content before launch, and restore the game folder after an interrupted launch.
 
 ## Quick Start
 
-1. Start with a clean game installation, preferably outside `Program Files`, and a compatible game client.
-2. Download and extract the complete `GenLauncherGO-win-Portable.zip` outside any game installations, preferably on
-   the same NTFS volume. Keep its files and folders together.
-3. Run the root `GenLauncherGO.exe` and select one or both game installation folders.
-4. Choose a game client and the content you want to use, then launch the game or World Builder.
+### Requirements
 
-GenLauncherGO temporarily deploys the required mod files into the game directory, launches the selected program,
-and cleans up the deployed files after that process closes.
+- Windows 10 or 11.
+- **Recommended:** GenLauncherGO on the same NTFS drive as your games, so launches link mod files instead of copying
+  them ([why](docs/reference.md#same-drive-as-your-games)).
+- A clean Generals or Zero Hour installation with no other modifications in its game directory, preferably outside
+  `Program Files`, because User Account Control (UAC) can interfere with modding tools.
+- A supported game client ([detected executables](docs/reference.md#supported-game-clients)).
 
-## Launcher Folder Layout
+### Steps
 
-The portable package keeps its update machinery beside the root launcher and creates one user-owned
-`GenLauncherGO Data` folder there. In the table below,
-`<game>` is either `C&C Generals Data` or `C&C Zero Hour Data`, and `<name>` identifies a content entry.
+1. Extract the complete `GenLauncherGO-win-Portable.zip` outside any game installation, ideally on that same drive.
+   Keep its files and folders together.
+2. Run the root `GenLauncherGO.exe` and select one or both game installation folders. Each must contain at least one
+   of the game's core data archives:
+   - Generals: `INI.big`, `W3D.big`, `Textures.big`, `Terrain.big`, or `Window.big`
+   - Zero Hour: `INIZH.big`, `W3DZH.big`, `TexturesZH.big`, `TerrainZH.big`, or `WindowZH.big`
+3. Choose a game client and the content you want to use, then launch the game or World Builder.
 
-| Path | Purpose |
-| --- | --- |
-| `GenLauncherGO.exe` | Stable portable launcher entry point |
-| `Update.exe` | Portable update host |
-| `.portable` | Marker that prevents installer registration and shortcuts |
-| `current\GenLauncherGO.exe` | Current application payload |
-| `current\*.dll` | Native rendering and text-shaping libraries used by the application |
-| `current\LICENSE` | GPLv3 license text supplied with the application |
-| `current\sq.version` | Installed package identity and version |
-| `packages` | Downloaded update packages managed by Velopack |
-| `GenLauncherGO Data\LauncherPreferences.yaml` | Launcher settings |
-| `GenLauncherGO Data\<game>\Mods` | Installed mods, patches, and add-ons |
-| `GenLauncherGO Data\<game>\Runtime\Cache\Images\<name>` | Downloaded or user-selected images |
-| `GenLauncherGO Data\<game>\Runtime\Deployment` | Deployment manifests, journals, locks, and recovery backups |
-| `GenLauncherGO Data\<game>\Runtime\Integrity` | Managed-content integrity snapshots |
-| `GenLauncherGO Data\<game>\Runtime\State\LauncherData.yaml` | Local catalog state and installed-content metadata |
-| `GenLauncherGO Data\<game>\Runtime\Temp` | Temporary download and installation staging, cleared on startup except partly downloaded packages, which a paused download resumes from |
-| `GenLauncherGO Data\Logs` | Rolling diagnostic logs |
+GenLauncherGO places the mod files in the game folder for that session and removes them after the game closes.
 
-GenLauncherGO checks its GitHub releases for a portable update at most once every 24 hours. An available update is
-downloaded quietly, then the launcher offers **Restart now** or **Later**. Choosing Later suppresses the prompt for the
-rest of that session; the downloaded update remains ready and can be applied on a later launch.
+## Your Data
 
-To migrate from an older single-executable release, close GenLauncherGO and extract the complete portable ZIP into
-the existing launcher folder. Allow the package files to merge, but do not delete or replace `GenLauncherGO Data`.
-Continue launching the root `GenLauncherGO.exe`.
+Settings, installed content, and logs live in the `GenLauncherGO Data` folder beside `GenLauncherGO.exe`; logs are in
+its `Logs` subfolder. The [full folder layout](docs/reference.md#launcher-folder-layout) is in the reference.
 
 ## Contributing
 
-Contributions are welcome. See [CONTRIBUTING.md](CONTRIBUTING.md) for development setup, architecture, testing,
-publishing, and pull-request guidance.
+Contributions are welcome. See [CONTRIBUTING.md](CONTRIBUTING.md) to get started.
 
 ## License
 
@@ -125,9 +73,8 @@ emblems, and screenshots, are excluded from this license grant. Their rights rem
 
 ## Disclaimer
 
-GenLauncherGO is a community-developed tool intended for retail game installations and community clients from
-TheSuperHackers and GeneralsOnline. It is not created by, endorsed by, or affiliated with Electronic Arts or any other
-rights holder unless explicitly stated.
+GenLauncherGO is a community-developed tool. It is not created by, endorsed by, or affiliated with Electronic Arts or
+any other rights holder unless explicitly stated.
 
 This rewrite began in a fork of `x64-dev/GenLauncher_GO` and now lives in a standalone repository. Its Git history was
 reconstructed into reviewable milestones; commit dates across May–September 2026 approximate the development period,
