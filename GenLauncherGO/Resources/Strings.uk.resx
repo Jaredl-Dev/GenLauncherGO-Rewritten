@@ -183,6 +183,7 @@
     <data name="Mods" xml:space="preserve"><value>Моди</value></data>
     <data name="NameAndVersionValidSymbols" xml:space="preserve"><value>Назва модифікації та версія мають містити дійсні символи</value></data>
     <data name="ReservedOrInvalidName" xml:space="preserve"><value>Ця назва зарезервована або не може бути назвою теки. Виберіть іншу.</value></data>
+    <data name="NameUsedInMod" xml:space="preserve"><value>Цю назву вже використовує цей мод або гра чи один із їхніх патчів або аддонів. Виберіть іншу.</value></data>
     <data name="ReservedOrInvalidVersion" xml:space="preserve"><value>Ця версія зарезервована або не може бути назвою теки. Введіть іншу версію.</value></data>
     <data name="No" xml:space="preserve"><value>Ні</value></data>
     <data name="Yes" xml:space="preserve"><value>Так</value></data>

@@ -183,6 +183,7 @@
     <data name="Mods" xml:space="preserve"><value>模组</value></data>
     <data name="NameAndVersionValidSymbols" xml:space="preserve"><value>模组名称和版本应该包含有效字符</value></data>
     <data name="ReservedOrInvalidName" xml:space="preserve"><value>此名称已被保留或不能用作文件夹名称。请换一个名称。</value></data>
+    <data name="NameUsedInMod" xml:space="preserve"><value>此模组或游戏，或其某个补丁或插件已使用此名称。请换一个名称。</value></data>
     <data name="ReservedOrInvalidVersion" xml:space="preserve"><value>此版本已被保留或不能用作文件夹名称。请输入其他版本。</value></data>
     <data name="No" xml:space="preserve"><value>不了</value></data>
     <data name="Yes" xml:space="preserve"><value>是</value></data>

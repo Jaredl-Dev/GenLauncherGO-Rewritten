@@ -1,3 +1,4 @@
+using System;
 using System.Collections.Generic;
 using System.Threading.Tasks;
 using Avalonia.Controls;
@@ -66,9 +67,16 @@ internal interface ILauncherDialogService
     /// <summary>
     ///     Shows the manual import details dialog.
     /// </summary>
+    /// <param name="files">The selected files or folder, used to suggest a name.</param>
+    /// <param name="getNameRefusal">
+    ///     Returns the localization key explaining why other content already owns a name, or <see langword="null" />
+    ///     when the name is free, so the dialog can refuse it before importing.
+    /// </param>
+    /// <param name="owner">The window that owns the dialog.</param>
     /// <returns>The entered import details, or <see langword="null" /> when the dialog was canceled.</returns>
     Task<ManualModificationDialogResult?> ShowManualModificationImportAsync(
         IReadOnlyList<string> files,
+        Func<string, string?> getNameRefusal,
         Window? owner = null);
 
     /// <summary>

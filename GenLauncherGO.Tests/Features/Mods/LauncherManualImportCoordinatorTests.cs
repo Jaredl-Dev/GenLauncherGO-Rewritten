@@ -1,3 +1,4 @@
+using System;
 using System.Collections.Generic;
 using System.IO;
 using System.Threading;
@@ -56,11 +57,34 @@ public sealed class LauncherManualImportCoordinatorTests
     }
 
     /// <summary>
-    ///     Answers the import source prompt and the import details dialog.
+    ///     A mod with the original game's name shares its folder, so deleting that mod would delete the game's patches.
+    /// </summary>
+    [Fact]
+    public void ImportAsync_ModNamedOriginalGame_IsRefusedInTheImportDetails()
+    {
+        StaTestRunner.Run(async () =>
+        {
+            using TestDirectory directory = new();
+            Func<string, string?> getNameRefusal = _ => null;
+            LauncherManualImportCoordinator coordinator = CreateCoordinator(
+                new StubLauncherFilePicker { ManualPackageFilesResult = [directory.CreateFile("Mod.zip", "archive")] },
+                CreateDialogService(importFolder: false, importDetails: null, check => getNameRefusal = check),
+                TestLauncherPaths.Create(directory));
+
+            await coordinator.ImportAsync(ModificationType.Mod, new Window(), null, CancellationToken.None);
+
+            getNameRefusal(LauncherContentKey.OriginalGame.Name.ToLowerInvariant()).Should().NotBeNull();
+        });
+    }
+
+    /// <summary>
+    ///     Answers the import source prompt and the import details dialog, and hands the details dialog's name check
+    ///     to <paramref name="captureNameRefusal" />.
     /// </summary>
     private static ILauncherDialogService CreateDialogService(
         bool importFolder,
-        ManualModificationDialogResult? importDetails)
+        ManualModificationDialogResult? importDetails,
+        Action<Func<string, string?>>? captureNameRefusal = null)
     {
         ILauncherDialogService dialogService = Substitute.For<ILauncherDialogService>();
         dialogService.ShowInfoChoiceAsync(
@@ -71,6 +95,7 @@ public sealed class LauncherManualImportCoordinatorTests
             .Returns((bool?)importFolder);
         dialogService.ShowManualModificationImportAsync(
                 Arg.Any<IReadOnlyList<string>>(),
+                Arg.Do<Func<string, string?>>(check => captureNameRefusal?.Invoke(check)),
                 Arg.Any<Window?>())
             .Returns(importDetails);
         return dialogService;

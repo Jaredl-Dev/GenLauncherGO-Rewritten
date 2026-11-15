@@ -183,6 +183,7 @@
     <data name="Mods" xml:space="preserve"><value>Mods</value></data>
     <data name="NameAndVersionValidSymbols" xml:space="preserve"><value>El nombre y la versión de la modificación deben contener solo caracteres válidos.</value></data>
     <data name="ReservedOrInvalidName" xml:space="preserve"><value>Este nombre está reservado o no se puede usar como nombre de carpeta. Elige otro.</value></data>
+    <data name="NameUsedInMod" xml:space="preserve"><value>Este nombre ya lo usa este mod o juego, o uno de sus parches o add-ons. Elige otro.</value></data>
     <data name="ReservedOrInvalidVersion" xml:space="preserve"><value>Esta versión está reservada o no se puede usar como nombre de carpeta. Introduce otra versión.</value></data>
     <data name="No" xml:space="preserve"><value>No</value></data>
     <data name="Yes" xml:space="preserve"><value>Sí</value></data>

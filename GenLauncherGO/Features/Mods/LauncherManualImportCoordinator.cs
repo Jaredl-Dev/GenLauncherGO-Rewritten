@@ -22,6 +22,8 @@ namespace GenLauncherGO.Features.Mods;
 /// </summary>
 internal sealed class LauncherManualImportCoordinator
 {
+    private const string NameUsedInParentKey = "NameUsedInMod";
+
     private readonly ILauncherContentCatalog _catalog;
 
     private readonly ILauncherDialogService _dialogService;
@@ -84,6 +86,7 @@ internal sealed class LauncherManualImportCoordinator
         string resolvedParentContentName = GetParentContentName(kind, parentContentName);
         ManualModificationDialogResult? importResult = await _dialogService.ShowManualModificationImportAsync(
             selectedFiles,
+            name => GetNameRefusal(kind, resolvedParentContentName, name),
             owner);
 
         if (importResult == null)
@@ -215,6 +218,37 @@ internal sealed class LauncherManualImportCoordinator
         return _dialogService.ShowErrorAsync(
             new LauncherInfoDialogRequest(_stringLocalizer["OperationAborted"], detail),
             owner);
+    }
+
+    /// <summary>
+    ///     Returns the localization key explaining why other content already owns a name, or <see langword="null" />
+    ///     when the import may use it.
+    /// </summary>
+    /// <remarks>
+    ///     The original game's name is reserved for every kind: a mod with that name shares the original game's folder,
+    ///     so deleting the mod would delete the game's patches and add-ons. A patch or add-on also may not repeat the name
+    ///     of the mod or game it belongs to, or of another of that parent's patches and add-ons, except the same patch
+    ///     or add-on receiving a new version. Different mods may reuse each other's names.
+    /// </remarks>
+    private string? GetNameRefusal(ModificationType kind, string parentContentName, string name)
+    {
+        if (LauncherContentKey.ForModificationName(name) == LauncherContentKey.OriginalGame)
+        {
+            return ManualAddModificationViewModel.ReservedOrInvalidNameKey;
+        }
+
+        if (kind == ModificationType.Mod)
+        {
+            return null;
+        }
+
+        var parentKey = LauncherContentKey.ForModificationName(parentContentName);
+        bool nameUsedInParent = parentKey.HasName(name) ||
+                                _catalog.Data.Patches.Concat(_catalog.Data.Addons).Any(content =>
+                                    content.ContentKey.IsChildOf(parentKey) &&
+                                    content.ContentKey.HasName(name) &&
+                                    content.ModificationType != kind);
+        return nameUsedInParent ? NameUsedInParentKey : null;
     }
 
     private static string GetParentContentName(

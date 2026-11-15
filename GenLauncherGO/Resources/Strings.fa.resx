@@ -183,6 +183,7 @@
     <data name="Mods" xml:space="preserve"><value>مادها</value></data>
     <data name="NameAndVersionValidSymbols" xml:space="preserve"><value>نام و نسخه ماد باید فقط شامل نویسه‌های معتبر باشند.</value></data>
     <data name="ReservedOrInvalidName" xml:space="preserve"><value>این نام رزرو شده است یا نمی‌توان از آن به‌عنوان نام پوشه استفاده کرد. نام دیگری انتخاب کنید.</value></data>
+    <data name="NameUsedInMod" xml:space="preserve"><value>این نام قبلاً توسط این ماد یا بازی، یا یکی از پچ‌ها یا افزونه‌های آن استفاده شده است. نام دیگری انتخاب کنید.</value></data>
     <data name="ReservedOrInvalidVersion" xml:space="preserve"><value>این نسخه رزرو شده است یا نمی‌توان از آن به‌عنوان نام پوشه استفاده کرد. نسخه دیگری وارد کنید.</value></data>
     <data name="No" xml:space="preserve"><value>خیر</value></data>
     <data name="Yes" xml:space="preserve"><value>بله</value></data>

@@ -18,7 +18,8 @@ namespace GenLauncherGO.Features.Mods;
 /// <remarks>
 ///     The name and version become folder names and the content's catalog identity, so they are trimmed and checked
 ///     against the same path rules the importer applies. Anything accepted here therefore installs under exactly the
-///     identity the catalog later looks it up by.
+///     identity the catalog later looks it up by. Which names other content already owns depends on the import's kind
+///     and parent, so the import workflow supplies that check.
 /// </remarks>
 internal sealed class ManualAddModificationViewModel : ObservableObject
 {
@@ -28,7 +29,7 @@ internal sealed class ManualAddModificationViewModel : ObservableObject
 
     private const string UnsupportedCharactersKey = "NameAndVersionValidSymbols";
 
-    private const string ReservedOrInvalidNameKey = "ReservedOrInvalidName";
+    internal const string ReservedOrInvalidNameKey = "ReservedOrInvalidName";
 
     private const string ReservedOrInvalidVersionKey = "ReservedOrInvalidVersion";
 
@@ -36,17 +37,21 @@ internal sealed class ManualAddModificationViewModel : ObservableObject
 
     private readonly ILauncherDialogService _dialogService;
 
+    private readonly Func<string, string?> _getNameRefusal;
+
     private readonly ILauncherStringLocalizer _stringLocalizer;
 
     private string _modificationName;
 
     public ManualAddModificationViewModel(
         IReadOnlyList<string> files,
+        Func<string, string?> getNameRefusal,
         ILauncherStringLocalizer stringLocalizer,
         ILauncherDialogService dialogService)
     {
         ArgumentNullException.ThrowIfNull(files);
 
+        _getNameRefusal = getNameRefusal ?? throw new ArgumentNullException(nameof(getNameRefusal));
         _stringLocalizer = stringLocalizer ?? throw new ArgumentNullException(nameof(stringLocalizer));
         _dialogService = dialogService ?? throw new ArgumentNullException(nameof(dialogService));
         _modificationName = InferModificationName(files);
@@ -186,7 +191,7 @@ internal sealed class ManualAddModificationViewModel : ObservableObject
         return GetModificationNameValidationKey(ModificationName) ?? GetVersionValidationKey(Version);
     }
 
-    private static string? GetModificationNameValidationKey(string value)
+    private string? GetModificationNameValidationKey(string value)
     {
         string name = value.Trim();
         if (name.Length == 0)
@@ -200,7 +205,7 @@ internal sealed class ManualAddModificationViewModel : ObservableObject
         }
 
         return LexicalPath.IsValidPathSegment(name)
-            ? null
+            ? _getNameRefusal(name)
             : ReservedOrInvalidNameKey;
     }
 
