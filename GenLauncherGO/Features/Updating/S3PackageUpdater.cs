@@ -6,8 +6,6 @@ using System.Threading;
 using System.Threading.Tasks;
 using GenLauncherGO.Shared.IO;
 using Microsoft.Extensions.Logging;
-using Minio;
-using Minio.DataModel.Args;
 
 namespace GenLauncherGO.Features.Updating;
 
@@ -15,7 +13,7 @@ internal sealed class S3PackageUpdater : IS3PackageUpdater
 {
     private const int MaxHashAttempts = 3;
     private const int MaxConcurrentFileDownloads = 6;
-    private const int PresignedUrlLifetimeHours = 12;
+    private static readonly TimeSpan _presignedUrlLifetime = TimeSpan.FromHours(12);
 
     private readonly IResumableFileDownloader _fileDownloader;
     private readonly IFileHashService _fileHashService;
@@ -186,17 +184,9 @@ internal sealed class S3PackageUpdater : IS3PackageUpdater
         }
 
         SemaphoreSlim downloadSlots = new(MaxConcurrentFileDownloads);
-        IMinioClient client = MinioClientFactory.Create(
-            source.Endpoint,
-            source.AccessKey,
-            source.SecretKey,
-            source.UseSsl);
-
         var downloadTasks = downloadWorkItems
             .Select(download => DownloadFileWithSlotAsync(
-                client,
-                source.BucketName,
-                source.Prefix,
+                source,
                 destinationFolderPath,
                 hashCheckedExtensions,
                 download,
@@ -213,7 +203,6 @@ internal sealed class S3PackageUpdater : IS3PackageUpdater
         }
         finally
         {
-            client.Dispose();
             downloadSlots.Dispose();
         }
     }
@@ -264,9 +253,7 @@ internal sealed class S3PackageUpdater : IS3PackageUpdater
     }
 
     private async Task DownloadFileWithSlotAsync(
-        IMinioClient client,
-        string bucketName,
-        string folderName,
+        S3ObjectManifestRequest source,
         string destinationFolderPath,
         IReadOnlySet<string> hashCheckedExtensions,
         S3DownloadWorkItem download,
@@ -282,9 +269,7 @@ internal sealed class S3PackageUpdater : IS3PackageUpdater
         try
         {
             await DownloadVerifiedFileAsync(
-                client,
-                bucketName,
-                folderName,
+                source,
                 destinationFolderPath,
                 hashCheckedExtensions,
                 download,
@@ -303,9 +288,7 @@ internal sealed class S3PackageUpdater : IS3PackageUpdater
     ///     Downloads a file, validates size and hash when available, and retries hash mismatches.
     /// </summary>
     private async Task DownloadVerifiedFileAsync(
-        IMinioClient client,
-        string bucketName,
-        string folderName,
+        S3ObjectManifestRequest source,
         string destinationFolderPath,
         IReadOnlySet<string> hashCheckedExtensions,
         S3DownloadWorkItem download,
@@ -331,11 +314,11 @@ internal sealed class S3PackageUpdater : IS3PackageUpdater
                 progressState.AddExpectedBytes((long)file.Size);
             }
 
-            Uri downloadUri = await BuildDownloadUriAsync(
-                client,
-                bucketName,
-                folderName,
-                file.FileName).ConfigureAwait(false);
+            Uri downloadUri = S3RestApi.CreatePresignedGetUri(
+                source,
+                BuildObjectName(source.Prefix, file.FileName),
+                DateTimeOffset.UtcNow,
+                _presignedUrlLifetime);
             IProgress<DownloadProgress> downloadProgress = new InlineProgress<DownloadProgress>(report =>
             {
                 if (resumeOffset > 0 && report.BytesDownloaded < resumeOffset)
@@ -404,24 +387,6 @@ internal sealed class S3PackageUpdater : IS3PackageUpdater
             DeleteFailedFile(destinationFilePath);
             await Task.Delay(TimeSpan.FromSeconds(2), cancellationToken).ConfigureAwait(false);
         }
-    }
-
-    private static async Task<Uri> BuildDownloadUriAsync(
-        IMinioClient client,
-        string bucketName,
-        string folderName,
-        string fileName)
-    {
-        int expirySeconds = (int)Math.Min(
-            TimeSpan.FromHours(PresignedUrlLifetimeHours).TotalSeconds,
-            int.MaxValue);
-        string objectName = BuildObjectName(folderName, fileName);
-        PresignedGetObjectArgs args = new PresignedGetObjectArgs()
-            .WithBucket(bucketName)
-            .WithObject(objectName)
-            .WithExpiry(expirySeconds);
-        string presignedUrl = await client.PresignedGetObjectAsync(args).ConfigureAwait(false);
-        return new Uri(presignedUrl, UriKind.Absolute);
     }
 
     private static long GetExistingBytesForProgress(string destinationFilePath)

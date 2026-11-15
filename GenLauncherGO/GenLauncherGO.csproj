@@ -43,7 +43,6 @@
 
   <ItemGroup>
     <PackageReference Include="Microsoft.Extensions.Logging"/>
-    <PackageReference Include="Minio"/>
     <PackageReference Include="Serilog"/>
     <PackageReference Include="Serilog.Extensions.Logging"/>
     <PackageReference Include="Serilog.Sinks.File"/>

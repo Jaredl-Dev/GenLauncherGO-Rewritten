@@ -342,7 +342,7 @@ internal sealed class LauncherApplicationHost : IDisposable
         services.AddSingleton<IRemoteYamlDocumentReader, HttpRemoteYamlDocumentReader>();
 
         services.AddSingleton<IDownloadFileMetadataReader, HttpDownloadFileMetadataReader>();
-        services.AddSingleton<IS3ObjectManifestReader, MinioS3ObjectManifestReader>();
+        services.AddSingleton<IS3ObjectManifestReader, S3ObjectManifestReader>();
         services.AddSingleton<ManagedPackageSourceResolver>();
         services.AddSingleton<IRemotePackageSizeResolver>(serviceProvider =>
             serviceProvider.GetRequiredService<ManagedPackageSourceResolver>());

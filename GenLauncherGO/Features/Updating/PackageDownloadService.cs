@@ -8,7 +8,6 @@ using GenLauncherGO.Features.Mods;
 using GenLauncherGO.Features.Startup;
 using GenLauncherGO.Shared.IO;
 using Microsoft.Extensions.Logging;
-using Minio.Exceptions;
 
 namespace GenLauncherGO.Features.Updating;
 
@@ -114,10 +113,6 @@ internal sealed class PackageDownloadService : IPackageDownloadService
                 version.Name,
                 version.Version);
             return PackageDownloadResult.Canceled();
-        }
-        catch (UnexpectedMinioException exception)
-        {
-            return CreateRecoverableProviderFailure(version, exception);
         }
         // The host answered but refuses the file: it was deleted, moved or made private, as with the repository's
         // OneDrive links, which are now deleted or behind a sign-in. Unlike a network failure, retrying cannot help.
