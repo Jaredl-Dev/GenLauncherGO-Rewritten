@@ -1,7 +1,10 @@
 # Contributing to GenLauncherGO
 
 Contributions are welcome. Fork the repository, create a branch, make and test your changes, then open a pull request
-with a clear description.
+as described in [Pull requests](#pull-requests).
+
+[Architecture](docs/development/architecture.md) describes how the code is organized and the backend contract it must
+preserve. Maintainers publishing a version follow [Releasing](docs/development/releasing.md).
 
 ## Development setup
 
@@ -19,9 +22,17 @@ blocks the launcher when it is placed inside one.
 
 ## Required quality gates
 
-Always build the solution after code changes. Run the affected feature tests and verify formatting for the changed
-files. Use the full checks below for shared build/analyzer changes, broad refactors, or changes whose impact cannot be
-covered narrowly:
+Build the solution after every code change, then verify formatting for the files you changed and run the tests for
+the affected feature:
+
+```powershell
+dotnet build GenLauncherGO.sln
+dotnet format GenLauncherGO.sln --verify-no-changes --include <changed files>
+dotnet test GenLauncherGO.Tests/GenLauncherGO.Tests.csproj --filter-namespace GenLauncherGO.Tests.Features.Mods
+```
+
+To run a single test class, use `--filter-class` with its fully qualified name. Run the full checks for shared
+build/analyzer changes, broad refactors, or changes whose impact cannot be covered narrowly:
 
 ```powershell
 dotnet build GenLauncherGO.sln
@@ -29,7 +40,8 @@ dotnet format GenLauncherGO.sln --verify-no-changes
 dotnet test GenLauncherGO.Tests/GenLauncherGO.Tests.csproj -c Release
 ```
 
-The Windows CI workflow builds Release, verifies formatting, and runs the critical-behavior test suite.
+The Windows CI workflow runs the full checks in Release. Changes to the updater or release process also need the
+[update smoke test](docs/development/update-smoke-test.md).
 
 ## Testing policy
 
@@ -45,8 +57,8 @@ Before implementation, identify the qualifying tests and their value, or state w
 each test first; red must be the intended behavioral failure, not a compilation, setup, unrelated, environmental, or
 flaky failure. Only a characterization test required for a behavior-preserving refactor may bypass red, and that
 exception must be explained before editing. After red, rerun the target to green and the smallest additional scope
-needed to cover the affected behavior. Record
-the red and green commands and outcomes, or the no-test rationale, in the pull request.
+needed to cover the affected behavior. Record the red and green commands and outcomes, or the no-test rationale, in
+the pull request.
 
 ## Symbolic-link safety tests
 
@@ -55,9 +67,7 @@ cannot create symbolic links report those tests as explicit skips. To enforce th
 enable Windows Developer Mode or use an elevated terminal, then run:
 
 ```powershell
-$env:GENLAUNCHERGO_REQUIRE_SYMBOLIC_LINK_TESTS = "true"
-dotnet test GenLauncherGO.Tests/GenLauncherGO.Tests.csproj -c Release
-Remove-Item Env:GENLAUNCHERGO_REQUIRE_SYMBOLIC_LINK_TESTS
+dotnet test GenLauncherGO.Tests/GenLauncherGO.Tests.csproj -c Release -e GENLAUNCHERGO_REQUIRE_SYMBOLIC_LINK_TESTS=true
 ```
 
 ## Coverage
@@ -71,79 +81,12 @@ dotnet msbuild ./eng/coverage.proj -target:Coverage
 The HTML report is written to `artifacts/coverage/index.html`. Coverage is informational: CI does not enforce a
 percentage because executing a line does not establish that its behavior is meaningfully protected.
 
-## Publishing
-
-`VersionPrefix` in `GenLauncherGO/GenLauncherGO.csproj` is the single source of truth for the release version. In
-one pull request, update it and rename the `[Unreleased]` heading in `CHANGELOG.md` to
-`[<VersionPrefix>] - YYYY-MM-DD`, then merge to `main`. After CI passes, run **Actions** > **Publish release** on
-`main`.
-
-The workflow builds the Windows x64 portable package and creates a draft GitHub release with the matching
-`v<VersionPrefix>` tag. Replace the draft's generated notes with that version's `CHANGELOG.md` section, keeping the
-generated **Full Changelog** link, then review the assets, test the archive when appropriate, and publish the draft.
-Drafts are not offered to update clients. Do not create the tag or release manually, or reuse a published version.
-
-The packaging tool is a C# file-based app under `eng`. It uses the same .NET 10 SDK as the launcher and needs no
-PowerShell version or additional scripting runtime. Use `--no-cache` so the SDK checks and rebuilds the runner rather
-than relying on its temporary build cache. From the repository root, run:
-
-```powershell
-dotnet run --file ./eng/package-release.cs --no-cache
-```
-
-The script downloads the previous release so Velopack can create a delta when appropriate. Use bootstrap mode only
-for a feed with no previous release:
-
-```powershell
-dotnet run --file ./eng/package-release.cs --no-cache -- --bootstrap
-```
-
-To bridge releases from another GitHub repository, specify it for that run:
-
-```powershell
-dotnet run --file ./eng/package-release.cs --no-cache -- --previous-release-repository-url https://github.com/OWNER/REPOSITORY
-```
-
-Local output goes to `artifacts/release`; the script does not upload anything. Releases must remain portable-only, and
-the GitHub workflow is the only publishing path. Before publishing updater or release-process changes, follow the
-[two-version local-feed smoke test](docs/portable-update-smoke.md).
-
-## Architecture
-
-The solution uses one application project, one test project, and test-only analyzer tooling, with no `src` folder:
-
-| Project | Responsibility |
-| --- | --- |
-| `GenLauncherGO` | Windows Avalonia application with feature-local rules, side effects, workflows, and presentation |
-| `GenLauncherGO.Tests` | Observable behavior, compatibility, recovery, and file-system safety tests |
-| `eng/GenLauncherGO.TestAnalyzers` | Test-only analyzer enforcing the repository's test-method naming convention |
-
-Production code lives under `Features/Startup`, `Settings`, `Mods`, `Launching`, `Integrity`, `Updating`, and `Launcher`.
-Rules, implementations, and UI services live beside the workflows they serve; views and resources retain purposeful
-directories. `Shared` holds file safety, HTTP, archives, persistence, logging, localization, themes, controls, and dialogs.
-Tests follow the same feature groups, with reusable test helpers under `Testing` and naming checks under `Conventions`.
-
-The application and analyzer reference no projects. Tests reference the application and the analyzer as analyzer-only
-tooling (`OutputItemType="Analyzer"`, `ReferenceOutputAssembly="false"`). The linked test-name convention source remains
-the single authority for `GLT001`. The build enforces this graph and keeps single-file analysis on the application.
-Interfaces represent actual side-effect or external boundaries; other code normally uses internal sealed types.
-
-`LauncherApplicationHost.CreateServiceCollection` owns runtime composition. Bootstrap has a separate provider so it can
-validate storage before runtime file logging starts; both stages use one preferences-registration helper.
-
-Mutable paths carry their owning root so file operations can reject traversal and reparse-point escapes.
-
-## Backend compatibility
-
-GenLauncherGO consumes an external backend tied to [p0ls3r](https://github.com/p0ls3r) and the original GenLauncher
-project. This repository does not control that backend, so its legacy remote YAML names and structure are preserved
-exactly in the Mods transport documents and mapped once into normalized application concepts. Do not rename or reshape
-that manifest contract without a deliberate compatibility plan coordinated with the backend maintainers.
-
 ## Submitting changes
 
-Keep changes focused, preserve existing behavior unless the change deliberately updates it, and include tests for
-observable behavior or safety invariants.
+Keep changes focused, and preserve existing behavior unless the change deliberately updates it. Do not rename or
+reshape the backend's remote YAML contract; see
+[Backend compatibility](docs/development/architecture.md#backend-compatibility). The [testing policy](#testing-policy)
+decides which tests to include.
 
 ### Commit format
 
@@ -153,8 +96,9 @@ Follow [Conventional Commits](https://www.conventionalcommits.org/):
 type(scope): Short imperative summary
 ```
 
-- **Types**: `feat`, `fix`, `test`, `refactor`, `docs`, `build`, `ci`, `chore`.
-- **Scope**: Optional, matching the affected feature or shared area (e.g., `launcher`, `launching`, `mods`, `startup`, `settings`, `shared`).
+- **Types**: `feat`, `fix`, `perf`, `refactor`, `style`, `test`, `docs`, `build`, `ci`, `chore`.
+- **Scope**: Optional, naming the affected feature or shared area in lowercase, usually a folder under `Features` or
+  `Shared` (e.g., `mods`, `updating`, `io`, `themes`).
 - Use the imperative mood starting with a capital letter (e.g., `fix(mods): Resolve manifest destination collision`). Keep commits atomic and focused.
 
 ### Pull requests
