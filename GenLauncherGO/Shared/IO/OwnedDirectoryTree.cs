@@ -410,6 +410,7 @@ internal static class OwnedDirectoryTree
             return;
         }
 
+        FileSystemPathSafety.ClearReadOnly(entryPath);
         File.Delete(entryPath);
     }
 

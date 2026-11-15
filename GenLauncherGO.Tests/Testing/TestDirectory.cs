@@ -1,5 +1,6 @@
 using System;
 using System.IO;
+using GenLauncherGO.Shared.IO;
 
 namespace GenLauncherGO.Tests.Testing;
 
@@ -61,6 +62,8 @@ internal sealed class TestDirectory : IDisposable
                 continue;
             }
 
+            // Tests create read-only files on purpose; File.Delete refuses them.
+            FileSystemPathSafety.ClearReadOnly(entryPath);
             File.Delete(entryPath);
         }
 
