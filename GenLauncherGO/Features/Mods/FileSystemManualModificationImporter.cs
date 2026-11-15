@@ -202,6 +202,11 @@ internal sealed class FileSystemManualModificationImporter : IManualModification
     /// <summary>
     ///     Copies one imported file under its installed name, leaving content that is already in place untouched.
     /// </summary>
+    /// <remarks>
+    ///     The copy is launcher-owned content, so it drops a read-only flag carried over from the source, such as a disc.
+    ///     A kept flag would make every launch copy the file instead of hard-linking it, and would stop an archive in
+    ///     the same import from extracting an entry of the same name over it.
+    /// </remarks>
     private static void CopyImportedFile(
         string sourceFilePath,
         string fileName,
@@ -219,6 +224,7 @@ internal sealed class FileSystemManualModificationImporter : IManualModification
         if (!File.Exists(installedFilePath))
         {
             File.Copy(sourceFilePath, installedFilePath);
+            FileSystemPathSafety.ClearReadOnly(installedFilePath);
         }
     }
 
