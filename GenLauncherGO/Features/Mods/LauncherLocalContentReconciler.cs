@@ -47,6 +47,13 @@ internal sealed class LauncherLocalContentReconciler
             downloadedReposContent,
             installedVersions,
             paths);
+        if (changes.RemovedCount > 0)
+        {
+            // Removing a mod's last version also removes its patch and add-on cards. Those whose files remain are
+            // added back now, as the next reconcile would add them, so one pass leaves the catalog matching the folder.
+            AddUnregisteredModifications(launcherData, installedVersions);
+        }
+
         int deletedSnapshotCount = DeleteOrphanedIntegritySnapshots(launcherData, paths);
         _logger.LogInformation(
             "Reconciled launcher catalog with local content folders. Local versions: {LocalVersionCount}; " +
