@@ -32,6 +32,11 @@ internal sealed class LauncherPackageActivityService
 
     private long _nextActivityId;
 
+    /// <summary>
+    ///     Whether a lease from <see cref="TryBeginBesidePausedDownload" /> keeps the paused download as it is.
+    /// </summary>
+    private bool _pausedDownloadHeld;
+
     public bool IsActive
     {
         get
@@ -136,6 +141,31 @@ internal sealed class LauncherPackageActivityService
     }
 
     /// <summary>
+    ///     Reserves exclusive activity as <see cref="TryBegin" /> does, and also while the active download is paused,
+    ///     which the lease then holds as it is.
+    /// </summary>
+    /// <remarks>
+    ///     A paused download's progress and its Resume and Cancel actions belong to its tile, so work that only
+    ///     rebuilds the lists showing it must neither wait for it nor stop it. While held, the download cannot be
+    ///     resumed, canceled, or released for another workflow, so nothing else changes package state meanwhile.
+    ///     Shutdown can still suspend it.
+    /// </remarks>
+    public bool TryBeginBesidePausedDownload(string displayName, out LauncherPackageActivityLease? lease)
+    {
+        lock (_syncRoot)
+        {
+            if (_active && _activeDownloadPauseController?.IsPaused == true && !_pausedDownloadHeld)
+            {
+                _pausedDownloadHeld = true;
+                lease = new LauncherPackageActivityLease(this, _activeActivityId, holdsPausedDownload: true);
+                return true;
+            }
+        }
+
+        return TryBegin(displayName, out lease);
+    }
+
+    /// <summary>
     ///     Atomically starts the sole active package download with cooperative pause and resume control.
     /// </summary>
     public bool TryStartDownload(
@@ -213,7 +243,8 @@ internal sealed class LauncherPackageActivityService
     }
 
     /// <summary>
-    ///     Requests cancellation only when the supplied tile still owns the active package download.
+    ///     Requests cancellation only when the supplied tile still owns the active package download and no lease holds
+    ///     it paused.
     /// </summary>
     public bool RequestDownloadCancellation(object owner)
     {
@@ -222,7 +253,7 @@ internal sealed class LauncherPackageActivityService
         CancellationTokenSource? cancellation;
         lock (_syncRoot)
         {
-            cancellation = ReferenceEquals(_activeDownloadOwner, owner)
+            cancellation = ReferenceEquals(_activeDownloadOwner, owner) && !_pausedDownloadHeld
                 ? _activeDownloadCancellation
                 : null;
             if (cancellation != null)
@@ -237,7 +268,8 @@ internal sealed class LauncherPackageActivityService
     }
 
     /// <summary>
-    ///     Toggles pause state only when the supplied tile still owns the active package download.
+    ///     Toggles pause state only when the supplied tile still owns the active package download and no lease holds it
+    ///     paused.
     /// </summary>
     public bool TryToggleDownloadPause(object owner, out bool isPaused)
     {
@@ -247,7 +279,7 @@ internal sealed class LauncherPackageActivityService
         lock (_syncRoot)
         {
             PackageDownloadPauseController? pauseController =
-                ReferenceEquals(_activeDownloadOwner, owner)
+                ReferenceEquals(_activeDownloadOwner, owner) && !_pausedDownloadHeld
                     ? _activeDownloadPauseController
                     : null;
             if (pauseController == null)
@@ -278,13 +310,16 @@ internal sealed class LauncherPackageActivityService
     ///     A paused transfer is already stopped as far as the user is concerned, so it must not keep the launcher
     ///     from adding content, starting another download, switching game or launching. Stopping it here is the same
     ///     suspension the launcher performs at close: the partial content stays on disk and the tile still offers to
-    ///     resume it.
+    ///     resume it. A download a lease holds paused is left as it is, and the caller finds the activity still busy.
     /// </remarks>
     public Task ReleasePausedDownloadAsync()
     {
-        if (!IsDownloadPaused)
+        lock (_syncRoot)
         {
-            return Task.CompletedTask;
+            if (_activeDownloadPauseController?.IsPaused != true || _pausedDownloadHeld)
+            {
+                return Task.CompletedTask;
+            }
         }
 
         Task idle = WaitForIdleAsync();
@@ -463,6 +498,7 @@ internal sealed class LauncherPackageActivityService
         // Cleared per activity so a request that its own download outran cannot leak into the next one.
         _activeDownloadSuspending = false;
         _activeDownloadCanceledByUser = false;
+        _pausedDownloadHeld = false;
         _activeActivityId = ++_nextActivityId;
         ActiveDisplayName = displayName ?? string.Empty;
         ProgressPercentage = null;
@@ -482,6 +518,7 @@ internal sealed class LauncherPackageActivityService
             }
 
             _active = false;
+            _pausedDownloadHeld = false;
             ActiveDisplayName = string.Empty;
             ProgressPercentage = null;
             ClearActiveDownloadState();
@@ -491,6 +528,20 @@ internal sealed class LauncherPackageActivityService
 
         idleCompletion?.TrySetResult(true);
         OnActivityChanged();
+    }
+
+    /// <summary>
+    ///     Lets the paused download be resumed, canceled, and released again, unless it already ended.
+    /// </summary>
+    private void ReleasePausedDownloadHold(long activityId)
+    {
+        lock (_syncRoot)
+        {
+            if (_active && _activeActivityId == activityId)
+            {
+                _pausedDownloadHeld = false;
+            }
+        }
     }
 
     /// <summary>
@@ -541,25 +592,39 @@ internal sealed class LauncherPackageActivityService
     internal sealed class LauncherPackageActivityLease : IDisposable
     {
         private readonly long _activityId;
+        private readonly bool _holdsPausedDownload;
         private readonly LauncherPackageActivityService _owner;
 
         private int _disposed;
 
         internal LauncherPackageActivityLease(
             LauncherPackageActivityService owner,
-            long activityId)
+            long activityId,
+            bool holdsPausedDownload = false)
         {
             _owner = owner ?? throw new ArgumentNullException(nameof(owner));
             _activityId = activityId;
+            _holdsPausedDownload = holdsPausedDownload;
         }
 
         /// <inheritdoc />
+        /// <remarks>
+        ///     A lease that holds a paused download releases only the hold: the activity stays the download's.
+        /// </remarks>
         public void Dispose()
         {
-            if (Interlocked.Exchange(ref _disposed, 1) == 0)
+            if (Interlocked.Exchange(ref _disposed, 1) != 0)
             {
-                _owner.End(_activityId);
+                return;
             }
+
+            if (_holdsPausedDownload)
+            {
+                _owner.ReleasePausedDownloadHold(_activityId);
+                return;
+            }
+
+            _owner.End(_activityId);
         }
     }
 }

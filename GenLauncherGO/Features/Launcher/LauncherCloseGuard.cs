@@ -61,10 +61,18 @@ internal sealed class LauncherCloseGuard
     /// <summary>
     ///     Gets whether game launch or package activity currently makes an automatic restart prompt unsafe.
     /// </summary>
-    public bool HasActiveOperations =>
+    public bool HasActiveOperations => HasRunningOperations || _packageActivityService.IsActive;
+
+    /// <summary>
+    ///     Gets whether a game launch or package work is running, not counting a paused download.
+    /// </summary>
+    /// <remarks>
+    ///     A paused download changes nothing until it is resumed, so work that can be held beside it need not wait.
+    /// </remarks>
+    public bool HasRunningOperations =>
         _launchCoordinator.IsLaunchInProgress ||
         _launchCoordinator.HasActiveProcess ||
-        _packageActivityService.IsActive;
+        (_packageActivityService.IsActive && !_packageActivityService.IsDownloadPaused);
 
     private void LaunchCoordinator_PropertyChanged(object? sender, PropertyChangedEventArgs eventArgs)
     {

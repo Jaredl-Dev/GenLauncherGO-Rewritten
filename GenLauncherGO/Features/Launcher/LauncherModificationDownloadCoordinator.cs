@@ -156,7 +156,16 @@ internal sealed class LauncherModificationDownloadCoordinator
             }
 
             modification.SetUpdateButtonEnabled(false);
-            _packageActivityService.RequestDownloadCancellation(modification);
+            if (!_packageActivityService.RequestDownloadCancellation(modification))
+            {
+                // Nothing was canceled: a list rebuild holds the paused download, or its lifecycle already ended.
+                // Waiting for a held download would never finish, and an ended one publishes its own result.
+                _logger.LogInformation(
+                    "Download cancellation for {ModificationName} was not accepted.",
+                    modification.ContainerModification.Name);
+                modification.SetUpdateButtonEnabled(true);
+                return true;
+            }
 
             PackageDownloadResult result = await downloadTask;
             if (result.Status != PackageDownloadStatus.Canceled)
