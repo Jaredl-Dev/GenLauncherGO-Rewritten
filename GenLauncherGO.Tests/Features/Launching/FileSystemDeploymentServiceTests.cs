@@ -1023,6 +1023,49 @@ public sealed class FileSystemDeploymentServiceTests
         File.Exists(activeManifestPath).Should().BeFalse();
     }
 
+    /// <summary>
+    ///     The launcher can update while a deployment is interrupted, so a manifest an earlier version wrote must still
+    ///     drive recovery. It is written here with the reflection serializer and options those versions used.
+    /// </summary>
+    [Fact]
+    public void Recover_RestoresBackupFromManifestWrittenByEarlierVersions()
+    {
+        using var directory = new TestDirectory();
+        LauncherPaths paths = TestLauncherPaths.Create(directory, SupportedGame.Generals);
+        string targetPath = CreateExistingGameFile(paths, "mod");
+        string backupPath = Path.Combine(paths.DeploymentDirectory, "Backups", "crash", "Data", "file.ini");
+        Directory.CreateDirectory(Path.GetDirectoryName(backupPath)!);
+        File.WriteAllText(backupPath, "original");
+        DeploymentManifestDocument manifest = new(
+            2,
+            "crash",
+            [
+                new DeploymentFileDocument(
+                    "Data/file.ini",
+                    DeploymentMethod.Copy,
+                    "Backups/crash/Data/file.ini",
+                    DeploymentJournalWriter.FingerprintFrom("mod"),
+                    DeploymentJournalWriter.FingerprintFrom("original"))
+            ],
+            [],
+            PhysicalDirectoryPath.ResolveExisting(paths.GameDirectory),
+            DeploymentStateStore.GetGameRootIdentity(paths.GameDirectory),
+            paths.Game);
+        string manifestPath = Path.Combine(paths.DeploymentDirectory, "active.json");
+        File.WriteAllText(
+            manifestPath,
+            JsonSerializer.Serialize(
+                manifest,
+                new JsonSerializerOptions(JsonSerializerDefaults.Web) { WriteIndented = true }));
+        FileSystemDeploymentService service = CreateService(new FakeHardLinkCreator { CanCreateHardLinks = false });
+
+        DeploymentResult result = service.Recover(paths, CancellationToken.None);
+
+        result.Succeeded.Should().BeTrue();
+        File.ReadAllText(targetPath).Should().Be("original");
+        File.Exists(manifestPath).Should().BeFalse();
+    }
+
     [Fact]
     public void Recover_AcceptsRetiredJournalFieldsWhenActiveManifestIsCorrupt()
     {

@@ -27,18 +27,6 @@ internal sealed class DeploymentStateStore
 
     private const string LockFileName = "deployment.lock";
 
-    private static readonly JsonSerializerOptions _jsonOptions = new(JsonSerializerDefaults.Web)
-    {
-        // Schema-v2 manifests may contain retired reporting fields that are irrelevant to safe recovery.
-        UnmappedMemberHandling = JsonUnmappedMemberHandling.Skip,
-        WriteIndented = true
-    };
-
-    private static readonly JsonSerializerOptions _journalJsonOptions = new(JsonSerializerDefaults.Web)
-    {
-        UnmappedMemberHandling = JsonUnmappedMemberHandling.Skip
-    };
-
     private readonly ILogger _logger;
 
     public DeploymentStateStore(ILogger logger)
@@ -84,7 +72,9 @@ internal sealed class DeploymentStateStore
     /// </summary>
     public static void WriteManifest(string manifestPath, DeploymentManifestDocument manifest)
     {
-        new AtomicFileWriter().WriteText(manifestPath, JsonSerializer.Serialize(manifest, _jsonOptions));
+        new AtomicFileWriter().WriteText(
+            manifestPath,
+            JsonSerializer.Serialize(manifest, DeploymentManifestJsonContext.Default.DeploymentManifestDocument));
     }
 
     /// <summary>
@@ -153,7 +143,8 @@ internal sealed class DeploymentStateStore
         ArgumentNullException.ThrowIfNull(record);
 
         byte[] bytes = Encoding.UTF8.GetBytes(
-            JsonSerializer.Serialize(record, _journalJsonOptions) + Environment.NewLine);
+            JsonSerializer.Serialize(record, DeploymentJournalJsonContext.Default.DeploymentJournalRecord) +
+            Environment.NewLine);
         journal.Write(bytes, 0, bytes.Length);
     }
 
@@ -242,8 +233,9 @@ internal sealed class DeploymentStateStore
 
         try
         {
-            DeploymentManifestDocument? manifest =
-                JsonSerializer.Deserialize<DeploymentManifestDocument>(File.ReadAllText(manifestPath), _jsonOptions);
+            DeploymentManifestDocument? manifest = JsonSerializer.Deserialize(
+                File.ReadAllText(manifestPath),
+                DeploymentManifestJsonContext.Default.DeploymentManifestDocument);
             if (manifest is null)
             {
                 readException = new InvalidDataException("The deployment manifest did not contain manifest data.");
@@ -286,7 +278,7 @@ internal sealed class DeploymentStateStore
             DeploymentJournalRecord? record;
             try
             {
-                record = JsonSerializer.Deserialize<DeploymentJournalRecord>(line, _journalJsonOptions);
+                record = JsonSerializer.Deserialize(line, DeploymentJournalJsonContext.Default.DeploymentJournalRecord);
             }
             catch (JsonException exception)
             {
@@ -524,6 +516,34 @@ internal sealed class DeploymentStateStore
     {
         return $"{identity.VolumeSerialNumber:X8}:{identity.FileIndex:X16}";
     }
+}
+
+/// <summary>
+///     Serializes the active manifest in its persisted format: camelCase names, numeric enums, indented.
+/// </summary>
+/// <remarks>
+///     Schema-v2 manifests may contain retired reporting fields that are irrelevant to safe recovery, so unknown
+///     members are skipped.
+/// </remarks>
+[JsonSourceGenerationOptions(
+    JsonSerializerDefaults.Web,
+    UnmappedMemberHandling = JsonUnmappedMemberHandling.Skip,
+    WriteIndented = true)]
+[JsonSerializable(typeof(DeploymentManifestDocument))]
+internal sealed partial class DeploymentManifestJsonContext : JsonSerializerContext
+{
+}
+
+/// <summary>
+///     Serializes journal records in their persisted format: one camelCase record per line, numeric enums, and
+///     retired fields skipped.
+/// </summary>
+[JsonSourceGenerationOptions(
+    JsonSerializerDefaults.Web,
+    UnmappedMemberHandling = JsonUnmappedMemberHandling.Skip)]
+[JsonSerializable(typeof(DeploymentJournalRecord))]
+internal sealed partial class DeploymentJournalJsonContext : JsonSerializerContext
+{
 }
 
 internal sealed record DeploymentStatePaths(

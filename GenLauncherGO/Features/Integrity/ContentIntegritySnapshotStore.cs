@@ -5,6 +5,7 @@ using System.Linq;
 using System.Security.Cryptography;
 using System.Text;
 using System.Text.Json;
+using System.Text.Json.Serialization;
 using System.Threading;
 using System.Threading.Tasks;
 using GenLauncherGO.Shared.IO;
@@ -19,11 +20,6 @@ namespace GenLauncherGO.Features.Integrity;
 internal sealed class ContentIntegritySnapshotStore
 {
     private const int SnapshotSchemaVersion = 1;
-
-    private static readonly JsonSerializerOptions _jsonOptions = new()
-    {
-        WriteIndented = true
-    };
 
     private readonly IAtomicFileWriter _atomicFileWriter;
 
@@ -69,7 +65,11 @@ internal sealed class ContentIntegritySnapshotStore
         string snapshotPath = GetSnapshotPath(target.Id);
         await _atomicFileWriter.WriteAsync(
                 snapshotPath,
-                (stream, token) => JsonSerializer.SerializeAsync(stream, snapshot, _jsonOptions, token),
+                (stream, token) => JsonSerializer.SerializeAsync(
+                    stream,
+                    snapshot,
+                    ContentIntegritySnapshotJsonContext.Default.ContentIntegritySnapshotDocument,
+                    token),
                 cancellationToken)
             .ConfigureAwait(false);
         _logger.LogInformation(
@@ -102,9 +102,9 @@ internal sealed class ContentIntegritySnapshotStore
             64 * 1024,
             FileOptions.Asynchronous | FileOptions.SequentialScan);
         ContentIntegritySnapshotDocument? snapshot =
-            await JsonSerializer.DeserializeAsync<ContentIntegritySnapshotDocument>(
+            await JsonSerializer.DeserializeAsync(
                 stream,
-                _jsonOptions,
+                ContentIntegritySnapshotJsonContext.Default.ContentIntegritySnapshotDocument,
                 cancellationToken).ConfigureAwait(false);
         if (snapshot is null ||
             snapshot.SchemaVersion != SnapshotSchemaVersion ||
@@ -172,6 +172,15 @@ internal sealed class ContentIntegritySnapshotStore
         byte[] identifierHash = SHA256.HashData(Encoding.UTF8.GetBytes(targetId));
         return Convert.ToHexString(identifierHash) + ".json";
     }
+}
+
+/// <summary>
+///     Serializes snapshots in their persisted format: PascalCase names, numeric enums, indented.
+/// </summary>
+[JsonSourceGenerationOptions(WriteIndented = true)]
+[JsonSerializable(typeof(ContentIntegritySnapshotDocument))]
+internal sealed partial class ContentIntegritySnapshotJsonContext : JsonSerializerContext
+{
 }
 
 /// <summary>
