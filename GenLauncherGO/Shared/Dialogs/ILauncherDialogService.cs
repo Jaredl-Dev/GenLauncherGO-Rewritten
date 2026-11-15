@@ -72,11 +72,15 @@ internal interface ILauncherDialogService
     ///     Returns the localization key explaining why other content already owns a name, or <see langword="null" />
     ///     when the name is free, so the dialog can refuse it before importing.
     /// </param>
+    /// <param name="isVersionInstalled">
+    ///     Reports whether a name and version are already installed, so the dialog can refuse them before importing.
+    /// </param>
     /// <param name="owner">The window that owns the dialog.</param>
     /// <returns>The entered import details, or <see langword="null" /> when the dialog was canceled.</returns>
     Task<ManualModificationDialogResult?> ShowManualModificationImportAsync(
         IReadOnlyList<string> files,
         Func<string, string?> getNameRefusal,
+        Func<string, string, bool> isVersionInstalled,
         Window? owner = null);
 
     /// <summary>

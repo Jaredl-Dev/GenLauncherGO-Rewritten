@@ -184,6 +184,7 @@
     <data name="NameAndVersionValidSymbols" xml:space="preserve"><value>Ime i verzija modifikacije moraju sadržavati samo valjane znakove.</value></data>
     <data name="ReservedOrInvalidName" xml:space="preserve"><value>Ovo je ime rezervirano ili se ne može koristiti kao naziv mape. Odaberite drugo.</value></data>
     <data name="NameUsedInMod" xml:space="preserve"><value>Ovo ime već koristi ovaj mod ili igra ili neki od njegovih patcheva ili dodataka. Odaberite drugo.</value></data>
+    <data name="VersionAlreadyInstalled" xml:space="preserve"><value>Ova je verzija već instalirana. Najprije je izbrišite ili unesite drugu verziju.</value></data>
     <data name="ReservedOrInvalidVersion" xml:space="preserve"><value>Ova je verzija rezervirana ili se ne može koristiti kao naziv mape. Unesite drugu verziju.</value></data>
     <data name="No" xml:space="preserve"><value>Ne</value></data>
     <data name="Yes" xml:space="preserve"><value>Da</value></data>

@@ -27,6 +27,29 @@ public sealed class FileSystemManualModificationImporterTests
         Directory.Exists(installedPath.FullPath).Should().BeFalse();
     }
 
+    /// <summary>
+    ///     An import installs by replacing the version folder. Another program can fill that folder before the launcher
+    ///     lists it, and replacing it then would delete those files.
+    /// </summary>
+    [Fact]
+    public void Import_VersionFolderAlreadyHoldingFiles_KeepsThem()
+    {
+        using TestDirectory directory = new();
+        LauncherPaths paths = TestLauncherPaths.Create(directory);
+        OwnedContentPath installedPath = ResolveModVersionPath(paths, "Copied");
+        Directory.CreateDirectory(installedPath.FullPath);
+        string copiedFile = Path.Combine(installedPath.FullPath, "original.big");
+        File.WriteAllText(copiedFile, "copied in by the user");
+        string importedFile = directory.CreateFile(Path.Combine("Downloads", "imported.txt"), "imported");
+
+        CreateImporter().Import(
+            [importedFile],
+            PackageUpdatePathSet.CreateForManualImport(paths, installedPath),
+            TestContext.Current.CancellationToken);
+
+        File.Exists(copiedFile).Should().BeTrue();
+    }
+
     private static OwnedContentPath ResolveModVersionPath(LauncherPaths paths, string name)
     {
         return LauncherContentPathResolver.ResolveVersionPath(

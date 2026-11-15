@@ -184,6 +184,7 @@
     <data name="NameAndVersionValidSymbols" xml:space="preserve"><value>Mod adı ve sürümü yalnızca geçerli karakterler içermelidir.</value></data>
     <data name="ReservedOrInvalidName" xml:space="preserve"><value>Bu ad ayrılmış veya klasör adı olarak kullanılamıyor. Başka bir ad seçin.</value></data>
     <data name="NameUsedInMod" xml:space="preserve"><value>Bu ad zaten bu mod veya oyun ya da yamalarından veya eklentilerinden biri tarafından kullanılıyor. Başka bir ad seçin.</value></data>
+    <data name="VersionAlreadyInstalled" xml:space="preserve"><value>Bu sürüm zaten yüklü. Önce silin veya farklı bir sürüm girin.</value></data>
     <data name="ReservedOrInvalidVersion" xml:space="preserve"><value>Bu sürüm ayrılmış veya klasör adı olarak kullanılamıyor. Farklı bir sürüm girin.</value></data>
     <data name="No" xml:space="preserve"><value>Hayır</value></data>
     <data name="Yes" xml:space="preserve"><value>Evet</value></data>

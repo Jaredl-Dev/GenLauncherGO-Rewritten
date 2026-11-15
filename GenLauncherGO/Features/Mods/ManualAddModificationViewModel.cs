@@ -33,28 +33,39 @@ internal sealed class ManualAddModificationViewModel : ObservableObject
 
     private const string ReservedOrInvalidVersionKey = "ReservedOrInvalidVersion";
 
+    internal const string VersionAlreadyInstalledKey = "VersionAlreadyInstalled";
+
     private const string VersionMissingNumberKey = "VersionMustContainNumbers";
 
     private readonly ILauncherDialogService _dialogService;
 
     private readonly Func<string, string?> _getNameRefusal;
 
+    private readonly Func<string, string, bool> _isVersionInstalled;
+
     private readonly ILauncherStringLocalizer _stringLocalizer;
 
     private string _modificationName;
 
+    private string? _modificationNameValidationKey;
+
+    private string? _versionValidationKey;
+
     public ManualAddModificationViewModel(
         IReadOnlyList<string> files,
         Func<string, string?> getNameRefusal,
+        Func<string, string, bool> isVersionInstalled,
         ILauncherStringLocalizer stringLocalizer,
         ILauncherDialogService dialogService)
     {
         ArgumentNullException.ThrowIfNull(files);
 
         _getNameRefusal = getNameRefusal ?? throw new ArgumentNullException(nameof(getNameRefusal));
+        _isVersionInstalled = isVersionInstalled ?? throw new ArgumentNullException(nameof(isVersionInstalled));
         _stringLocalizer = stringLocalizer ?? throw new ArgumentNullException(nameof(stringLocalizer));
         _dialogService = dialogService ?? throw new ArgumentNullException(nameof(dialogService));
         _modificationName = InferModificationName(files);
+        RefreshValidation();
         AcceptCommand = new AsyncRelayCommand(
             AcceptAsync,
             () => CanAccept,
@@ -74,7 +85,7 @@ internal sealed class ManualAddModificationViewModel : ObservableObject
             }
 
             _modificationName = newValue;
-            NotifyInputChanged(nameof(ModificationName), nameof(ModificationNameValidationMessage));
+            NotifyInputChanged(nameof(ModificationName));
         }
     }
 
@@ -90,18 +101,15 @@ internal sealed class ManualAddModificationViewModel : ObservableObject
             }
 
             field = newValue;
-            NotifyInputChanged(nameof(Version), nameof(VersionValidationMessage));
+            NotifyInputChanged(nameof(Version));
         }
     } = string.Empty;
 
-    public string ModificationNameValidationMessage =>
-        GetLocalizedValidationMessage(GetModificationNameValidationKey(ModificationName));
+    public string ModificationNameValidationMessage => GetLocalizedValidationMessage(_modificationNameValidationKey);
 
-    public string VersionValidationMessage => GetLocalizedValidationMessage(GetVersionValidationKey(Version));
+    public string VersionValidationMessage => GetLocalizedValidationMessage(_versionValidationKey);
 
-    public bool CanAccept =>
-        GetModificationNameValidationKey(ModificationName) == null &&
-        GetVersionValidationKey(Version) == null;
+    public bool CanAccept => GetFirstValidationKey() == null;
 
     public IAsyncRelayCommand AcceptCommand { get; }
 
@@ -188,12 +196,22 @@ internal sealed class ManualAddModificationViewModel : ObservableObject
 
     private string? GetFirstValidationKey()
     {
-        return GetModificationNameValidationKey(ModificationName) ?? GetVersionValidationKey(Version);
+        return _modificationNameValidationKey ?? _versionValidationKey;
     }
 
-    private string? GetModificationNameValidationKey(string value)
+    /// <summary>
+    ///     Validates both fields once per edit, so the messages, <see cref="CanAccept" />, and the command all read
+    ///     the same result instead of each repeating the checks and the installed-version lookup.
+    /// </summary>
+    private void RefreshValidation()
     {
-        string name = value.Trim();
+        _modificationNameValidationKey = GetModificationNameValidationKey();
+        _versionValidationKey = GetVersionValidationKey(_modificationNameValidationKey == null);
+    }
+
+    private string? GetModificationNameValidationKey()
+    {
+        string name = ModificationName.Trim();
         if (name.Length == 0)
         {
             return MissingModificationNameKey;
@@ -209,9 +227,9 @@ internal sealed class ManualAddModificationViewModel : ObservableObject
             : ReservedOrInvalidNameKey;
     }
 
-    private static string? GetVersionValidationKey(string value)
+    private string? GetVersionValidationKey(bool isModificationNameValid)
     {
-        string version = value.Trim();
+        string version = Version.Trim();
         if (version.Length == 0)
         {
             return MissingVersionKey;
@@ -227,9 +245,16 @@ internal sealed class ManualAddModificationViewModel : ObservableObject
             return UnsupportedCharactersKey;
         }
 
-        return LexicalPath.IsValidPathSegment(version)
-            ? null
-            : ReservedOrInvalidVersionKey;
+        if (!LexicalPath.IsValidPathSegment(version))
+        {
+            return ReservedOrInvalidVersionKey;
+        }
+
+        // Refusing a listed version here spares the user the import's copying. The importer refuses again before
+        // installing, for files another program put in the version's folder before the launcher listed them.
+        return isModificationNameValid && _isVersionInstalled(ModificationName.Trim(), version)
+            ? VersionAlreadyInstalledKey
+            : null;
     }
 
     private string GetLocalizedValidationMessage(string? validationKey)
@@ -264,10 +289,16 @@ internal sealed class ManualAddModificationViewModel : ObservableObject
             _stringLocalizer[detailKey]));
     }
 
-    private void NotifyInputChanged(string fieldPropertyName, string validationPropertyName)
+    /// <summary>
+    ///     Refreshes both fields' messages after either changes, because whether a version is already installed
+    ///     depends on the name as well.
+    /// </summary>
+    private void NotifyInputChanged(string fieldPropertyName)
     {
+        RefreshValidation();
         OnPropertyChanged(fieldPropertyName);
-        OnPropertyChanged(validationPropertyName);
+        OnPropertyChanged(nameof(ModificationNameValidationMessage));
+        OnPropertyChanged(nameof(VersionValidationMessage));
         OnPropertyChanged(nameof(CanAccept));
         AcceptCommand.NotifyCanExecuteChanged();
     }

@@ -17,11 +17,8 @@ internal interface IManualModificationImporter
     /// </param>
     /// <param name="paths">The staging, installed, and recovery-backup folders for the imported version.</param>
     /// <param name="cancellationToken">The token used to cancel import work.</param>
-    /// <returns>
-    ///     <see langword="true" /> when content was installed, or <see langword="false" /> when the selection held no
-    ///     files to install.
-    /// </returns>
-    bool Import(
+    /// <returns>Whether the content was installed, or why it was not.</returns>
+    ManualImportOutcome Import(
         IReadOnlyList<string> sourcePaths,
         PackageUpdatePathSet paths,
         CancellationToken cancellationToken = default);

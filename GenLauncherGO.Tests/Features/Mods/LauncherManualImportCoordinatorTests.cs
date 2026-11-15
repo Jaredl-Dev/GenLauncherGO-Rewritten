@@ -96,6 +96,7 @@ public sealed class LauncherManualImportCoordinatorTests
         dialogService.ShowManualModificationImportAsync(
                 Arg.Any<IReadOnlyList<string>>(),
                 Arg.Do<Func<string, string?>>(check => captureNameRefusal?.Invoke(check)),
+                Arg.Any<Func<string, string, bool>>(),
                 Arg.Any<Window?>())
             .Returns(importDetails);
         return dialogService;

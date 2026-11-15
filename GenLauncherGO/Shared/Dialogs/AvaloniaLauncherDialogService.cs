@@ -159,6 +159,7 @@ internal sealed class AvaloniaLauncherDialogService : ILauncherDialogService
     public async Task<ManualModificationDialogResult?> ShowManualModificationImportAsync(
         IReadOnlyList<string> files,
         Func<string, string?> getNameRefusal,
+        Func<string, string, bool> isVersionInstalled,
         Window? owner = null)
     {
         ArgumentNullException.ThrowIfNull(files);
@@ -167,6 +168,7 @@ internal sealed class AvaloniaLauncherDialogService : ILauncherDialogService
             new ManualAddModificationViewModel(
                 new List<string>(files),
                 getNameRefusal,
+                isVersionInstalled,
                 _stringLocalizer,
                 this));
 

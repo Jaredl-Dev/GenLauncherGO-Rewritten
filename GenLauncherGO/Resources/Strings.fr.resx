@@ -184,6 +184,7 @@
     <data name="NameAndVersionValidSymbols" xml:space="preserve"><value>Le nom et la version de la modification doivent contenir uniquement des caractères valides.</value></data>
     <data name="ReservedOrInvalidName" xml:space="preserve"><value>Ce nom est réservé ou ne peut pas servir de nom de dossier. Choisissez-en un autre.</value></data>
     <data name="NameUsedInMod" xml:space="preserve"><value>Ce nom est déjà utilisé par ce mod ou ce jeu, ou par l'un de ses patchs ou add-ons. Choisissez-en un autre.</value></data>
+    <data name="VersionAlreadyInstalled" xml:space="preserve"><value>Cette version est déjà installée. Supprimez-la d'abord ou saisissez une autre version.</value></data>
     <data name="ReservedOrInvalidVersion" xml:space="preserve"><value>Cette version est réservée ou ne peut pas servir de nom de dossier. Saisissez une autre version.</value></data>
     <data name="No" xml:space="preserve"><value>Non</value></data>
     <data name="Yes" xml:space="preserve"><value>Oui</value></data>

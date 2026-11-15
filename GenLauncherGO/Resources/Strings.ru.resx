@@ -184,6 +184,7 @@
     <data name="NameAndVersionValidSymbols" xml:space="preserve"><value>Имя и версия мода должны содержать только допустимые символы.</value></data>
     <data name="ReservedOrInvalidName" xml:space="preserve"><value>Это имя зарезервировано или не может использоваться как имя папки. Выберите другое.</value></data>
     <data name="NameUsedInMod" xml:space="preserve"><value>Это имя уже используется этим модом или игрой либо одним из их патчей или аддонов. Выберите другое.</value></data>
+    <data name="VersionAlreadyInstalled" xml:space="preserve"><value>Эта версия уже установлена. Сначала удалите её или введите другую версию.</value></data>
     <data name="ReservedOrInvalidVersion" xml:space="preserve"><value>Эта версия зарезервирована или не может использоваться как имя папки. Введите другую версию.</value></data>
     <data name="No" xml:space="preserve"><value>Нет</value></data>
     <data name="Yes" xml:space="preserve"><value>Да</value></data>

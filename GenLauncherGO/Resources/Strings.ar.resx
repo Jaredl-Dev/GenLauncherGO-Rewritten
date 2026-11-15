@@ -184,6 +184,7 @@
     <data name="NameAndVersionValidSymbols" xml:space="preserve"><value>يجب علي إسم و إصدار المود الاحتواء علي احرف صالحة</value></data>
     <data name="ReservedOrInvalidName" xml:space="preserve"><value>هذا الاسم محجوز أو لا يمكن استخدامه كاسم مجلد. اختر اسمًا آخر.</value></data>
     <data name="NameUsedInMod" xml:space="preserve"><value>هذا المود أو اللعبة، أو أحد الباتشات أو الإضافات الخاصة به، يستخدم هذا الاسم بالفعل. اختر اسمًا آخر.</value></data>
+    <data name="VersionAlreadyInstalled" xml:space="preserve"><value>هذا الإصدار مثبت بالفعل. احذفه أولاً أو أدخل إصدارًا مختلفًا.</value></data>
     <data name="ReservedOrInvalidVersion" xml:space="preserve"><value>هذا الإصدار محجوز أو لا يمكن استخدامه كاسم مجلد. أدخل إصدارًا مختلفًا.</value></data>
     <data name="No" xml:space="preserve"><value>لا</value></data>
     <data name="Yes" xml:space="preserve"><value>نعم</value></data>

@@ -87,6 +87,7 @@ internal sealed class LauncherManualImportCoordinator
         ManualModificationDialogResult? importResult = await _dialogService.ShowManualModificationImportAsync(
             selectedFiles,
             name => GetNameRefusal(kind, resolvedParentContentName, name),
+            (name, version) => IsVersionInstalled(CreateContentKey(kind, resolvedParentContentName, name, version)),
             owner);
 
         if (importResult == null)
@@ -103,10 +104,10 @@ internal sealed class LauncherManualImportCoordinator
             launcherPaths,
             ResolveDestinationPath(launcherPaths, importedKey));
 
-        bool installed;
+        ManualImportOutcome outcome;
         try
         {
-            installed = await Task.Run(
+            outcome = await Task.Run(
                 () => _manualModificationImporter.Import(
                     selectedFiles,
                     importPaths,
@@ -125,9 +126,13 @@ internal sealed class LauncherManualImportCoordinator
             return null;
         }
 
-        if (!installed)
+        if (outcome != ManualImportOutcome.Installed)
         {
-            await ShowImportErrorAsync(_stringLocalizer["ManualImportNothingToImport"], owner);
+            await ShowImportErrorAsync(
+                _stringLocalizer[outcome == ManualImportOutcome.VersionAlreadyInstalled
+                    ? ManualAddModificationViewModel.VersionAlreadyInstalledKey
+                    : "ManualImportNothingToImport"],
+                owner);
             return null;
         }
 
@@ -249,6 +254,15 @@ internal sealed class LauncherManualImportCoordinator
                                     content.ContentKey.HasName(name) &&
                                     content.ModificationType != kind);
         return nameUsedInParent ? NameUsedInParentKey : null;
+    }
+
+    /// <summary>
+    ///     Determines whether the catalog already lists this exact version as installed.
+    /// </summary>
+    private bool IsVersionInstalled(LauncherContentKey contentKey)
+    {
+        return _catalog.Data.FindContent(contentKey)?.Versions
+            .Any(version => version.ContentKey == contentKey && version.Installation.Installed) == true;
     }
 
     private static string GetParentContentName(

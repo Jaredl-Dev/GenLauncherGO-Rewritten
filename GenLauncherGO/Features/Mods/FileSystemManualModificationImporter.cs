@@ -17,7 +17,8 @@ namespace GenLauncherGO.Features.Mods;
 /// <remarks>
 ///     Content is assembled in the manual-import staging folder and moved into the installed version folder only once
 ///     it is complete, through the same replacement downloads use. A failed or cancelled import therefore never leaves
-///     a partial version behind for the catalog to list, and launch, as installed.
+///     a partial version behind for the catalog to list, and launch, as installed. A version folder that already holds
+///     files is never replaced.
 /// </remarks>
 internal sealed class FileSystemManualModificationImporter : IManualModificationImporter
 {
@@ -59,7 +60,7 @@ internal sealed class FileSystemManualModificationImporter : IManualModification
         _logger = logger ?? throw new ArgumentNullException(nameof(logger));
     }
 
-    public bool Import(
+    public ManualImportOutcome Import(
         IReadOnlyList<string> sourcePaths,
         PackageUpdatePathSet paths,
         CancellationToken cancellationToken = default)
@@ -96,10 +97,22 @@ internal sealed class FileSystemManualModificationImporter : IManualModification
             {
                 _logger.LogWarning("Manual import found no files to install for {DestinationDirectory}.",
                     installedFolderName);
-                return false;
+                return ManualImportOutcome.NothingToImport;
             }
 
             cancellationToken.ThrowIfCancellationRequested();
+
+            // The import dialog refuses versions the catalog lists, but another program can fill the folder before the
+            // launcher lists it. The replacement below would delete those files, so the import is refused here instead.
+            if (FileSystemLocalLauncherContentService.IsInstallVersionDirectory(
+                    new DirectoryInfo(paths.InstalledPath.FullPath)))
+            {
+                _logger.LogWarning(
+                    "Manual import left {DestinationDirectory} as it is because the folder already holds files.",
+                    installedFolderName);
+                return ManualImportOutcome.VersionAlreadyInstalled;
+            }
+
             PackageInstallFolderReplacer.Replace(
                 new OwnedContentPath(stagingPath.OwnerRoot, contentRoot),
                 paths.InstalledPath,
@@ -110,7 +123,7 @@ internal sealed class FileSystemManualModificationImporter : IManualModification
                 "Imported {SourceCount} manual content source(s) to {DestinationDirectory}.",
                 sourcePaths.Count,
                 installedFolderName);
-            return true;
+            return ManualImportOutcome.Installed;
         }
         catch (Exception exception) when (exception is not OperationCanceledException)
         {

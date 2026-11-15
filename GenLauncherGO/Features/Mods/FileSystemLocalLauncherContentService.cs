@@ -234,9 +234,12 @@ internal sealed class FileSystemLocalLauncherContentService : ILocalLauncherCont
         }
     }
 
-    private static bool IsInstallVersionDirectory(DirectoryInfo directory)
+    /// <summary>
+    ///     Determines whether a version folder holds installed content, which it does from its first file on.
+    /// </summary>
+    internal static bool IsInstallVersionDirectory(DirectoryInfo directory)
     {
-        return directory.EnumerateFiles("*", SearchOption.AllDirectories).Any();
+        return directory.Exists && directory.EnumerateFiles("*", SearchOption.AllDirectories).Any();
     }
 
     /// <summary>
