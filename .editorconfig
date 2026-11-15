@@ -513,7 +513,7 @@ dotnet_diagnostic.CA1873.severity = none
 
 # CA1859 asks for concrete types in place of interfaces for speed. The gain is
 # unmeasurable in a launcher and the change widens coupling to implementations,
-# against the interface-boundary rule in AGENTS.md.
+# against the interface-boundary rule in docs/development/code-guidelines.md.
 dotnet_diagnostic.CA1859.severity = none
 
 # The rules below cannot see enough to judge the code they flag, so they bill
@@ -553,16 +553,15 @@ dotnet_diagnostic.CA1849.severity = none
 
 # SYSLIB1054 and SYSLIB1096 convert DllImport and ComImport to the source
 # generated forms. Both change marshalling behavior, and the code they land on is
-# the hard-link, process-launch, and shell interop that AGENTS.md calls out as
-# safety critical. Their payoff is trimming and AOT compatibility, which this
-# launcher does not use: the supported publish sets PublishTrimmed=false.
+# the hard-link, process-launch, and shell interop behind the safety mechanisms
+# in docs/development/code-guidelines.md. Their payoff is trimming and AOT
+# compatibility, which this launcher does not use: the supported publish sets
+# PublishTrimmed=false.
 dotnet_diagnostic.SYSLIB1054.severity = none
 dotnet_diagnostic.SYSLIB1096.severity = none
 
-# CA1515 would make Avalonia controls, a XAML markup extension, and the generated
-# Strings.cs internal. That risks breaking XAML type resolution and test
-# discovery, and editing a generated designer file is forbidden by the UI
-# guidance in any case.
+# CA1515 would make Avalonia controls and a XAML markup extension internal. That
+# risks breaking XAML type resolution and test discovery.
 dotnet_diagnostic.CA1515.severity = none
 
 # CA2007 breaks `dotnet format`. Its code fix appends .ConfigureAwait(false) to

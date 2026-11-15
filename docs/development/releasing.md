@@ -14,8 +14,6 @@ test checks first. The launcher's updater reads this repository's GitHub release
 `GenLauncherGO/GenLauncherGO.csproj`), so publishing a draft offers it to every installed launcher. Releases stay
 portable-only.
 
-Changes to the updater or release process also need the [update smoke test](update-smoke-test.md).
-
 ## Packaging locally
 
 The packaging tool is a C# file-based app under `eng` that uses the repository's .NET SDK. Use `--no-cache` so the

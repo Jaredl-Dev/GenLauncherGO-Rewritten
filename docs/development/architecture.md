@@ -8,18 +8,30 @@ The solution uses one application project, one test project, and test-only analy
 | `GenLauncherGO.Tests` | Observable behavior, compatibility, recovery, and file-system safety tests |
 | `eng/GenLauncherGO.TestAnalyzers` | Test-only analyzer enforcing the repository's test-method naming convention |
 
-Production code lives under `GenLauncherGO/Features` in `Startup`, `Settings`, `Mods`, `Launching`, `Integrity`,
-`Updating`, and `Launcher`. Rules, implementations, and UI services live beside the workflows they serve; views and
-resources retain purposeful directories. `GenLauncherGO/Shared` holds only what several features use. Tests follow
-the same feature groups under `GenLauncherGO.Tests/Features`, with reusable test helpers under
-`GenLauncherGO.Tests/Testing` and naming checks under `GenLauncherGO.Tests/Conventions`.
-
 The build enforces the project-reference graph: the application and analyzer reference no projects, and tests
-reference the analyzer only as analyzer tooling. Interfaces represent actual side-effect or external boundaries; other
-code normally uses internal sealed types.
+reference the analyzer only as analyzer tooling.
+
+## Features
+
+Production code is feature-first. Each feature under `GenLauncherGO/Features` keeps its rules, side-effect
+implementations, and presentation together, with purposeful `Views` and resource directories. Do not add layer folders
+such as `Contracts`, `Models`, `Services`, or `Support`, or any folder for file count, symmetry, or anticipated growth.
+`GenLauncherGO/Shared` holds only what several features use.
+
+| Feature | Owns |
+| --- | --- |
+| `Startup` | Host, setup, installation discovery, runtime contexts, and canonical launcher paths |
+| `Settings` | Preferences, their persistence mapping, and the settings and executable-management screens |
+| `Mods` | Content identities, catalogs, remote YAML binding, reconciliation, import, images, and mod presentation |
+| `Launching` | Executable selection, arguments, launch coordination, process tracking, deployment, and recovery |
+| `Integrity` | Scanning, snapshots, targets, resolution, and review |
+| `Updating` | Downloads, package activity and admission, providers, and application updates |
+| `Launcher` | The main window, its lists, and coordination across user workflows |
+
+## Composition and paths
 
 `LauncherApplicationHost.CreateServiceCollection` owns runtime composition. Bootstrap has a separate provider so it can
-validate storage before runtime file logging starts; both stages use one preferences-registration helper.
+validate storage before runtime file logging starts.
 
 Mutable paths carry their owning root so file operations can reject traversal and reparse-point escapes.
 

@@ -1,9 +1,10 @@
 # Portable update smoke test
 
-Use this manual two-version test before publishing changes to the updater or release process. It exercises the same
-Velopack packages as production while serving the feed only from the local machine, and covers what only a real update
-can prove: the package is found, downloaded, and applied, and `GenLauncherGO Data` survives. The dialog's timing,
-including waiting for active work and **Later**, is covered by `LauncherApplicationUpdateCoordinatorTests`.
+[Required quality gates](../../CONTRIBUTING.md#required-quality-gates) says when to run this manual two-version test.
+It exercises the same Velopack packages as production while serving the feed only from the local machine, and
+covers what only a real update can prove: the package is found, downloaded, and applied, and `GenLauncherGO Data`
+survives. The dialog's timing, including waiting for active work and **Later**, is covered by
+`LauncherApplicationUpdateCoordinatorTests`.
 
 You need a Generals or Zero Hour installation for first-run setup, because the launcher checks for updates only after
 startup completes.
@@ -14,11 +15,10 @@ startup completes.
    `VelopackLauncherApplicationUpdateService` with
    `new SimpleWebSource("http://127.0.0.1:8123")`. Do not commit this test-only edit.
 2. Set `VersionPrefix` in `GenLauncherGO/GenLauncherGO.csproj` to a lower numeric test version such as
-   `1.1.101`, then run `dotnet run --file ./eng/package-release.cs --no-cache -- --bootstrap`.
+   `1.1.101`, then package it with `--bootstrap` as described in [Packaging locally](releasing.md#packaging-locally).
 3. Copy `artifacts/release/GenLauncherGO-win-Portable.zip` to a temporary `version-a` directory.
-4. Set `VersionPrefix` to a higher version such as `1.1.102` and run
-   `dotnet run --file ./eng/package-release.cs --no-cache -- --bootstrap` again. Leave this higher-version feed in
-   `artifacts/release`.
+4. Set `VersionPrefix` to a higher version such as `1.1.102` and package it the same way. Leave this higher-version
+   feed in `artifacts/release`.
 5. Serve `artifacts/release` on port 8123 with any local static HTTP server. For example, with Python:
 
    ```powershell
