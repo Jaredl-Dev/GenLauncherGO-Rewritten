@@ -73,7 +73,7 @@ internal sealed class LauncherManualImportCoordinator
         ArgumentNullException.ThrowIfNull(owner);
         LauncherPaths launcherPaths = _runtimePaths.ActivePaths;
 
-        IReadOnlyList<string> selectedFiles = await PickImportSourcesAsync(owner);
+        IReadOnlyList<string> selectedFiles = await PickImportSourcesAsync(launcherPaths, owner);
         if (selectedFiles.Count == 0)
         {
             return null;
@@ -135,7 +135,7 @@ internal sealed class LauncherManualImportCoordinator
     ///     Windows offers no picker that selects files and folders together, so the choice has to be made before a
     ///     picker opens. Escape or closing the prompt cancels the import rather than picking either answer.
     /// </remarks>
-    private async Task<IReadOnlyList<string>> PickImportSourcesAsync(Window owner)
+    private async Task<IReadOnlyList<string>> PickImportSourcesAsync(LauncherPaths launcherPaths, Window owner)
     {
         bool? importFolder = await _dialogService.ShowInfoChoiceAsync(
             new LauncherInfoDialogRequest(
@@ -155,7 +155,25 @@ internal sealed class LauncherManualImportCoordinator
         }
 
         string? selectedFolder = await _filePicker.PickManualContentFolderAsync(owner);
-        return selectedFolder == null ? [] : [selectedFolder];
+        if (selectedFolder == null)
+        {
+            return [];
+        }
+
+        // A folder holding the launcher's data would copy staging into itself, nesting one level deeper on every pass
+        // until the process overflows its stack. A folder inside that data, such as Mods, would copy installed content
+        // and launcher state into a new mod. Both folders are compared where Windows resolves them, because a drive
+        // alias or a junction above the selected folder hides the overlap from the path text.
+        if (LexicalPath.AreOverlapping(
+                PhysicalDirectoryPath.ResolveExisting(launcherPaths.OwnedGameDataDirectory),
+                PhysicalDirectoryPath.ResolveExisting(selectedFolder)))
+        {
+            _logger.LogWarning("Refused a manual import folder that holds the launcher's own data.");
+            await ShowImportErrorAsync(_stringLocalizer["ManualImportFolderContainsLauncherData"], owner);
+            return [];
+        }
+
+        return [selectedFolder];
     }
 
     /// <summary>

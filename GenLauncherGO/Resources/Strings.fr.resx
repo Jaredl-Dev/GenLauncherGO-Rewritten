@@ -252,6 +252,7 @@
     <data name="AllFilesFilter" xml:space="preserve"><value>Tous les fichiers</value></data>
     <data name="ManualImportFolderTitle" xml:space="preserve"><value>Sélectionnez le dossier contenant le contenu</value></data>
     <data name="ManualImportNothingToImport" xml:space="preserve"><value>Les fichiers ou le dossier sélectionnés ne contiennent rien à importer.</value></data>
+    <data name="ManualImportFolderContainsLauncherData" xml:space="preserve"><value>Ce dossier contient les données de GenLauncherGO lui-même et ne peut donc pas être importé. Sélectionnez le dossier qui contient uniquement les fichiers de la modification.</value></data>
     <data name="FinishProcess" xml:space="preserve"><value>Fermez le jeu avant d'ouvrir les options.</value></data>
     <data name="Info" xml:space="preserve"><value>Information</value></data>
     <data name="Retry" xml:space="preserve"><value>Réessayer</value></data>

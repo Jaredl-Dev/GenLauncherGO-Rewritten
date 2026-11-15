@@ -252,6 +252,7 @@
     <data name="AllFilesFilter" xml:space="preserve"><value>همه فایل ها</value></data>
     <data name="ManualImportFolderTitle" xml:space="preserve"><value>پوشه حاوی محتوا را انتخاب کنید</value></data>
     <data name="ManualImportNothingToImport" xml:space="preserve"><value>فایل‌ها یا پوشه انتخاب‌شده چیزی برای وارد کردن ندارند.</value></data>
+    <data name="ManualImportFolderContainsLauncherData" xml:space="preserve"><value>این پوشه داده‌های خود GenLauncherGO را دارد، بنابراین نمی‌توان آن را وارد کرد. پوشه‌ای را انتخاب کنید که فقط فایل‌های مود را دارد.</value></data>
     <data name="FinishProcess" xml:space="preserve"><value>پیش از بازکردن تنظیمات لانچر، بازی را ببندید.</value></data>
     <data name="Info" xml:space="preserve"><value>اطلاعات</value></data>
     <data name="Retry" xml:space="preserve"><value>تلاش مجدد</value></data>

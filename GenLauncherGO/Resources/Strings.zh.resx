@@ -252,6 +252,7 @@
     <data name="AllFilesFilter" xml:space="preserve"><value>所有文件</value></data>
     <data name="ManualImportFolderTitle" xml:space="preserve"><value>选择包含内容的文件夹</value></data>
     <data name="ManualImportNothingToImport" xml:space="preserve"><value>所选文件或文件夹中没有可导入的内容。</value></data>
+    <data name="ManualImportFolderContainsLauncherData" xml:space="preserve"><value>此文件夹包含 GenLauncherGO 自身的数据，因此无法导入。请选择只包含模组文件的文件夹。</value></data>
     <data name="FinishProcess" xml:space="preserve"><value>打开设置前请先关闭游戏。</value></data>
     <data name="Info" xml:space="preserve"><value>信息</value></data>
     <data name="Retry" xml:space="preserve"><value>重试</value></data>

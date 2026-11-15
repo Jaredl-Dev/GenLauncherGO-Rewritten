@@ -252,6 +252,7 @@
     <data name="AllFilesFilter" xml:space="preserve"><value>All files</value></data>
     <data name="ManualImportFolderTitle" xml:space="preserve"><value>Select the folder holding the content</value></data>
     <data name="ManualImportNothingToImport" xml:space="preserve"><value>The selected files or folder contain nothing to import.</value></data>
+    <data name="ManualImportFolderContainsLauncherData" xml:space="preserve"><value>This folder contains GenLauncherGO's own data, so it can't be imported. Choose the folder that holds only the modification's files.</value></data>
     <data name="FinishProcess" xml:space="preserve"><value>Close the game before opening launcher settings.</value></data>
     <data name="Info" xml:space="preserve"><value>Information</value></data>
     <data name="Retry" xml:space="preserve"><value>Retry</value></data>

@@ -252,6 +252,7 @@
     <data name="AllFilesFilter" xml:space="preserve"><value>Все файлы</value></data>
     <data name="ManualImportFolderTitle" xml:space="preserve"><value>Выберите папку с содержимым</value></data>
     <data name="ManualImportNothingToImport" xml:space="preserve"><value>Выбранные файлы или папка не содержат ничего для импорта.</value></data>
+    <data name="ManualImportFolderContainsLauncherData" xml:space="preserve"><value>Эта папка содержит собственные данные GenLauncherGO, поэтому её нельзя импортировать. Выберите папку, в которой находятся только файлы модификации.</value></data>
     <data name="FinishProcess" xml:space="preserve"><value>Закройте игру перед открытием настроек.</value></data>
     <data name="Info" xml:space="preserve"><value>Информация</value></data>
     <data name="Retry" xml:space="preserve"><value>Повторить</value></data>
