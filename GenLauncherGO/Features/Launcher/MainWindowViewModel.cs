@@ -372,11 +372,20 @@ internal sealed class MainWindowViewModel : ObservableObject, IDisposable
     }
 
     /// <summary>
-    ///     Rebuilds all game-specific presentation state after a restartless session switch.
+    ///     Rebuilds all game-specific presentation state from the active catalog, after a restartless session switch or a
+    ///     Mods folder refresh.
     /// </summary>
+    /// <remarks>
+    ///     Tiles with package activity are kept rather than rebuilt, because the activity's progress and its Resume and
+    ///     Cancel actions are bound to them. A Mods folder refresh runs beside at most a paused download, which keeps
+    ///     its tile and, for a patch or add-on, its mod's tile. A game switch suspends any paused download first, so it
+    ///     rebuilds every tile.
+    /// </remarks>
     public void ReloadForActiveGame()
     {
-        foreach (ModificationViewModel tile in _trackedChildActivityTiles.ToList())
+        foreach (ModificationViewModel tile in _trackedChildActivityTiles
+                     .Where(tile => !tile.HasActivePackageActivity)
+                     .ToList())
         {
             UntrackChildTile(tile);
         }
@@ -387,7 +396,11 @@ internal sealed class MainWindowViewModel : ObservableObject, IDisposable
         OnPropertyChanged(nameof(SelectedWorldBuilderOption));
         OnPropertyChanged(nameof(CanAddRepositoryModification));
         OnPropertyChanged(nameof(IsAddModButtonVisible));
-        ModsListSource = [];
+        if (!ModsListSource.Any(tile => tile.HasActivePackageActivity))
+        {
+            ModsListSource = [];
+        }
+
         PatchesListSource = [];
         AddonsListSource = [];
         Initialize(false);
@@ -531,8 +544,18 @@ internal sealed class MainWindowViewModel : ObservableObject, IDisposable
     private void RefreshModsList(IReadOnlySet<LauncherContentKey> selectedKeys)
     {
         IReadOnlyList<LauncherContent> mods = GetModificationsForDisplay();
-        ModsListSource = new ObservableCollection<ModificationViewModel>(
-            mods.Select(CreateModificationViewModel));
+        var tiles = mods
+            .Select(modification => FindActiveModTile(modification) ?? CreateModificationViewModel(modification))
+            .ToList();
+        if (tiles.Any(ModsListSource.Contains))
+        {
+            UpdateModsListInPlace(tiles);
+        }
+        else
+        {
+            ModsListSource = new ObservableCollection<ModificationViewModel>(tiles);
+        }
+
         RestoreSelection(ModsListSource, selectedKeys, false);
         AddModButtonBlinking = !_startupAddModPromptEvaluated && ModsListSource.Count == 0;
         _startupAddModPromptEvaluated = true;
@@ -1091,7 +1114,45 @@ internal sealed class MainWindowViewModel : ObservableObject, IDisposable
     private ModificationViewModel? FindTrackedChildTile(LauncherContent modification)
     {
         return _trackedChildActivityTiles.FirstOrDefault(tile =>
-            ChildContentMatches(modification, tile.ContainerModification));
+            IsSameContent(modification, tile.ContainerModification));
+    }
+
+    /// <summary>
+    ///     Finds a listed mod tile with package activity, which a rebuild keeps as it does a tracked child tile.
+    /// </summary>
+    private ModificationViewModel? FindActiveModTile(LauncherContent modification)
+    {
+        return ModsListSource.FirstOrDefault(tile =>
+            tile.HasActivePackageActivity && IsSameContent(modification, tile.ContainerModification));
+    }
+
+    /// <summary>
+    ///     Changes the mods list to <paramref name="tiles" /> without removing the rows of tiles it already holds.
+    /// </summary>
+    /// <remarks>
+    ///     Each row binds its selection to its tile in both directions. Replacing the list would give a kept tile a
+    ///     new row while its old one is torn down, and the two would overwrite the tile's selection in turn, each
+    ///     time reloading the mod's patches and add-ons with the controls disabled.
+    /// </remarks>
+    private void UpdateModsListInPlace(IReadOnlyList<ModificationViewModel> tiles)
+    {
+        foreach (ModificationViewModel staleTile in ModsListSource.Except(tiles).ToList())
+        {
+            ModsListSource.Remove(staleTile);
+        }
+
+        for (int index = 0; index < tiles.Count; index++)
+        {
+            int currentIndex = ModsListSource.IndexOf(tiles[index]);
+            if (currentIndex < 0)
+            {
+                ModsListSource.Insert(index, tiles[index]);
+            }
+            else if (currentIndex != index)
+            {
+                ModsListSource.Move(currentIndex, index);
+            }
+        }
     }
 
     private void TrackChildActivityTiles(IEnumerable<ModificationViewModel> modifications)
@@ -1192,7 +1253,7 @@ internal sealed class MainWindowViewModel : ObservableObject, IDisposable
                    LauncherContentKey.ForModificationName(parentName));
     }
 
-    private static bool ChildContentMatches(LauncherContent left, LauncherContent right)
+    private static bool IsSameContent(LauncherContent left, LauncherContent right)
     {
         return left.ContentKey == right.ContentKey;
     }
@@ -1207,10 +1268,8 @@ internal sealed class MainWindowViewModel : ObservableObject, IDisposable
 
     private void RestorePersistedChildSelection(IReadOnlySet<LauncherContentKey> selectedKeys)
     {
-        var restoredPatches = new ObservableCollection<ModificationViewModel>(
-            _catalog.Data.Patches.Select(CreateModificationViewModel));
-        var restoredAddons = new ObservableCollection<ModificationViewModel>(
-            _catalog.Data.Addons.Select(CreateModificationViewModel));
+        ObservableCollection<ModificationViewModel> restoredPatches = CreateChildActivityViewModels(_catalog.Data.Patches);
+        ObservableCollection<ModificationViewModel> restoredAddons = CreateChildActivityViewModels(_catalog.Data.Addons);
 
         foreach (IGrouping<string, ModificationViewModel> patchesForParent in restoredPatches.GroupBy(
                      patch => patch.ContainerModification.ContentKey.ParentIdentity,
