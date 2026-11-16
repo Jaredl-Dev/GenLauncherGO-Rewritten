@@ -19,10 +19,11 @@ startup completes.
 3. Copy `artifacts/release/GenLauncherGO-win-Portable.zip` to a temporary `version-a` directory.
 4. Set `VersionPrefix` to a higher version such as `1.1.102` and package it the same way. Leave this higher-version
    feed in `artifacts/release`.
-5. Serve `artifacts/release` on port 8123 with any local static HTTP server. For example, with Python:
+5. In a separate terminal at the repository root, serve `artifacts/release` at the address from step 1 and leave it
+   running. The script listens on that address and needs only the .NET SDK:
 
    ```powershell
-   python -m http.server 8123 --directory ./artifacts/release
+   dotnet run --file ./eng/serve-update-feed.cs --no-cache
    ```
 
 ## Apply the update
@@ -41,5 +42,5 @@ a previously downloaded update, so a reused installation can skip the check and 
 
 ## Clean up
 
-Close the launcher, stop the HTTP server, revert the temporary source and `VersionPrefix` edits, and remove the
-disposable test directories.
+Close the launcher, stop the feed server with Ctrl+C, revert the temporary source and `VersionPrefix` edits, and
+remove the disposable test directories.
