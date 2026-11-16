@@ -34,7 +34,8 @@ dotnet test GenLauncherGO.sln -c Release --no-build
 ```
 
 CI also enforces the [symbolic-link safety tests](docs/development/testing.md#symbolic-link-safety-tests), which can
-skip on your machine.
+skip on your machine, and [packages the launcher](docs/development/releasing.md#packaging-locally), which needs the
+MSVC toolchain to run locally.
 
 Never make a change compile or a test pass by weakening a gate: no new `.editorconfig` severity downgrade or opt-out,
 no suppression or `#pragma`, no `NoWarn`, no analyzer or warnings-as-errors property change, and no skipped or deleted

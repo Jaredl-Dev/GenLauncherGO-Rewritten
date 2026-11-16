@@ -39,3 +39,6 @@ dotnet run --file ./eng/package-release.cs --no-cache -- --bootstrap
 ```
 
 Local output goes to `artifacts/release`; the script does not upload anything.
+
+CI runs the `--bootstrap` command on every push and keeps that run's portable zip as a workflow artifact for 14 days,
+so any pushed commit's build can be downloaded from its CI run for testing.

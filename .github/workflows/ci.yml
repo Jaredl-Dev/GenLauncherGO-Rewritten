@@ -54,3 +54,34 @@ jobs:
 
       - name: Test
         run: dotnet test .\GenLauncherGO.sln --configuration Release --no-build --no-restore
+
+  package:
+    name: Package with Native AOT
+    runs-on: windows-2025
+    timeout-minutes: 20
+
+    steps:
+      - name: Check out repository
+        uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v7.0.1
+
+      - name: Set up .NET
+        uses: actions/setup-dotnet@0f4a354dd5547a28c70b7853dbd95d5b67886e73 # v6.1.0
+        with:
+          global-json-file: global.json
+
+      # Runs the release workflow's packaging script, so AOT warnings from
+      # dependencies and toolchain problems surface on every push rather than
+      # on release day. --bootstrap skips downloading the published release,
+      # which only feeds delta updates. The script uploads nothing; releases
+      # are created only by the Publish release workflow.
+      - name: Package
+        run: dotnet run --file .\eng\package-release.cs --no-cache -- --bootstrap
+
+      # Uploaded as-is, so the download is the portable zip itself.
+      - name: Keep the portable build
+        uses: actions/upload-artifact@cf430e030ddbb5b0abf93d22962f4752f3646cd9 # v7.0.2
+        with:
+          path: artifacts/release/GenLauncherGO-win-Portable.zip
+          archive: false
+          retention-days: 14
+          if-no-files-found: error
