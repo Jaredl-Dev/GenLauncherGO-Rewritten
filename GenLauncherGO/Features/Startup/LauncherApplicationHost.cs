@@ -148,9 +148,7 @@ internal sealed class LauncherApplicationHost : IDisposable
             IStandaloneStartupWorkflow startupWorkflow =
                 bootstrapProvider.GetRequiredService<IStandaloneStartupWorkflow>();
 
-            // This method intentionally remains synchronous through culture selection. CurrentUICulture flows with
-            // the caller's execution context, so applying it inside an awaited child method would be restored when
-            // that child returned and later Avalonia views would fall back to the Windows language.
+            // This method stays synchronous through culture selection, as LauncherStartupCulture.Apply requires.
             LauncherStartupCulture.Apply(preferencesService.Current.Shared.UseEnglishLanguage);
             return ContinueStartupAsync(
                 desktop,

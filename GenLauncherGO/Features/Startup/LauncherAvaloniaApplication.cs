@@ -1,3 +1,5 @@
+using System;
+using System.Threading.Tasks;
 using Avalonia;
 using Avalonia.Controls;
 using Avalonia.Controls.ApplicationLifetimes;
@@ -45,16 +47,31 @@ internal sealed class LauncherAvaloniaApplication : Application
                 _host = null;
             };
 
-            Dispatcher.UIThread.Post(async () =>
-            {
-                bool started = await _host.StartAsync(desktop);
-                if (!started)
-                {
-                    desktop.Shutdown();
-                }
-            });
+            PostStartup(() => _host.StartAsync(desktop), () => desktop.Shutdown());
         }
 
         base.OnFrameworkInitializationCompleted();
+    }
+
+    /// <summary>
+    ///     Queues launcher startup on the UI thread and shuts the application down when the launcher does not start.
+    /// </summary>
+    /// <remarks>
+    ///     Startup begins synchronously inside the queued operation rather than in an async lambda, so the language it
+    ///     applies outlives the operation; see <see cref="LauncherStartupCulture.Apply" />.
+    /// </remarks>
+    internal static void PostStartup(Func<Task<bool>> startAsync, Action shutdown)
+    {
+        Dispatcher.UIThread.Post(() => ShutdownUnlessStartedAsync(startAsync(), shutdown));
+    }
+
+    // Async void so a failed startup reaches the dispatcher's unhandled-exception boundary instead of becoming an
+    // unobserved task.
+    private static async void ShutdownUnlessStartedAsync(Task<bool> startup, Action shutdown)
+    {
+        if (!await startup)
+        {
+            shutdown();
+        }
     }
 }
