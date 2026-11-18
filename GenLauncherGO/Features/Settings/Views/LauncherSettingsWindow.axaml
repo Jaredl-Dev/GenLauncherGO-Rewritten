@@ -56,16 +56,6 @@
             <Setter Property="FontWeight" Value="Bold" />
             <Setter Property="Foreground" Value="{DynamicResource GenLauncherActiveColor}" />
         </Style>
-        <!-- Footer links read as text, so they drop the button fill and border and only light up on hover. -->
-        <Style Selector="Button.dialog-link">
-            <Setter Property="Background" Value="Transparent" />
-            <Setter Property="BorderThickness" Value="0" />
-            <Setter Property="Padding" Value="4,2" />
-            <Setter Property="FontSize" Value="14" />
-        </Style>
-        <Style Selector="Button.dialog-link:pointerover">
-            <Setter Property="Background" Value="Transparent" />
-        </Style>
     </Window.Styles>
 
     <Border Classes="dialog-frame"

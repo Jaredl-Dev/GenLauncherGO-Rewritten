@@ -23,7 +23,8 @@ internal partial class InfoWindow : Window
         string? continueText = null,
         string? cancelText = null,
         string? actionText = null,
-        string? secondaryActionText = null)
+        string? secondaryActionText = null,
+        Action<string>? openLink = null)
         : this()
     {
         ArgumentNullException.ThrowIfNull(request);
@@ -34,7 +35,8 @@ internal partial class InfoWindow : Window
             continueText,
             cancelText,
             actionText,
-            secondaryActionText);
+            secondaryActionText,
+            openLink);
         DataContext = ViewModel;
         ViewModel.CloseRequested += ViewModel_CloseRequested;
     }

@@ -130,40 +130,51 @@
 
             <Border Grid.Row="2"
                     Classes="dialog-band footer">
-                <StackPanel Margin="21,0"
-                            HorizontalAlignment="Right"
+                <Grid Margin="21,0"
+                      ColumnDefinitions="*,Auto">
+                    <Button x:Name="LinkButton"
+                            Classes="dialog-link"
+                            HorizontalAlignment="Left"
                             VerticalAlignment="Center"
-                            Orientation="Horizontal"
-                            Spacing="10">
-                    <Button x:Name="CancelButton"
-                            Classes="dialog-action"
-                            Content="{Binding CancelText}"
-                            IsVisible="{Binding IsCancelVisible}"
-                            IsCancel="True"
-                            Command="{Binding CancelCommand}" />
-                    <Button x:Name="SecondaryActionButton"
-                            Classes="dialog-action"
-                            Content="{Binding SecondaryActionText}"
-                            IsVisible="{Binding IsSecondaryActionVisible}"
-                            Command="{Binding SecondaryActionCommand}" />
-                    <Button x:Name="ContinueButton"
-                            Classes="dialog-action primary"
-                            Content="{Binding ContinueText}"
-                            IsVisible="{Binding IsContinueVisible}"
-                            IsDefault="True"
-                            Command="{Binding ContinueCommand}" />
-                    <Button x:Name="InfoActionButton"
-                            Classes="dialog-action primary"
-                            Content="{Binding ActionText}"
-                            IsVisible="{Binding IsActionVisible}"
-                            IsDefault="True"
-                            Command="{Binding ActionCommand}" />
-                    <Button Classes="dialog-action primary"
-                            Content="{localization:Loc Ok}"
-                            IsVisible="{Binding IsOkVisible}"
-                            IsDefault="True"
-                            Command="{Binding OkCommand}" />
-                </StackPanel>
+                            Content="{Binding LinkText}"
+                            ToolTip.Tip="{Binding LinkUri}"
+                            IsVisible="{Binding IsLinkVisible}"
+                            Command="{Binding OpenLinkCommand}" />
+                    <StackPanel Grid.Column="1"
+                                HorizontalAlignment="Right"
+                                VerticalAlignment="Center"
+                                Orientation="Horizontal"
+                                Spacing="10">
+                        <Button x:Name="CancelButton"
+                                Classes="dialog-action"
+                                Content="{Binding CancelText}"
+                                IsVisible="{Binding IsCancelVisible}"
+                                IsCancel="True"
+                                Command="{Binding CancelCommand}" />
+                        <Button x:Name="SecondaryActionButton"
+                                Classes="dialog-action"
+                                Content="{Binding SecondaryActionText}"
+                                IsVisible="{Binding IsSecondaryActionVisible}"
+                                Command="{Binding SecondaryActionCommand}" />
+                        <Button x:Name="ContinueButton"
+                                Classes="dialog-action primary"
+                                Content="{Binding ContinueText}"
+                                IsVisible="{Binding IsContinueVisible}"
+                                IsDefault="True"
+                                Command="{Binding ContinueCommand}" />
+                        <Button x:Name="InfoActionButton"
+                                Classes="dialog-action primary"
+                                Content="{Binding ActionText}"
+                                IsVisible="{Binding IsActionVisible}"
+                                IsDefault="True"
+                                Command="{Binding ActionCommand}" />
+                        <Button Classes="dialog-action primary"
+                                Content="{localization:Loc Ok}"
+                                IsVisible="{Binding IsOkVisible}"
+                                IsDefault="True"
+                                Command="{Binding OkCommand}" />
+                    </StackPanel>
+                </Grid>
             </Border>
         </Grid>
     </Border>

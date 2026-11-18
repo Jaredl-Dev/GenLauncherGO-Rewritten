@@ -308,6 +308,7 @@
     <data name="LanguageRestartPromptDetails" xml:space="preserve"><value>语言更改已保存，并将在下次启动 GenLauncherGO 时应用。</value></data>
     <data name="ApplicationUpdateReadyTitle" xml:space="preserve"><value>GenLauncherGO 更新已准备就绪</value></data>
     <data name="ApplicationUpdateReadyDetails" xml:space="preserve"><value>版本 {0} 已下载。请重新启动 GenLauncherGO 以完成更新。</value></data>
+    <data name="ViewReleaseNotes" xml:space="preserve"><value>查看发行说明</value></data>
     <data name="ModsFolderRefreshActivity" xml:space="preserve"><value>模组列表更新</value></data>
     <data name="RestartNow" xml:space="preserve"><value>立即重新启动</value></data>
     <data name="RestartLater" xml:space="preserve"><value>稍后</value></data>

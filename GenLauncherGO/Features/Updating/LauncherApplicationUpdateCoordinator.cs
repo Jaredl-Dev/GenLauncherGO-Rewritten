@@ -148,7 +148,9 @@ internal sealed class LauncherApplicationUpdateCoordinator
                         CultureInfo.CurrentCulture,
                         _stringLocalizer["ApplicationUpdateReadyDetails"],
                         downloadedVersion),
-                    cancelText: _stringLocalizer["RestartLater"]),
+                    cancelText: _stringLocalizer["RestartLater"],
+                    linkText: _stringLocalizer["ViewReleaseNotes"],
+                    linkUri: LauncherApplicationDefaults.GetLauncherReleasesUrl()),
                 _stringLocalizer["RestartNow"],
                 owner);
             if (!restartNow)

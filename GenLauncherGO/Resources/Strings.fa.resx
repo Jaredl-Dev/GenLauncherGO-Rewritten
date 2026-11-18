@@ -308,6 +308,7 @@
     <data name="LanguageRestartPromptDetails" xml:space="preserve"><value>تغییر زبان شما ذخیره شد و دفعه بعد که GenLauncherGO راه‌اندازی شود اعمال خواهد شد.</value></data>
     <data name="ApplicationUpdateReadyTitle" xml:space="preserve"><value>به‌روزرسانی GenLauncherGO آماده است</value></data>
     <data name="ApplicationUpdateReadyDetails" xml:space="preserve"><value>نسخهٔ {0} دانلود شد. برای تکمیل به‌روزرسانی، GenLauncherGO را دوباره راه‌اندازی کنید.</value></data>
+    <data name="ViewReleaseNotes" xml:space="preserve"><value>مشاهده یادداشت‌های انتشار</value></data>
     <data name="ModsFolderRefreshActivity" xml:space="preserve"><value>به‌روزرسانی فهرست مادها</value></data>
     <data name="RestartNow" xml:space="preserve"><value>اکنون راه‌اندازی مجدد شود</value></data>
     <data name="RestartLater" xml:space="preserve"><value>بعداً</value></data>

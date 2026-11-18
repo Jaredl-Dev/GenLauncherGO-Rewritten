@@ -308,6 +308,7 @@
     <data name="LanguageRestartPromptDetails" xml:space="preserve"><value>Dil değişikliği kaydedildi ve GenLauncherGO bir sonraki başlatıldığında uygulanacak.</value></data>
     <data name="ApplicationUpdateReadyTitle" xml:space="preserve"><value>GenLauncherGO güncellemesi hazır</value></data>
     <data name="ApplicationUpdateReadyDetails" xml:space="preserve"><value>{0} sürümü indirildi. Güncellemeyi tamamlamak için GenLauncherGO'yu yeniden başlatın.</value></data>
+    <data name="ViewReleaseNotes" xml:space="preserve"><value>Sürüm notlarını görüntüle</value></data>
     <data name="ModsFolderRefreshActivity" xml:space="preserve"><value>Mod listesi güncellemesi</value></data>
     <data name="RestartNow" xml:space="preserve"><value>Şimdi yeniden başlat</value></data>
     <data name="RestartLater" xml:space="preserve"><value>Daha sonra</value></data>

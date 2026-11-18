@@ -28,7 +28,7 @@ internal static class LauncherApplicationDefaults
     /// </summary>
     /// <remarks>
     ///     The URL is stamped into the assembly from the <c>VelopackUpdateRepositoryUrl</c> build property, so the
-    ///     update feed and the Settings link cannot point at different repositories.
+    ///     update feed and the launcher's GitHub links always point at the same repository.
     /// </remarks>
     /// <exception cref="InvalidOperationException">Thrown when the build did not stamp the URL.</exception>
     internal static string GetLauncherRepositoryUrl()
@@ -39,5 +39,17 @@ internal static class LauncherApplicationDefaults
                        string.Equals(attribute.Key, LauncherRepositoryUrlMetadataName, StringComparison.Ordinal))
                    .Value
                ?? throw new InvalidOperationException("The launcher repository URL assembly metadata is missing.");
+    }
+
+    /// <summary>
+    ///     Returns the launcher's GitHub releases list, which shows each release's notes, newest first.
+    /// </summary>
+    /// <remarks>
+    ///     Linking the list rather than one release's page also covers versions an update skipped, and keeps the
+    ///     launcher independent of how the Publish release workflow names its tags.
+    /// </remarks>
+    internal static string GetLauncherReleasesUrl()
+    {
+        return $"{GetLauncherRepositoryUrl()}/releases";
     }
 }

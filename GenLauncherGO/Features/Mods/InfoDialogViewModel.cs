@@ -12,13 +12,22 @@ internal sealed class InfoDialogViewModel
         string? continueText = null,
         string? cancelText = null,
         string? actionText = null,
-        string? secondaryActionText = null)
+        string? secondaryActionText = null,
+        Action<string>? openLink = null)
     {
         ArgumentNullException.ThrowIfNull(request);
 
         MainMessage = request.MainMessage;
         DetailMessage = request.DetailMessage;
         DetailFontSize = request.DetailFontSize ?? 15D;
+        LinkText = request.LinkText;
+        LinkUri = request.LinkUri;
+        IsLinkVisible = LinkUri != null;
+        if (IsLinkVisible)
+        {
+            ArgumentNullException.ThrowIfNull(openLink);
+        }
+
         ContinueText = string.IsNullOrWhiteSpace(continueText) ? null : continueText;
         CancelText = string.IsNullOrWhiteSpace(cancelText) ? "Cancel" : cancelText;
         ActionText = string.IsNullOrWhiteSpace(actionText) ? null : actionText;
@@ -30,6 +39,7 @@ internal sealed class InfoDialogViewModel
         ContinueCommand = OkCommand;
         ActionCommand = new RelayCommand(CompleteAction);
         SecondaryActionCommand = new RelayCommand(CompleteSecondaryAction);
+        OpenLinkCommand = new RelayCommand(() => openLink!(LinkUri!));
         CloseCommand = new RelayCommand(Close);
 
         IsWarningConfirmation = kind == InfoDialogKind.WarningConfirmation;
@@ -58,6 +68,12 @@ internal sealed class InfoDialogViewModel
 
     public string? SecondaryActionText { get; }
 
+    public string? LinkText { get; }
+
+    public string? LinkUri { get; }
+
+    public bool IsLinkVisible { get; }
+
     public bool IsOkVisible { get; }
 
     public bool IsContinueVisible { get; }
@@ -83,6 +99,8 @@ internal sealed class InfoDialogViewModel
     public IRelayCommand ActionCommand { get; }
 
     public IRelayCommand SecondaryActionCommand { get; }
+
+    public IRelayCommand OpenLinkCommand { get; }
 
     public IRelayCommand CloseCommand { get; }
 

@@ -7,6 +7,7 @@ using GenLauncherGO.Features.Mods;
 using GenLauncherGO.Features.Mods.Views;
 using GenLauncherGO.Features.Updating;
 using GenLauncherGO.Shared.Localization;
+using GenLauncherGO.Shared.Shell;
 using Microsoft.Extensions.Logging;
 using Microsoft.Extensions.Logging.Abstractions;
 
@@ -22,18 +23,22 @@ internal sealed class AvaloniaLauncherDialogService : ILauncherDialogService
 
     private readonly IRemotePackageSizeResolver _packageSizeResolver;
 
+    private readonly ILauncherShellService _shellService;
+
     private readonly ILauncherStringLocalizer _stringLocalizer;
 
     public AvaloniaLauncherDialogService(
         ILauncherStringLocalizer stringLocalizer,
         ILauncherContentCatalog catalog,
         IRemotePackageSizeResolver packageSizeResolver,
+        ILauncherShellService shellService,
         ILogger<AvaloniaLauncherDialogService>? logger = null,
         ILogger<AddModificationViewModel>? addModificationLogger = null)
     {
         _stringLocalizer = stringLocalizer ?? throw new ArgumentNullException(nameof(stringLocalizer));
         _catalog = catalog ?? throw new ArgumentNullException(nameof(catalog));
         _packageSizeResolver = packageSizeResolver ?? throw new ArgumentNullException(nameof(packageSizeResolver));
+        _shellService = shellService ?? throw new ArgumentNullException(nameof(shellService));
         _logger = logger ?? NullLogger<AvaloniaLauncherDialogService>.Instance;
         _addModificationLogger = addModificationLogger ?? NullLogger<AddModificationViewModel>.Instance;
     }
@@ -231,6 +236,7 @@ internal sealed class AvaloniaLauncherDialogService : ILauncherDialogService
             continueText,
             cancelText,
             actionText,
-            secondaryActionText);
+            secondaryActionText,
+            _shellService.OpenUri);
     }
 }
