@@ -7,6 +7,45 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 Changes in versions up to and including 1.1.1 were not recorded.
 
+## [1.3.0] - 2026-11-19
+
+> **Highlights**
+>
+> - **Native AOT.** GenLauncherGO is now compiled to native code ahead of time instead of while it runs, so it
+>   starts much faster, uses less memory, and its download is about half the size.
+> - **Reworked manual mod imports.** Adding a mod from files now installs a mod only once it is fully prepared,
+>   explains anything it can't import, and recognizes a copy of a repository mod right away. Mods copied straight
+>   into the Mods folder now appear without a restart.
+
+### Added
+
+- Changes you make to the Mods folder outside GenLauncherGO, such as copying in a mod, now appear when you return
+  to the launcher, without a restart.
+- The update dialog links to the release notes.
+
+### Changed
+
+- GenLauncherGO now starts faster and uses less memory, and its download is about half the size.
+- A manually added mod with the name and version of a repository mod is now recognized right away instead of after
+  a restart. Its files are checked against the published version the first time it launches.
+
+### Removed
+
+- The game name in the window title. The game switcher already shows the active game.
+
+### Fixed
+
+- GenLauncherGO now starts in English when Use English is selected, instead of in the Windows display language.
+- Adding a mod from files now explains why it refuses a name, version or folder, or can't extract an archive. A
+  failed import no longer leaves anything behind.
+- Adding a mod from files can now be cancelled at its first prompt, and its details dialog no longer stays on top
+  of other apps.
+- Manually added mods can now have "&" in their names.
+- Mods with read-only files can now be deleted.
+- Patches and add-ons no longer disappear from the lists when a same-named patch or their mod's last version is
+  removed.
+- Download errors are now translated and say when the host no longer provides the file.
+
 ## [1.2.0] - 2026-10-25
 
 > **Note:** GenLauncherGO now ships as a portable ZIP instead of a single executable. To upgrade, close
